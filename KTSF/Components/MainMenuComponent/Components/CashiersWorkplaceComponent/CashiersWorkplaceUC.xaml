@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:KTSF.Components.MainMenuComponent.Components.CashiersWorkplaceComponent"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid >
+        <TextBlock Text="Рабочее место кассира" FontSize="25"></TextBlock>
     </Grid>
 </UserControl>

@@ -18,7 +18,7 @@ namespace KTSF.Components.MainMenuComponent.Components.CashiersWorkplaceComponen
     /// <summary>
     /// Логика взаимодействия для CashiersWorkplaceUC.xaml
     /// </summary>
-    public partial class CashiersWorkplaceUC : UserControl //MainMenu -> Рабочее место кассира
+    public partial class CashiersWorkplaceUC : UserControl //MainMenu -> CashiersWorkplaceVM
     {
         public CashiersWorkplaceVM CashiersWorkplaceVM { get; }
         public CashiersWorkplaceUC(CashiersWorkplaceVM cashiersWorkplaceVM)
