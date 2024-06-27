@@ -1,13 +1,14 @@
-﻿using System;
+﻿using KTSF.Components.MainMenuComponent.Components.CashiersWorkplaceComponent;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace KTSF.Components.MainMenuComponent.Components.CashiersWorkplaceComponent
+namespace KTSF.Components.MainMenuComponent.Components.WarehouseComponent
 {
-    public class CashiersWorkplaceVM : IComponent //MainMenu -> CashiersWorkplaceVM
+    public class WarehouseVM : IComponent //MainMenu -> WarehouseVM
     {
         public AppControl AppControl { get; }
         public MainMenuVM MainMenuVM { get; }
@@ -16,11 +17,11 @@ namespace KTSF.Components.MainMenuComponent.Components.CashiersWorkplaceComponen
 
         public void Run() => MainMenuVM.CurrentView = UserControl;
 
-        public CashiersWorkplaceVM(AppControl appControl, MainMenuVM mainMenuVM)
+        public WarehouseVM(AppControl appControl, MainMenuVM mainMenuVM)
         {
             AppControl = appControl;
             MainMenuVM = mainMenuVM;
-            UserControl = new CashiersWorkplaceUC(this);
+            UserControl = new WarehouseUC(this);
         }
     }
 }
