@@ -4,6 +4,7 @@ namespace KTSFClassLibrary
 {
     public partial class User : ObservableObject
     {
+        // just for test
         public int Id { get; set; }
 
         [ObservableProperty] private string email = String.Empty;
