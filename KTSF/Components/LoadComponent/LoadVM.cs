@@ -24,11 +24,11 @@ namespace KTSF.Components.LoadComponent
 
             AppControl.IsLoad = "Подключение к интернету";
 
-            await Task.Delay(1000);
+            await Task.Delay(0);
              
             AppControl.IsLoad = "Загрузка данных";
 
-            await Task.Delay(1000);
+            await Task.Delay(0);
 
             AppControl.IsLoad = null;
 

@@ -15,7 +15,7 @@ namespace KTSF.Components.MainMenuComponent.Components.AdministrationComponent
 
         public UserControl UserControl { get; }
 
-        public void Run() => AppControl.UserControl = UserControl;
+        public void Run() => MainMenuVM.CurrentView = UserControl;
 
         public AdministrationVM(AppControl appControl, MainMenuVM mainMenuVM)
         {

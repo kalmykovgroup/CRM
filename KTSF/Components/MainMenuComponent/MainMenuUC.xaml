@@ -6,7 +6,60 @@
              xmlns:local="clr-namespace:KTSF.Components.MainMenuComponent"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Left" Width="300">
+            <Button Command="{Binding CashiersWorkplaceClickCommand}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Background="Gray" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="Img/kassa.png" Width="20" Height="20" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="Рабочее место кассира" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button Command="{Binding WarehouseVMClickCommand}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Background="Gray" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="Img/kassa.png" Width="20" Height="20" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="Склад" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button  Command="{Binding AdministrationVMClickCommand}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Background="Gray" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="Img/kassa.png" Width="20" Height="20" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="Админ панель" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="17"></TextBlock>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+        </StackPanel>
+        <ContentControl Content="{Binding CurrentView}"/>
+    </DockPanel>
 </UserControl>
