@@ -11,6 +11,6 @@ namespace KTSF.Server_
     public class Server 
     {
         // FFFF
-       // ddddd
+       
     }
 }
