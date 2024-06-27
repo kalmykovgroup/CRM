@@ -1,0 +1,13 @@
+﻿<Application x:Class="KTSF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:KTSF"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <SolidColorBrush  x:Key="ColorGreen" Color="#3A7F25"  />
+        <SolidColorBrush  x:Key="ColorCompanyNameYellow" Color="Yellow"  />
+        <SolidColorBrush  x:Key="ColorScarlet" Color="#D91842"  />
+        <SolidColorBrush  x:Key="ColorHoverScarlet" Color="#BB0D33"  />
+        <SolidColorBrush  x:Key="ColorErrorString" Color="Red"  />
+    </Application.Resources>
+</Application>
