@@ -13,21 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-<<<<<<< HEAD:KTSF/Components/LoadComponent/LoadUC.xaml.cs
-namespace KTSF.Components.LoadComponent
-{
-    /// <summary>
-    /// Логика взаимодействия для LoadUC.xaml
-    /// </summary>
-    public partial class LoadUC : UserControl
-    {
-        public LoadVM LoadVM { get; }
-
-        public LoadUC(LoadVM loadVM)
-        {
-            LoadVM = loadVM;
-            DataContext = loadVM;
-=======
 namespace KTSF.Components.MainMenuComponent.Components.WarehouseComponent
 {
     /// <summary>
@@ -40,10 +25,7 @@ namespace KTSF.Components.MainMenuComponent.Components.WarehouseComponent
         {
             WarehouseVM = warehouseVM;
             DataContext = warehouseVM;
->>>>>>> Добавил Главное меню и подключил навигацию:KTSF/Components/MainMenuComponent/Components/WarehouseComponent/WarehouseUC.xaml.cs
             InitializeComponent();
-
-
         }
     }
 }
