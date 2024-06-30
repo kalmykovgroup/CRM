@@ -15,47 +15,48 @@ namespace KTSF.Components.MainMenuComponent
 {
     public partial class MainMenuVM : ObservableObject, IComponent
     {
-        public AdministrationVM AdministrationVM { get; } //Админ панель
-        public CashiersWorkplaceVM CashiersWorkplaceVM { get; } //Рабочее место кассира
-        public WarehouseVM WarehouseVM { get; } //Склад
+        public AdministrationVM? AdministrationVM { get; private set; } //Админ панель
+        public CashiersWorkplaceVM? CashiersWorkplaceVM { get; private set; } //Рабочее место кассира
+        public WarehouseVM? WarehouseVM { get; private set; } //Склад
 
         public AppControl AppControl { get; }
-        public UserControl UserControl { get; }
+        public MainMenuUC? MainMenuUC { get; private set; }
+   
 
         [ObservableProperty]
-        public UserControl currentView; 
+        public UserControl? currentView; 
 
         public MainMenuVM(AppControl appControl)
         {
-            AppControl = appControl;
-            UserControl = new MainMenuUC(this);
-
-            AdministrationVM = new AdministrationVM(AppControl, this);
-            CashiersWorkplaceVM = new CashiersWorkplaceVM(AppControl, this);
-            WarehouseVM = new WarehouseVM(AppControl, this);
-
-            CurrentView = CashiersWorkplaceVM.UserControl; //Клик меню по умолчанию
+            AppControl = appControl;                  
         }
 
-        public void Run() => AppControl.UserControl = UserControl;
+        public UserControl Build => MainMenuUC ?? Create(); 
 
+        private UserControl Create()
+        {
+            MainMenuUC = new MainMenuUC(this);
 
-        public void NavCashiersWorkplaceVM() => CashiersWorkplaceVM.Run();
-        public void NavAdministrationVM() => AdministrationVM.Run();
-        public void NavWarehouseVM() => WarehouseVM.Run();
+            AdministrationVM = new AdministrationVM(AppControl);
+            CashiersWorkplaceVM = new CashiersWorkplaceVM(AppControl);
+            WarehouseVM = new WarehouseVM(AppControl);
 
+            CurrentView = CashiersWorkplaceVM.Build; //Клик меню по умолчанию
+
+            return MainMenuUC;
+        } 
 
         #region
 
         [RelayCommand]
-        public void CashiersWorkplaceClick(object? parametr) => NavCashiersWorkplaceVM();
+        public void CashiersWorkplaceClick(object? parametr) => CurrentView = CashiersWorkplaceVM?.Build;
                
         [RelayCommand]
-        public void AdministrationVMClick(object? parametr) => NavAdministrationVM();
+        public void AdministrationVMClick(object? parametr) => CurrentView = AdministrationVM?.Build;
 
         [RelayCommand]
-        public void WarehouseVMClick(object? parametr) => NavWarehouseVM();
-        
+        public void WarehouseVMClick(object? parametr) => CurrentView = WarehouseVM?.Build;
+
 
         #endregion
     }

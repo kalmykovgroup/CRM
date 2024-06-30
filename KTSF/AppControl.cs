@@ -13,7 +13,7 @@ using System.Windows.Controls;
 
 namespace KTSF
 {
-    public partial class AppControl: ObservableObject
+    public partial class AppControl : ObservableObject
     {
         //Отображение прогресса загрузки (Передать строку состояния или null для завершения)
         [ObservableProperty] string? isLoad = null;
@@ -38,7 +38,7 @@ namespace KTSF
             //Создаем компоненты
 
             LoadVM = new LoadVM(this);
-            SignInVM = new SignInVM(new SignIn(new User()), this);
+            SignInVM = new SignInVM(this);
             MainMenuVM = new MainMenuVM(this);
 
             //Запускаем первую страницу
@@ -47,9 +47,13 @@ namespace KTSF
 
 
         //Навигация
-        public void NavLoad() => LoadVM.Run(); //Первое окно для соединения с сервером
-        public void NavSignIn() => SignInVM.Run(); //После соединения с сервером переходим в окно входа
-        public void NavMainMenuVM() => MainMenuVM.Run(); //Главное окно в котором находятся все компоненты работы с п
+
+        public void NavLoad() { //Первое окно для соединения с сервером
+            UserControl = LoadVM.Build;
+            LoadVM.Run();
+        } 
+        public void NavSignIn() => UserControl = SignInVM.Build; //После соединения с сервером переходим в окно входа
+        public void NavMainMenuVM() => UserControl = MainMenuVM.Build; //Главное окно в котором находятся все компоненты работы с п
 
     }
 }

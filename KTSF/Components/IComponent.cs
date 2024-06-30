@@ -9,8 +9,8 @@ namespace KTSF.Components
 {
     interface IComponent
     {
-        public abstract AppControl AppControl { get; }
-        public abstract UserControl UserControl { get; }
-        public abstract void Run();
+        public abstract AppControl AppControl { get; } 
+        public abstract UserControl Build { get; } 
+      
     }
 }

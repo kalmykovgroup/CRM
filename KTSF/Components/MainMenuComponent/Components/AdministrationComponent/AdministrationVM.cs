@@ -11,18 +11,20 @@ namespace KTSF.Components.MainMenuComponent.Components.AdministrationComponent
     public class AdministrationVM : IComponent //MainMenuVM -> AdministrationVM
     {
         public AppControl AppControl { get; }
-        public MainMenuVM MainMenuVM { get; }
 
-        public UserControl UserControl { get; }
+        public AdministrationUC? AdministrationUC { get; private set; }
 
-        public void Run() => MainMenuVM.CurrentView = UserControl;
+        public UserControl Build => AdministrationUC != null ? AdministrationUC : Create();
 
-        public AdministrationVM(AppControl appControl, MainMenuVM mainMenuVM)
+        public UserControl Create()
         {
-            AppControl = appControl;
-            MainMenuVM = mainMenuVM;
+            AdministrationUC = new AdministrationUC(this);
+            return AdministrationUC;
+        }
 
-            UserControl = new AdministrationUC(this);
+        public AdministrationVM(AppControl appControl)
+        {
+            AppControl = appControl;        
         }
     }
 }

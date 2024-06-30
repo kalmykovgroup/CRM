@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Navigation; 
 using System.Windows;
+using KTSFClassLibrary;
 
 namespace KTSF.Components.SignInComponent
 {
@@ -14,24 +15,29 @@ namespace KTSF.Components.SignInComponent
     {
         public AppControl AppControl { get; }
 
-        public SignIn SignIn { get; } 
-         
+        public SignIn SignIn { get; private set; }
 
-        public UserControl UserControl { get; }
+        public SignInUC? SignInUC { get; private set; }
 
-        public SignInVM(SignIn signIn, AppControl appControl)
+        public UserControl Build => SignInUC ?? Create();
+
+        private UserControl Create()
         {
-            SignIn = signIn;
 
-            AppControl = appControl; 
-            UserControl = new SignInUC(this);
+            SignInUC = new SignInUC(this);
+            return SignInUC;
         }
 
-      
-        public void Run()
-        { 
-            AppControl.UserControl = UserControl;
+
+        public SignInVM(AppControl appControl)
+        {
+            AppControl = appControl;
+
+            SignIn = new SignIn(new User());
+
+
         }
+ 
 
         #region Commands
 
@@ -40,6 +46,11 @@ namespace KTSF.Components.SignInComponent
         {
             AppControl.NavMainMenuVM();
         }
+
+        public void Run() => throw new NotImplementedException();
+        
+
+
 
         #endregion
 

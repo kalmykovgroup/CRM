@@ -10,17 +10,20 @@ namespace KTSF.Components.MainMenuComponent.Components.CashiersWorkplaceComponen
     public class CashiersWorkplaceVM : IComponent //MainMenu -> CashiersWorkplaceVM
     {
         public AppControl AppControl { get; }
-        public MainMenuVM MainMenuVM { get; }
 
-        public UserControl UserControl { get; }
+        public CashiersWorkplaceUC? CashiersWorkplaceUC { get; private set; }
 
-        public void Run() => MainMenuVM.CurrentView = UserControl;
+        public UserControl Build => CashiersWorkplaceUC != null ? CashiersWorkplaceUC : Create();
 
-        public CashiersWorkplaceVM(AppControl appControl, MainMenuVM mainMenuVM)
+        public UserControl Create()
+        {
+            CashiersWorkplaceUC = new CashiersWorkplaceUC(this);
+            return CashiersWorkplaceUC;
+        }
+
+        public CashiersWorkplaceVM(AppControl appControl)
         {
             AppControl = appControl;
-            MainMenuVM = mainMenuVM;
-            UserControl = new CashiersWorkplaceUC(this);
         }
     }
 }
