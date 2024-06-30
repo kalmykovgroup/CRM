@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary
 {
-    internal class Object //Обьект(Магазин)
+    public class Object //Обьект(Магазин)
     {
         public int Id {  get; }
 

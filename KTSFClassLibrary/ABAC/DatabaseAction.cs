@@ -10,7 +10,7 @@ namespace KTSFClassLibrary.ABAC
     //Нужно что-бы отслеживать доступные действия пользователей
     //Update, Delete, Insert, Read
 
-    internal class DatabaseAction
+    public class DatabaseAction
     {
         public int Id { get; set; }
         public string Name { get; set; }

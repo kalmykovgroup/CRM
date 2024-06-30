@@ -6,7 +6,19 @@
              xmlns:local="clr-namespace:KTSF.Components.CommonComponent.SearchComponent"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="50" Background="White">
+
+        <Grid>
+            <TextBlock Text="Search" VerticalAlignment="Center" Margin="20 0 0 0" Foreground="gray" FontSize="17"/>
+            <TextBox Text="{Binding Search}" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="17"  Padding="0 0 50 0"/>
+            <Button HorizontalAlignment="Right" Width="50" Command="{Binding SearchClickCommand}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="img/search.png" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+        
+    </Border>
 </UserControl>
