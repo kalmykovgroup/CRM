@@ -11,16 +11,25 @@ namespace KTSF.Components.LoadComponent
     {
         public AppControl AppControl { get; }
          
-        public UserControl UserControl { get; }
+        public LoadUC? LoadUC { get; private set; }
+
+        public UserControl Build => LoadUC ?? Create();
+
+        private UserControl Create()
+        {
+            LoadUC = new LoadUC(this);
+            return LoadUC;
+        }
 
         public LoadVM(AppControl appControl) {
-            AppControl = appControl;
-            UserControl = new LoadUC(this);
+            AppControl = appControl;          
         }
 
         public async void Run()
         {
-            AppControl.UserControl = UserControl;
+
+            AppControl.NavMainMenuVM(); //Пропускаем авторизацию
+            return;
 
             AppControl.IsLoad = "Подключение к интернету";
 
@@ -31,12 +40,8 @@ namespace KTSF.Components.LoadComponent
             await Task.Delay(0);
 
             AppControl.IsLoad = null;
-
              
-            AppControl.NavSignIn();
-            
-
-            
+            AppControl.NavSignIn();                   
         }
     }
 }

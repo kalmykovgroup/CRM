@@ -11,17 +11,22 @@ namespace KTSF.Components.MainMenuComponent.Components.WarehouseComponent
     public class WarehouseVM : IComponent //MainMenu -> WarehouseVM
     {
         public AppControl AppControl { get; }
-        public MainMenuVM MainMenuVM { get; }
 
-        public UserControl UserControl { get; }
+        public WarehouseUC? WarehouseUC { get; private set; }
 
-        public void Run() => MainMenuVM.CurrentView = UserControl;
+        public UserControl Build => WarehouseUC != null ? WarehouseUC : Create();
 
-        public WarehouseVM(AppControl appControl, MainMenuVM mainMenuVM)
+        private UserControl Create()
+        {
+            WarehouseUC = new WarehouseUC(this);
+            return WarehouseUC;
+        }
+         
+
+        public WarehouseVM(AppControl appControl)
         {
             AppControl = appControl;
-            MainMenuVM = mainMenuVM;
-            UserControl = new WarehouseUC(this);
+           
         }
     }
 }

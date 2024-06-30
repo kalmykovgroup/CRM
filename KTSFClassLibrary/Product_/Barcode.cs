@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
 {
-    internal class Barcode
+    public class Barcode
     {
         public int Id { get; set; }
         public string Code { get; set; }

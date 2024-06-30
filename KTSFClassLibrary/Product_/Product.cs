@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
 {
-    internal class Product
+    public class Product
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string? NameToPrint { get; set; } //Имя для печати этикеток
         public string? Description { get; set; }
 
-        //Разные постащики могут давать накладные без штрих-кода но со свои артикулом
+        //Разные постащики могут давать накладные без штрих-кода но со свои артиклом
         //Артикул - это сокращенное название товара.
         //Артикул `Y-100` - это вполне легальный артикул у китайцев, например для пассатижей.
         public List<Article> Articles { get; } = new();

@@ -7,7 +7,7 @@ using KTSFClassLibrary.ABAC;
 
 namespace KTSFClassLibrary
 {
-    internal class Cashier //Кассир
+    public class Cashier //Кассир
     {
         public int Id { get; set; }
 

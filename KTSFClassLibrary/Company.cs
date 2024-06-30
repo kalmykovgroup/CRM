@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary
 {
-    internal class Company
+    public class Company
     {
         public int Id { get; }
 

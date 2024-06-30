@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.ABAC
 {
-    internal class TableField
+    public class TableField
     {
         public int DatabaseTableId { get; set; }
         public DatabaseTable DatabaseTable { get; set; }

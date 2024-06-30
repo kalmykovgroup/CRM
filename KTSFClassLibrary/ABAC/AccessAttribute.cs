@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace KTSFClassLibrary.ABAC
 {
     //Сдесь храняться все возможные действия с таблицами и полями
-    internal class AccessAttribute
+    public class AccessAttribute
     {
         public int Id { get; set; }
 

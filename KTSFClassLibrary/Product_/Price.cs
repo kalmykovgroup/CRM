@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
 {
-    internal class Price
+    public class Price
     {
         public int Id {  get; set; }
         public int Cost { get; set; } //Стоимость
