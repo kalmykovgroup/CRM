@@ -3,11 +3,13 @@
 namespace KTSFClassLibrary
 {
     public partial class User : ObservableObject
-    {
-        // just for test
+    { 
         public int Id { get; set; }
 
-        [ObservableProperty] private string email = String.Empty;
+        [ObservableProperty] public string email = String.Empty;
+        [ObservableProperty] public string phone = String.Empty;
+
+        public string login = String.Empty;
 
         public string Password { get; set; } = String.Empty;
 

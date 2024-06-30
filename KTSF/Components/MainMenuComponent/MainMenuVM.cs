@@ -49,8 +49,7 @@ namespace KTSF.Components.MainMenuComponent
 
         [RelayCommand]
         public void CashiersWorkplaceClick(object? parametr) => NavCashiersWorkplaceVM();
-        
-       
+               
         [RelayCommand]
         public void AdministrationVMClick(object? parametr) => NavAdministrationVM();
 
