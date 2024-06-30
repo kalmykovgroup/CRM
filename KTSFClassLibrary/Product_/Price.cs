@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
 {
-    internal class Unit //шт. л. кг.
+    internal class Price
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int Id {  get; set; }
+        public int Cost { get; set; } //Стоимость
+        public DateTime CreatedAt { get; set; } 
     }
 }
