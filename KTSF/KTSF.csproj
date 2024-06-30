@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components\CommonComponent\TemplateListProductComponent\" />
     <Folder Include="Components\SignInComponent\Converters\" />
   </ItemGroup>
 
