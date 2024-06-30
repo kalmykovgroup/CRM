@@ -37,15 +37,19 @@
     <DockPanel>
         <Border  DockPanel.Dock="Left" Width="300" BorderBrush="Gray" BorderThickness="0 0 1 0">
             <StackPanel>
-                <Button Content="Рабочее место кассира" Command="{Binding CashiersWorkplaceClickCommand}" Template="{StaticResource btnNavTemplate}"/>
+                <Button Content="Рабочее место кассира" Command="{Binding CashiersWorkplacePageClickCommand}" Template="{StaticResource btnNavTemplate}"/>
 
-                <Button Content="Склад" Command="{Binding WarehouseVMClickCommand}"  Template="{StaticResource btnNavTemplate}"/>
+                <Button Content="Чеки" Command="{Binding CashReceiptPageClickCommand}"  Template="{StaticResource btnNavTemplate}"/>
 
-                <Button Content="Админ панель"  Command="{Binding AdministrationVMClickCommand}"  Template="{StaticResource btnNavTemplate}"/>
+                <Button Content="Отложенные чеки" Command="{Binding DeferredCashReceiptPageClickCommand}"  Template="{StaticResource btnNavTemplate}"/>
+               
+                <Button Content="Склад" Command="{Binding WarehousePageClickCommand}"  Template="{StaticResource btnNavTemplate}"/>
+
+                <Button Content="Админ панель"  Command="{Binding AdministrationPageClickCommand}"  Template="{StaticResource btnNavTemplate}"/>
 
             </StackPanel>
         </Border>
        
-        <ContentControl Content="{Binding CurrentView}"/>
+        <ContentControl Content="{Binding CurrentFrame}"/>
     </DockPanel>
 </UserControl>
