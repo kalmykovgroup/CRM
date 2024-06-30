@@ -14,5 +14,10 @@ namespace KTSFClassLibrary
         public string Password { get; set; } = String.Empty;
 
         public string AccessToken { get; set; } = String.Empty;
+
+        public string Name {  get; set; }
+        public string Surname {  get; set; }
+        public string Patronimyc {  get; set; }
+
     }
 }

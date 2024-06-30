@@ -7,6 +7,7 @@ using System.Windows.Controls;
 
 namespace KTSF.Components.MainMenuComponent.Components.DeferredCashReceiptPageComponent
 {
+    //Отложенные чеки
     public class DeferredCashReceiptPageVM : IComponent //MainMenuVM 
     {
         public AppControl AppControl { get; }

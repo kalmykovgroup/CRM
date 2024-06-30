@@ -13,16 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KTSF.Components.CommonComponent.ProductPageComponent
+namespace KTSF.Components.CommonComponent.ProductComponent
 {
     /// <summary>
-    /// Логика взаимодействия для ProductPageUC.xaml
+    /// Логика взаимодействия для ProductUC.xaml
     /// </summary>
-    public partial class ProductPageUC : UserControl
+    public partial class ProductUC : UserControl
     {
-        public ProductPageUC()
+        public ProductVM ProductVM { get; }
+        public ProductUC(ProductVM productVM)
         {
             InitializeComponent();
+            ProductVM = productVM;
+            DataContext = ProductVM;
         }
     }
 }

@@ -18,7 +18,8 @@ namespace KTSF.Components.MainMenuComponent.Components.WarehousePageComponent.Co
     /// <summary>
     /// Логика взаимодействия для DecommissionedProductsPageUC.xaml
     /// </summary>
-    public partial class DecommissionedProductsPageUC : UserControl
+    /// Списанные товары
+    public partial class DecommissionedProductsPageUC : UserControl //MainMenuVM -> WarehousePageVM -> DecommissionedProductsPageVM
     {
         public DecommissionedProductsPageVM DecommissionedProductsPageVM { get; }
         public DecommissionedProductsPageUC(DecommissionedProductsPageVM decommissionedProductsPageVM)

@@ -18,7 +18,7 @@ namespace KTSF.Components.MainMenuComponent.Components.DeferredCashReceiptPageCo
     /// <summary>
     /// Логика взаимодействия для DeferredCashReceiptPageUC.xaml
     /// </summary>
-    public partial class DeferredCashReceiptPageUC : UserControl
+    public partial class DeferredCashReceiptPageUC : UserControl //Отложенные чеки
     {
         public DeferredCashReceiptPageVM DeferredCashReceiptPageVM { get; }
         public DeferredCashReceiptPageUC(DeferredCashReceiptPageVM deferredCashReceiptPageVM)
