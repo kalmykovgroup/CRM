@@ -9,5 +9,29 @@
         <SolidColorBrush  x:Key="ColorScarlet" Color="#D91842"  />
         <SolidColorBrush  x:Key="ColorHoverScarlet" Color="#BB0D33"  />
         <SolidColorBrush  x:Key="ColorErrorString" Color="Red"  />
+
+
+        <ControlTemplate x:Key="btnNavTemplate" TargetType="Button">
+
+            <Border BorderBrush="Black" BorderThickness="0 0 0 1" Height="30" Cursor="Hand">
+                <TextBlock Text="{TemplateBinding Content}" 
+                   HorizontalAlignment="Center"
+                   FontWeight="DemiBold" 
+                   VerticalAlignment="Center"/>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="White"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Gray"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+
+        </ControlTemplate>
+        
+        
     </Application.Resources>
 </Application>

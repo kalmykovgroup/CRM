@@ -4,7 +4,7 @@ using KTSF.Components.MainMenuComponent.Components.AdministrationComponent;
 using KTSF.Components.MainMenuComponent.Components.CashiersWorkplaceComponent;
 using KTSF.Components.MainMenuComponent.Components.CashReceiptPageComponent;
 using KTSF.Components.MainMenuComponent.Components.DeferredCashReceiptPageComponent;
-using KTSF.Components.MainMenuComponent.Components.WarehouseComponent;
+using KTSF.Components.MainMenuComponent.Components.WarehousePageComponent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +22,7 @@ namespace KTSF.Components.MainMenuComponent
         public CashiersWorkplaceVM? CashiersWorkplaceVM { get; private set; } //Рабочее место кассира      
         public CashReceiptPageVM? CashReceiptPageVM { get; private set; } //Чеки
         public DeferredCashReceiptPageVM? DeferredCashReceiptPageVM { get; private set; } //Чеки
-        public WarehouseVM? WarehouseVM { get; private set; } //Склад
+        public WarehousePageVM? WarehouseVM { get; private set; } //Склад
         public AdministrationVM? AdministrationVM { get; private set; } //Админ панель
 
         #endregion
@@ -47,7 +47,7 @@ namespace KTSF.Components.MainMenuComponent
 
             AdministrationVM = new AdministrationVM(AppControl);
             CashiersWorkplaceVM = new CashiersWorkplaceVM(AppControl);
-            WarehouseVM = new WarehouseVM(AppControl);
+            WarehouseVM = new WarehousePageVM(AppControl);
             CashReceiptPageVM = new CashReceiptPageVM(AppControl);
             DeferredCashReceiptPageVM = new DeferredCashReceiptPageVM(AppControl);
 
