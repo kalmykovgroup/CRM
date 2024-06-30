@@ -6,60 +6,46 @@
              xmlns:local="clr-namespace:KTSF.Components.MainMenuComponent"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="btnNavTemplate" TargetType="Button">
+
+            <Border BorderBrush="Black" BorderThickness="0.5" Height="40" Cursor="Hand">
+                <StackPanel Orientation="Horizontal">
+                    
+                    <Image Source="Img/kassa.png" Width="20" Height="20" VerticalAlignment="Center"/>
+                    
+                    <TextBlock Text="{TemplateBinding Content}" d:Text="Navigate" Margin="10 0 0 0"
+                        HorizontalAlignment="Center"
+                        FontWeight="DemiBold" 
+                        VerticalAlignment="Center"/>
+                </StackPanel>
+                
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="White"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Gray"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+
+        </ControlTemplate>
+    </UserControl.Resources>
     <DockPanel>
-        <StackPanel DockPanel.Dock="Left" Width="300">
-            <Button Command="{Binding CashiersWorkplaceClickCommand}">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Background="Gray" Padding="10">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Image Source="Img/kassa.png" Width="20" Height="20" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="Рабочее место кассира" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="17"></TextBlock>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+        <Border  DockPanel.Dock="Left" Width="300" BorderBrush="Gray" BorderThickness="0 0 1 0">
+            <StackPanel>
+                <Button Content="Рабочее место кассира" Command="{Binding CashiersWorkplaceClickCommand}" Template="{StaticResource btnNavTemplate}"/>
 
-            <Button Command="{Binding WarehouseVMClickCommand}">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Background="Gray" Padding="10">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Image Source="Img/kassa.png" Width="20" Height="20" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="Склад" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="17"></TextBlock>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+                <Button Content="Склад" Command="{Binding WarehouseVMClickCommand}"  Template="{StaticResource btnNavTemplate}"/>
 
-            <Button  Command="{Binding AdministrationVMClickCommand}">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Background="Gray" Padding="10">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Image Source="Img/kassa.png" Width="20" Height="20" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="Админ панель" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="17"></TextBlock>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+                <Button Content="Админ панель"  Command="{Binding AdministrationVMClickCommand}"  Template="{StaticResource btnNavTemplate}"/>
 
-        </StackPanel>
+            </StackPanel>
+        </Border>
+       
         <ContentControl Content="{Binding CurrentView}"/>
     </DockPanel>
 </UserControl>

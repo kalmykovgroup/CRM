@@ -41,7 +41,7 @@ namespace KTSF.Components.MainMenuComponent
             CashiersWorkplaceVM = new CashiersWorkplaceVM(AppControl);
             WarehouseVM = new WarehouseVM(AppControl);
 
-            CurrentView = CashiersWorkplaceVM.Build; //Клик меню по умолчанию
+            CurrentView = AdministrationVM.Build; //Клик меню по умолчанию
 
             return MainMenuUC;
         } 

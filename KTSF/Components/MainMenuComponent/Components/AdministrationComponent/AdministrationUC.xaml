@@ -6,7 +6,57 @@
              xmlns:local="clr-namespace:KTSF.Components.MainMenuComponent.Components.AdministrationComponent"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Админ панель" FontSize="25"></TextBlock>
-    </Grid>
+
+    <UserControl.Resources>
+        <ControlTemplate x:Key="btnNavTemplate" TargetType="Button">
+
+            <Border BorderBrush="Black" BorderThickness="0 0 0 1" Height="30" Cursor="Hand">
+                <TextBlock Text="{TemplateBinding Content}" 
+                           HorizontalAlignment="Center"
+                           FontWeight="DemiBold" 
+                           VerticalAlignment="Center"/>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="White"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Gray"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            
+        </ControlTemplate>
+    </UserControl.Resources>
+    
+    <DockPanel>
+        <Border DockPanel.Dock="Top" BorderThickness="0 0 0 1" BorderBrush="Gray">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel  Margin="5">
+                    <Button Content="Пользователи" Command="{Binding UsersNavCommand}" Template="{StaticResource btnNavTemplate}"/>
+                    <Button Content="События" Command="{Binding ActionsNavCommand}" Template="{StaticResource btnNavTemplate}"/>
+                    <Button Content="Статистика" Command="{Binding StatisticsNavCommand}" Template="{StaticResource btnNavTemplate}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="5">
+                    <Button Content="Организация" Command="{Binding OrganizationNavCommand}" Template="{StaticResource btnNavTemplate}"/>
+                    <Button Content="Оборудование" Command="{Binding EquipmentPageNavCommand}" Template="{StaticResource btnNavTemplate}"/>
+                </StackPanel>
+
+
+            </Grid>
+        </Border>
+      
+        <Grid  Background="#EAEAEA">
+            <ContentControl Content="{Binding CurrentFrame}"/>
+        </Grid>
+    </DockPanel>
 </UserControl>

@@ -5,23 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace KTSF.Components.MainMenuComponent.Components.AdministrationComponent.Components.SettingOrganizationComponent
+namespace KTSF.Components.MainMenuComponent.Components.AdministrationComponent.Components.SettingOrganizationPageComponent
 {
-    public class SettingOrganizationVM : IComponent
+    public class SettingOrganizationPageVM : IComponent //MainMenuVM -> AdministrationVM -> SettingOrganizationPageVM
     {
         public AppControl AppControl {  get; }
 
-        public SettingOrganizationUC? SettingOrganizationUC { get; private set; }
+        public SettingOrganizationPageUC? SettingOrganizationUC { get; private set; }
 
         public UserControl Build => SettingOrganizationUC != null ? SettingOrganizationUC : Create();
 
         private UserControl Create()
         {
-            SettingOrganizationUC = new SettingOrganizationUC();
+            SettingOrganizationUC = new SettingOrganizationPageUC();
             return SettingOrganizationUC;
         }
 
-        public SettingOrganizationVM(AppControl appControl)
+        public SettingOrganizationPageVM(AppControl appControl)
         {
             AppControl = appControl;
         }

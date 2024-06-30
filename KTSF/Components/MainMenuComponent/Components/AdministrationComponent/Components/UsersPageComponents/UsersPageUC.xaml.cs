@@ -13,15 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KTSF.Components.MainMenuComponent.Components.AdministrationComponent.Components.SettingOrganizationComponent
+namespace KTSF.Components.MainMenuComponent.Components.AdministrationComponent.Components.UsersPageComponents
 {
     /// <summary>
-    /// Логика взаимодействия для SettingOrganizationUC.xaml
+    /// Логика взаимодействия для UsersPageUC.xaml
     /// </summary>
-    public partial class SettingOrganizationUC : UserControl
+    public partial class UsersPageUC : UserControl
     {
-        public SettingOrganizationUC()
+        public UsersPageVM UsersVM { get; }
+
+        public UsersPageUC(UsersPageVM usersVM)
         {
+            UsersVM = usersVM;
+            DataContext = usersVM;
             InitializeComponent();
         }
     }
