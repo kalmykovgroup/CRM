@@ -34,7 +34,7 @@ namespace KTSF
         public AppControl(MainWindow mainWindow)
         {
             MainWindow = mainWindow;
-            Server = new Server();
+            Server = new Server(this);
             //Создаем компоненты
 
             LoadVM = new LoadVM(this);

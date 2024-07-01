@@ -13,18 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KTSF.Components.MainMenuComponent.Components.WarehouseComponent
+namespace KTSF.Components.MainMenuComponent.Components.AdministrationComponent.Components.UsersPageComponents
 {
     /// <summary>
-    /// Логика взаимодействия для WarehouseUC.xaml
+    /// Логика взаимодействия для UsersPageUC.xaml
     /// </summary>
-    public partial class WarehouseUC : UserControl
+    public partial class UsersPageUC : UserControl
     {
-        public WarehouseVM WarehouseVM { get; }
-        public WarehouseUC(WarehouseVM warehouseVM)
+        public UsersPageVM UsersVM { get; }
+
+        public UsersPageUC(UsersPageVM usersVM)
         {
-            WarehouseVM = warehouseVM;
-            DataContext = warehouseVM;
+            UsersVM = usersVM;
+            DataContext = usersVM;
             InitializeComponent();
         }
     }

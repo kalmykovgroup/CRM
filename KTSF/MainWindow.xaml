@@ -10,21 +10,6 @@
     <Grid>
         <ContentControl Content="{Binding UserControl}"/>
 
-
-        <Image Panel.ZIndex="2" gif:ImageBehavior.AnimatedSource="/Img/loading.gif" d:Source="/Img/loading.gif" Margin="0 -30 0 0" Width="100">
-            <Image.Style>
-                <Style TargetType="Image">
-                    <Setter Property="Visibility" Value="Visible"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsLoad}" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Hidden"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Image.Style>
-        </Image>
-
-        <TextBlock Text="{Binding IsLoad}" d:Text="Load" HorizontalAlignment="Center" FontSize="17" VerticalAlignment="Center"/>
-
+        <ContentControl Template="{StaticResource ContentControlLoad}"/>
     </Grid>
 </Window>
