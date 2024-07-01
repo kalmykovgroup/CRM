@@ -27,7 +27,7 @@ namespace KTSF.Components.CommonComponent.SearchComponent
 
         [ObservableProperty] public bool isVisibilityList = false;
 
-        ObservableCollection<Product> ListSearchedProduct { get; } = new ObservableCollection<Product>();
+        public ObservableCollection<Product> ListSearchedProduct { get; } = new ObservableCollection<Product>();
 
         [ObservableProperty] public string search = String.Empty;
 
@@ -48,8 +48,10 @@ namespace KTSF.Components.CommonComponent.SearchComponent
 
         [RelayCommand] public async void SearchClick()
         {
-
-            List<Product> newListProduct = await AppControl.Server.SearchProduct (Search);
+            List<Product> newListProduct = await AppControl.Server.SearchProducts (Search);
+            if(newListProduct.Count > 0) {
+                IsVisibilityList = true;
+            }
             foreach (Product product in newListProduct) {
                 ListSearchedProduct.Add (product);
             }
@@ -61,5 +63,15 @@ namespace KTSF.Components.CommonComponent.SearchComponent
                 
             }
         }
-     }
+
+        [RelayCommand] public void ProductClick (object? parameter) {
+            if (parameter == null) {
+                throw new ArgumentNullException(nameof(parameter));
+            }
+
+            Product product = (Product) parameter;
+
+            MessageBox.Show (product.Name);
+        }
+    }
 }

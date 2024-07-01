@@ -25,9 +25,10 @@
             DockPanel.Dock="Right" />
         <DockPanel DockPanel.Dock="Left">
             <ContentControl
-                Width="500"
+                Width="300"
                 Height="30"
                 HorizontalAlignment="Left"
+                Panel.ZIndex="1"
                 Content="{Binding SearchVM.SearchUC}"
                 DockPanel.Dock="Top" />
             <Grid
