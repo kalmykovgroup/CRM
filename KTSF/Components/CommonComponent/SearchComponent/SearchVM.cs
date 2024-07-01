@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using KTSFClassLibrary.Product_;
+using System.Collections.ObjectModel;
 
 namespace KTSF.Components.CommonComponent.SearchComponent
 {
@@ -23,6 +24,10 @@ namespace KTSF.Components.CommonComponent.SearchComponent
                 searchUC = value;
             }
         }
+
+        [ObservableProperty] public bool isVisibilityList = false;
+
+        public ObservableCollection<Product> ListSearchedProduct { get; } = new ObservableCollection<Product>();
 
         [ObservableProperty] public string search = String.Empty;
 
@@ -41,14 +46,32 @@ namespace KTSF.Components.CommonComponent.SearchComponent
 
         public Action<Product>? SearchAction;
 
-        [RelayCommand] public void SearchClick()
+        [RelayCommand] public async void SearchClick()
         {
-            Product product = new Product()
-            {
-                Name = "Test product"
-            };
+            List<Product> newListProduct = await AppControl.Server.SearchProducts (Search);
+            if(newListProduct.Count > 0) {
+                IsVisibilityList = true;
+            }
+            foreach (Product product in newListProduct) {
+                ListSearchedProduct.Add (product);
+            }
+        }
 
-            SearchAction?.Invoke(product);
+        public void TextBox_TextChanged (object sender, TextChangedEventArgs e) {
+            string text = ((TextBox) sender).Text;
+            if (text.Count () > 2) {
+                
+            }
+        }
+
+        [RelayCommand] public void ProductClick (object? parameter) {
+            if (parameter == null) {
+                throw new ArgumentNullException(nameof(parameter));
+            }
+
+            Product product = (Product) parameter;
+
+            MessageBox.Show (product.Name);
         }
     }
 }
