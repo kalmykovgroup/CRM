@@ -17,30 +17,46 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <DockPanel>
-        <Grid
-            Width="250"
-            Margin="0,5,10,5"
-            Background="#990"
-            DockPanel.Dock="Right" />
-        <DockPanel DockPanel.Dock="Left">
-            <ContentControl
-                Width="300"
-                Height="30"
-                HorizontalAlignment="Left"
-                Panel.ZIndex="1"
-                Content="{Binding SearchVM.SearchUC}"
-                DockPanel.Dock="Top" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ContentControl
+            Grid.Row="0"
+            Width="300"
+            HorizontalAlignment="Left"
+            Panel.ZIndex="1"
+            Content="{Binding SearchVM.SearchUC}" />
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
             <Grid
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Width="250"
+                Margin="0,5,10,5"
+                Background="#990" />
+            <Grid
+                Grid.Row="0"
+                Grid.Column="0"
                 Height="150"
                 Margin="5"
-                Background="#0c0"
-                DockPanel.Dock="Top" />
+                Background="#0c0" />
             <Grid
+                Grid.Row="1"
+                Grid.Column="0"
                 Margin="5"
-                Background="#009"
-                DockPanel.Dock="Top" />
-        </DockPanel>
+                Background="#009" />
+        </Grid>
 
-    </DockPanel>
+    </Grid>
 </UserControl>
+
