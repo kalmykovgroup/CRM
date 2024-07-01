@@ -7,6 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="Прием товаров"></TextBlock>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Прием товаров"></TextBlock>
+            <Button Content="Добавить товар" Command="{Binding AddProductClickCommand}" Width="300"/>
+            <Button Content="Загрузить накладную" Command="{Binding UploadTheInvoiceClickCommand}" Width="300"/>
+        </StackPanel>
     </Grid>
 </UserControl>
