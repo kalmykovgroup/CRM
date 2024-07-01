@@ -80,13 +80,25 @@ namespace KTSF.Components.MainMenuComponent.Components.AdministrationComponent.C
             EditUserVM?.Run(user); //Запустить окно редактирования
         }
         
-        [RelayCommand] public void DeleteUserClick(object? parametr)
+        [RelayCommand] public async void DeleteUserClick(object? parametr)
         {
             if (parametr is null) throw new ArgumentNullException(nameof(User));
 
             User user = (User)parametr;
 
-            MessageBox.Show($"Запрос на удаление ${user.Name}");
+            IsLoad = "";
+
+            (bool result, string? message) = await AppControl.Server.DeleteUser(user);
+
+            IsLoad = null;
+            if (result)
+            {
+                Users.Remove(user);
+            }
+            else
+            {
+                MessageBox.Show(message);
+            } 
         }
 
         #endregion

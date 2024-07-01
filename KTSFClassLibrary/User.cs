@@ -19,5 +19,11 @@ namespace KTSFClassLibrary
         public string Surname {  get; set; }
         public string Patronimyc {  get; set; }
 
+
+        public override bool Equals(object? obj)
+        {
+            return obj is not null && obj is User user && user.Id == Id;
+        }
+
     }
 }

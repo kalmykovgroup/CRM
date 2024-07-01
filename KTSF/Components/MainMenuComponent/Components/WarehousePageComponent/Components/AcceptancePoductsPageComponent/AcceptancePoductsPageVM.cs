@@ -1,9 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponent.AddProductComponent;
+using KTSF.Components.CommonComponent.SearchComponent;
 using KTSF.Components.CommonComponent.UploadTheInvoiceComponent;
+using KTSFClassLibrary.PackingList_;
+using KTSFClassLibrary.Product_;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +24,9 @@ namespace KTSF.Components.MainMenuComponent.Components.WarehousePageComponent.Co
         public AcceptancePoductsPageUC? AcceptancePoductsPageUC { get; private set; }
 
         public UserControl Build => AcceptancePoductsPageUC ?? Create();
+
+        [ObservableProperty] public PackingList? packingList; //Товарная накладная
+        [ObservableProperty] public SearchVM? searchVM; //Товарная накладная
 
         public AddProductVM? AddProductVM { get; private set; }
         public UploadTheInvoiceVM? UploadTheInvoiceVM { get; private set; }
@@ -50,6 +57,15 @@ namespace KTSF.Components.MainMenuComponent.Components.WarehousePageComponent.Co
         {
             UploadTheInvoiceVM = new UploadTheInvoiceVM(AppControl);
             UploadTheInvoiceVM.Run(); 
+        }
+        [RelayCommand] 
+        public void StartReceivingGoodsClick(object? parametr)
+        {
+
+            PackingList = new PackingList();
+            SearchVM = new SearchVM(AppControl);
+
+             
         }
 
         #endregion
