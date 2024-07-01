@@ -21,11 +21,14 @@ namespace KTSF.Components.CommonComponent.SearchComponent
     public partial class SearchUC : UserControl
     {
         public SearchVM SearchVM { get; }
+
         public SearchUC(SearchVM searchVM)
         {
             SearchVM = searchVM;
             DataContext = searchVM;
             InitializeComponent();
         }
+
+        private void TextBox_TextChanged (object sender, TextChangedEventArgs e) => SearchVM.TextBox_TextChanged(sender, e);
     }
 }
