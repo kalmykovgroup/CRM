@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:KTSF.Components.MainMenuComponent.Components.WarehousePageComponent.Components.ProductsPageComponent"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <DataGrid ItemsSource="{Binding Products}">
-         
-    </DataGrid>
+    <Grid>
+        <DataGrid  ItemsSource="{Binding Products}"/>
+        <ContentControl Template="{StaticResource ContentControlLoad}"/>
+    </Grid>
+    
 </UserControl>

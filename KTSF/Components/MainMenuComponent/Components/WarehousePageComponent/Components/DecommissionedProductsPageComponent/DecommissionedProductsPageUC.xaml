@@ -7,8 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding Products}">
-
-        </DataGrid>
+        <DataGrid  ItemsSource="{Binding Products}"/>
+        <ContentControl Template="{StaticResource ContentControlLoad}"/>
     </Grid>
 </UserControl>

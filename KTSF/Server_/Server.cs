@@ -39,8 +39,7 @@ namespace KTSF.Server_
 
         //Получить страницу с товарами
         public async Task<List<Product>> GetProducts(int offset, int count)
-        {
-            AppControl.IsLoad = "Загрузка...";
+        { 
             await Task.Delay(1000);
 
             List <Product> result =  new List<Product> {
@@ -54,16 +53,14 @@ namespace KTSF.Server_
                 new Product() { Name = "Product 8", Id = 8 },
                 new Product() { Name = "Product 9", Id = 9 },
                 new Product() { Name = "Product 10", Id = 10 },
-            };
-            AppControl.IsLoad = null;
+            }; 
 
             return result;
         }
 
         //Получить списанные товары
         public async Task<List<Product>> GetDecommissionedProducts()
-        {
-            AppControl.IsLoad = "Загрузка...";
+        { 
 
             await Task.Delay(1000);
 
@@ -72,8 +69,7 @@ namespace KTSF.Server_
                 new Product() { Name = "Product 12", Id = 12 },
                 new Product() { Name = "Product 13", Id = 13 }, 
             };
-
-            AppControl.IsLoad = null;
+             
 
             return result;
         }
@@ -87,8 +83,9 @@ namespace KTSF.Server_
                 
         }
 
-        //Получить список всех пользователей
-        public async Task<List<User>> GetUsers()
+        #region User
+        
+        public async Task<List<User>> GetUsers() //Получить список всех пользователей
         {
             await Task.Delay(1000);
 
@@ -99,6 +96,34 @@ namespace KTSF.Server_
             };
 
         }
+
+        //Нужно определить где будет отслеживатся информация о том каие поля мы меняем
+        public async Task<(bool result, string? message)> UpdateUser(User user)
+        {
+            await Task.Delay(1000);
+
+            return (result: true, message: null);
+        }
+
+        //По факту пользователь станет не активным
+        public async Task<(bool result, string? message)> DeleteUser(User user)
+        {
+            await Task.Delay(1000); 
+
+            return (result: true, message: null);
+        }
+
+        public async Task<bool> GetUserStatistics(User user) //Загрузка статистических данных о пользователи
+        {
+            await Task.Delay(1000);
+
+            return true;
+        }
+
+
+        #endregion
+
+
 
     }
 }
