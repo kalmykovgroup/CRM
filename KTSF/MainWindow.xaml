@@ -8,6 +8,7 @@
          xmlns:gif="http://wpfanimatedgif.codeplex.com"  
         Title="KTSF" Width="1000" Height="600" WindowStartupLocation="CenterScreen" d:DesignHeight="300" d:DesignWidth="700">
     <Grid>
+
         <ContentControl Content="{Binding UserControl}"/>
 
         <ContentControl Template="{StaticResource ContentControlLoad}"/>

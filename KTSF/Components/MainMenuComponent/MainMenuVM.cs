@@ -8,6 +8,7 @@ using KTSF.Components.MainMenuComponent.Components.WarehousePageComponent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -43,8 +44,6 @@ namespace KTSF.Components.MainMenuComponent
 
         private UserControl Create()
         {
-           
-
             AdministrationVM = new AdministrationVM(AppControl);
             CashiersWorkplaceVM = new CashiersWorkplaceVM(AppControl);
             WarehouseVM = new WarehousePageVM(AppControl);
@@ -56,25 +55,14 @@ namespace KTSF.Components.MainMenuComponent
             CurrentFrame = AdministrationVM.Build; //Клик меню по умолчанию
 
             return MainMenuUC;
-        } 
+        }
 
         #region Commands
 
-        [RelayCommand] //Рабочее место кассира
-        public void CashiersWorkplacePageClick(object? parametr) => CurrentFrame = CashiersWorkplaceVM?.Build;
+        [RelayCommand] //Рабочее место кассира//Админ панель//Склад//Чеки//Отложенные Чеки
+        public void NavClick(object? parametr) => CurrentFrame = parametr != null ? (UserControl)parametr : null;
                
-        [RelayCommand] //Админ панель
-        public void AdministrationPageClick(object? parametr) => CurrentFrame = AdministrationVM?.Build;
-
-        [RelayCommand] //Склад
-        public void WarehousePageClick(object? parametr) => CurrentFrame = WarehouseVM?.Build;
-        
-        [RelayCommand] //Чеки
-        public void CashReceiptPageClick(object? parametr) => CurrentFrame = CashReceiptPageVM?.Build;
-          
-        [RelayCommand] //Отложенные Чеки
-        public void DeferredCashReceiptPageClick(object? parametr) => CurrentFrame = DeferredCashReceiptPageVM?.Build;
-
+       
 
         #endregion
     }

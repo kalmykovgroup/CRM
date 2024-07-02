@@ -18,6 +18,8 @@ namespace KTSF.Server_
             AppControl = appControl;
         }
 
+
+
         //Поиск товаров
         public async Task<List<Product>> SearchProducts(string text)
         {
