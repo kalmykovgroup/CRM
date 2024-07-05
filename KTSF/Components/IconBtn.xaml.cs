@@ -13,22 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KTSF.Components.MainMenuComponent
+namespace KTSF.Components
 {
     /// <summary>
-    /// Логика взаимодействия для MainMenuUC.xaml
+    /// Логика взаимодействия для IconBtn.xaml
     /// </summary>
-    public partial class MainMenuUC : UserControl
+    public partial class IconBtn : UserControl
     {
-        public MainMenuComponent MainMenuComponent { get; }
-        public MainMenuUC(MainMenuComponent mainMenuComponent)
+        public Component Component { get; }
+        public IconBtn(Component component)
         {
             InitializeComponent();
-            MainMenuComponent = mainMenuComponent;
-            DataContext = MainMenuComponent;
-           
+            Component = component;
+            DataContext = component;
         }
-         
     }
-     
 }

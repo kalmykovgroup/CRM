@@ -13,22 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KTSF.Components.MainMenuComponent
+namespace KTSF.Components.CommonComponents.SearchComponent
 {
     /// <summary>
-    /// Логика взаимодействия для MainMenuUC.xaml
+    /// Логика взаимодействия для SearchUC.xaml
     /// </summary>
-    public partial class MainMenuUC : UserControl
+    public partial class SearchUC : UserControl
     {
-        public MainMenuComponent MainMenuComponent { get; }
-        public MainMenuUC(MainMenuComponent mainMenuComponent)
+        public SearchComponent SearchComponent { get; }
+        public SearchUC(SearchComponent searchComponent)
         {
             InitializeComponent();
-            MainMenuComponent = mainMenuComponent;
-            DataContext = MainMenuComponent;
-           
+            SearchComponent = searchComponent;
+            DataContext = SearchComponent;
         }
-         
     }
-     
 }

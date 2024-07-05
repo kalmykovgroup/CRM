@@ -4,98 +4,117 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KTSF.Components.MainMenuComponent"
-             xmlns:converters="clr-namespace:KTSF.Converters" 
+             xmlns:viewmodel="clr-namespace:KTSF.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" x:Name="UserControl">
-    <UserControl.Resources>
-        <converters:QualsValueToBoolConverter x:Key="QualsValueToBoolConverter"/>
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top"   Background="#C9D6A8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-         <BitmapImage x:Key="IconMenu1" UriSource="img/1.png" />
-        <BitmapImage x:Key="IconMenu2" UriSource="img/2.png" />
-        <BitmapImage x:Key="IconMenu3" UriSource="img/3.png" />
-        <BitmapImage x:Key="IconMenu4" UriSource="img/4.png" />
-        <BitmapImage x:Key="IconMenu5" UriSource="img/settings.png" />
+                <Border BorderBrush="Black" BorderThickness="0 0 0 1">
+                    <TextBlock Text="Название компании" VerticalAlignment="Center" Padding="5" Margin="10 0 0 0" FontSize="17" FontWeight="DemiBold"/>
+                </Border>
+                <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0 0 0 1" Margin="0 10 0 5" Background="AliceBlue">
+                    <ItemsControl ItemsSource="{Binding TopNavigates}" HorizontalContentAlignment="Stretch"   d:ItemsSource="{d:SampleData ItemCount=4}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.NavigateCommand, ElementName=Window}" CommandParameter="{Binding}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="0 0 0.5 0" Padding="10 5">
+                                                <TextBlock d:Text="Nav"  Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Background" Value="White"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="#AAD8C1"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
 
-        <ControlTemplate x:Key="btnNavTemplate" TargetType="Button">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
 
-            <Border BorderBrush="Black" BorderThickness="0.5" Height="40" Cursor="Hand" Padding="5">
-                <StackPanel Orientation="Horizontal">
 
-                    <Image Source="{TemplateBinding Tag}" Width="20" Height="20" VerticalAlignment="Center"/>
-                    
-                    <TextBlock Text="{TemplateBinding Content}" d:Text="Navigate" Margin="10 0 0 0"
-                        HorizontalAlignment="Center"
-                        FontWeight="DemiBold" 
-                        VerticalAlignment="Center"/>
-                </StackPanel>
-                
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Setter Property="Background" Value="White"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#B0B0B0"/>
-                            </Trigger>
-                           
-                            <DataTrigger Value="True">
-                                <DataTrigger.Binding>
-                                    <MultiBinding Converter="{StaticResource QualsValueToBoolConverter}">
-                                        <Binding Path="CommandParameter" RelativeSource="{RelativeSource  AncestorType={x:Type Button}}" />
-                                        <Binding Path="DataContext.CurrentFrame" ElementName="UserControl"/>
-                                    </MultiBinding>
-                                </DataTrigger.Binding>
-                                <Setter Property="Background" Value="#B0B0B0"/>
-                            </DataTrigger>
-                           
-                        </Style.Triggers>
-                         
-                        
-                    </Style>
-                </Border.Style>
-            </Border>
+                    </ItemsControl>
+                </Border>
 
-        </ControlTemplate>
-    </UserControl.Resources>
-    <DockPanel>
-        <Border  DockPanel.Dock="Left" Width="300" BorderBrush="Gray" BorderThickness="0 0 1 0" >
-            <StackPanel>
-                <Button Tag="{StaticResource IconMenu1}" Content="Рабочее место кассира"
-                        Command="{Binding NavClickCommand}"
-                         CommandParameter="{Binding CashiersWorkplaceVM.Build}"
-                        Template="{StaticResource btnNavTemplate}"
-                        />
+            </Grid>
+            <Grid DockPanel.Dock="Left" Width="200" Background="#A8D6BF">
 
-                <Button Tag="{StaticResource IconMenu2}" Content="Чеки"
-                        Command="{Binding NavClickCommand}" 
-                        CommandParameter="{Binding CashReceiptPageVM.Build}"
-                        Template="{StaticResource btnNavTemplate}">
-                   
-                </Button>
+                <ItemsControl ItemsSource="{Binding LeftNavigates}" HorizontalContentAlignment="Stretch"   d:ItemsSource="{d:SampleData ItemCount=4}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button>
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border BorderBrush="Black" BorderThickness="0 0 0.5 0.5" Padding="10 5">
+                                            <TextBlock d:Text="Nav"  Text="{Binding Name}" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
 
-                <Button Tag="{StaticResource IconMenu3}" Content="Отложенные чеки"
-                        Command="{Binding NavClickCommand}" 
-                        CommandParameter="{Binding DeferredCashReceiptPageVM.Build}"
-                        Template="{StaticResource btnNavTemplate}">
-                   
-                </Button>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-                <Button Tag="{StaticResource IconMenu4}" Content="Склад" 
-                        Command="{Binding NavClickCommand}"  
-                        CommandParameter="{Binding WarehouseVM.Build}"
-                        Template="{StaticResource btnNavTemplate}">
-                   
-                </Button>
 
-                <Button Tag="{StaticResource IconMenu5}" Content="Админ панель" 
-                        Command="{Binding NavClickCommand}" 
-                        CommandParameter="{Binding AdministrationVM.Build}"
-                        Template="{StaticResource btnNavTemplate}">
-                     
-                </Button>
+                </ItemsControl>
 
-            </StackPanel>
-        </Border>
-       
-        <ContentControl Content="{Binding CurrentFrame}"/>
-    </DockPanel>
+            </Grid>
+
+
+            <Grid  Background="AliceBlue">
+                <ContentControl Content="{Binding CurrentFrame}"/>
+            </Grid>
+            <ScrollViewer DockPanel.Dock="Top">
+                <ItemsControl ItemsSource="{x:Static viewmodel:RegisterComponents.Components}" HorizontalContentAlignment="Stretch"   d:ItemsSource="{d:SampleData ItemCount=4}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button>
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border BorderBrush="Black" BorderThickness="0 0 0.5 0.5" Padding="10 5">
+                                            <TextBlock d:Text="ComponentName"  Text="{Binding ComponentName}" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+         
+
+        <ContentControl Template="{StaticResource ContentControlLoad}"/>
+    </Grid>
 </UserControl>

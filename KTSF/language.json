@@ -1,0 +1,38 @@
+﻿{
+  "selected": "rus",
+
+  "languages": [
+    {
+      "code": "rus",
+      "name": "Русский"
+    },
+    {
+      "code": "eng",
+      "name": "English"
+    }
+  ],
+
+  "models": [
+    {
+      "class_name": "CashiersWorkplaceComponent",
+      "languages": [
+        { "rus": "Рабочее место кассира" },
+        { "eng": "Cashiers workplace" }
+      ]
+    },
+    {
+      "class_name": "SearchComponent",
+      "languages": [
+        { "rus": "Поиск" },
+        { "eng": "Search" }
+      ]
+    },
+    {
+      "class_name": "MainMenuComponent",
+      "languages": [
+        { "rus": "Меню" },
+        { "eng": "Menu" }
+      ]
+    }
+  ]
+}

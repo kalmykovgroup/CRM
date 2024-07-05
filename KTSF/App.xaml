@@ -12,7 +12,7 @@
         <SolidColorBrush  x:Key="ColorCompanyNameYellow" Color="Yellow"  />
         <SolidColorBrush  x:Key="ColorScarlet" Color="#D91842"  />
         <SolidColorBrush  x:Key="ColorHoverScarlet" Color="#BB0D33"  />
-        <SolidColorBrush  x:Key="ColorErrorString" Color="Red"  />
+        <SolidColorBrush  x:Key="ColorErrorString" Color="Red"  /> 
 
 
         <ControlTemplate x:Key="btnNavTemplate" TargetType="Button">
@@ -42,12 +42,12 @@
             <Setter Property="Panel.ZIndex" Value="2"/> 
             <Setter Property="gif:ImageBehavior.AnimatedSource" Value="/Img/loading.gif"/>  
             <Setter Property="Width" Value="100"/>
-            <Setter Property="Margin" Value="0 -30 0 0"/>
+            <Setter Property="Margin" Value="0 -50 0 0"/>
             <Setter Property="Visibility" Value="Visible"/>
             
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsLoad}" Value="{x:Null}">
-                    <Setter Property="Visibility" Value="Hidden"/>
+                    <Setter Property="Visibility" Value="Hidden"/> 
                     <d:Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -58,18 +58,18 @@
         <Style x:Key="textStatusLoadStyle" TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="17"/> 
+            <Setter Property="FontSize" Value="17"/>  
         </Style>
 
         <ControlTemplate x:Key="ContentControlLoad" TargetType="ContentControl">
-            <Grid>
+            <Grid  VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition/> 
                     <RowDefinition/> 
                 </Grid.RowDefinitions>
 
                 <Image Style="{StaticResource imgLoadStyle}" d:Source="/Img/loading.gif"></Image>
-                <TextBlock Text="{Binding IsLoad}" d:Text="Load" Style="{StaticResource textStatusLoadStyle}"/>
+                <TextBlock Foreground="{TemplateBinding Foreground}" Text="{Binding IsLoad}" d:Text="Load" Style="{StaticResource textStatusLoadStyle}"/>
             </Grid>
         </ControlTemplate>
 

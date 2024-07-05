@@ -13,22 +13,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KTSF.Components.MainMenuComponent
+namespace KTSF.Components.LoadPageComponent
 {
     /// <summary>
-    /// Логика взаимодействия для MainMenuUC.xaml
+    /// Логика взаимодействия для LoadPageUC.xaml
     /// </summary>
-    public partial class MainMenuUC : UserControl
+    public partial class LoadPageUC : UserControl
     {
-        public MainMenuComponent MainMenuComponent { get; }
-        public MainMenuUC(MainMenuComponent mainMenuComponent)
+        public LoadPageComponent LoadVM { get; }
+
+        public LoadPageUC(LoadPageComponent loadVM)
         {
+            LoadVM = loadVM;
+            DataContext = loadVM;
             InitializeComponent();
-            MainMenuComponent = mainMenuComponent;
-            DataContext = MainMenuComponent;
-           
+              
+
         }
-         
     }
-     
 }

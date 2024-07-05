@@ -13,22 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KTSF.Components.MainMenuComponent
+namespace KTSF.Components.SignInPageComponent
 {
     /// <summary>
-    /// Логика взаимодействия для MainMenuUC.xaml
+    /// Логика взаимодействия для SignInPageUC.xaml
     /// </summary>
-    public partial class MainMenuUC : UserControl
+    public partial class SignInPageUC : UserControl
     {
-        public MainMenuComponent MainMenuComponent { get; }
-        public MainMenuUC(MainMenuComponent mainMenuComponent)
-        {
+        private SignInPageComponent SignInPageComponent { get; }
+
+        public SignInPageUC(SignInPageComponent component)
+        {         
             InitializeComponent();
-            MainMenuComponent = mainMenuComponent;
-            DataContext = MainMenuComponent;
-           
+            SignInPageComponent = component;
+            DataContext = component;
         }
-         
-    }
+
      
+
+    }
 }

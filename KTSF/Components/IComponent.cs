@@ -7,10 +7,13 @@ using System.Windows.Controls;
 
 namespace KTSF.Components
 {
-    interface IComponent
+    public interface IComponent
     {
-        public abstract AppControl AppControl { get; } 
-        public abstract UserControl Build { get; } 
-      
+        public AppControl AppControl { get; }
+        public UserControl? Build { get; } 
+        public string? Name { get; set; }
+
+        public void Show(object? parametr);
+
     }
 }
