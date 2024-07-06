@@ -31,17 +31,33 @@ namespace KTSF.Components
 
         [ObservableProperty] private string? isLoad;
 
-        public UserControl? Build => userControl ?? Ini();
+        public UserControl? Build
+        {
+            get
+            {
+                if (userControl == null)
+                {
+                    Ini();
+                }
+
+                return userControl;
+
+            }
+        }
+
 
         private UserControlVM binding;
 
         public string? Name { get; set; }
 
-        private UserControl Ini() { 
+        private void Ini() { 
             userControl = Initial();
             userControl.Loaded += UserControl_Loaded;
-            return userControl;
+     
+            ComponentLoaded();
         }
+
+        public virtual void ComponentLoaded() { }
          
         public virtual void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e) { }
 
