@@ -6,7 +6,15 @@
              xmlns:local="clr-namespace:KTSF.Components.TabComponents.CashiersWorkplaceComponent"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Рабочее место кассира"/>
-    </Grid>
+    <DockPanel>
+        <Grid DockPanel.Dock="Right" Width="300"  Background="Red">
+            
+        </Grid>
+        <Grid DockPanel.Dock="Top" Height="Auto" >
+            <ContentControl Content="{Binding SearchComponent.Build}"/>
+        </Grid>
+        <Grid DockPanel.Dock="Top" Height="100" Background="LightCoral"></Grid>
+        
+        <Grid Background="Green"></Grid>
+    </DockPanel>
 </UserControl>

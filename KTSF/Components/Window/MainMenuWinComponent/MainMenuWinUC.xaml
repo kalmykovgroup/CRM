@@ -143,10 +143,7 @@
 
 
             <Grid  Background="LightBlue">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+                 
                 <ContentControl Content="{Binding CurrentFrame.UserControl}"/>
                  
             </Grid>

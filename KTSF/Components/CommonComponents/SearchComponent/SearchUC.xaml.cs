@@ -27,5 +27,8 @@ namespace KTSF.Components.CommonComponents.SearchComponent
             SearchComponent = searchComponent;
             DataContext = SearchComponent;
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e) => SearchComponent.TextBox_TextChanged(sender, e);
+
     }
 }
