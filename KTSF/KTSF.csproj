@@ -20,14 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Components\LoadPageComponent\Img\hacking-hack.gif" />
+    <None Remove="Components\Window\LoadWinComponent\Img\hacking-hack.gif" />
     <None Remove="Img\loading.gif" />
     <None Remove="Img\warning.png" />
     <None Remove="language.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Components\LoadPageComponent\Img\hacking-hack.gif">
+    <Content Include="Components\Window\LoadWinComponent\Img\hacking-hack.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Img\loading.gif">

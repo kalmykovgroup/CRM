@@ -1,4 +1,5 @@
-﻿using KTSF.ViewModel;
+﻿using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
+using KTSF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,7 @@ namespace KTSF.Components.CommonComponents.SearchComponent
         {
         }
 
-        public override Component FactoryMethod(UserControlVM binding, AppControl appControl, object? data = null)
-         => new SearchComponent(binding, AppControl);
-
+     
         public override UserControl Initial() => new SearchUC(this);
          
     }

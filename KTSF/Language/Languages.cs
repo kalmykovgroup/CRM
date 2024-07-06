@@ -1,8 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using KTSF;
-using KTSF.Components.CommonComponents.CashiersWorkplaceComponent;
-using KTSF.Components.CommonComponents.SearchComponent;
-using KTSF.Components.MainMenuComponent;
+using KTSF.Components.CommonComponents.SearchComponent; 
+using KTSF.Components.TabComponents.CashiersWorkplaceComponent;
+using KTSF.Components.TabComponents.CompanyComponent; 
+using KTSF.Components.TabComponents.MoneyComponent;
+using KTSF.Components.TabComponents.PurchasesComponent;
+using KTSF.Components.TabComponents.SalesComponent;
+using KTSF.Components.TabComponents.SettingsComponent;
+using KTSF.Components.TabComponents.StaffComponent;
+using KTSF.Components.TabComponents.WarehouseComponent;
+using KTSF.Components.Window.MainMenuComponent;
 using KTSF.ViewModel;
 using Microsoft.Win32;
 using System;
@@ -58,7 +65,7 @@ namespace KTSFClassLibrary.Language
                     { eng, "Cashiers workplace" },
             }));
 
-            Regester(new(nameof(MainMenuComponent), new() {
+            Regester(new(nameof(MainMenuWinComponent), new() {
 
                     { rus , "Меню" },
                     { eng, "Menu" },
@@ -68,6 +75,47 @@ namespace KTSFClassLibrary.Language
 
                     { rus , "Поиск" },
                     { eng, "Search" },
+            }));
+             
+
+            Regester(new(nameof(CompanyComponent), new() {
+
+                    { rus , "Компания" },
+                    { eng, "Company" },
+            }));
+             
+            Regester(new(nameof(WarehouseComponent), new() {
+
+                    { rus , "Склад" },
+                    { eng, "Warehouse" },
+            }));
+
+            Regester(new(nameof(MoneyComponent), new() {
+
+                    { rus , "Деньги" },
+                    { eng, "Money" },
+            }));
+
+            Regester(new(nameof(PurchasesComponent), new() {
+
+                    { rus , "Закупка" },
+                    { eng, "Purchases" },
+            }));
+
+            Regester(new(nameof(SalesComponent), new() {
+
+                    { rus , "Продажи" },
+                    { eng, "Sales" },
+            }));
+            Regester(new(nameof(SettingsComponent), new() {
+
+                    { rus , "Настройки" },
+                    { eng, "Settings" },
+            }));
+            Regester(new(nameof(StaffComponent), new() {
+
+                    { rus , "Персонал" },
+                    { eng, "Staff" },
             }));
         }
 

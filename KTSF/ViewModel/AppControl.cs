@@ -12,16 +12,16 @@ using System.Collections.ObjectModel;
 using KTSF.ViewModel;
 using System.IO;
 using KTSF.Components;
-using KTSF.Components.LoadPageComponent;
-using KTSF.Components.SignInPageComponent;
-using KTSF.Components.MainMenuComponent;
-using static KTSF.ViewModel.RegisterComponents;
+using KTSF.Components.Window.LoadComponent;
+using KTSF.Components.SignInPageComponent;  
 using System.Configuration;
 using System.Windows;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using KTSFClassLibrary.Language;
 using Microsoft.Win32;
+using KTSF.Components.Window.SignInPageComponent;
+using KTSF.Components.Window.MainMenuComponent;
 
 namespace KTSF
 {
@@ -68,8 +68,8 @@ namespace KTSF
         public MainUser MainUser { get; set; } = new MainUser();
         public User User { get; set; } = new User();
 
-        public Component LoadPageComponent { get; private set; }
-        public Component SignInPageComponent { get; private set; }
+        public Component LoadComponent { get; private set; }
+        public Component SignInComponent { get; private set; }
         public Component MainMenuComponent { get; private set; }
         
         public Server Server { get; }
@@ -82,15 +82,14 @@ namespace KTSF
 
             CurrentFrame = new UserControlVM();
 
-            LoadPageComponent = new LoadPageComponent(CurrentFrame, this);
-            SignInPageComponent = new SignInPageComponent(CurrentFrame, this);
-            MainMenuComponent = new MainMenuComponent(CurrentFrame, this);
+            LoadComponent = new LoadWinComponent(CurrentFrame, this);
+            SignInComponent = new SignInWinComponent(CurrentFrame, this);
+            MainMenuComponent = new MainMenuWinComponent(CurrentFrame, this);
 
-            LoadPageComponent.Register();
-            SignInPageComponent.Register();
-            MainMenuComponent.Register();
 
-            LoadPageComponent.Show();
+            LoadComponent.Show();
+
+
         }
 
 

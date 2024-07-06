@@ -1,8 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KTSF.ViewModel; 
+using KTSF.Components.CommonComponents.SearchComponent;
+using KTSF.ViewModel;
+using KTSFClassLibrary.Language;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,87 +20,69 @@ using System.Xml.Linq;
 namespace KTSF.Components
 {
     public abstract partial class Component : ObservableObject, IComponent
-    {   
-        
+    {
+         
+        public static ObservableCollection<Component> History = new();
+
+     
         public AppControl AppControl { get; }
 
-        private UserControl? userControl; 
+        private UserControl? userControl;
 
         [ObservableProperty] private string? isLoad;
 
         public UserControl? Build => userControl ?? Ini();
 
-        private UserControlVM binding;        
+        private UserControlVM binding;
 
         public string? Name { get; set; }
 
-        private UserControl Ini() {
-            UserControl_PreLoaded(); //Для возможности запуска предварительных функций
-            userControl = Initial(); 
-            userControl.Loaded += UserControl_Loaded; 
+        private UserControl Ini() { 
+            userControl = Initial();
+            userControl.Loaded += UserControl_Loaded;
             return userControl;
         }
-
-        public virtual void UserControl_PreLoaded(){}
-        public virtual void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e){}
+         
+        public virtual void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e) { }
 
         public abstract UserControl Initial();
-         
+
 
         public Component(UserControlVM binding, AppControl appControl)
         {
             this.binding = binding;
             AppControl = appControl;
-        }
 
-
-        public virtual ImageSource? Icon => new BitmapImage(new Uri("/Img/warning.png"));
-
-        private UserControl? iconBtnUC;
-
-        //Инициализируем кнопки только у тех компонентов, у которых мы ее запрашиваем для навигации
-        public virtual UserControl? IconBtn
-        {
-            get
+            Type type = this.GetType();
+            //Устанавливаем ему языл
+            foreach (LanguageTranslation languageTranslation in this.AppControl.Languages.LanguageTranslations)
             {
-                if (iconBtnUC == null) iconBtnUC = new IconBtn(this);
-                return iconBtnUC;
+                if (languageTranslation.Component == type.Name)
+                {
+                    foreach (var item in languageTranslation.Translations)
+                    {
+                        if (item.Key.Code == this.AppControl.Languages.Selected.Code)
+                        {
+                            this.Name = item.Value;
+                        }
+                    }
+                }
+
             }
+
         }
 
-        private UserControl? textBtnUC;
 
-        //Инициализируем кнопки только у тех компонентов, у которых мы ее запрашиваем для навигации
-        public virtual UserControl? TextBtn
-        {
-            get
-            {
-                if (textBtnUC == null) textBtnUC = new TextBtn(this);
-                return textBtnUC;
-            }
-        }
-
-        private UserControl? iconTextUC;
-
-        //Инициализируем кнопки только у тех компонентов, у которых мы ее запрашиваем для навигации
-        public virtual UserControl? IconTextBtn
-        {
-            get
-            {
-                if (iconTextUC == null) iconTextUC = new IconTextBtn(this);
-                return iconTextUC;
-            }
-        }
-         
- 
-
-        public abstract Component FactoryMethod(UserControlVM binding, AppControl appControl, object? data = null);
 
         [RelayCommand]
-        public void Show(object? parametr = null) => binding.UserControl = Build;
+        public virtual void Show(object? parametr = null)
+        {
+            binding.UserControl = Build;
+            History.Add(this);
+        }
         
 
-        public override string ToString() => Name ?? "No name"; 
+        public override string ToString() => Name ?? this.GetType().Name; 
 
        
     }
