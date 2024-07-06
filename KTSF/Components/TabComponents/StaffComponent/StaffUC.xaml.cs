@@ -20,10 +20,16 @@ namespace KTSF.Components.TabComponents.StaffComponent
     /// </summary>
     public partial class StaffUC : UserControl
     {
+        
+
         public StaffUC(StaffComponent StaffComponent)
         {
             InitializeComponent();
             DataContext = StaffComponent;
         }
+
+        
+
+
     }
 }

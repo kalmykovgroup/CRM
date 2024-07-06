@@ -16,6 +16,10 @@ namespace KTSFClassLibrary
         public string Surname { get; set; }
         public string Patronymic { get; set; }
 
+        public int SeriaPassport {  get; set; }
+        public int NumberPassport { get; set; }
+        // докидать полей
+
         public List<AccessAttribute> AccessAttibutes { get; } = new List<AccessAttribute>();
 
     }
