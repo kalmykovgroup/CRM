@@ -1,29 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using KTSFClassLibrary.ABAC;
 
 namespace KTSFClassLibrary
 {
     public partial class User : ObservableObject
-    { 
+    {
         public int Id { get; set; }
 
-        [ObservableProperty] public string email = String.Empty;
-        [ObservableProperty] public string phone = String.Empty;
+        public int ObjectId { get; set; }
+        public Object Object { get; set; }
 
-        public string login = String.Empty;
+        public string Barcode { get; set; } //Штрих-код 
 
-        public string Password { get; set; } = String.Empty;
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Patronymic { get; set; }
 
-        public string AccessToken { get; set; } = String.Empty;
-
-        public string Name {  get; set; }
-        public string Surname {  get; set; }
-        public string Patronimyc {  get; set; }
-
-
-        public override bool Equals(object? obj)
-        {
-            return obj is not null && obj is User user && user.Id == Id;
-        }
+        public List<AccessAttribute> AccessAttibutes { get; } = new List<AccessAttribute>();
 
     }
 }

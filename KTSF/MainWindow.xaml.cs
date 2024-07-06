@@ -19,9 +19,10 @@ namespace KTSF
         private AppControl AppControl { get; }
         public MainWindow()
         {
-            AppControl = new AppControl(this);
-            DataContext = AppControl;
             InitializeComponent();
+
+            AppControl = new AppControl(this);
+            DataContext = AppControl; 
         }
     }
 }

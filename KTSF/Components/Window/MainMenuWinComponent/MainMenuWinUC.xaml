@@ -1,0 +1,155 @@
+﻿<UserControl x:Class="KTSF.Components.Window.MainMenuComponent.MainMenuWinUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:components="clr-namespace:KTSF.Components"
+             xmlns:converters="clr-namespace:KTSF.Converters"
+             xmlns:language="clr-namespace:KTSFClassLibrary.Language"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" x:Name="UserControl">
+    <UserControl.Resources>
+        <converters:QualsValueToBoolConverter x:Key="QualsValueToBoolConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top"   Background="#C9D6A8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="Black" BorderThickness="0 0 0 1">
+                    <TextBlock Text="Название компании" VerticalAlignment="Center" Padding="5" Margin="10 0 0 0" FontSize="17" FontWeight="DemiBold"/>
+                </Border>
+
+                <ComboBox x:Name="Languege" ItemsSource="{Binding AppControl.Languages}" Width="100" HorizontalAlignment="Right"> 
+                </ComboBox>
+
+
+            </Grid>
+            <Grid DockPanel.Dock="Left" Width="200" Background="#A8D6BF">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <ItemsControl ItemsSource="{Binding LeftNavigationBar}" HorizontalContentAlignment="Stretch"   d:ItemsSource="{d:SampleData ItemCount=4}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding ShowCommand}">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border BorderBrush="Black" BorderThickness="0 0 0.5 0.5" Padding="10 5">
+                                            <TextBlock d:Text="Nav"  Text="{Binding}" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="AliceBlue"/>
+                                                        </Trigger>
+                                                        <DataTrigger Value="True">
+                                                            <DataTrigger.Binding>
+                                                                <MultiBinding Converter="{StaticResource QualsValueToBoolConverter}">
+                                                                    <Binding Path="Build"/>
+                                                                    <Binding Path="DataContext.CurrentFrame.UserControl"   ElementName="UserControl"/>
+                                                                </MultiBinding>
+                                                            </DataTrigger.Binding>
+                                                            <Setter Property="Background" Value="Gray"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+
+                </ItemsControl>
+
+                <ScrollViewer Grid.Row="1">
+                    <ItemsControl ItemsSource="{x:Static components:Component.History}" HorizontalContentAlignment="Stretch"   d:ItemsSource="{d:SampleData ItemCount=4}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button>
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="0 0 0.5 0.5" Padding="10 5">
+                                                <TextBlock d:Text="ComponentName"  Text="{Binding}" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+
+
+            <Border DockPanel.Dock="Top" BorderBrush="Black" BorderThickness="0 0 0 1"   Background="AliceBlue">
+                <ItemsControl ItemsSource="{Binding TopNavigationBar}" HorizontalContentAlignment="Stretch"   d:ItemsSource="{d:SampleData ItemCount=4}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding ShowCommand }" CommandParameter="{Binding}">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border BorderBrush="Black" BorderThickness="0 0 0.5 0.5" Padding="10 5">
+                                            <TextBlock d:Text="Nav"  Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="White"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#AAD8C1"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel  />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+
+                </ItemsControl>
+            </Border>
+
+
+            <Grid  Background="LightBlue">
+                 
+                <ContentControl Content="{Binding CurrentFrame.UserControl}"/>
+                 
+            </Grid>
+        </DockPanel>
+         
+
+        <ContentControl Template="{StaticResource ContentControlLoad}"/>
+    </Grid>
+</UserControl>

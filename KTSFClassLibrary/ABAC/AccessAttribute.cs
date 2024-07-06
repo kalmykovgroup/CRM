@@ -11,8 +11,8 @@ namespace KTSFClassLibrary.ABAC
     {
         public int Id { get; set; }
 
-        public int CashierId { get; set; }
-        public Cashier Cashier { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
 
         public int DataBaseActionId { get; set; }
         public int DatabaseTableId { get; set; }
