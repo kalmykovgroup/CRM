@@ -126,7 +126,7 @@ namespace KTSF.Db
         
         public async Task<List<User>> GetUsers() //Получить список всех пользователей
         {
-            await Task.Delay(1000);
+            await Task.Delay(3000);
 
             return new List<User> {
                 new User() { Name = "Кассир 1", Id = 1 },
