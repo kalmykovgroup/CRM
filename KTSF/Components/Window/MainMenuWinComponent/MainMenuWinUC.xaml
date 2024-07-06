@@ -52,7 +52,7 @@
                                                         <DataTrigger Value="True">
                                                             <DataTrigger.Binding>
                                                                 <MultiBinding Converter="{StaticResource QualsValueToBoolConverter}">
-                                                                    <Binding Path="Build"/>
+                                                                    <Binding Path="UserControl"/>
                                                                     <Binding Path="DataContext.CurrentFrame.UserControl"   ElementName="UserControl"/>
                                                                 </MultiBinding>
                                                             </DataTrigger.Binding>
