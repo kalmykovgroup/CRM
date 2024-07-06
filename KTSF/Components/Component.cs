@@ -57,7 +57,7 @@ namespace KTSF.Components
             ComponentLoaded();
         }
 
-        public abstract void ComponentLoaded();
+        public virtual void ComponentLoaded() { }
          
         public virtual void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e) { }
 

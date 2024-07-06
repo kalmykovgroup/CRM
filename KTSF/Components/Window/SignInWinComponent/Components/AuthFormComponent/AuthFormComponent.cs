@@ -17,6 +17,7 @@ namespace KTSF.Components.SignInPageComponent.Components.AuthFormComponent
         public AuthFormComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl){}
  
         public override UserControl Initial() => new AuthFormUC(this);
+ 
 
         #region Commands
 
@@ -25,6 +26,7 @@ namespace KTSF.Components.SignInPageComponent.Components.AuthFormComponent
         [RelayCommand]
         public void AuthClick(object? parameter) => AuthClickAction?.Invoke(parameter);
 
+     
         #endregion
     }
 }
