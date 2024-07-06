@@ -13,7 +13,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
 {
     public class StaffComponent : TabComponent
     {
-        public ObservableCollection<User> Users { get; } = new();
+        public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
 
         public StaffComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
         {
@@ -31,22 +31,23 @@ namespace KTSF.Components.TabComponents.StaffComponent
         public async override  void ComponentLoaded()
         {
             IsLoad = "Загрузка пользователей";
-           
-            _ = await GetUserList();
+
+            await Load();
 
             IsLoad = null;
         }
 
-        public async Task<bool> GetUserList()
+        public async Task Load()
         {
-            List<User> users = await AppControl.Server.GetUsers();
-            foreach (User user in users)
-            {
+            List<User> users = await AppControl.Server.GetUsers(); 
+
+            foreach (User user in users) {
                 Users.Add(user);
-            }         
-            
-            return true;
+            }
+             
         }
+
+
 
     }
 }

@@ -27,7 +27,7 @@ namespace KTSF.Components
      
         public AppControl AppControl { get; }
 
-        private UserControl? userControl;
+        public UserControl? UserControl { get; private set; }
 
         [ObservableProperty] private string? isLoad;
 
@@ -35,12 +35,12 @@ namespace KTSF.Components
         {
             get
             {
-                if (userControl == null)
+                if (UserControl == null)
                 {
                     Ini();
                 }
 
-                return userControl;
+                return UserControl;
 
             }
         }
@@ -50,9 +50,9 @@ namespace KTSF.Components
 
         public string? Name { get; set; }
 
-        private void Ini() { 
-            userControl = Initial();
-            userControl.Loaded += UserControl_Loaded;
+        private void Ini() {
+            UserControl = Initial();
+            UserControl.Loaded += UserControl_Loaded;
      
             ComponentLoaded();
         }
