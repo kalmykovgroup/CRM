@@ -21,13 +21,6 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
         public override UserControl Initial() => new StaffUC(this);
 
-        //public override async void UserControl_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    IsLoad = "Загрузка пользователей";
-        //    await Task.Delay(2000);
-        //    IsLoad = null;
-        //}      
-
         public async override  void ComponentLoaded()
         {
             IsLoad = "Загрузка пользователей";
@@ -45,9 +38,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
                 Users.Add(user);
             }
              
-        }
-
-
+        }     
 
     }
 }

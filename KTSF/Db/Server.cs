@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -126,12 +127,24 @@ namespace KTSF.Db
         
         public async Task<List<User>> GetUsers() //Получить список всех пользователей
         {
-            await Task.Delay(3000);
+            await Task.Delay(0);
 
             return new List<User> {
-                new User() { Name = "Кассир 1", Id = 1 },
-                new User() { Name = "Кассир 2", Id = 2 },
-                new User() { Name = "Кассир 3", Id = 3 },
+                new User() { Id = 1 , Name = "Иван" , Surname = "Иванов", 
+                             Patronymic = "Иванович", PassportSeries = 1111, PassportNumber = 123456,
+                             InnNumber = "0123456789012", Snils = "123-456-789-00", Position = "Кассир",
+                             Address = "г.Москва, ул.Тверская..." , PhoneNumber = "8(925)123-45-67",
+                             Email = "ivanov@mail.ru"},
+                new User() { Id = 1 , Name = "Петр" , Surname = "Петров",
+                             Patronymic = "Петрович", PassportSeries = 2222, PassportNumber = 123456,
+                             InnNumber = "3123456789012", Snils = "123-456-789-55", Position = "Директор",
+                             Address = "г.Москва, ул.Болотная..." , PhoneNumber = "8(985)987-65-43",
+                             Email = "petrov@mail.ru"},
+               new User() { Id = 1 , Name = "Федор" , Surname = "Федоров",
+                             Patronymic = "Федорович", PassportSeries = 3333, PassportNumber = 123456,
+                             InnNumber = "6123456789012", Snils = "123-456-789-99", Position = "Управляющий",
+                             Address = "г.Москва, ул.Абрикововая..." , PhoneNumber = "8(919)444-55-66",
+                             Email = "fedorov@mail.ru"},
             };
 
         }

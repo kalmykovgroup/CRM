@@ -28,8 +28,9 @@ namespace KTSF.Components.TabComponents.StaffComponent
             DataContext = StaffComponent;
         }
 
-        
-
-
+        private void infoButton_Click(object sender, RoutedEventArgs e)
+        {
+            //bottomPart.Visibility = Visibility.Collapsed;
+        }
     }
 }
