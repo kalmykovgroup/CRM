@@ -15,5 +15,7 @@ namespace KTSFClassLibrary
 
         public string? Name { get; set; } 
         public string Address { get; set; }
+        
+        //test 
     }
 }
