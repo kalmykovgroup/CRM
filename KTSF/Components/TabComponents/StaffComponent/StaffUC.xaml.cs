@@ -19,8 +19,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
     /// Логика взаимодействия для StaffUC.xaml
     /// </summary>
     public partial class StaffUC : UserControl
-    {
-        
+    {        
 
         public StaffUC(StaffComponent StaffComponent)
         {
@@ -28,9 +27,9 @@ namespace KTSF.Components.TabComponents.StaffComponent
             DataContext = StaffComponent;
         }
 
-        private void infoButton_Click(object sender, RoutedEventArgs e)
+        private void userInfoToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            //bottomPart.Visibility = Visibility.Collapsed;
+
         }
     }
 }

@@ -24,6 +24,8 @@ namespace KTSFClassLibrary
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
+        public DateTime ApplyingDate { get; set; } = DateTime.Now; // Дата оформления 
+        public DateTime? LayoffDate { get; set; } // Дата увольнения
 
         // фото сотрудника - ???
         // ИНН (12 цифр) - string
@@ -33,6 +35,8 @@ namespace KTSFClassLibrary
         // Адрес
         // Телефон
         // Почта
+        // Дата оформления 
+        // Дата увольнения
 
 
         public List<AccessAttribute> AccessAttibutes { get; } = new List<AccessAttribute>();
