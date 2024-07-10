@@ -25,11 +25,8 @@ namespace KTSF.Components.TabComponents.StaffComponent
         {
             InitializeComponent();
             DataContext = StaffComponent;
+           
         }
-
-        private void userInfoToggleButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
     }
 }

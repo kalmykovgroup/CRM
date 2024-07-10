@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent;
 using KTSF.ViewModel;
 using KTSFClassLibrary;
@@ -12,11 +13,16 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace KTSF.Components.TabComponents.StaffComponent
-{
+{    
     public partial class StaffComponent : TabComponent
     {
         public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
         public Component SearchComponent { get; }
+
+        [ObservableProperty]
+        public bool isLoaded = false;
+      
+      
 
         public StaffComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
         {
@@ -26,29 +32,23 @@ namespace KTSF.Components.TabComponents.StaffComponent
         public override UserControl Initial() => new StaffUC(this);
 
         public async override void ComponentLoaded()
-        {
+        {           
             IsLoad = "Загрузка пользователей";
 
             await Load();
 
             IsLoad = null;
+            IsLoaded = true;
         }
 
         public async Task Load()
-        {
+        {           
             List<User> users = await AppControl.Server.GetUsers();
 
             foreach (User user in users) {
                 Users.Add(user);
             }
-
-        }
-
-        [RelayCommand]
-        public void ShowInfo()
-        {
-            //MessageBox.Show("ShowInfo");
-        }
+        }      
 
         [RelayCommand]
         public void AddNewUser()
@@ -75,13 +75,27 @@ namespace KTSF.Components.TabComponents.StaffComponent
             if (userWindow.ShowDialog() == true)
             {
                 Users.RemoveAt(index);
-                Users.Add(user);                
+                Users.Add(user);         
+                
+                AppControl.Server.UpdateUser(user); 
 
                 // в реале -> запрос на сервер, для сохранения в БД
                 // если User.LayoffDate != null -> перемещать в другую таблицу ??
             }
         }
 
+        [RelayCommand]
+        public void DeleteUser(object sender)
+        {
+            User user = (User)sender;
+
+            MessageBox.Show("Delete");
+            MessageBox.Show(user.Surname);
+
+            AppControl.Server?.DeleteUser(user);
+        }
+
+      
 
     }
 }

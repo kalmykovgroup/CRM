@@ -10,14 +10,16 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-
-
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
+           
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition />
             </Grid.RowDefinitions>
+
+            <!--  USerControl ContentControlLoad  -->
+            <ContentControl Grid.Row="0" Grid.RowSpan="2" Foreground="Black" Template="{StaticResource ContentControlLoad}" />
 
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -25,8 +27,20 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoaded}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
                 <!--  USerControl SearchComponent  -->
                 <ContentControl Grid.Column="0" Content="{Binding SearchComponent.Build}" />
+               
 
                 <Button
                     Grid.Column="1"
@@ -167,6 +181,8 @@
                                         Background="White"
                                         BorderBrush="Black"
                                         BorderThickness="0,0,0,1"
+                                        Command="{Binding DataContext.DeleteUserCommand, ElementName=UserControl}"
+                                        CommandParameter="{Binding}"
                                         Content="Удалить" />
                                     <ToggleButton
                                         x:Name="userInfoToggleButton"
@@ -177,8 +193,6 @@
                                         Background="White"
                                         BorderBrush="Black"
                                         BorderThickness="0,0,0,1"
-                                        Click="userInfoToggleButton_Click"
-                                        Command="{Binding DataContext.ShowInfoCommand, ElementName=UserControl}"
                                         Content="Подробнее" />
                                 </Grid>
 
@@ -304,10 +318,13 @@
             </ItemsControl>
 
             <!--<DataGrid ItemsSource="{Binding Users}" />-->
-            <ContentControl Foreground="Black" Template="{StaticResource ContentControlLoad}" />
-        </Grid>
+           
+           
+        </Grid>       
 
     </ScrollViewer>
+    
+    
 
 
 </UserControl>

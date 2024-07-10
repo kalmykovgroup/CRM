@@ -101,15 +101,13 @@ namespace KTSF.Db
         //Получить списанные товары
         public async Task<List<Product>> GetDecommissionedProducts()
         { 
-
             await Task.Delay(1000);
 
             List<Product> result = new List<Product> {
                 new Product() { Name = "Product 11", Id = 11 },
                 new Product() { Name = "Product 12", Id = 12 },
                 new Product() { Name = "Product 13", Id = 13 }, 
-            };
-             
+            };             
 
             return result;
         }
@@ -119,16 +117,14 @@ namespace KTSF.Db
         {
             await Task.Delay(1000);
 
-            return new Product() { Name = "Product 12", Id = 12 };
-                
+            return new Product() { Name = "Product 12", Id = 12 };                
         }
 
         #region User
         
         public async Task<List<User>> GetUsers() //Получить список всех пользователей
         {
-            await Task.Delay(0);
-            
+            await Task.Delay(2000);            
 
             return new List<User> {
                 new User() { Id = 1 , Name = "Иван" , Surname = "Иванов", 
@@ -147,7 +143,6 @@ namespace KTSF.Db
                              Address = "г.Москва, ул.Абрикововая..." , PhoneNumber = "8(919)444-55-66",
                              Email = "fedorov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01)},
             };
-
         }
 
         //Нужно определить где будет отслеживатся информация о том каие поля мы меняем
