@@ -24,38 +24,63 @@ namespace KTSF.Db
 
             return true;
         }
+        #region Авторизация
 
-        public async Task<(bool result, string? error, MainUser mainUser)> Authorization(MainUser mainUser)
+            //Делаем запрос на авторизацию владельца
+            //Возвращаем список доступным компаний, обьектов и список пользователей на этих обьектах
+
+            public async Task<(bool result, string? error, MainUser mainUser)> Authorization(MainUser mainUser)
+            {
+                await Task.Delay(1000);
+
+                if (true)
+                {
+                    return (true, null, new MainUser()
+                    {
+                        Username = "Tester",
+                        Password = "Tester",
+                        Email = "Admin@mail.ru",
+                        Name = "Name",
+                        Surname = "Surname",
+                        Patronimyc = "Patronimyc"
+                    });
+                }
+                else
+                {
+                    return (false, "Логин или пароль не подходят", mainUser);
+                }
+
+            }
+
+           //Делаем запрос на получиние списка пользователей программы 
+            public async Task<bool> LoadData()
+            {
+                await Task.Delay(0);
+
+                return true;
+            }
+
+
+        public async Task<(bool result, string? error, MainUser mainUser)> Authentication(User user)
         {
             await Task.Delay(0);
 
-            if (true)
+            return (true, null, new MainUser()
             {
-                return (true, null, new MainUser()
-                {
-                    Username = "Tester",
-                    Password = "Tester",
-                    Email = "Admin@mail.ru",
-                    Name = "Name",
-                    Surname = "Surname",
-                    Patronimyc = "Patronimyc"
-                });
-            }
-            else
-            {
-                return (false, "Логин или пароль не подходят", mainUser);
-            }
+                Username = "Tester",
+                Password = "Tester",
+                Email = "Admin@mail.ru",
+                Name = "Name",
+                Surname = "Surname",
+                Patronimyc = "Patronimyc"
+            });
 
-           
         }
 
-        public async Task<bool> LoadData()
-        {        
-            await Task.Delay(0);
+        #endregion
 
-            return true;
-        }
 
+       
 
         //Поиск товаров
         public async Task<List<Product>> SearchProducts(string text)

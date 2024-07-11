@@ -86,7 +86,6 @@ namespace KTSF
             SignInComponent = new SignInWinComponent(CurrentFrame, this);
             MainMenuComponent = new MainMenuWinComponent(CurrentFrame, this);
 
-
             LoadComponent.Show();
 
 
