@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -125,15 +126,13 @@ namespace KTSF.Db
         //Получить списанные товары
         public async Task<List<Product>> GetDecommissionedProducts()
         { 
-
             await Task.Delay(1000);
 
             List<Product> result = new List<Product> {
                 new Product() { Name = "Product 11", Id = 11 },
                 new Product() { Name = "Product 12", Id = 12 },
                 new Product() { Name = "Product 13", Id = 13 }, 
-            };
-             
+            };             
 
             return result;
         }
@@ -143,22 +142,32 @@ namespace KTSF.Db
         {
             await Task.Delay(1000);
 
-            return new Product() { Name = "Product 12", Id = 12 };
-                
+            return new Product() { Name = "Product 12", Id = 12 };                
         }
 
         #region User
         
         public async Task<List<User>> GetUsers() //Получить список всех пользователей
         {
-            await Task.Delay(1000);
+            await Task.Delay(2000);            
 
             return new List<User> {
-                new User() { Name = "Кассир 1", Id = 1 },
-                new User() { Name = "Кассир 2", Id = 2 },
-                new User() { Name = "Кассир 3", Id = 3 },
+                new User() { Id = 1 , Name = "Иван" , Surname = "Иванов", 
+                             Patronymic = "Иванович", PassportSeries = 1111, PassportNumber = 123456,
+                             InnNumber = "0123456789012", Snils = "123-456-789-00", Position = "Кассир",
+                             Address = "г.Москва, ул.Тверская..." , PhoneNumber = "8(925)123-45-67",
+                             Email = "ivanov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01)},
+                new User() { Id = 1 , Name = "Петр" , Surname = "Петров",
+                             Patronymic = "Петрович", PassportSeries = 2222, PassportNumber = 123456,
+                             InnNumber = "3123456789012", Snils = "123-456-789-55", Position = "Директор",
+                             Address = "г.Москва, ул.Болотная..." , PhoneNumber = "8(985)987-65-43",
+                             Email = "petrov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01)},
+               new User() { Id = 1 , Name = "Федор" , Surname = "Федоров",
+                             Patronymic = "Федорович", PassportSeries = 3333, PassportNumber = 123456,
+                             InnNumber = "6123456789012", Snils = "123-456-789-99", Position = "Управляющий",
+                             Address = "г.Москва, ул.Абрикововая..." , PhoneNumber = "8(919)444-55-66",
+                             Email = "fedorov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01)},
             };
-
         }
 
         //Нужно определить где будет отслеживатся информация о том каие поля мы меняем

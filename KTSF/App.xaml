@@ -1,33 +1,40 @@
-﻿<Application x:Class="KTSF.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:KTSF"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-              mc:Ignorable="d"
-              xmlns:gif="http://wpfanimatedgif.codeplex.com"  
-             StartupUri="MainWindow.xaml">
+﻿<Application
+    x:Class="KTSF.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:gif="http://wpfanimatedgif.codeplex.com"
+    xmlns:local="clr-namespace:KTSF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    StartupUri="MainWindow.xaml"
+    mc:Ignorable="d">
     <Application.Resources>
-        <SolidColorBrush  x:Key="ColorGreen" Color="#3A7F25"  />
-        <SolidColorBrush  x:Key="ColorCompanyNameYellow" Color="Yellow"  />
-        <SolidColorBrush  x:Key="ColorScarlet" Color="#D91842"  />
-        <SolidColorBrush  x:Key="ColorHoverScarlet" Color="#BB0D33"  />
-        <SolidColorBrush  x:Key="ColorErrorString" Color="Red"  /> 
+        <SolidColorBrush x:Key="ColorGreen" Color="#3A7F25" />
+        <SolidColorBrush x:Key="ColorCompanyNameYellow" Color="Yellow" />
+        <SolidColorBrush x:Key="ColorScarlet" Color="#D91842" />
+        <SolidColorBrush x:Key="ColorHoverScarlet" Color="#BB0D33" />
+        <SolidColorBrush x:Key="ColorErrorString" Color="Red" />
 
 
         <ControlTemplate x:Key="btnNavTemplate" TargetType="Button">
 
-            <Border BorderBrush="Black" BorderThickness="0 0 0 1" Height="30" Cursor="Hand" Padding="5 0">
-                <TextBlock Text="{TemplateBinding Content}" 
-                   HorizontalAlignment="Center"
-                   FontWeight="DemiBold" 
-                   VerticalAlignment="Center"/>
+            <Border
+                Height="30"
+                Padding="5,0"
+                BorderBrush="Black"
+                BorderThickness="0,0,0,1"
+                Cursor="Hand">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontWeight="DemiBold"
+                    Text="{TemplateBinding Content}" />
                 <Border.Style>
                     <Style TargetType="Border">
-                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Background" Value="White" />
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#B0B0B0"/>
+                                <Setter Property="Background" Value="#B0B0B0" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -36,40 +43,44 @@
 
         </ControlTemplate>
 
-      
+
 
         <Style x:Key="imgLoadStyle" TargetType="Image">
-            <Setter Property="Panel.ZIndex" Value="2"/> 
-            <Setter Property="gif:ImageBehavior.AnimatedSource" Value="/Img/loading.gif"/>  
-            <Setter Property="Width" Value="100"/>
-            <Setter Property="Margin" Value="0 -50 0 0"/>
-            <Setter Property="Visibility" Value="Visible"/>
-            
+            <Setter Property="Panel.ZIndex" Value="2" />
+            <Setter Property="gif:ImageBehavior.AnimatedSource" Value="/Img/loading.gif" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Margin" Value="0,-50,0,0" />
+            <Setter Property="Visibility" Value="Visible" />
+
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsLoad}" Value="{x:Null}">
-                    <Setter Property="Visibility" Value="Hidden"/> 
-                    <d:Setter Property="Visibility" Value="Visible"/>
+                    <Setter Property="Visibility" Value="Hidden" />
+                    <d:Setter Property="Visibility" Value="Visible" />
                 </DataTrigger>
             </Style.Triggers>
-             
+
         </Style>
 
 
         <Style x:Key="textStatusLoadStyle" TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="17"/>  
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="17" />
         </Style>
 
         <ControlTemplate x:Key="ContentControlLoad" TargetType="ContentControl">
-            <Grid  VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.RowDefinitions>
-                    <RowDefinition/> 
-                    <RowDefinition/> 
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <Image Style="{StaticResource imgLoadStyle}" d:Source="/Img/loading.gif"></Image>
-                <TextBlock Foreground="{TemplateBinding Foreground}" Text="{Binding IsLoad}" d:Text="Load" Style="{StaticResource textStatusLoadStyle}"/>
+                <Image d:Source="/Img/loading.gif" Style="{StaticResource imgLoadStyle}" />
+                <TextBlock
+                    d:Text="Load"
+                    Foreground="{TemplateBinding Foreground}"
+                    Style="{StaticResource textStatusLoadStyle}"
+                    Text="{Binding IsLoad}" />
             </Grid>
         </ControlTemplate>
 
