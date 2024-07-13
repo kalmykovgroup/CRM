@@ -17,6 +17,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
     public partial class StaffComponent : TabComponent
     {
         public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
+        public ObservableCollection<User> FiredUsers { get; } = new ObservableCollection<User>();
         public Component SearchComponent { get; }
 
         [ObservableProperty]
@@ -48,6 +49,13 @@ namespace KTSF.Components.TabComponents.StaffComponent
             foreach (User user in users) {
                 Users.Add(user);
             }
+
+            List<User> firedUsers = await AppControl.Server.GetFiredUsers();
+
+            foreach (User user in firedUsers)
+            {
+                FiredUsers.Add(user);
+            }
         }      
 
         [RelayCommand]
@@ -67,31 +75,59 @@ namespace KTSF.Components.TabComponents.StaffComponent
         [RelayCommand]
         public void EditUser(object sender)
         {
-            User user = (User)sender;           
-            
-            int index = Users.IndexOf(user);
+            User user = (User)sender;
 
-            EditStaffWindow userWindow = new EditStaffWindow(user);
+            List<User> copyUsers = new List<User> ();
+
+            foreach (User us in Users)
+            {
+                copyUsers.Add(
+                    new User() {Id = us.Id, Name = us.Name, Surname = us.Surname, Patronymic = us.Patronymic,
+                                PassportSeries = us.PassportSeries, PassportNumber = us.PassportNumber,
+                                InnNumber = us.InnNumber, Snils = us.Snils, Position = us.Position, Address = us.Address,
+                                PhoneNumber = us.PhoneNumber, Email = us.Email, ApplyingDate = us.ApplyingDate,
+                                IsFired = us.IsFired});
+            }
+
+            EditStaffWindow userWindow = new EditStaffWindow(user); // передавать копию??
             if (userWindow.ShowDialog() == true)
             {
-                Users.RemoveAt(index);
-                Users.Add(user);         
-                
-                AppControl.Server.UpdateUser(user); 
+                copyUsers.Clear();
+                copyUsers = Users.ToList();
+                Users.Clear();
+                foreach (User copyUser in copyUsers)
+                {
+                    Users.Add(copyUser);
+                }
+
+                AppControl.Server.UpdateUser(user);
 
                 // в реале -> запрос на сервер, для сохранения в БД
                 // если User.LayoffDate != null -> перемещать в другую таблицу ??
+            }
+            else
+            {
+                Users.Clear();
+                foreach (User copyUser in copyUsers)
+                {
+                    Users.Add(copyUser);
+                }
             }
         }
 
         [RelayCommand]
         public void DeleteUser(object sender)
         {
-            User user = (User)sender;
+            User user = (User)sender;           
+            user.IsFired = true;
+            user.LayoffDate = DateTime.Now;
 
-            MessageBox.Show("Delete");
-            MessageBox.Show(user.Surname);
+            Users.Remove(user);
+            FiredUsers.Add(user);
 
+            // на сервер -> удаление Юзера
+            // с сервера -> список активных изеров
+            // с сервера -> список уволенных изеров
             AppControl.Server?.DeleteUser(user);
         }
 

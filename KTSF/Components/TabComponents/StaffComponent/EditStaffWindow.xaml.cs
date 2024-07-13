@@ -20,12 +20,12 @@ namespace KTSF
     /// </summary>
     public partial class EditStaffWindow : Window
     {
-        private User User;
+        private User User;        
 
         public EditStaffWindow(User user)
         {
             InitializeComponent();
-            this.User = user;
+            this.User = user;           
 
             this.DataContext = User;
         }
