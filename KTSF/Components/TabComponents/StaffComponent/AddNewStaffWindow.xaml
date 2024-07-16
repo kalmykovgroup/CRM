@@ -12,18 +12,48 @@
     mc:Ignorable="d">
 
     <Window.Resources>
+
+        <!--TextBlock-->
         <Style x:Key="TextBlockStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="10,0" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="TextAlignment" Value="Right" />
         </Style>
 
+        <!--TextBox-->
         <Style x:Key="TextBoxStyle" TargetType="TextBox">
             <Setter Property="Width" Value="200" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Background" Value="LightBlue" />
             <Setter Property="BorderThickness" Value="0,0,0,1" />
             <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+
+        <!--Button-->
+        <Style x:Key="buttonStyle" TargetType="Button">
+            <Setter Property="Control.Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="BorderBrush" Value="Black" />
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#ef8b1c" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border
+                            Background="Transparent"
+                            BorderBrush="#ef8b1c"
+                            BorderThickness="0,0,0,1">
+
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
 
@@ -216,16 +246,14 @@
                 x:Name="saveButton"
                 Width="90"
                 Height="20"
-                Background="Transparent"
-                BorderThickness="0,0,0,1"
+                Style="{StaticResource buttonStyle}"           
                 Click="saveButtonButton_Click"
                 Content="Сохранить" />
             <Button
                 x:Name="cancelButton"
                 Width="90"
                 Height="20"
-                Background="Transparent"
-                BorderThickness="0,0,0,1"
+                Style="{StaticResource buttonStyle}"
                 Click="cancelButton_Click"
                 Content="Отмена" />
         </UniformGrid>

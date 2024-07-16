@@ -12,29 +12,47 @@ namespace KTSFClassLibrary
         public int ObjectId { get; set; }
         public Object Object { get; set; }
 
-         
-        [MaxLength(255)]
-        public string Barcode { get; set; } //Штрих-код 
-         
-        [MaxLength(255)]
-        public string Name { get; set; }
-         
-        [MaxLength(255)]
-        public string Surname { get; set; }
-         
-        [MaxLength(255)]
-        public string Patronymic { get; set; }
 
-        public string PassportSeries {  get; set; }
-        public string PassportNumber { get; set; }
-        public string InnNumber { get; set; } // переименовать??
-        public string Snils { get; set; } // переименовать??
-        public string Position { get; set; }
-        public string Address { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
+        [MaxLength(255)]
+        public string Barcode { get; set; } = ""; //Штрих-код 
+
+        [MaxLength(255)]
+        public string Name { get; set; } = "";
+
+        [MaxLength(255)]
+        public string Surname { get; set; } = "";
+
+        [MaxLength(255)]
+        public string Patronymic { get; set; } = "";
+
+        [MaxLength(255)]
+        public string PassportSeries { get; set; } = "";
+
+        [MaxLength(255)]
+        public string PassportNumber { get; set; } = "";
+
+        [MaxLength(255)]
+        public string InnNumber { get; set; } = ""; // переименовать??
+
+        [MaxLength(255)]
+        public string Snils { get; set; } = ""; // переименовать??
+
+        [MaxLength(255)]
+        public string Position { get; set; } = "";
+
+        [MaxLength(255)]
+        public string Address { get; set; } = "";
+
+        [MaxLength(255)]
+        public string PhoneNumber { get; set; } = "";
+
+        [MaxLength(255)]
+        public string Email { get; set; } = "";
+
         public DateTime ApplyingDate { get; set; } = DateTime.Now; // Дата оформления 
+
         public DateTime? LayoffDate { get; set; } // Дата увольнения
+
         public bool IsFired { get; set; } = false;
 
         // фото сотрудника - ???

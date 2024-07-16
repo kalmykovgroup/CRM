@@ -21,10 +21,10 @@ namespace CRST_ServerAPI.Data
     { 
  
 
-        private static string tablename = "users";
+        private static string tableName = "users";
          
 
-        private static readonly string _insertQuery = $@"insert into {tablename}
+        private static readonly string _insertQuery = $@"insert into {tableName}
                     (id, object_id, barcode, name, surname, patronymic)
                     values
                     @{nameof(User.Id)}, 
@@ -42,7 +42,7 @@ namespace CRST_ServerAPI.Data
         {
             using (IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString))
             {
-               return db.Query<User>($"SELECT * FROM {tablename}").ToList();
+               return db.Query<User>($"SELECT * FROM {tableName}").ToList();
              
             }
         }

@@ -18,11 +18,11 @@ namespace KTSF.Components.TabComponents.StaffComponent
     {
         public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
         public ObservableCollection<User> FiredUsers { get; } = new ObservableCollection<User>();
+
         public Component SearchComponent { get; }
 
         [ObservableProperty]
-        public bool isLoaded = false;
-      
+        public bool isLoaded = false;      
       
 
         public StaffComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)

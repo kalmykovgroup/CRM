@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +21,15 @@ namespace KTSF
     /// </summary>
     public partial class EditStaffWindow : Window
     {
-        private User User;        
+        private User User;
+
+        private Regex nameRegex = new(@"[A-ZА-Я]{1}[a-zа-я]+"); // имя фамилия отчество
+        private Regex passportSeriesRegex = new(@"\d{4}");
+        private Regex passportNumberRegex = new(@"\d{6}");
+        private Regex innNumberRegex = new(@"\d{12}");
+        private Regex snilsRegex = new(@"\d{11}");
+        private Regex phoneNumberRegex = new(@"(\+7|8)[\(\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[)\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)");
+        private Regex emailRegex = new(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.\w{2,3}$");
 
         public EditStaffWindow(User user)
         {

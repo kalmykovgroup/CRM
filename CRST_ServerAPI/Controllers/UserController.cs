@@ -18,7 +18,7 @@ namespace CRST_ServerAPI.Controllers
 
         [HttpGet]
         [Route("all")]
-        public IEnumerable<User> Get()
+        public   IEnumerable<User> Get()
         {
 
             UserRepository userRepository = new UserRepository();

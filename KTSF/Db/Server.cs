@@ -25,6 +25,7 @@ namespace KTSF.Db
 
             return true;
         }
+
         #region Авторизация
 
             //Делаем запрос на авторизацию владельца
