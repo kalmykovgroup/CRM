@@ -18,9 +18,8 @@ namespace CRST_ServerAPI.Controllers
 
         [HttpGet]
         [Route("all")]
-        public IEnumerable<User> Get()
+        public IEnumerable<User>Get()
         {
-
             UserRepository userRepository = new UserRepository();
 
             List<User> users = userRepository.GetUsers();
@@ -32,7 +31,6 @@ namespace CRST_ServerAPI.Controllers
         [HttpGet("{id}")]
         public User Get(int id)
         {
-
             return new User()
             {
                 Name = "test",
