@@ -16,7 +16,8 @@ namespace KTSF.Components.CommonComponents.SearchComponent
 {
     public partial class SearchComponent : Component
     {
-        public SearchComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl) { }
+        public SearchComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl) {           
+        }
 
     
         public override UserControl Initial() => new SearchUC(this);
@@ -26,7 +27,7 @@ namespace KTSF.Components.CommonComponents.SearchComponent
 
         public ObservableCollection<Product> ListSearchedProduct { get; } = new ObservableCollection<Product>();
 
-        [ObservableProperty] public string search = String.Empty;
+        [ObservableProperty] public string search = "Test product";
 
         public Product SelectedProduct = new Product();
 

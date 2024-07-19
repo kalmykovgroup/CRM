@@ -34,8 +34,11 @@ namespace KTSF.Components.Window.MainMenuComponent
         public MainMenuWinComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
         {
             CurrentFrame = new UserControlVM();
-             
-            LeftNavigationBar.Add(new CashiersWorkplaceComponent(CurrentFrame, appControl)); 
+
+            CashiersWorkplaceComponent cashiersWorkplaceComponent = new CashiersWorkplaceComponent(CurrentFrame, appControl);
+
+
+            LeftNavigationBar.Add(cashiersWorkplaceComponent); 
             LeftNavigationBar.Add(new SalesComponent(CurrentFrame, appControl)); 
             LeftNavigationBar.Add(new PurchasesComponent(CurrentFrame, appControl)); 
             LeftNavigationBar.Add(new WarehouseComponent(CurrentFrame, appControl)); 
@@ -43,8 +46,8 @@ namespace KTSF.Components.Window.MainMenuComponent
             LeftNavigationBar.Add(new StaffComponent(CurrentFrame, appControl));
             LeftNavigationBar.Add(new CompanyComponent(CurrentFrame, appControl));
             LeftNavigationBar.Add(new SettingsComponent(CurrentFrame, appControl));
- 
 
+            cashiersWorkplaceComponent.Show();
         }
 
         public override void Show(object? parametr = null)
