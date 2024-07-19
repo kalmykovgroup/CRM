@@ -27,5 +27,12 @@ namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent
             CashiersWorkplaceComponent = cashiersWorkplaceComponent;
             DataContext = CashiersWorkplaceComponent;
         }
+
+        private void textBoxCountProduct_KeyDown (object sender, KeyEventArgs e) => CashiersWorkplaceComponent.textBoxCountProduct_KeyDown(sender, e);
+
+        //private void TextBox_LostFocus (object sender, RoutedEventArgs e) => TextBox_LostFocus(sender, e);
+        private void TextBox_LostFocus (object sender, RoutedEventArgs e) {
+            CashiersWorkplaceComponent.UpdateTotalSumCheck();
+        }
     }
 }

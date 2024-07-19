@@ -1,20 +1,211 @@
-﻿<UserControl x:Class="KTSF.Components.TabComponents.CashiersWorkplaceComponent.CashiersWorkplaceUC"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KTSF.Components.TabComponents.CashiersWorkplaceComponent"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="KTSF.Components.TabComponents.CashiersWorkplaceComponent.CashiersWorkplaceUC"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:KTSF.Components.TabComponents.CashiersWorkplaceComponent"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="UserControl"
+    d:DataContext="{d:DesignInstance Type=local:CashiersWorkplaceComponent}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
     <DockPanel>
-        <Grid DockPanel.Dock="Right" Width="300"  Background="Red">
-            
+        <Grid Height="Auto" DockPanel.Dock="Top">
+            <ContentControl Height="30" Content="{Binding SearchComponent.Build}" />
         </Grid>
-        <Grid DockPanel.Dock="Top" Height="Auto" >
-            <ContentControl Content="{Binding SearchComponent.Build}"/>
+        <Grid
+            Width="300"
+            Background="Red"
+            DockPanel.Dock="Right"
+            Opacity="0.2">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsBuy}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
         </Grid>
-        <Grid DockPanel.Dock="Top" Height="100" Background="LightCoral"></Grid>
-        
-        <Grid Background="Green"></Grid>
+        <Grid
+            Height="100"
+            Margin="0"
+            Background="LightCoral"
+            DockPanel.Dock="Top"
+            Opacity="1">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsBuy}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="35" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.ColumnSpan="3"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                FontSize="32"
+                FontWeight="Bold"
+                Text="{Binding SelectedProduct.Product.Name}" />
+
+            <Button
+                Grid.Row="0"
+                Grid.Column="3"
+                Margin="5"
+                Padding="5"
+                Content="Delete" />
+
+            <Grid
+                Grid.Row="1"
+                Grid.Column="0"
+                Width="90"
+                Margin="10,5">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    Grid.Column="0"
+                    Width="70"
+                    Height="25"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Background="Transparent"
+                    FontSize="16"
+                    KeyDown="textBoxCountProduct_KeyDown"
+                    LostFocus="TextBox_LostFocus"
+                    Text="{Binding SelectedProduct.Price, Mode=TwoWay}" />
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="5,0"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Text="₽"
+                    TextAlignment="Center" />
+            </Grid>
+
+            <Grid
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="140"
+                Margin="10,5">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="0"
+                    Width="25"
+                    Height="25"
+                    Command="{Binding ReduceNumberCommand}"
+                    Content="-" />
+
+                <TextBox
+                    x:Name="textBoxCountProduct"
+                    Grid.Column="1"
+                    Width="70"
+                    Height="25"
+                    Margin="5,0"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Background="Transparent"
+                    FontSize="16"
+                    KeyDown="textBoxCountProduct_KeyDown"
+                    Text="{Binding SelectedProduct.Count}" />
+
+                <Button
+                    Grid.Column="2"
+                    Width="25"
+                    Height="25"
+                    Command="{Binding IncreaseNumberCommand}"
+                    Content="+" />
+
+            </Grid>
+
+        </Grid>
+
+
+
+        <Grid Background="#999" Opacity="1">
+            <Image
+                Width="150"
+                Height="150"
+                Source="ImageSource\add-product.png">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Setter Property="Visibility" Value="Visible" />
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBuy}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <ItemsControl ItemsSource="{Binding CheckList.BuyProducts}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            Height="30"
+                            Margin="0"
+                            Padding="0"
+                            HorizontalContentAlignment="Stretch"
+                            Command="{Binding DataContext.SelectedProductFromCheckListCommand, ElementName=UserControl}"
+                            CommandParameter="{Binding}">
+                            <Grid Height="30" Background="#fee58b">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding Product.Name}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding Price}" />
+                                <TextBlock
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding Count}" />
+                                <TextBlock
+                                    Grid.Column="3"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding TotalSumProduct}" />
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
     </DockPanel>
 </UserControl>

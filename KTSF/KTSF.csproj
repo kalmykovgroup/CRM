@@ -20,6 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\add-product.png" />
+    <None Remove="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\add-to-cart.png" />
+    <None Remove="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\delete.png" />
+    <None Remove="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\minus.png" />
+    <None Remove="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\plus.png" />
     <None Remove="Components\Window\LoadWinComponent\Img\hacking-hack.gif" />
     <None Remove="Img\loading.gif" />
     <None Remove="Img\warning.png" />
@@ -51,6 +56,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KTSFClassLibrary\KTSFClassLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\add-product.png" />
+    <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\add-to-cart.png" />
+    <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\delete.png" />
+    <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\minus.png" />
+    <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\plus.png" />
   </ItemGroup>
 
 </Project>

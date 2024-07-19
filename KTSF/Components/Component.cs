@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent;
 using KTSF.ViewModel;
 using KTSFClassLibrary.Language;
+using KTSFClassLibrary.Product_;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
