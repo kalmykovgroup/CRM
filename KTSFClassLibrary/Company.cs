@@ -13,7 +13,7 @@ namespace KTSFClassLibrary
         public int Id { get; }
          
         public int UserId { get; }
-        public User User { get; }
+        public Employee User { get; }
 
          
         [MaxLength(255)]

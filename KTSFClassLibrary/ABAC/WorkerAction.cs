@@ -8,31 +8,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KTSFClassLibrary
+namespace KTSFClassLibrary.ABAC
 {
-    [Table(nameof(UserActions))]
-    public class UserActions //Действия пользователей   
+    [Table(nameof(WorkerAction))]
+    public class WorkerAction //Действия пользователей   
     {
-         
+
         public int Id { get; set; }
-         
+
         [MaxLength(255)]
         public string TableName { get; set; } //Таблица в которой произошло изменение
-         
-        public int FieldId { get; set; } //Поле на которое меняют
-         
+
+        public int FieldId { get; set; } //Поле которое меняют
+
         public Type DataType { get; set; } //Тип поля
-         
+
         [MaxLength(255)]
         public string OldData { get; set; } //Старое значение
-         
+
         [MaxLength(255)]
         public string NewData { get; set; } //Новое значение
-         
+
         public bool AdminsСonsent { get; set; } //Было ли подтверждение администратора
-         
-        public int AdminId { get; set; } //Админ или Менеджер который дал согласие на изменение
-         
+
+        public int WorkerId { get; set; } //Админ который дал согласие на изменение
+        public Employee Worker { get; set; }
+
+        public string Ip { get; set; } //Ip address 
         public DateTime CreatedAt { get; set; } //Дата, когда изменение было применено
     }
 }

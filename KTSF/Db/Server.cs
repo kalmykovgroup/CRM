@@ -1,4 +1,5 @@
 ﻿
+using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
 using KTSFClassLibrary;
 using KTSFClassLibrary.Product_;
 using System;
@@ -8,6 +9,7 @@ using System.Net;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace KTSF.Db
 {
@@ -25,56 +27,84 @@ namespace KTSF.Db
 
             return true;
         }
+
+        //Делаем запрос при для проверки подключения к сети и получению необходимых данных из сервера
+        public async Task<bool> LoadData()
+        {
+            await Task.Delay(0);
+
+            return true;
+        }
+
         #region Авторизация
 
-            //Делаем запрос на авторизацию владельца
-            //Возвращаем список доступным компаний, обьектов и список пользователей на этих обьектах
+        //Делаем запрос на авторизацию владельца
+        //Возвращаем список доступным компаний, обьектов и список пользователей на этих обьектах
 
-            public async Task<(bool result, string? error, MainUser mainUser)> Authorization(MainUser mainUser)
+        public async Task<(bool result, string? error, User? user)> Authorization(string login, string password)
             {
-                await Task.Delay(1000);
+                await Task.Delay(0);
 
-                if (true)
+                if (login == "tester" && password == "tester")
                 {
-                    return (true, null, new MainUser()
-                    {
-                        Username = "Tester",
-                        Password = "Tester",
+                    return (true, null, new User()
+                    { 
                         Email = "Admin@mail.ru",
                         Name = "Name",
                         Surname = "Surname",
-                        Patronimyc = "Patronimyc"
+                        Patronimyc = "Patronimyc",
+                        AccessToken = "tester"
                     });
                 }
                 else
                 {
-                    return (false, "Логин или пароль не подходят", mainUser);
+                return (false, $"Логин или пароль не подходят {login}:{password}", null);
+                }
+
+            }
+            public async Task<(bool result, string? error, User? user)> Authorization(string token)
+            {
+                await Task.Delay(0);
+
+                if (token == "tester")
+                {
+                    return (true, null, new User()
+                    { 
+                        Email = "Admin@mail.ru",
+                        Name = "Name",
+                        Surname = "Surname",
+                        Patronimyc = "Patronimyc",
+                        AccessToken = "tester"
+                    });
+                }
+                else
+                {
+                    return (false, "token не подходит", null);
                 }
 
             }
 
-           //Делаем запрос на получиние списка пользователей программы 
-            public async Task<bool> LoadData()
-            {
-                await Task.Delay(0);
-
-                return true;
-            }
+           
 
 
-        public async Task<(bool result, string? error, MainUser mainUser)> Authentication(User user)
+        public async void Authentication(Action<string> GenerateBarCode, Action<Employee> SetEmployee)
         {
             await Task.Delay(0);
 
-            return (true, null, new MainUser()
+
+
+            GenerateBarCode?.Invoke("");
+
+            await Task.Delay(0);
+
+            Employee employee = new Employee()
             {
-                Username = "Tester",
-                Password = "Tester",
-                Email = "Admin@mail.ru",
                 Name = "Name",
                 Surname = "Surname",
-                Patronimyc = "Patronimyc"
-            });
+                Patronymic = "Patronymic"
+            };
+
+            SetEmployee.Invoke(employee);
 
         }
 
@@ -147,31 +177,31 @@ namespace KTSF.Db
 
         #region User
         
-        public async Task<List<User>> GetUsers() //Получить список всех пользователей
+        public async Task<List<Employee>> GetUsers() //Получить список всех пользователей
         {
             await Task.Delay(2000);            
 
-            return new List<User> {
-                new User() { Id = 1 , Name = "Иван" , Surname = "Иванов", 
+            return new List<Employee> {
+                new Employee() { Id = 1 , Name = "Иван" , Surname = "Иванов", 
                              Patronymic = "Иванович", PassportSeries = 1111, PassportNumber = 123456,
-                             InnNumber = "0123456789012", Snils = "123-456-789-00", Position = "Кассир",
-                             Address = "г.Москва, ул.Тверская..." , PhoneNumber = "8(925)123-45-67",
+                             Tin = "0123456789012", Snils = "123-456-789-00",
+                             Address = "г.Москва, ул.Тверская..." , Phone = "89251234567",
                              Email = "ivanov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01)},
-                new User() { Id = 1 , Name = "Петр" , Surname = "Петров",
+                new Employee() { Id = 1 , Name = "Петр" , Surname = "Петров",
                              Patronymic = "Петрович", PassportSeries = 2222, PassportNumber = 123456,
-                             InnNumber = "3123456789012", Snils = "123-456-789-55", Position = "Директор",
-                             Address = "г.Москва, ул.Болотная..." , PhoneNumber = "8(985)987-65-43",
+                             Tin = "3123456789012", Snils = "123-456-789-55",
+                             Address = "г.Москва, ул.Болотная..." , Phone = "89859876543",
                              Email = "petrov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01)},
-               new User() { Id = 1 , Name = "Федор" , Surname = "Федоров",
+               new Employee() { Id = 1 , Name = "Федор" , Surname = "Федоров",
                              Patronymic = "Федорович", PassportSeries = 3333, PassportNumber = 123456,
-                             InnNumber = "6123456789012", Snils = "123-456-789-99", Position = "Управляющий",
-                             Address = "г.Москва, ул.Абрикововая..." , PhoneNumber = "8(919)444-55-66",
+                             Tin = "6123456789012", Snils = "123-456-789-99",
+                             Address = "г.Москва, ул.Абрикововая..." , Phone = "89194445566",
                              Email = "fedorov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01)},
             };
         }
 
         //Нужно определить где будет отслеживатся информация о том каие поля мы меняем
-        public async Task<(bool result, string? message)> UpdateUser(User user)
+        public async Task<(bool result, string? message)> UpdateUser(Employee user)
         {
             await Task.Delay(1000);
 
@@ -179,14 +209,14 @@ namespace KTSF.Db
         }
 
         //По факту пользователь станет не активным
-        public async Task<(bool result, string? message)> DeleteUser(User user)
+        public async Task<(bool result, string? message)> DeleteUser(Employee user)
         {
             await Task.Delay(1000); 
 
             return (result: true, message: null);
         }
 
-        public async Task<bool> GetUserStatistics(User user) //Загрузка статистических данных о пользователи
+        public async Task<bool> GetUserStatistics(Employee user) //Загрузка статистических данных о пользователи
         {
             await Task.Delay(1000);
 

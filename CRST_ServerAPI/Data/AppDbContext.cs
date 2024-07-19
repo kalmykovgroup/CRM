@@ -15,17 +15,15 @@ namespace CRST_ServerAPI.Data
         public static string ConnectionString { get; } = @"Server=127.0.0.1;Database=test;Uid=root;Pwd=;";
  
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<KTSFClassLibrary.Object> Objects { get; set; }
-        public DbSet<MainUser> MainUsers { get; set; }
+        public DbSet<User> MainUsers { get; set; }
         public DbSet<Company> Companies { get; set; }
 
         #region ABAC
 
-        public DbSet<AccessAttribute> AccessAttributes { get; set; }
-        public DbSet<DatabaseAction> DatabaseActions { get; set; }
-        public DbSet<DatabaseTable> DatabaseTables { get; set; }
-        public DbSet<TableField> TableFields { get; set; }
+        public DbSet<DataBaseAccessAttribute> AccessAttributes { get; set; }
+        public DbSet<DataBaseAction> DatabaseActions { get; set; }  
 
         #endregion 
 

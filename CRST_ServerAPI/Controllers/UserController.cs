@@ -18,20 +18,20 @@ namespace CRST_ServerAPI.Controllers
 
         [HttpGet]
         [Route("all")]
-        public IEnumerable<User>Get()
+        public IEnumerable<Employee>Get()
         {
             UserRepository userRepository = new UserRepository();
 
-            List<User> users = userRepository.GetUsers();
-            Console.WriteLine(users);
-            return users.ToArray();
+            List<Employee> employees = userRepository.GetEmployees();
+            Console.WriteLine(employees);
+            return employees.ToArray();
         }
 
 
         [HttpGet("{id}")]
-        public User Get(int id)
+        public Employee Get(int id)
         {
-            return new User()
+            return new Employee()
             {
                 Name = "test",
                 Id = id,

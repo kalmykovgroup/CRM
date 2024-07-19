@@ -20,14 +20,14 @@ namespace KTSF
     /// </summary>
     public partial class EditStaffWindow : Window
     {
-        private User User;
+        private Employee Employee;
 
-        public EditStaffWindow(User user)
+        public EditStaffWindow(Employee employee)
         {
             InitializeComponent();
-            this.User = user;
+            this.Employee = employee;
 
-            this.DataContext = User;
+            this.DataContext = Employee;
         }
 
         private void saveButtonButton_Click(object sender, RoutedEventArgs e)

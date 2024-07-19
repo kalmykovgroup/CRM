@@ -10,11 +10,11 @@ namespace CRST_ServerAPI.Data
 {
     public interface IUserRepository
     {
-        void Create(User user);
+        void Create(Employee employee);
         void Delete(int id);
-        User Get(int id);
-        List<User> GetUsers();
-        void Update(User user);
+        Employee Get(int id);
+        List<Employee> GetEmployees();
+        void Update(Employee employee);
     }
 
     public class UserRepository : IUserRepository
@@ -27,27 +27,26 @@ namespace CRST_ServerAPI.Data
         private static readonly string _insertQuery = $@"insert into {tablename}
                     (id, object_id, barcode, name, surname, patronymic)
                     values
-                    @{nameof(User.Id)}, 
-                    @{nameof(User.ObjectId)}, 
-                    @{nameof(User.Barcode)}, 
-                    @{nameof(User.Name)}, 
-                    @{nameof(User.Surname)}, 
-                    @{nameof(User.Patronymic)}, 
+                    @{nameof(Employee.Id)}, 
+                    @{nameof(Employee.ObjectId)},  
+                    @{nameof(Employee.Name)}, 
+                    @{nameof(Employee.Surname)}, 
+                    @{nameof(Employee.Patronymic)}, 
                     returning id";
 
        
 
 
-        public List<User> GetUsers()
+        public List<Employee> GetEmployees()
         {
             using (IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString))
             {
-               return db.Query<User>($"SELECT * FROM {tablename}").ToList();
+               return db.Query<Employee>($"SELECT * FROM {tablename}").ToList();
              
             }
         }
 
-        public void Create(User user)
+        public void Create(Employee employee)
         {
             throw new NotImplementedException();
         }
@@ -57,12 +56,12 @@ namespace CRST_ServerAPI.Data
             throw new NotImplementedException();
         }
 
-        public User Get(int id)
+        public Employee Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(User user)
+        public void Update(Employee employee)
         {
             throw new NotImplementedException();
         }

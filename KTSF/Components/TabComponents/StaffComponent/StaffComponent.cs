@@ -16,7 +16,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
 {    
     public partial class StaffComponent : TabComponent
     {
-        public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
+        public ObservableCollection<Employee> Employees { get; } = new ObservableCollection<Employee>();
         public Component SearchComponent { get; }
 
         [ObservableProperty]
@@ -43,22 +43,22 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
         public async Task Load()
         {           
-            List<User> users = await AppControl.Server.GetUsers();
+            List<Employee> users = await AppControl.Server.GetUsers();
 
-            foreach (User user in users) {
-                Users.Add(user);
+            foreach (Employee user in users) {
+                Employees.Add(user);
             }
         }      
 
         [RelayCommand]
         public void AddNewUser()
         {
-            User user = new User();
+            Employee user = new Employee();
             AddNewStaffWindow userWindow = new AddNewStaffWindow(user);
 
             if (userWindow.ShowDialog() == true)
             {
-                Users.Add(user); // тестовая версия
+                Employees.Add(user); // тестовая версия
 
                 // в реале -> запрос на сервер, для сохранения в БД
             }
@@ -67,27 +67,27 @@ namespace KTSF.Components.TabComponents.StaffComponent
         [RelayCommand]
         public void EditUser(object sender)
         {
-            User user = (User)sender;           
+            Employee user = (Employee)sender;           
             
-            int index = Users.IndexOf(user);
+            int index = Employees.IndexOf(user);
 
             EditStaffWindow userWindow = new EditStaffWindow(user);
             if (userWindow.ShowDialog() == true)
             {
-                Users.RemoveAt(index);
-                Users.Add(user);         
+                Employees.RemoveAt(index);
+                Employees.Add(user);         
                 
                 AppControl.Server.UpdateUser(user); 
 
                 // в реале -> запрос на сервер, для сохранения в БД
-                // если User.LayoffDate != null -> перемещать в другую таблицу ??
+                // если Employee.LayoffDate != null -> перемещать в другую таблицу ??
             }
         }
 
         [RelayCommand]
         public void DeleteUser(object sender)
         {
-            User user = (User)sender;
+            Employee user = (Employee)sender;
 
             MessageBox.Show("Delete");
             MessageBox.Show(user.Surname);
