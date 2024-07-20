@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
-{ 
+{
+    [Table("price")]
     public class Price
     {
          

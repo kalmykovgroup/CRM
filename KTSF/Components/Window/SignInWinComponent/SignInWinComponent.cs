@@ -15,6 +15,8 @@ using KTSF.ViewModel;
 using KTSF.Components.CommonComponents.SignInFormComponent;
 using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
 using KTSF.Components.SignInPageComponent;
+using System.Configuration;
+using Microsoft.Win32;
 
 namespace KTSF.Components.Window.SignInPageComponent
 {
@@ -39,28 +41,26 @@ namespace KTSF.Components.Window.SignInPageComponent
 
         private async void Authorization()
         {
-            //Пропускаем Вход
-            AppControl.MainMenuComponent.Show();
-            return;
-            //Если есть логин и пароль, то пробуем войти
-            //Сдесь идет запрос на сервер
-            if (false)
+             
+            //Получили данные из реестра
+            string? token = Regedit.GetValue(nameof(User.AccessToken));
+
+            if (token is not null)
             {
-                //Получили данные из реестра
-                string login = "tester";
-                string password = "tester";
-
-
+               
                 IsLoad = "Авторизация...";
 
-                (bool result, string? error, MainUser mainUser) = await AppControl.Server.Authorization(AppControl.MainUser);  //Сделали запрос на вход 
+                (bool result, string? error, User? user) = await AppControl.Server.Authorization(token);  //Сделали запрос на вход 
 
                 IsLoad = null;
 
                 //Если удалось войти
                 if (result)
                 {
-                    SuccessAuthorization(mainUser);
+                    if(user == null) throw new ArgumentNullException(nameof(user));
+
+                    SuccessAuthorization(user);
+                    return;
                 }
 
             }
@@ -68,25 +68,27 @@ namespace KTSF.Components.Window.SignInPageComponent
             //Если не удалось войти
             //Пробуем авторизоваться
 
-            SignInFormComponent = new SignInFormComponent(FormContainer, AppControl); //Создали форму
+             
+            SignInFormComponent = new SignInFormComponent(AppControl.User, FormContainer, AppControl); //Создали форму
             SignInFormComponent.SignInClickAction = SignInClickAction; //Подписались на кнопку войти
             SignInFormComponent.Show(); //Отобразили форму на экране
         }
 
-        public void Authentication()
-        {
-            AuthFormComponent = new AuthFormComponent(FormContainer, AppControl);
-            AuthFormComponent.AuthClickAction += AuthClickAction;
-            AuthFormComponent.Show();
+      
+
+        public void SuccessAuthorization(User user)
+        { 
+            AppControl.User = user;
+            Authentication(); //Пробуем аунтетифицироваться           
         }
 
-        public void SuccessAuthorization(MainUser mainUser)
+        public void Authentication()
         {
-            //Сохраняем данные о пользователи
-            AppControl.MainUser = mainUser;
+            //Сдесь сотрудник вводит свой код для входа
+            AuthFormComponent = new AuthFormComponent(FormContainer, AppControl);
+            AuthFormComponent.AuthSuccess += AuthSuccess;
+            AuthFormComponent.Show();
 
-            Authentication(); //Пробуем аунтетифицироваться 
-            return;
         }
 
         #region Commands
@@ -95,37 +97,47 @@ namespace KTSF.Components.Window.SignInPageComponent
         {
             //Сдесь данные уже проваледированны самой формой
             //Поэтому делаем сразу запрос на сервер
+             
 
             IsLoad = "Авторизация...";
 
             //Сделали запрос на вход 
-            (bool result, string? error, MainUser mainUser) = await AppControl.Server.Authorization(AppControl.MainUser);
+            (bool result, string? error, User? user) = await AppControl.Server.Authorization(AppControl.User.Username, AppControl.User.Password);
 
             IsLoad = null;
 
             //Если удалось войти
             if (result)
             {
-                SuccessAuthorization(mainUser);
+                if(user == null) throw new ArgumentNullException(nameof(user));
+
+                //Сохраняем данные в реестр
+                Regedit.SetValue(nameof(User.AccessToken), user.AccessToken);
+
+                SuccessAuthorization(user);
             }
             else
             {
+                //Здесь нужно отправить данные об ошибки в форму
                 //Вывод ошибки входа
-                MessageBox.Show("Не удалось войти");
+                MessageBox.Show($"Не удалось войти:\n${error}");
             }
 
         }
 
-        public void AuthClickAction(object? parametr)
+        public void AuthSuccess(Employee employee)
         {
+            AppControl.Employee = employee;
             AppControl.MainMenuComponent.Show();
-        }
+        }   
+      
 
         #endregion
 
 
+      
 
- 
+
 
     }
 }

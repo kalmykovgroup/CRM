@@ -7,12 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
-{ 
+{
+    [Table("group")]
     public class Group
     { 
         public int Id {  get; set; }
          
         [MaxLength(255)]
         public string Name { get; set; }
+ 
     }
 }

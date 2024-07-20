@@ -1,6 +1,6 @@
 ﻿using CRST_ServerAPI.Data;
 using KTSFClassLibrary;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc; 
 
 namespace CRST_ServerAPI.Controllers
 {
@@ -9,35 +9,24 @@ namespace CRST_ServerAPI.Controllers
     public class UserController : ControllerBase
     {
 
-        private readonly ILogger<UserController> _logger;
 
-        public UserController(ILogger<UserController> logger)
-        {
-            _logger = logger;
-        }
-
+       
         [HttpGet]
         [Route("all")]
-        public IEnumerable<User> Get()
+        public IActionResult Get()
         {
-
-            UserRepository userRepository = new UserRepository();
-
-            List<User> users = userRepository.GetUsers();
-            Console.WriteLine(users);
-            return users.ToArray();
+            Repository repository = new UserRepository();
+            return Ok(repository.GetAll<Employee>()); 
+  
         }
 
 
         [HttpGet("{id}")]
-        public User Get(int id)
+        public IActionResult Get(int id)
         {
-
-            return new User()
-            {
-                Name = "test",
-                Id = id,
-            };
+            Repository repository = new UserRepository();
+ 
+            return Ok(repository.Find<Employee>(id));
         }
     }
 }

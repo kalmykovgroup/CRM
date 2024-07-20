@@ -9,14 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.PackingList_
-{ 
+{
+    [Table("packing_list")]
     public class PackingList //Товарная накладная
     { 
         public int Id { get; set; }
          
-        public ObservableCollection<Product> Products { get; } = new(); //Ссылки на товар в базе
+        public List<Product> Products { get; } = new(); //Ссылки на товар в базе
 
-        public ObservableCollection<string> UrlImg { get; } = new(); //Фото накладной
+        public List<string> UrlImg { get; } = new(); //Фото накладной
          
         public DateTime CreatedAt { get; set; }
          

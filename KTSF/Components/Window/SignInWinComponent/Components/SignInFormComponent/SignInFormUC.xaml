@@ -93,7 +93,7 @@
                    TextChanged="TextBoxChanged"
                    LostFocus="TextBoxLostFocus">
                     <TextBox.Text>
-                        <Binding Path="AppControl.MainUser.Username" UpdateSourceTrigger="Explicit" NotifyOnTargetUpdated="True">
+                        <Binding Path="User.Username" UpdateSourceTrigger="Explicit" NotifyOnTargetUpdated="True">
                             <Binding.ValidationRules>
                                 <DataErrorValidationRule ValidatesOnTargetUpdated="False" />
                             </Binding.ValidationRules>
@@ -109,14 +109,14 @@
                 <TextBlock IsHitTestVisible="False" Text="Username" Margin="10 2 0 0" FontSize="13" Foreground="Gray"/>
             </Grid>
 
- <!--Tag="{Binding User.IsFocusablePassword}"-->
+           <!--Tag="{Binding User.IsFocusablePassword}"-->
             <Grid Style="{StaticResource GridTextBoxStyle}">
                 <TextBox x:Name="Password" Style="{StaticResource TextBoxStyle}" 
                    Validation.ErrorTemplate="{StaticResource ValidationFailed}" 
                    TextChanged="TextBoxChanged"
                    LostFocus="TextBoxLostFocus"   >
                     <TextBox.Text>
-                        <Binding Path="AppControl.MainUser.Password" UpdateSourceTrigger="Explicit" NotifyOnTargetUpdated="True">
+                        <Binding Path="User.Password" UpdateSourceTrigger="Explicit" NotifyOnTargetUpdated="True">
                             <Binding.ValidationRules>
                                 <DataErrorValidationRule ValidatesOnTargetUpdated="False" />
                             </Binding.ValidationRules>
