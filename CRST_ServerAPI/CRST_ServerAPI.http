@@ -1,6 +1,8 @@
 @CRST_ServerAPI_HostAddress = http://localhost:5281
 
-GET {{CRST_ServerAPI_HostAddress}}/Users/
+GET {{CRST_ServerAPI_HostAddress}}/User/all
+
+
 
 
 

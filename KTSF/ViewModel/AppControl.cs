@@ -65,8 +65,8 @@ namespace KTSF
         //Текущее отображаемое окно
         public UserControlVM CurrentFrame { get; }
 
-        public MainUser MainUser { get; set; } = new MainUser();
         public User User { get; set; } = new User();
+        public Employee Employee { get; set; } = null!;
 
         public Component LoadComponent { get; private set; }
         public Component SignInComponent { get; private set; }
@@ -92,6 +92,8 @@ namespace KTSF
         }
 
 
+
+       
 
 
 

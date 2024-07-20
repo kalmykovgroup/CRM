@@ -7,7 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.PackingList_
-{ 
+{
+    [Table("packing_list_product")]
     public class PackingListProduct //Связь многие ко многим
     { 
         public int Id { get; set; }

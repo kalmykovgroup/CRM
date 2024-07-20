@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,8 @@ namespace KTSFClassLibrary.ABAC
     //Нужно что-бы отслеживать доступные действия пользователей
     //Update, Delete, Insert, Read
 
-    public class DatabaseAction
+    [Table("database_action")]
+    public class DataBaseAction
     {
         public int Id { get; set; }
         public string Name { get; set; }

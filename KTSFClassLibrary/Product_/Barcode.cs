@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
-{ 
+{
+    [Table("barcode")]
     public class Barcode
     { 
         public int Id { get; set; }
          
         [MaxLength(255)]
-        public string Code { get; set; }
+        public string Code { get; set; } = String.Empty;
     }
 }

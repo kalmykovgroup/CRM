@@ -3,69 +3,90 @@ using KTSFClassLibrary;
 using KTSFClassLibrary.ABAC;
 using Microsoft.Data.SqlClient; 
 using MySql.Data.MySqlClient;
+using NuGet.Protocol.Core.Types;
 using System.Configuration;
 using System.Data;
 
 namespace CRST_ServerAPI.Data
 {
-    public interface IUserRepository
+
+
+    public class UserRepository : Repository
     {
-        void Create(User user);
-        void Delete(int id);
-        User Get(int id);
-        List<User> GetUsers();
-        void Update(User user);
-    }
+        public override string TableName { get; } = "users";
 
-    public class UserRepository : IUserRepository
-    { 
- 
-
-        private static string tableName = "users";
-         
-
-        private static readonly string _insertQuery = $@"insert into {tableName}
+        public string InsertQueryString { get{ 
+            
+                return $@"insert into {TableName}
                     (id, object_id, barcode, name, surname, patronymic)
                     values
-                    @{nameof(User.Id)}, 
-                    @{nameof(User.ObjectId)}, 
-                    @{nameof(User.Barcode)}, 
-                    @{nameof(User.Name)}, 
-                    @{nameof(User.Surname)}, 
-                    @{nameof(User.Patronymic)}, 
+                    @{nameof(Employee.Id)}, 
+                    @{nameof(Employee.ObjectId)},  
+                    @{nameof(Employee.Name)}, 
+                    @{nameof(Employee.Surname)}, 
+                    @{nameof(Employee.Patronymic)}, 
                     returning id";
 
+            } }
+
+        public   string UpdateQueryString { get {
+            return $@"insert into {TableName}
+                    (id, object_id, barcode, name, surname, patronymic)
+                    values
+                    @{nameof(Employee.Id)}, 
+                    @{nameof(Employee.ObjectId)},  
+                    @{nameof(Employee.Name)}, 
+                    @{nameof(Employee.Surname)}, 
+                    @{nameof(Employee.Patronymic)}, 
+                    returning id";
+            } }
+
        
+      
 
-
-        public List<User> GetUsers()
+        public override T? Find<T>(int id) where T : default
         {
-            using (IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString))
+            using (IDbConnection db = new MySqlConnection(" "))
             {
-               return db.Query<User>($"SELECT * FROM {tableName}").ToList();
-             
+                return db.Query<T>($"SELECT * FROM {TableName} WHERE ID={id}").FirstOrDefault();
             }
         }
 
-        public void Create(User user)
+
+       
+        public override void Delete<T>(int id)
+        {
+          
+
+
+            using (IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString))
+            {
+                db.Query<T>($"DELETE FROM {TableName} WHERE ID={id}");
+            }
+        }
+
+        public override List<T> GetAll<T>()
+        {
+            
+            using (IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString))
+            {
+                return db.Query<T>($"SELECT * FROM {TableName}").ToList();
+            }
+           
+        }
+
+
+
+        public override void Create<T>(T value)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(int id)
+        public override void Update<T>(T value)
         {
-            throw new NotImplementedException();
-        }
 
-        public User Get(int id)
-        {
             throw new NotImplementedException();
         }
-
-        public void Update(User user)
-        {
-            throw new NotImplementedException();
-        }
-         
+ 
     }
 }

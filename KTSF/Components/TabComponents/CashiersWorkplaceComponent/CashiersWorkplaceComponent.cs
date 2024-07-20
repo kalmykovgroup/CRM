@@ -21,7 +21,6 @@ namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent
         public CashiersWorkplaceComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
         {
             SearchComponent = new SearchComponent(binding, appControl); 
-
         }
 
 

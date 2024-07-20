@@ -7,13 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
-{ 
+{
+    [Table("product")]
     public class Product
     { 
         public int Id { get; set; }
 
         [MaxLength(255)] 
-        public string Name { get; set; }
+        public string Name { get; set; } = String.Empty;
 
         [MaxLength(255)] 
         public string? NameToPrint { get; set; } //Имя для печати этикеток

@@ -44,10 +44,10 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
         public async Task Load()
         {           
-            List<User> users = await AppControl.Server.GetUsers();
+            List<Employee> users = await AppControl.Server.GetUsers();
 
-            foreach (User user in users) {
-                Users.Add(user);
+            foreach (Employee user in users) {
+                Employees.Add(user);
             }
 
             List<User> firedUsers = await AppControl.Server.GetFiredUsers();
@@ -61,12 +61,12 @@ namespace KTSF.Components.TabComponents.StaffComponent
         [RelayCommand]
         public void AddNewUser()
         {
-            User user = new User();
+            Employee user = new Employee();
             AddNewStaffWindow userWindow = new AddNewStaffWindow(user);
 
             if (userWindow.ShowDialog() == true)
             {
-                Users.Add(user); // тестовая версия
+                Employees.Add(user); // тестовая версия
 
                 // в реале -> запрос на сервер, для сохранения в БД
             }
@@ -103,7 +103,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
                 AppControl.Server.UpdateUser(user);
 
                 // в реале -> запрос на сервер, для сохранения в БД
-                // если User.LayoffDate != null -> перемещать в другую таблицу ??
+                // если Employee.LayoffDate != null -> перемещать в другую таблицу ??
             }
             else
             {
