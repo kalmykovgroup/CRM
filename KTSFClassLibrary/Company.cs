@@ -7,17 +7,19 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace KTSFClassLibrary
-{ 
+{
+    [Table("company")]
     public class Company
     { 
-        public int Id { get; }
+        public int Id { get; set; }
          
-        public int UserId { get; }
-        public Employee User { get; }
+        public int UserId { get; set; }
+        public Employee User { get; set; }
 
          
         [MaxLength(255)]
-        public string Name { get; }
+        public string Name { get; set; }
 
+       
     }
 }

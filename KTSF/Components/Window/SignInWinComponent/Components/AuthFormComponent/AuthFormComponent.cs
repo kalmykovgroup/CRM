@@ -5,11 +5,13 @@ using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SignInFormComponent;
 using KTSF.ViewModel;
 using KTSFClassLibrary;
+using QRCoder;
 using SkiaSharp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -40,23 +42,24 @@ namespace KTSF.Components.SignInPageComponent.Components.AuthFormComponent
         private void GenerateBarCode(string code)
         {
            
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(code, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
 
-            var b = new Barcode();
-            b.IncludeLabel = true;
-            SKImage image = b.Encode(BarcodeStandard.Type.Code128, code, SKColors.Black, SKColors.White, 290, 120);
-             
-            // encode the image (defaults to PNG)
-            SKData encoded = image.Encode();
-            // get a stream over the encoded data
-            Stream stream = encoded.AsStream();
-             
-             
-             
             using (MemoryStream memory = new MemoryStream())
             {
-                ImageSource = BitmapFrame.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-            }
+                qrCodeImage.Save(memory, ImageFormat.Png);
+                memory.Position = 0;
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
 
+                ImageSource = bitmapImage;
+            }
+          
             IsLoadQRCode = false;
 
         }
@@ -64,7 +67,7 @@ namespace KTSF.Components.SignInPageComponent.Components.AuthFormComponent
         //Метод вызоветься когда пользователь отсканирует QR code через приложение
         private void SetEmployee(Employee employee)
         { 
-          //AuthSuccess?.Invoke(employee); //Вызывает метод, который слушает в ожидании момента входа 
+          AuthSuccess?.Invoke(employee); //Вызывает метод, который слушает в ожидании момента входа 
         }
 
         #region Commands
@@ -74,12 +77,23 @@ namespace KTSF.Components.SignInPageComponent.Components.AuthFormComponent
         [RelayCommand]
         public void GooglePlayClick(object? parameter)
         {
-            MessageBox.Show("GooglePlay");
+            var destinationurl = "https://www.google.com/";
+            var sInfo = new System.Diagnostics.ProcessStartInfo(destinationurl)
+            {
+                UseShellExecute = true,
+            };
+            System.Diagnostics.Process.Start(sInfo);
         }
 
         [RelayCommand]
-        public void AppStoreClick(object? parameter){
-            MessageBox.Show("AppStore");
+        public void AppStoreClick(object? parameter){ 
+
+            var destinationurl = "https://www.google.com/";
+            var sInfo = new System.Diagnostics.ProcessStartInfo(destinationurl)
+            {
+                UseShellExecute = true,
+            };
+            System.Diagnostics.Process.Start(sInfo);
         }
      
         #endregion

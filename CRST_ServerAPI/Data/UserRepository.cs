@@ -3,28 +3,21 @@ using KTSFClassLibrary;
 using KTSFClassLibrary.ABAC;
 using Microsoft.Data.SqlClient; 
 using MySql.Data.MySqlClient;
+using NuGet.Protocol.Core.Types;
 using System.Configuration;
 using System.Data;
 
 namespace CRST_ServerAPI.Data
 {
-    public interface IUserRepository
+
+
+    public class UserRepository : Repository
     {
-        void Create(Employee employee);
-        void Delete(int id);
-        Employee Get(int id);
-        List<Employee> GetEmployees();
-        void Update(Employee employee);
-    }
+        public override string TableName { get; } = "users";
 
-    public class UserRepository : IUserRepository
-    { 
- 
-
-        private static string tablename = "users";
-         
-
-        private static readonly string _insertQuery = $@"insert into {tablename}
+        public string InsertQueryString { get{ 
+            
+                return $@"insert into {TableName}
                     (id, object_id, barcode, name, surname, patronymic)
                     values
                     @{nameof(Employee.Id)}, 
@@ -34,37 +27,66 @@ namespace CRST_ServerAPI.Data
                     @{nameof(Employee.Patronymic)}, 
                     returning id";
 
+            } }
+
+        public   string UpdateQueryString { get {
+            return $@"insert into {TableName}
+                    (id, object_id, barcode, name, surname, patronymic)
+                    values
+                    @{nameof(Employee.Id)}, 
+                    @{nameof(Employee.ObjectId)},  
+                    @{nameof(Employee.Name)}, 
+                    @{nameof(Employee.Surname)}, 
+                    @{nameof(Employee.Patronymic)}, 
+                    returning id";
+            } }
+
        
+      
 
-
-        public List<Employee> GetEmployees()
+        public override T? Find<T>(int id) where T : default
         {
-            using (IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString))
+            using (IDbConnection db = new MySqlConnection(" "))
             {
-               return db.Query<Employee>($"SELECT * FROM {tablename}").ToList();
-             
+                return db.Query<T>($"SELECT * FROM {TableName} WHERE ID={id}").FirstOrDefault();
             }
         }
 
-        public void Create(Employee employee)
+
+       
+        public override void Delete<T>(int id)
+        {
+          
+
+
+            using (IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString))
+            {
+                db.Query<T>($"DELETE FROM {TableName} WHERE ID={id}");
+            }
+        }
+
+        public override List<T> GetAll<T>()
+        {
+            
+            using (IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString))
+            {
+                return db.Query<T>($"SELECT * FROM {TableName}").ToList();
+            }
+           
+        }
+
+
+
+        public override void Create<T>(T value)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(int id)
+        public override void Update<T>(T value)
         {
-            throw new NotImplementedException();
-        }
 
-        public Employee Get(int id)
-        {
             throw new NotImplementedException();
         }
-
-        public void Update(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
-         
+ 
     }
 }

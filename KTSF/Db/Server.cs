@@ -92,8 +92,7 @@ namespace KTSF.Db
             await Task.Delay(0);
 
 
-
-            GenerateBarCode?.Invoke("");
+            GenerateBarCode?.Invoke("451VvcKdxp2DIUWArkaP5bPzlj6ZqmwE");
 
             await Task.Delay(0);
 
