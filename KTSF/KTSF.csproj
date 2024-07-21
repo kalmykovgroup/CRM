@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Components\TabComponents\StaffComponent\Img\Fired.png" />
     <None Remove="Components\TabComponents\StaffComponent\Img\Foto.png" />
     <None Remove="Components\Window\LoadWinComponent\Img\hacking-hack.gif" />
     <None Remove="Img\app_store_logo.png" />
@@ -73,6 +74,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Components\TabComponents\StaffComponent\Img\Fired.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Components\TabComponents\StaffComponent\Img\Foto.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
