@@ -35,7 +35,7 @@ namespace KTSFClassLibrary
         public string Surname { get; set; } = String.Empty;
          
         [MaxLength(255)]
-        public string Patronimyc { get; set; } = String.Empty;
+        public string Patronymic { get; set; } = String.Empty;
 
 
         public override bool Equals(object? obj)

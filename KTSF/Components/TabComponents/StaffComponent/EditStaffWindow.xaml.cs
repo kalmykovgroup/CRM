@@ -31,7 +31,7 @@ namespace KTSF
         private Regex phoneNumberRegex = new(@"(\+7|8)[\(\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[)\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)");
         private Regex emailRegex = new(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.\w{2,3}$");
 
-        public EditStaffWindow(User user)
+        public EditStaffWindow(Employee employee)
         {
             InitializeComponent();
             this.Employee = employee;

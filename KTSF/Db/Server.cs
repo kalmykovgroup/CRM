@@ -1,6 +1,7 @@
 ﻿
 using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
 using KTSFClassLibrary;
+using KTSFClassLibrary.ABAC;
 using KTSFClassLibrary.Product_;
 using System;
 using System.Collections.Generic;
@@ -45,14 +46,14 @@ namespace KTSF.Db
             {
                 await Task.Delay(0);
 
-                if (login == "tester" && password == "tester")
+                if (login == "t" && password == "t")
                 {
                     return (true, null, new User()
                     { 
                         Email = "Admin@mail.ru",
                         Name = "Name",
                         Surname = "Surname",
-                        Patronimyc = "Patronimyc",
+                        Patronymic = "Patronimyc",
                         AccessToken = "tester"
                     });
                 }
@@ -73,7 +74,7 @@ namespace KTSF.Db
                         Email = "Admin@mail.ru",
                         Name = "Name",
                         Surname = "Surname",
-                        Patronimyc = "Patronimyc",
+                        Patronymic = "Patronimyc",
                         AccessToken = "tester"
                     });
                 }
@@ -178,53 +179,53 @@ namespace KTSF.Db
         
         public async Task<List<Employee>> GetUsers() //Получить список всех пользователей
         {
-            await Task.Delay(0);            
+            await Task.Delay(500);            
 
-            return new List<User> {
-                new User() { Id = 1 , Name = "Иван" , Surname = "Иванов", 
+            return new List<Employee> {
+                new Employee() { Id = 1 , Name = "Иван" , Surname = "Иванов", 
                              Patronymic = "Иванович", PassportSeries = "1111", PassportNumber = "123456",
-                             InnNumber = "0123456789012", Snils = "123-456-789-00", Position = "Кассир",
-                             Address = "г.Москва, ул.Тверская..." , PhoneNumber = "8(925)123-45-67",
+                             Tin = "0123456789012", Snils = "123-456-789-00", Appointment = new Appointment(){ Name = "Кассир"},
+                             Address = "г.Москва, ул.Тверская..." , Phone = "8(925)123-45-67",
                              Email = "ivanov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = false},
-                new User() { Id = 1 , Name = "Петр" , Surname = "Петров",
+                             IsFired = false, Updated_At = new DateTime(2024, 02, 01)},
+                new Employee() { Id = 1 , Name = "Петр" , Surname = "Петров",
                              Patronymic = "Петрович", PassportSeries = "2222", PassportNumber = "123456",
-                             InnNumber = "3123456789012", Snils = "123-456-789-55", Position = "Директор",
-                             Address = "г.Москва, ул.Болотная..." , PhoneNumber = "8(985)987-65-43",
+                             Tin = "3123456789012", Snils = "123-456-789-55", Appointment = new Appointment(){ Name = "Директор"},
+                             Address = "г.Москва, ул.Болотная..." , Phone = "8(985)987-65-43",
                              Email = "petrov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = false},
-               new User() { Id = 1 , Name = "Федор" , Surname = "Федоров",
+                             IsFired = false, Updated_At = new DateTime(2024, 02, 01)},
+               new Employee() { Id = 1 , Name = "Федор" , Surname = "Федоров",
                              Patronymic = "Федорович", PassportSeries = "3333", PassportNumber = "123456",
-                             InnNumber = "6123456789012", Snils = "123-456-789-99", Position = "Управляющий",
-                             Address = "г.Москва, ул.Абрикововая..." , PhoneNumber = "8(919)444-55-66",
+                             Tin = "6123456789012", Snils = "123-456-789-99", Appointment = new Appointment(){ Name = "Управляющий"},
+                             Address = "г.Москва, ул.Абрикосовая..." , Phone = "8(919)444-55-66",
                              Email = "fedorov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = false},
+                             IsFired = false, Updated_At = new DateTime(2024, 02, 01)},
             };
         }
 
-        public async Task<List<User>> GetFiredUsers() //Получить список всех пользователей
+        public async Task<List<Employee>> GetFiredUsers() //Получить список всех пользователей
         {
             await Task.Delay(0);
 
-            return new List<User> {
-                new User() { Id = 1 , Name = "Ольга" , Surname = "Ольгова",
+            return new List<Employee> {
+                new Employee() { Id = 1 , Name = "Ольга" , Surname = "Ольгова",
                              Patronymic = "Ольговна", PassportSeries = "1111", PassportNumber = "123456",
-                             InnNumber = "0123456789012", Snils = "123-456-789-00", Position = "Кассир",
-                             Address = "г.Москва, ул.Тверская..." , PhoneNumber = "8(925)123-45-67",
+                             Tin = "0123456789012", Snils = "123-456-789-00", Appointment = new Appointment(){ Name = "Кассир"},
+                             Address = "г.Москва, ул.Тверская..." , Phone = "8(925)123-45-67",
                              Email = "ivanov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = true, LayoffDate = new DateTime(2024, 07, 08)},
-                new User() { Id = 1 , Name = "Зинаида" , Surname = "Зинаидова",
+                             IsFired = true, LayoffDate = new DateTime(2024, 07, 08) , Updated_At = new DateTime(2024, 07, 08)},
+                new Employee() { Id = 1 , Name = "Зинаида" , Surname = "Зинаидова",
                              Patronymic = "Зинаидовна", PassportSeries = "2222", PassportNumber = "123456",
-                             InnNumber = "3123456789012", Snils = "123-456-789-55", Position = "Кассир",
-                             Address = "г.Москва, ул.Болотная..." , PhoneNumber = "8(985)987-65-43",
+                             Tin = "3123456789012", Snils = "123-456-789-55", Appointment = new Appointment(){ Name = "Кассир"},
+                             Address = "г.Москва, ул.Болотная..." , Phone = "8(985)987-65-43",
                              Email = "petrov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = true, LayoffDate = new DateTime(2024, 07, 08)},
-               new User() { Id = 1 , Name = "Екатерина" , Surname = "Екатеринова",
+                             IsFired = true, LayoffDate = new DateTime(2024, 07, 08) , Updated_At = new DateTime(2024, 07, 08)},
+               new Employee() { Id = 1 , Name = "Екатерина" , Surname = "Екатеринова",
                              Patronymic = "Екатериновна", PassportSeries = "3333", PassportNumber = "123456",
-                             InnNumber = "6123456789012", Snils = "123-456-789-99", Position = "Управляющий",
-                             Address = "г.Москва, ул.Абрикововая..." , PhoneNumber = "8(919)444-55-66",
+                             Tin = "6123456789012", Snils = "123-456-789-99", Appointment = new Appointment(){ Name = "Управляющий"},
+                             Address = "г.Москва, ул.Абрикововая..." , Phone = "8(919)444-55-66",
                              Email = "fedorov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = false, LayoffDate = new DateTime(2024, 07, 08)},
+                             IsFired = false, LayoffDate = new DateTime(2024, 07, 08) , Updated_At = new DateTime(2024, 07, 08)},
             };
         }
 

@@ -275,23 +275,7 @@
                             HorizontalAlignment="Left"
                             Style="{StaticResource TextBoxStyle}"
                             Text="{Binding PassportNumber, Mode=TwoWay}" />
-                    </Grid>
-                    <!--<TextBox
-         Grid.Row="3"
-         Grid.Column="1"
-         Style="{StaticResource TextBoxStyle}"
-         Text="{Binding PassportSeries, Mode=TwoWay}" />-->
-
-                    <!--<TextBlock
-         Grid.Row="4"
-         Grid.Column="0"
-         Style="{StaticResource TextBlockStyle}"
-         Text="Номер паспорта :" />-->
-                    <!--<TextBox
-         Grid.Row="4"
-         Grid.Column="1"
-         Style="{StaticResource TextBoxStyle}"
-         Text="{Binding PassportNumber, Mode=TwoWay}" />-->
+                    </Grid>         
 
                     <TextBlock
                         Grid.Row="4"
@@ -302,7 +286,7 @@
                         Grid.Row="4"
                         Grid.Column="1"
                         Style="{StaticResource TextBoxStyle}"
-                        Text="{Binding InnNumber, Mode=TwoWay}" />
+                        Text="{Binding Tin, Mode=TwoWay}" />
 
                     <TextBlock
                         Grid.Row="5"
@@ -324,7 +308,7 @@
                         Grid.Row="6"
                         Grid.Column="1"
                         Style="{StaticResource TextBoxStyle}"
-                        Text="{Binding Position, Mode=TwoWay}" />
+                        Text="{Binding Appointment.Name, Mode=TwoWay}" />
 
                     <TextBlock
                         Grid.Row="7"
@@ -346,7 +330,7 @@
                         Grid.Row="8"
                         Grid.Column="1"
                         Style="{StaticResource TextBoxStyle}"
-                        Text="{Binding PhoneNumber, Mode=TwoWay}" />
+                        Text="{Binding Phone, Mode=TwoWay}" />
 
                     <TextBlock
                         Grid.Row="9"

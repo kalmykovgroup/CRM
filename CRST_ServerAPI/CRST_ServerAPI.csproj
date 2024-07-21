@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Model\" />
+    <Folder Include="UploadedFiles\" />
   </ItemGroup>
 
 </Project>

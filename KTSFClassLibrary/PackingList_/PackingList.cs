@@ -12,15 +12,17 @@ namespace KTSFClassLibrary.PackingList_
 {
     [Table("packing_list")]
     public class PackingList //Товарная накладная
-    { 
+    {
         public int Id { get; set; }
-         
-        public List<Product> Products { get; } = new(); //Ссылки на товар в базе
 
-        public List<string> UrlImg { get; } = new(); //Фото накладной
-         
+        public List<PackingListProduct> PackingListProducts { get; } = new(); //Ссылки на товар в базе
+
+        //public string UrlImg { get; } = "";  //Фото накладной (если не на одном листе) 
+
         public DateTime CreatedAt { get; set; }
-         
-        public DateTime UpdatedAt { get; set; }
+
+        public int EmployeeId { get; set; }
+        public Employee Employee { get; set; }
+      
     }
 }

@@ -14,7 +14,7 @@ namespace KTSFClassLibrary
         public int ObjectId { get; set; }
         public Object Object { get; set; }     
         
-        public Appointment Appointment { get; set; } //Должность
+        public Appointment Appointment { get; set; } //Должность ----  СРАЗУ new Appointment() ????????
 
         public string AccessToken { get; set; } = String.Empty;
 
@@ -28,16 +28,16 @@ namespace KTSFClassLibrary
         public string Patronymic { get; set; } = String.Empty; //Отчество
 
         [Length(4, 4)]
-        public int? PassportSeries {  get; set; }
+        public string? PassportSeries {  get; set; }
 
         [Length(6, 6)]
-        public int? PassportNumber { get; set; }
+        public string? PassportNumber { get; set; }
 
         [Length(12, 12)]
         public string? Tin{ get; set; }  //ИНН (12 цифр)
 
         [Length(12, 12)] 
-        public string? Snils { get; set; } = String.Empty; // переименовать??
+        public string? Snils { get; set; } = String.Empty; 
 
         public string? Address { get; set; } = String.Empty; // Адрес
 
@@ -47,13 +47,18 @@ namespace KTSFClassLibrary
         [Length(7, 255)]
         public string? Email { get; set; } = String.Empty;
 
-        public DateTime ApplyingDate { get; set; } // Дата оформления 
+        public DateTime? ApplyingDate { get; set; } // Дата оформления 
         public DateTime? LayoffDate { get; set; } // Дата увольнения
-
+        
         public DateTime Created_At { get; set; } // Дата создания
         public DateTime Updated_At { get; set; } // Дата последнего обновления
 
-        
+        public bool IsFired { get; set; } = false; // ?????? позже удалить !!!!
+
+        public string Password { get; set; } // генерируется и приходит на почту
+
+        public int EmployeeStatusId { get; set; }
+        public EmployeeStatus EmployeeStatus { get; set; }
 
     }
 }

@@ -12,9 +12,9 @@ namespace KTSFClassLibrary.ABAC
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string Description { get; set; } = "";
 
-        public List<DataBaseAccessAttribute> AccessAttibutes { get; } = new List<DataBaseAccessAttribute>();
+        public List<DataBaseAccessAttribute> AccessAttributes { get; } = new List<DataBaseAccessAttribute>();
 
     }
 }
