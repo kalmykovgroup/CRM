@@ -19,9 +19,7 @@ namespace KTSFClassLibrary
          
         [MaxLength(255)]
         public string Phone{ get; set; } = String.Empty;
-         
-        [MaxLength(255)]
-        public string Username { get; set; } = String.Empty;
+          
        
         [MaxLength(255)]
         public string Password { get; set; } = String.Empty;
@@ -35,7 +33,7 @@ namespace KTSFClassLibrary
         public string Surname { get; set; } = String.Empty;
          
         [MaxLength(255)]
-        public string Patronimyc { get; set; } = String.Empty;
+        public string Patronymic { get; set; } = String.Empty;
 
 
         public override bool Equals(object? obj)

@@ -7,12 +7,13 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace CRST_ServerAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase().Annotation("MySQL:Charset", "utf8mb4");
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "appointment",
@@ -113,12 +114,11 @@ namespace CRST_ServerAPI.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     Phone = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    Username = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     Password = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     AccessToken = table.Column<string>(type: "longtext", nullable: false),
                     Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     Surname = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    Patronimyc = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                    Patronymic = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -226,6 +226,27 @@ namespace CRST_ServerAPI.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "company",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_company", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_company_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "article",
                 columns: table => new
                 {
@@ -314,21 +335,6 @@ namespace CRST_ServerAPI.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "company",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_company", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "object",
                 columns: table => new
                 {
@@ -362,13 +368,13 @@ namespace CRST_ServerAPI.Migrations
                     Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     Surname = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     Patronymic = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    PassportSeries = table.Column<int>(type: "int", nullable: true),
-                    PassportNumber = table.Column<int>(type: "int", nullable: true),
-                    Tin = table.Column<string>(type: "longtext", nullable: true),
-                    Snils = table.Column<string>(type: "longtext", nullable: true),
-                    Address = table.Column<string>(type: "longtext", nullable: true),
-                    Phone = table.Column<string>(type: "longtext", nullable: false),
-                    Email = table.Column<string>(type: "longtext", nullable: true),
+                    PassportSeries = table.Column<string>(type: "varchar(4)", maxLength: 4, nullable: true),
+                    PassportNumber = table.Column<string>(type: "varchar(6)", maxLength: 6, nullable: true),
+                    Tin = table.Column<string>(type: "varchar(12)", maxLength: 12, nullable: true),
+                    Snils = table.Column<string>(type: "varchar(12)", maxLength: 12, nullable: true),
+                    Address = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
+                    Phone = table.Column<string>(type: "varchar(12)", maxLength: 12, nullable: false),
+                    Email = table.Column<string>(type: "varchar(7)", maxLength: 7, nullable: true),
                     ApplyingDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     LayoffDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Created_At = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -401,8 +407,8 @@ namespace CRST_ServerAPI.Migrations
                     TableName = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     FieldId = table.Column<int>(type: "int", nullable: false),
                     DataType = table.Column<string>(type: "longtext", nullable: false),
-                    OldData = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    NewData = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
+                    OldData = table.Column<string>(type: "longtext", nullable: false),
+                    NewData = table.Column<string>(type: "longtext", nullable: false),
                     AdminsСonsent = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
                     Ip = table.Column<string>(type: "longtext", nullable: false),
@@ -504,23 +510,11 @@ namespace CRST_ServerAPI.Migrations
                 name: "IX_product_UnitId",
                 table: "product",
                 column: "UnitId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_company_employee_UserId",
-                table: "company",
-                column: "UserId",
-                principalTable: "employee",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_company_employee_UserId",
-                table: "company");
-
             migrationBuilder.DropTable(
                 name: "article");
 
@@ -546,13 +540,19 @@ namespace CRST_ServerAPI.Migrations
                 name: "price");
 
             migrationBuilder.DropTable(
-                name: "user");
-
-            migrationBuilder.DropTable(
                 name: "database_action");
 
             migrationBuilder.DropTable(
+                name: "employee");
+
+            migrationBuilder.DropTable(
                 name: "product");
+
+            migrationBuilder.DropTable(
+                name: "appointment");
+
+            migrationBuilder.DropTable(
+                name: "object");
 
             migrationBuilder.DropTable(
                 name: "group");
@@ -564,16 +564,10 @@ namespace CRST_ServerAPI.Migrations
                 name: "unit");
 
             migrationBuilder.DropTable(
-                name: "employee");
-
-            migrationBuilder.DropTable(
-                name: "appointment");
-
-            migrationBuilder.DropTable(
-                name: "object");
-
-            migrationBuilder.DropTable(
                 name: "company");
+
+            migrationBuilder.DropTable(
+                name: "user");
         }
     }
 }

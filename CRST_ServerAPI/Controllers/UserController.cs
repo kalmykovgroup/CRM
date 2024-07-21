@@ -1,5 +1,6 @@
 ﻿using CRST_ServerAPI.Data;
 using KTSFClassLibrary;
+using KTSFClassLibrary.Product_;
 using Microsoft.AspNetCore.Mvc; 
 
 namespace CRST_ServerAPI.Controllers
@@ -20,13 +21,19 @@ namespace CRST_ServerAPI.Controllers
   
         }
 
-
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<Employee> GetEmployee(int id)
         {
             Repository repository = new UserRepository();
- 
-            return Ok(repository.Find<Employee>(id));
+
+            var employee = repository.Find<Employee>(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            return employee;
         }
+
+ 
     }
 }

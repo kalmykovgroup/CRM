@@ -142,13 +142,11 @@ namespace CRST_ServerAPI.Migrations
 
                     b.Property<string>("NewData")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("OldData")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("TableName")
                         .IsRequired()
@@ -194,7 +192,8 @@ namespace CRST_ServerAPI.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Address")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("ApplyingDate")
                         .HasColumnType("datetime(6)");
@@ -206,7 +205,8 @@ namespace CRST_ServerAPI.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(7)
+                        .HasColumnType("varchar(7)");
 
                     b.Property<DateTime?>("LayoffDate")
                         .HasColumnType("datetime(6)");
@@ -219,11 +219,13 @@ namespace CRST_ServerAPI.Migrations
                     b.Property<int>("ObjectId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PassportNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("PassportNumber")
+                        .HasMaxLength(6)
+                        .HasColumnType("varchar(6)");
 
-                    b.Property<int?>("PassportSeries")
-                        .HasColumnType("int");
+                    b.Property<string>("PassportSeries")
+                        .HasMaxLength(4)
+                        .HasColumnType("varchar(4)");
 
                     b.Property<string>("Patronymic")
                         .IsRequired()
@@ -232,10 +234,12 @@ namespace CRST_ServerAPI.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(12)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<string>("Snils")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(12)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -243,7 +247,8 @@ namespace CRST_ServerAPI.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Tin")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(12)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<DateTime>("Updated_At")
                         .HasColumnType("datetime(6)");
@@ -523,7 +528,7 @@ namespace CRST_ServerAPI.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Patronimyc")
+                    b.Property<string>("Patronymic")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
@@ -534,11 +539,6 @@ namespace CRST_ServerAPI.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
@@ -591,7 +591,7 @@ namespace CRST_ServerAPI.Migrations
 
             modelBuilder.Entity("KTSFClassLibrary.Company", b =>
                 {
-                    b.HasOne("KTSFClassLibrary.Employee", "User")
+                    b.HasOne("KTSFClassLibrary.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -21,11 +21,9 @@ namespace KTSFClassLibrary.ABAC
         public int FieldId { get; set; } //Поле которое меняют
 
         public string DataType { get; set; } //Тип поля
-
-        [MaxLength(255)]
+    
         public string OldData { get; set; } //Старое значение
-
-        [MaxLength(255)]
+        
         public string NewData { get; set; } //Новое значение
 
         public bool AdminsСonsent { get; set; } //Было ли подтверждение администратора

@@ -9,11 +9,13 @@ namespace KTSFClassLibrary
     [Table("employee")]
     public partial class Employee
     { 
+         
         public int Id { get; set; }
          
         public int ObjectId { get; set; }
         public Object Object { get; set; }     
         
+        public int AppointmentId { get; set; } //Должность
         public Appointment Appointment { get; set; } //Должность
 
         public string AccessToken { get; set; } = String.Empty;
@@ -27,24 +29,31 @@ namespace KTSFClassLibrary
         [MaxLength(255)]
         public string Patronymic { get; set; } = String.Empty; //Отчество
 
-        [Length(4, 4)]
-        public int? PassportSeries {  get; set; }
+        [MaxLength(4)]
+        [MinLength(4)]
+        public string? PassportSeries {  get; set; }
 
-        [Length(6, 6)]
-        public int? PassportNumber { get; set; }
+        [MaxLength(6)]
+        [MinLength(6)]
+        public string? PassportNumber { get; set; }
 
-        [Length(12, 12)]
+        [MaxLength(12)]
+        [MinLength(12)]
         public string? Tin{ get; set; }  //ИНН (12 цифр)
 
-        [Length(12, 12)] 
+        [MaxLength(12)] 
+        [MinLength(12)] 
         public string? Snils { get; set; } = String.Empty; // переименовать??
 
+        [MaxLength(255)]
         public string? Address { get; set; } = String.Empty; // Адрес
 
-        [Length(3, 12)]
+        [MaxLength(12)]
+        [MinLength(3)]
         public string Phone { get; set; } = String.Empty; // Телефон
 
-        [Length(7, 255)]
+        [MaxLength(7)]
+        [MinLength(255)]
         public string? Email { get; set; } = String.Empty;
 
         public DateTime ApplyingDate { get; set; } // Дата оформления 

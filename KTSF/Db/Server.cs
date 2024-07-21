@@ -41,24 +41,24 @@ namespace KTSF.Db
         //Делаем запрос на авторизацию владельца
         //Возвращаем список доступным компаний, обьектов и список пользователей на этих обьектах
 
-        public async Task<(bool result, string? error, User? user)> Authorization(string login, string password)
+        public async Task<(bool result, string? error, User? user)> Authorization(string Phone, string password)
             {
                 await Task.Delay(0);
 
-                if (login == "tester" && password == "tester")
+                if (Phone == "+79260128187" && password == "tester")
                 {
                     return (true, null, new User()
                     { 
                         Email = "Admin@mail.ru",
                         Name = "Name",
                         Surname = "Surname",
-                        Patronimyc = "Patronimyc",
-                        AccessToken = "tester"
+                        Patronymic = "Patronymic",
+                        AccessToken = "+79260128187"
                     });
                 }
                 else
                 {
-                return (false, $"Логин или пароль не подходят {login}:{password}", null);
+                return (false, $"Логин или пароль не подходят {Phone}:{password}", null);
                 }
 
             }
@@ -66,14 +66,15 @@ namespace KTSF.Db
             {
                 await Task.Delay(0);
 
-                if (token == "tester")
+                if (token == "+79260128187")
                 {
                     return (true, null, new User()
                     { 
                         Email = "Admin@mail.ru",
+                        Phone = "+79260128187",
                         Name = "Name",
                         Surname = "Surname",
-                        Patronimyc = "Patronimyc",
+                        Patronymic = "Patronymic",
                         AccessToken = "tester"
                     });
                 }
@@ -182,17 +183,17 @@ namespace KTSF.Db
 
             return new List<Employee> {
                 new Employee() { Id = 1 , Name = "Иван" , Surname = "Иванов", 
-                             Patronymic = "Иванович", PassportSeries = 1111, PassportNumber = 123456,
+                             Patronymic = "Иванович", PassportSeries = "1111", PassportNumber = "123456",
                              Tin = "0123456789012", Snils = "123-456-789-00",
                              Address = "г.Москва, ул.Тверская..." , Phone = "89251234567",
                              Email = "ivanov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01)},
                 new Employee() { Id = 1 , Name = "Петр" , Surname = "Петров",
-                             Patronymic = "Петрович", PassportSeries = 2222, PassportNumber = 123456,
+                             Patronymic = "Петрович", PassportSeries = "2222", PassportNumber = "123456",
                              Tin = "3123456789012", Snils = "123-456-789-55",
                              Address = "г.Москва, ул.Болотная..." , Phone = "89859876543",
                              Email = "petrov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01)},
                new Employee() { Id = 1 , Name = "Федор" , Surname = "Федоров",
-                             Patronymic = "Федорович", PassportSeries = 3333, PassportNumber = 123456,
+                             Patronymic = "Федорович", PassportSeries = "3333", PassportNumber = "123456",
                              Tin = "6123456789012", Snils = "123-456-789-99",
                              Address = "г.Москва, ул.Абрикововая..." , Phone = "89194445566",
                              Email = "fedorov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01)},

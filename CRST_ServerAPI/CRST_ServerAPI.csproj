@@ -24,8 +24,4 @@
     <ProjectReference Include="..\KTSFClassLibrary\KTSFClassLibrary.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
-
 </Project>

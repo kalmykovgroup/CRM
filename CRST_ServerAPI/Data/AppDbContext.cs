@@ -56,8 +56,8 @@ namespace CRST_ServerAPI.Data
         #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseMySQL("Server=127.0.0.1;Database=test;Uid=root;Pwd=;");
+        { 
+            optionsBuilder.UseMySQL("Server=127.0.0.1;Database=crm;Uid=root;Pwd=;");
         }
     }
 }

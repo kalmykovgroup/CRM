@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,10 @@ namespace KTSFClassLibrary.ABAC
         public int AppointmentId { get; set; }
         public Appointment Appointment { get; set; }
 
+        [MaxLength(255)]
         public string TableName { get; set; }
+
+        [MaxLength(255)]
         public string FieldName { get; set; }
 
         public int DataBaseActionId { get; set; }
