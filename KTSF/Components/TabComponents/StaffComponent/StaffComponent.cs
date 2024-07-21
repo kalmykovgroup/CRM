@@ -16,8 +16,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
 {    
     public partial class StaffComponent : TabComponent
     {
-        public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
-        public ObservableCollection<User> FiredUsers { get; } = new ObservableCollection<User>();
+        public ObservableCollection<Employee> Employees { get; } = new ObservableCollection<Employee>(); 
 
         public Component SearchComponent { get; }
 
@@ -44,18 +43,13 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
         public async Task Load()
         {           
-            List<Employee> users = await AppControl.Server.GetUsers();
+            List<Employee> employees = await AppControl.Server.GetEmployees();
 
-            foreach (Employee user in users) {
-                Employees.Add(user);
+            foreach (Employee employee in employees) {
+                Employees.Add(employee);
             }
-
-            List<User> firedUsers = await AppControl.Server.GetFiredUsers();
-
-            foreach (User user in firedUsers)
-            {
-                FiredUsers.Add(user);
-            }
+             
+ 
         }      
 
         [RelayCommand]
@@ -73,11 +67,11 @@ namespace KTSF.Components.TabComponents.StaffComponent
         }
 
         [RelayCommand]
-        public void EditUser(object sender)
+        public void EditEmployee(object sender)
         {
-            User user = (User)sender;
+            Employee employee = (Employee)sender;
 
-            List<User> copyUsers = new List<User> ();
+            List<Employee> copyUsers = new List<User> ();
 
             foreach (User us in Users)
             {
@@ -89,7 +83,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
                                 IsFired = us.IsFired});
             }
 
-            EditStaffWindow userWindow = new EditStaffWindow(user); // передавать копию??
+            EditStaffWindow userWindow = new EditStaffWindow(employee); // передавать копию??
             if (userWindow.ShowDialog() == true)
             {
                 copyUsers.Clear();
@@ -100,7 +94,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
                     Users.Add(copyUser);
                 }
 
-                AppControl.Server.UpdateUser(user);
+                AppControl.Server.UpdateUser(employee);
 
                 // в реале -> запрос на сервер, для сохранения в БД
                 // если Employee.LayoffDate != null -> перемещать в другую таблицу ??

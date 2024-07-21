@@ -55,6 +55,7 @@ namespace KTSFClassLibrary
         [MaxLength(7)]
         [MinLength(255)]
         public string? Email { get; set; } = String.Empty;
+         
 
         public DateTime ApplyingDate { get; set; } // Дата оформления 
         public DateTime? LayoffDate { get; set; } // Дата увольнения
