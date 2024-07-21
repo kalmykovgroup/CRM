@@ -13,7 +13,7 @@ namespace KTSFClassLibrary.Product_
          
         public int Id {  get; set; }
          
-        public int Cost { get; set; } //Стоимость
+        public ulong Cost { get; set; } //Стоимость
          
         public DateTime CreatedAt { get; set; } 
     }

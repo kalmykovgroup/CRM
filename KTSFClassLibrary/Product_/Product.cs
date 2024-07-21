@@ -48,11 +48,11 @@ namespace KTSFClassLibrary.Product_
         //Цены
         public List<Price> PriceHistory { get; } = new(); //История изменения цен
          
-        public int BuyPrice { get; set; } //Цена закупки
+        public ulong BuyPrice { get; set; } //Цена закупки
          
-        public int BuySales { get; set; } //Цена продажи
+        public ulong BuySales { get; set; } //Цена продажи
          
-        public int? OldPrice { get; set; } //Это маркетинговая цена (зачеркнутая), нужна для сайтов.
+        public ulong? OldPrice { get; set; } //Это маркетинговая цена (зачеркнутая), нужна для сайтов.
          
         public DateTime CreatedAt { get; set; }
          

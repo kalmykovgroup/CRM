@@ -18,6 +18,10 @@ namespace KTSFClassLibrary
         public int AppointmentId { get; set; } //Должность
         public Appointment Appointment { get; set; } //Должность
 
+        public int ASetOfRulesId { get; set; } //Набор правил доступа
+        public ASetOfRules ASetOfRules { get; set; } //Набор правил доступа
+
+        [MaxLength(512)]
         public string AccessToken { get; set; } = String.Empty;
 
         [MaxLength(255)]
@@ -62,12 +66,39 @@ namespace KTSFClassLibrary
         public DateTime Created_At { get; set; } // Дата создания
         public DateTime Updated_At { get; set; } // Дата последнего обновления
 
-        public bool IsFired { get; set; } = false; // ?????? позже удалить !!!!
 
+        [MaxLength(255)]
         public string Password { get; set; } // генерируется и приходит на почту
 
         public int EmployeeStatusId { get; set; }
         public EmployeeStatus EmployeeStatus { get; set; }
+
+        public Employee Copy()
+        {
+            return new Employee()
+            {
+                Id = this.Id,
+                ObjectId = this.ObjectId, 
+                AccessToken = this.AccessToken,
+                AppointmentId = this.AppointmentId,
+                Name = this.Name,
+                Surname = this.Surname,
+                Patronymic = this.Patronymic,
+                PassportSeries = this.PassportSeries,
+                PassportNumber = this.PassportNumber,
+                Tin = this.Tin,
+                Snils = this.Snils,
+                Address = this.Address,
+                Phone = this.Phone,
+                Email = this.Email,
+                ApplyingDate = this.ApplyingDate,
+                LayoffDate = this.LayoffDate,
+                Created_At = this.Created_At,
+                Updated_At = this.Updated_At, 
+                Password = this.Password,
+                EmployeeStatusId = this.EmployeeStatusId
+            };
+        }
 
     }
 }

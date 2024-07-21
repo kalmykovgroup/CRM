@@ -16,6 +16,7 @@ namespace KTSFClassLibrary.ABAC
     public class DataBaseAction
     {
         public int Id { get; set; }
+
         [MaxLength(255)]
         public string Name { get; set; }
     }

@@ -280,7 +280,7 @@
                             Height="20"
                             Margin="0,0,20,0"
                             HorizontalAlignment="Right"
-                            Command="{Binding DataContext.AddNewUserCommand, ElementName=UserControl}"
+                            Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
                             Content="Добавить"
                             Style="{StaticResource addButtonStyle}" />
                     </Grid>
@@ -396,7 +396,7 @@
                                                 Width="90"
                                                 Height="20"
                                                 Margin="0,0,15,0"
-                                                Command="{Binding DataContext.EditUserCommand, ElementName=UserControl}"
+                                                Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="Редактировать"
                                                 Style="{StaticResource buttonStyle}" />
@@ -406,7 +406,7 @@
                                                 Width="90"
                                                 Height="20"
                                                 Margin="0,0,15,0"
-                                                Command="{Binding DataContext.DeleteUserCommand, ElementName=UserControl}"
+                                                Command="{Binding DataContext.DeleteEmployeeCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="Уволить"
                                                 Style="{StaticResource buttonStyle}" />

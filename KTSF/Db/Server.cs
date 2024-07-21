@@ -273,11 +273,11 @@ namespace KTSF.Db
      
 
         //Нужно определить где будет отслеживатся информация о том каие поля мы меняем
-        public async Task<(bool result, string? message)> UpdateEmployee(Employee user)
+        public async Task<(bool result, string? message, Employee copyEmployee)> UpdateEmployee(Employee employee)
         {
-            await Task.Delay(1000);
+            await Task.Delay(0);
 
-            return (result: true, message: null);
+            return (result: true, message: null, employee);
         }
 
         
