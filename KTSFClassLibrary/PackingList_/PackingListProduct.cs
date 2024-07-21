@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace KTSFClassLibrary.PackingList_
 {
     [Table("packing_list_product")]
-    public class PackingListProduct //Связь многие ко многим
+    public class PackingListProduct //Связь многие ко многим 
     { 
         public int Id { get; set; }
          
@@ -18,6 +18,10 @@ namespace KTSFClassLibrary.PackingList_
          
         public int ProductId { get; set; }
         public Product Product { get; set; }
+
+        public int Count { get; set; }
+
+      
          
     }
 }

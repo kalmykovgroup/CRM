@@ -25,4 +25,9 @@
     <ProjectReference Include="..\KTSFClassLibrary\KTSFClassLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+    <Folder Include="UploadedFiles\" />
+  </ItemGroup>
+
 </Project>

@@ -26,7 +26,7 @@ namespace KTSFClassLibrary.ABAC
         public int DataBaseActionId { get; set; }
         public DataBaseAction DataBaseAction { get; set; }
 
-        public bool IsAdminsСonsent { get; set; } //Нужно ли подтверждение администратора на это действие
+        public bool IsAdminsConsent { get; set; } //Нужно ли подтверждение администратора на это действие
         public int? EmployeeId { get; set; } //Ссылка на старшего работника, который должен подтвердить действие
 
         public DateTime RangeFrom { get; set; }

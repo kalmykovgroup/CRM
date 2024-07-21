@@ -1,6 +1,7 @@
 ﻿
 using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
 using KTSFClassLibrary;
+using KTSFClassLibrary.ABAC;
 using KTSFClassLibrary.Product_;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;

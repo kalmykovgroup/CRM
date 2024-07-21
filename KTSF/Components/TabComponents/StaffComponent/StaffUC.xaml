@@ -20,14 +20,16 @@
                     <ControlTemplate TargetType="{x:Type TabItem}">
                         <Border
                             x:Name="PART_Border"
-                            Margin="10,2"
                             Width="150"
-                            
+                            Margin="10,2"
                             Background="{TemplateBinding Background}"
                             BorderBrush="LightGray"
                             BorderThickness="1"
                             CornerRadius="5">
-                            <ContentPresenter Margin="2" ContentSource="Header" HorizontalAlignment="Center" />
+                            <ContentPresenter
+                                Margin="2"
+                                HorizontalAlignment="Center"
+                                ContentSource="Header" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
@@ -230,7 +232,7 @@
 
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <TabControl >
+        <TabControl>
             <!--  ВКЛАДКА  АКТИВНЫЕ  -->
             <TabItem Header="Активные">
                 <Grid>
@@ -263,12 +265,14 @@
                                 </Style.Triggers>
                             </Style>
                         </Grid.Style>
-
+                        
+                        
                         <!--  USerControl SearchComponent  -->
                         <ContentControl
                             Grid.Column="0"
                             Margin="5,5"
                             Content="{Binding SearchComponent.Build}" />
+                        
 
                         <Button
                             Grid.Column="1"
@@ -281,7 +285,7 @@
                             Style="{StaticResource addButtonStyle}" />
                     </Grid>
 
-                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Users}">
+                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Employees}">
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -358,7 +362,7 @@
                                             <TextBlock
                                                 Grid.Row="1"
                                                 HorizontalAlignment="Center"
-                                                Text="{Binding PhoneNumber}" />
+                                                Text="{Binding Phone}" />
 
                                             <TextBlock
                                                 Grid.Row="2"
@@ -378,7 +382,7 @@
                                             VerticalAlignment="Center"
                                             FontSize="15"
                                             FontWeight="DemiBold"
-                                            Text="{Binding Position}" />
+                                            Text="{Binding Appointment.Name}" />
 
                                         <Grid Grid.Row="0" Grid.Column="4">
                                             <Grid.RowDefinitions>
@@ -444,6 +448,7 @@
                                                 <RowDefinition />
                                                 <RowDefinition />
                                                 <RowDefinition />
+                                                <RowDefinition />
                                             </Grid.RowDefinitions>
 
                                             <TextBlock
@@ -487,7 +492,7 @@
                                             <TextBlock
                                                 Grid.Row="2"
                                                 Grid.Column="1"
-                                                Text="{Binding InnNumber}"
+                                                Text="{Binding Tin}"
                                                 TextAlignment="Center" />
 
                                             <TextBlock
@@ -513,21 +518,21 @@
                                             <TextBlock
                                                 Grid.Row="4"
                                                 Grid.Column="1"
-                                                Text="{Binding ApplyingDate, StringFormat=MM-dd-yyyy}"
+                                                Text="{Binding ApplyingDate, StringFormat=dd-MM-yyyy}"
                                                 TextAlignment="Center" />
 
-                                            <!--<TextBlock
+                                            <TextBlock
                                                 Grid.Row="5"
                                                 Grid.Column="0"
                                                 Margin="0,5"
                                                 FontWeight="DemiBold"
-                                                Text="Дата увольнения :"
+                                                Text="Дата редактирования :"
                                                 TextAlignment="Center" />
                                             <TextBlock
                                                 Grid.Row="5"
                                                 Grid.Column="1"
-                                                Text="{Binding LayoffDate, StringFormat=MM-dd-yyyy}"
-                                                TextAlignment="Center" />-->
+                                                Text="{Binding Updated_At, StringFormat=dd-MM-yyyy}"
+                                                TextAlignment="Center" />
 
                                         </Grid>
                                     </Grid>
@@ -571,10 +576,10 @@
                         </Grid.Style>
 
                         <!--  USerControl SearchComponent  -->
-                        <!--<ContentControl
+                        <ContentControl
                             Grid.Column="0"
                             Margin="5,5"
-                            Content="{Binding SearchComponent.Build}" />-->
+                            Content="{Binding SearchComponentFired.Build}" />
 
                         <!--<Button
                             Grid.Column="1"
@@ -589,7 +594,7 @@
                             Content="Добавить" />-->
                     </Grid>
 
-                    <ItemsControl Grid.Row="1" ItemsSource="{Binding FiredUsers}">
+                    <ItemsControl Grid.Row="1" ItemsSource="{Binding FiredEmployees}">
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -666,7 +671,7 @@
                                             <TextBlock
                                                 Grid.Row="1"
                                                 HorizontalAlignment="Center"
-                                                Text="{Binding PhoneNumber}" />
+                                                Text="{Binding Phone}" />
 
                                             <TextBlock
                                                 Grid.Row="2"
@@ -686,7 +691,7 @@
                                             VerticalAlignment="Center"
                                             FontSize="15"
                                             FontWeight="DemiBold"
-                                            Text="{Binding Position}" />
+                                            Text="{Binding Appointment.Name}" />
 
                                         <Grid Grid.Row="0" Grid.Column="4">
                                             <Grid.RowDefinitions>
@@ -756,6 +761,7 @@
                                                 <RowDefinition />
                                                 <RowDefinition />
                                                 <RowDefinition />
+                                                <RowDefinition />
                                             </Grid.RowDefinitions>
 
                                             <TextBlock
@@ -799,7 +805,7 @@
                                             <TextBlock
                                                 Grid.Row="2"
                                                 Grid.Column="1"
-                                                Text="{Binding InnNumber}"
+                                                Text="{Binding Tin}"
                                                 TextAlignment="Center" />
 
                                             <TextBlock
@@ -841,6 +847,19 @@
                                                 Text="{Binding LayoffDate, StringFormat=dd-MM-yyyy}"
                                                 TextAlignment="Center" />
 
+                                            <TextBlock
+                                                Grid.Row="6"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="Дата редактирования :"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                Grid.Row="6"
+                                                Grid.Column="1"
+                                                Text="{Binding Updated_At, StringFormat=dd-MM-yyyy}"
+                                                TextAlignment="Center" />
+
                                         </Grid>
                                     </Grid>
                                 </Border>
@@ -848,7 +867,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Grid>
-            </TabItem>
+            </TabItem>        
         </TabControl>
     </ScrollViewer>
 </UserControl>

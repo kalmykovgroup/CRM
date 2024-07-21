@@ -55,15 +55,19 @@ namespace KTSFClassLibrary
         [MaxLength(7)]
         [MinLength(255)]
         public string? Email { get; set; } = String.Empty;
-         
 
-        public DateTime ApplyingDate { get; set; } // Дата оформления 
+        public DateTime? ApplyingDate { get; set; } // Дата оформления 
         public DateTime? LayoffDate { get; set; } // Дата увольнения
-
+        
         public DateTime Created_At { get; set; } // Дата создания
         public DateTime Updated_At { get; set; } // Дата последнего обновления
 
-        
+        public bool IsFired { get; set; } = false; // ?????? позже удалить !!!!
+
+        public string Password { get; set; } // генерируется и приходит на почту
+
+        public int EmployeeStatusId { get; set; }
+        public EmployeeStatus EmployeeStatus { get; set; }
 
     }
 }
