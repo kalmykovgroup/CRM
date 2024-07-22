@@ -19,13 +19,11 @@ namespace KTSF.Components.CommonComponents.SignInFormComponent
     /// Логика взаимодействия для SignInFormUC.xaml
     /// </summary>
     public partial class SignInFormUC : UserControl
-    {
-        public SignInFormComponent SignInFormComponent { get; }
+    { 
         public SignInFormUC(SignInFormComponent signInFormComponent)
         {
-            InitializeComponent();
-            SignInFormComponent = signInFormComponent;
-            DataContext = SignInFormComponent;
+            InitializeComponent(); 
+            DataContext = signInFormComponent;
         }
 
         public void TextBoxChanged(object sender, TextChangedEventArgs e)

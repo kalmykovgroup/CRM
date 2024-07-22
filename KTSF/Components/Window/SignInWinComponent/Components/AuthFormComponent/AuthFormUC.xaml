@@ -5,138 +5,94 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KTSF.Components.SignInPageComponent.Components.AuthFormComponent"
              mc:Ignorable="d" 
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
              d:DesignHeight="450" d:DesignWidth="800">
+
     <UserControl.Resources>
-        <Style x:Key="GridTextBoxStyle" TargetType="Grid">
-            <Setter Property="Margin" Value="0 20 0 0"/>
-            <Setter Property="Width" Value="370"/>
-        </Style>
 
-        <ControlTemplate x:Key="ValidationFailed">
-
-            <StackPanel>
-                <Grid>
-                    <AdornedElementPlaceholder />
-                    <Image Source="/Img/error.png" Width="20px" Height="20px" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 10 0">
-                        <Image.ToolTip>
-                            <TextBlock Text="{Binding [0].ErrorContent}"/>
-                        </Image.ToolTip>
-                    </Image>
-                </Grid>
-                <TextBlock Text="{Binding [0].ErrorContent}" HorizontalAlignment="Right" FontSize="12" Foreground="red"/>
-            </StackPanel>
-
-        </ControlTemplate>
-
-        <Style x:Key="TextBoxStyle" TargetType="TextBox">
-
-            <Setter Property="Padding" Value="10 20 20 5"/>
-            <Setter Property="FontSize" Value="17"/>
-            <Setter Property="BorderBrush" Value="#CECFF0"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Background" Value="Transparent"/>
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Border x:Name="border" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                            <Grid>
-                                <TextBlock Margin="2,0,0,0" VerticalAlignment="Center" Visibility="Collapsed" 
-                         x:Name="PART_WaterMark" Text="{TemplateBinding Text}" Foreground="Wheat"></TextBlock>
-                                <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <!--<Setter Property="Opacity" TargetName="border" Value="0.56"/>-->
-                                <Setter TargetName="border" Property="BorderBrush" Value="red"></Setter>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <!--<Setter Property="BorderBrush" TargetName="border" Value="green"/>-->
-                            </Trigger>
-                            <Trigger Property="IsKeyboardFocused" Value="true">
-                                <!--<Setter Property="BorderBrush" TargetName="border" Value="blue"/>-->
-                            </Trigger>
-                            <Trigger Property="Text" Value="">
-                                <Setter TargetName="PART_WaterMark" Property="Visibility" Value="Visible"></Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+        <Style x:Key="LoadingQRCodeStyle" TargetType="Grid">
+            <Setter Property="Panel.ZIndex" Value="2" /> 
+            <Setter Property="Width" Value="50" /> 
+            <Setter Property="Visibility" Value="Visible" />
 
             <Style.Triggers>
-
-
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.HasError)}" Value="False"/>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}" Value="True"/>
-                    </MultiDataTrigger.Conditions>
-
-                    <Setter Property="BorderBrush" Value="Green"/>
-                </MultiDataTrigger>
-
+                <DataTrigger Binding="{Binding IsLoadQRCode}" Value="False">
+                    <Setter Property="Visibility" Value="Hidden" />
+                    <d:Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
             </Style.Triggers>
 
         </Style>
-    </UserControl.Resources>
-
-    <Border Grid.Row="1" BorderThickness="1" BorderBrush="white"  CornerRadius="10" Padding="30 40 30 20" Background="White">
-        <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center"  >
-
-            <!--Tag="{Binding User.IsFocusablePassword}"-->
-            <Grid Style="{StaticResource GridTextBoxStyle}">
-                <TextBox x:Name="Barcode" Style="{StaticResource TextBoxStyle}" 
-                   Validation.ErrorTemplate="{StaticResource ValidationFailed}" 
-                   TextChanged="TextBoxChanged"
-                   LostFocus="TextBoxLostFocus"   >
-                    <TextBox.Text>
-                        <Binding Path="AppControl.User.Barcode" UpdateSourceTrigger="Explicit" NotifyOnTargetUpdated="True">
-                            <Binding.ValidationRules>
-                                <DataErrorValidationRule ValidatesOnTargetUpdated="False" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-                <TextBlock IsHitTestVisible="False" Text="Barcode" Margin="10 2 0 0" FontSize="13" Foreground="Gray"/>
+        
+        <ControlTemplate x:Key="LoadingQRCode" TargetType="ContentControl">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource LoadingQRCodeStyle}">
+                <Image d:Source="/Img/loading_2.gif" gif:ImageBehavior.AnimatedSource="/Img/loading_2.gif"/>
             </Grid>
+        </ControlTemplate>
+    </UserControl.Resources>
+   
 
+    <Border Grid.Row="1" BorderThickness="1" BorderBrush="white"  CornerRadius="10" Padding="30">
 
+        <Border CornerRadius="10" Background="White" Padding="40">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-            <TextBlock HorizontalAlignment="Right" x:Name="TextBlockError"  Foreground="{StaticResource ColorErrorString}" Padding="0 5 0 0"></TextBlock>
+                <Grid Width="150" Height="150">
 
+                    <Image Source="{Binding ImageSource}"/>
+           
+                    <ContentControl Template="{StaticResource LoadingQRCode}"/>
+                  
+                </Grid>
+              
+                
+                
+                <TextBlock Grid.Row="1" Text="Отсканировать в приложении" HorizontalAlignment="Center" Margin="0 20 0 0"/>
+                <Grid Grid.Row="2" Margin="0 20 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-            <Button Command="{Binding AuthClickCommand}"
-              BorderBrush="{StaticResource ColorErrorString}" Grid.Row="5" Margin="0 5 0 0" VerticalAlignment="Top"  HorizontalAlignment="Center" Cursor="Hand">
+                    <Button Command="{Binding GooglePlayClickCommand}" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border>
+                                    <StackPanel>
+                                        <Grid Width="30" Height="30">
+                                            <Image Source="/Img/google_play_logo.png" />
+                                        </Grid>
+                                        <TextBlock Text="Google Play" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
 
-                <Button.Template>
-                    <ControlTemplate>
-                        <Border Padding="24 10" CornerRadius="5">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="Background" Value="{StaticResource ColorScarlet}"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{StaticResource ColorHoverScarlet}"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                            <TextBlock Text="Вход" Foreground="White" />
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-
-
-        </StackPanel>
+                    <Button Command="{Binding AppStoreClickCommand}" Grid.Column="1" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border>
+                                    <StackPanel>
+                                        <Grid Width="30" Height="30">
+                                            <Image Source="/Img/app_store_logo.png" />
+                                        </Grid>
+                                        <TextBlock Text="App Store" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                   
+                </Grid>
+            </Grid>
+        </Border>
+        
 
     </Border>
 

@@ -28,6 +28,7 @@ namespace KTSF.Components
      
         public AppControl AppControl { get; }
 
+        //public нужен для mainWinComponent (Мы не можем брать Build так как произойдет инициализаци
         public UserControl? UserControl { get; private set; }
 
         [ObservableProperty] private string? isLoad;

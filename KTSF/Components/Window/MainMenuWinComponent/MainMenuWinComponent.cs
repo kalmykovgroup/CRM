@@ -12,7 +12,9 @@ using KTSF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -35,20 +37,25 @@ namespace KTSF.Components.Window.MainMenuComponent
         {
             CurrentFrame = new UserControlVM();
 
-            CashiersWorkplaceComponent cashiersWorkplaceComponent = new CashiersWorkplaceComponent(CurrentFrame, appControl);
+            CashiersWorkplaceComponent CashiersWorkplaceComponent = new CashiersWorkplaceComponent(CurrentFrame, appControl);
 
+            CashiersWorkplaceComponent.Show();
+             
 
-            LeftNavigationBar.Add(cashiersWorkplaceComponent); 
-            LeftNavigationBar.Add(new SalesComponent(CurrentFrame, appControl)); 
-            LeftNavigationBar.Add(new PurchasesComponent(CurrentFrame, appControl)); 
-            LeftNavigationBar.Add(new WarehouseComponent(CurrentFrame, appControl)); 
-            LeftNavigationBar.Add(new MoneyComponent(CurrentFrame, appControl)); 
+            LeftNavigationBar.Add(CashiersWorkplaceComponent); 
+            LeftNavigationBar.Add(new SalesComponent(CurrentFrame, appControl));
+            LeftNavigationBar.Add(new PurchasesComponent(CurrentFrame, appControl));
+            LeftNavigationBar.Add(new WarehouseComponent(CurrentFrame, appControl));
+            LeftNavigationBar.Add(new MoneyComponent(CurrentFrame, appControl));
             LeftNavigationBar.Add(new StaffComponent(CurrentFrame, appControl));
             LeftNavigationBar.Add(new CompanyComponent(CurrentFrame, appControl));
             LeftNavigationBar.Add(new SettingsComponent(CurrentFrame, appControl));
 
-            cashiersWorkplaceComponent.Show();
+
+
         }
+
+     
 
         public override void Show(object? parametr = null)
         {
