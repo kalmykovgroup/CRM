@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.ABAC
 {
+    public enum DataBaseAction { Read,  Write, Update, Delete }
     //Сдесь храняться все возможные действия с таблицами и полями
     [Table("database_access_attribute")]
     public class DataBaseAccessAttribute
@@ -15,11 +16,11 @@ namespace KTSFClassLibrary.ABAC
         public int Id { get; set; }
 
         public int ASetOfRulesId { get; set; }
-        public ASetOfRules ASetOfRules { get; set; }
+        public ASetOfRules ASetOfRules { get; set; } = null!;
 
         //TableName + FieldName + UserId + Action
-        public string Token { get; set; }
-          
+        public string Token { get; set; } = String.Empty;
+
         public bool IsAdminsConsent { get; set; } //Нужно ли подтверждение администратора на это действие
         public int? EmployeeId { get; set; } //Ссылка на старшего работника, который должен подтвердить действие
 

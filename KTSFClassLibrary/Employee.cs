@@ -13,13 +13,13 @@ namespace KTSFClassLibrary
         public int Id { get; set; }
          
         public int ObjectId { get; set; }
-        public Object Object { get; set; }     
-        
+        public Object Object { get; set; } = null!;
+
         public int AppointmentId { get; set; } //Должность
-        public Appointment Appointment { get; set; } //Должность
+        public Appointment Appointment { get; set; } = null!; //Должность
 
         public int ASetOfRulesId { get; set; } //Набор правил доступа
-        public ASetOfRules ASetOfRules { get; set; } //Набор правил доступа
+        public ASetOfRules ASetOfRules { get; set; } = null!; //Набор правил доступа
 
         [MaxLength(512)]
         public string AccessToken { get; set; } = String.Empty;
@@ -68,10 +68,10 @@ namespace KTSFClassLibrary
 
 
         [MaxLength(255)]
-        public string Password { get; set; } // генерируется и приходит на почту
+        public string Password { get; set; } = null!; // генерируется и приходит на почту
 
         public int EmployeeStatusId { get; set; }
-        public EmployeeStatus EmployeeStatus { get; set; }
+        public EmployeeStatus EmployeeStatus { get; set; } = null!;
 
         public Employee Copy()
         {

@@ -12,8 +12,12 @@ namespace KTSFClassLibrary.Product_
     public class Article
     { 
         public int Id { get; set; }
-         
-        [MaxLength(255)]
+
+        public int ProductId { get; set; }
+        public Product Product { get; set; } = null!;
+
+        [MaxLength(512)]
+        [Key]
         public string Name { get; set; } = String.Empty;
     }
 }

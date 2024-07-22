@@ -353,7 +353,7 @@ namespace CRST_ServerAPI.Migrations
                     b.ToTable("packing_list");
                 });
 
-            modelBuilder.Entity("KTSFClassLibrary.PackingList_.PackingListProduct", b =>
+            modelBuilder.Entity("KTSFClassLibrary.PackingList_.PackingListToProductJoinTable", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -695,7 +695,7 @@ namespace CRST_ServerAPI.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("KTSFClassLibrary.PackingList_.PackingListProduct", b =>
+            modelBuilder.Entity("KTSFClassLibrary.PackingList_.PackingListToProductJoinTable", b =>
                 {
                     b.HasOne("KTSFClassLibrary.PackingList_.PackingList", "PackingList")
                         .WithMany("PackingListProducts")

@@ -13,7 +13,7 @@ namespace KTSFClassLibrary.ABAC
         public int Id { get; set; }
 
         public int ASetOfRulesId { get; set; }
-        public ASetOfRules ASetOfRules { get; set; }
+        public ASetOfRules ASetOfRules { get; set; } = null!;
 
         //Namespace + component name
         public string Token { get; set; } = string.Empty;

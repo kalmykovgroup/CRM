@@ -12,8 +12,12 @@ namespace KTSFClassLibrary.Product_
     { 
         public int Id { get ; set; }
          
+        public string Name { get ; set; } = String.Empty;
+
         public int? ParentId { get ; set; }
 
         public Category? Parent { get ; set; }
+
+        public List<Product> Products { get; } = [];
     }
 }
