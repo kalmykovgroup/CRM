@@ -9,16 +9,14 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
 {
+    [Table("product_to_category_join_tables")]
     public class ProductToCategoryJoinTable
-    {
-
-        [Key]
-        [Column(Order = 0)]
+    { 
+        public int Id { get; set; }
+         
         public int ProductId {  get; set; }
         public Product Product { get; set; } = null!;
-
-        [Key]
-        [Column(Order = 1)]
+         
         public int CategoryId { get; set; }
         public Category Category { get; set; } = null!;
     }

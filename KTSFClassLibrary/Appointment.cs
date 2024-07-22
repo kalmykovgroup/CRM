@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary
 {
-    [Table("appointment")]
+    [Table("appointments")]
     public class Appointment
     {
         public int Id { get; set; }

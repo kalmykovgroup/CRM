@@ -1,4 +1,5 @@
 ﻿using KTSFClassLibrary.Product_;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,18 +10,14 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.PackingList_
 {
-    [Table("packing_list_to_product_joint_table")]
+    [Table("packing_list_to_product_joint_tables")]
     public class PackingListToProductJoinTable //Связь многие ко многим 
     { 
         public int Id { get; set; }
 
-        [Key]
-        [Column(Order = 0)]
         public int PackingListId { get; set; }
         public PackingList PackingList { get; set; } = null!;
-
-        [Key]
-        [Column(Order = 1)]
+         
         public int ProductId { get; set; }
         public Product Product { get; set; } = null!;
 

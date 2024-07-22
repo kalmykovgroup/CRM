@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRST_ServerAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240721194954_AddData")]
+    [Migration("20240722110826_AddData")]
     partial class AddData
     {
         /// <inheritdoc />
@@ -60,7 +60,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasIndex("ASetOfRulesId");
 
-                    b.ToTable("component_access_attribute");
+                    b.ToTable("component_access_attributes");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.ABAC.DataBaseAccessAttribute", b =>
@@ -92,23 +92,9 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasIndex("ASetOfRulesId");
 
-                    b.ToTable("database_access_attribute");
-                });
+                    b.HasIndex("EmployeeId");
 
-            modelBuilder.Entity("KTSFClassLibrary.ABAC.DataBaseAction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("database_action");
+                    b.ToTable("database_access_attributes");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.ABAC.EmployeeAction", b =>
@@ -155,7 +141,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("employee_action");
+                    b.ToTable("employee_actions");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Appointment", b =>
@@ -176,7 +162,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("appointment");
+                    b.ToTable("appointments");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Company", b =>
@@ -197,7 +183,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("company");
+                    b.ToTable("companies");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Employee", b =>
@@ -294,7 +280,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasIndex("ObjectId");
 
-                    b.ToTable("employee");
+                    b.ToTable("employees");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.EmployeeStatus", b =>
@@ -309,7 +295,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmployeeStatus");
+                    b.ToTable("employee_statuses");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Object", b =>
@@ -334,7 +320,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("object");
+                    b.ToTable("objects");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.PackingList_.PackingList", b =>
@@ -353,7 +339,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("packing_list");
+                    b.ToTable("packing_lists");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.PackingList_.PackingListToProductJoinTable", b =>
@@ -375,51 +361,51 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasIndex("PackingListId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId", "PackingListId")
+                        .IsUnique();
 
-                    b.ToTable("packing_list_product");
+                    b.ToTable("packing_list_to_product_joint_tables");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Article", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Name");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("article");
+                    b.ToTable("articles");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Barcode", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
                     b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Code");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("barcode");
+                    b.ToTable("barcodes");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Category", b =>
@@ -428,6 +414,10 @@ namespace CRST_ServerAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
@@ -435,23 +425,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("category");
-                });
-
-            modelBuilder.Entity("KTSFClassLibrary.Product_.Group", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("group");
+                    b.ToTable("categories");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Price", b =>
@@ -466,14 +440,14 @@ namespace CRST_ServerAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int?>("ProductInformationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductInformationId");
 
-                    b.ToTable("price");
+                    b.ToTable("prices");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Product", b =>
@@ -488,28 +462,8 @@ namespace CRST_ServerAPI.Migrations
                     b.Property<ulong>("BuySales")
                         .HasColumnType("bigint unsigned");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Length")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("NameToPrint")
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
@@ -522,19 +476,76 @@ namespace CRST_ServerAPI.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("Weight")
+                    b.HasKey("Id");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("products");
+                });
+
+            modelBuilder.Entity("KTSFClassLibrary.Product_.ProductInformation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int?>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Length")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NameToPrint")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<double?>("Weight")
+                        .HasColumnType("double");
 
                     b.Property<int?>("Width")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
-                    b.HasIndex("UnitId");
+                    b.ToTable("product_informations");
+                });
 
-                    b.ToTable("product");
+            modelBuilder.Entity("KTSFClassLibrary.Product_.ProductToCategoryJoinTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ProductId", "CategoryId")
+                        .IsUnique();
+
+                    b.ToTable("product_to_category_join_tables");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Unit", b =>
@@ -550,7 +561,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("unit");
+                    b.ToTable("units");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.User", b =>
@@ -596,7 +607,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("user");
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.ABAC.ComponentAccessAttribute", b =>
@@ -618,7 +629,13 @@ namespace CRST_ServerAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("KTSFClassLibrary.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
                     b.Navigation("ASetOfRules");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.ABAC.EmployeeAction", b =>
@@ -701,13 +718,13 @@ namespace CRST_ServerAPI.Migrations
             modelBuilder.Entity("KTSFClassLibrary.PackingList_.PackingListToProductJoinTable", b =>
                 {
                     b.HasOne("KTSFClassLibrary.PackingList_.PackingList", "PackingList")
-                        .WithMany("PackingListProducts")
+                        .WithMany("PackingListToProductJoinTables")
                         .HasForeignKey("PackingListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("KTSFClassLibrary.Product_.Product", "Product")
-                        .WithMany()
+                        .WithMany("PackingListToProductJoinTables")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -719,16 +736,24 @@ namespace CRST_ServerAPI.Migrations
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Article", b =>
                 {
-                    b.HasOne("KTSFClassLibrary.Product_.Product", null)
+                    b.HasOne("KTSFClassLibrary.Product_.Product", "Product")
                         .WithMany("Articles")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Barcode", b =>
                 {
-                    b.HasOne("KTSFClassLibrary.Product_.Product", null)
+                    b.HasOne("KTSFClassLibrary.Product_.Product", "Product")
                         .WithMany("Barcodes")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Category", b =>
@@ -742,28 +767,50 @@ namespace CRST_ServerAPI.Migrations
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Price", b =>
                 {
-                    b.HasOne("KTSFClassLibrary.Product_.Product", null)
+                    b.HasOne("KTSFClassLibrary.Product_.ProductInformation", null)
                         .WithMany("PriceHistory")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductInformationId");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Product", b =>
                 {
-                    b.HasOne("KTSFClassLibrary.Product_.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("KTSFClassLibrary.Product_.Unit", "Unit")
                         .WithMany()
                         .HasForeignKey("UnitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Group");
-
                     b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("KTSFClassLibrary.Product_.ProductInformation", b =>
+                {
+                    b.HasOne("KTSFClassLibrary.Product_.Product", "Product")
+                        .WithOne("ProductInformation")
+                        .HasForeignKey("KTSFClassLibrary.Product_.ProductInformation", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("KTSFClassLibrary.Product_.ProductToCategoryJoinTable", b =>
+                {
+                    b.HasOne("KTSFClassLibrary.Product_.Category", "Category")
+                        .WithMany("ProductToCategoryJoinTables")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KTSFClassLibrary.Product_.Product", "Product")
+                        .WithMany("ProductToCategoryJoinTables")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.ABAC.ASetOfRules", b =>
@@ -775,7 +822,12 @@ namespace CRST_ServerAPI.Migrations
 
             modelBuilder.Entity("KTSFClassLibrary.PackingList_.PackingList", b =>
                 {
-                    b.Navigation("PackingListProducts");
+                    b.Navigation("PackingListToProductJoinTables");
+                });
+
+            modelBuilder.Entity("KTSFClassLibrary.Product_.Category", b =>
+                {
+                    b.Navigation("ProductToCategoryJoinTables");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Product", b =>
@@ -784,6 +836,15 @@ namespace CRST_ServerAPI.Migrations
 
                     b.Navigation("Barcodes");
 
+                    b.Navigation("PackingListToProductJoinTables");
+
+                    b.Navigation("ProductInformation");
+
+                    b.Navigation("ProductToCategoryJoinTables");
+                });
+
+            modelBuilder.Entity("KTSFClassLibrary.Product_.ProductInformation", b =>
+                {
                     b.Navigation("PriceHistory");
                 });
 #pragma warning restore 612, 618

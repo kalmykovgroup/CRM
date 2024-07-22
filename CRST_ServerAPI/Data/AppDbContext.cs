@@ -25,8 +25,8 @@ namespace CRST_ServerAPI.Data
 
         #region Employee
 
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<DataBaseAction> DataBaseActions { get; set; }
+        public DbSet<Employee> Employees { get; set; } 
+        public DbSet<EmployeeStatus> EmployeeStatuses { get; set; } 
         public DbSet<Appointment> Appointments { get; set; }
 
         #endregion
@@ -73,22 +73,25 @@ namespace CRST_ServerAPI.Data
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        { 
+        {
 
             modelBuilder.Entity<Product>()
                 .HasMany(product => product.Categories)
                 .WithMany(category => category.Products)
-                .UsingEntity(nameof(ProductToCategoryJoinTable));
+                .UsingEntity<ProductToCategoryJoinTable>();
+
+             
+
 
             modelBuilder.Entity<PackingList>()
-                .HasMany(packingList => packingList.Products)
-                .WithMany(product => product.PackingLists)
-                .UsingEntity(nameof(PackingListToProductJoinTable));
+              .HasMany(packingList => packingList.Products)
+              .WithMany(product => product.PackingLists)
+              .UsingEntity<PackingListToProductJoinTable>();
 
-
-            //modelBuilder.Entity<County>().HasKey(x => new { x.Name, x.StateId });  //First method
-            modelBuilder.Entity<ProductToCategoryJoinTable>().HasIndex(x => new { x.ProductId, x.CategoryId }).IsUnique(); 
-            modelBuilder.Entity<PackingListToProductJoinTable>().HasIndex(x => new { x.ProductId, x.PackingListId }).IsUnique(); 
+       
+             modelBuilder.Entity<ProductToCategoryJoinTable>().HasIndex(x => new { x.ProductId, x.CategoryId }).IsUnique(); 
+             modelBuilder.Entity<PackingListToProductJoinTable>().HasIndex(x => new { x.ProductId, x.PackingListId }).IsUnique();
+ 
 
         }
     }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.ABAC
 {
-    [Table("employee_action")]
+    [Table("employee_actions")]
     public class EmployeeAction //Действия пользователей   
     {
         public int Id { get; set; }
@@ -27,6 +27,8 @@ namespace KTSFClassLibrary.ABAC
 
         public bool AdminsСonsent { get; set; } = false; //Было ли подтверждение администратора
 
+
+        [ForeignKey(nameof(Employee))]
         public int? EmployeeId { get; set; } //Админ который дал согласие на изменение
         public Employee? Employee { get; set; }
 

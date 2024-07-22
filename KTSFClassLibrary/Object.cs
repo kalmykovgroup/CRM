@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary
 {
-    [Table("object")]
+    [Table("objects")]
     public class Object //Обьект(Магазин)
     { 
         public int Id { get; set; }
-         
+
+        [ForeignKey(nameof(Company))]
         public int CompanyId {  get; set; } //Компания к которой пренадлежит магазин
         public Company Company {  get; set; } = null!;
 

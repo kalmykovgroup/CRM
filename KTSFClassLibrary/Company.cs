@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary
 {
-    [Table("company")]
+    [Table("companies")]
     public class Company
     { 
         public int Id { get; set; }
-         
+
+        [ForeignKey(nameof(User))]
         public int UserId { get; set; }
         public User User { get; set; } = null!;
 

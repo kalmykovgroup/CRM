@@ -9,7 +9,7 @@ using KTSFClassLibrary.PackingList_;
 
 namespace KTSFClassLibrary.Product_
 {
-    [Table("product")]
+    [Table("products")]
     public class Product
     { 
         public int Id { get; set; }
@@ -31,12 +31,15 @@ namespace KTSFClassLibrary.Product_
         //'Bosh' 'Перфоратор' 'SDS-Plus' 'Бесчеточные' - Все эти категории могут пресутствовать у одного товара
         //Поэтому связь многие ко многим
         public List<Category> Categories { get; } = [];
+        public List<ProductToCategoryJoinTable> ProductToCategoryJoinTables { get; } = [];
 
+
+        [ForeignKey(nameof(Unit))]
         public int UnitId { get; set; }
         public Unit Unit { get; set; } = null!; //шт. л. кг.
 
-        public int ProductInformationId { get; set; }
-        public ProductInformation ProductInformation { get; set; } = null!;
+     
+        public ProductInformation? ProductInformation { get; set; }
 
 
         //Разные постащики могут давать накладные без штрих-кода но со свои артиклом
@@ -49,6 +52,7 @@ namespace KTSFClassLibrary.Product_
 
         //Для связи многие ко многим
         public List<PackingList> PackingLists { get; } = [];
+        public List<PackingListToProductJoinTable> PackingListToProductJoinTables { get; } = [];
 
     }
 }
