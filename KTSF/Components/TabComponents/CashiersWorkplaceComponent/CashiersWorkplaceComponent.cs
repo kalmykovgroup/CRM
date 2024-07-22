@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent;
@@ -51,13 +52,17 @@ public partial class CashiersWorkplaceComponent : TabComponent
             if (textBox != null) {
                 FocusManager.SetFocusedElement (cashiersWorkplaceUC, null);
                 Keyboard.ClearFocus ();
-                //UpdateTotalSumCheck ();
             }
         }
-
     }
 
-    public void TextBox_LostFocus (object sender, EventArgs e) {
+    public void textBoxPrice_TextChanged (object sender, TextChangedEventArgs e) {
+        SelectedProduct.Price = double.Parse(((TextBox) sender).Text);
+        UpdateTotalSumCheck ();
+    }
+
+    public void textBoxCount_TextChanged (object sender, TextChangedEventArgs e) {
+        SelectedProduct.Count = int.Parse (((TextBox) sender).Text);
         UpdateTotalSumCheck ();
     }
 

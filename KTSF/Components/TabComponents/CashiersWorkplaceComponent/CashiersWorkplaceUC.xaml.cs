@@ -30,9 +30,10 @@ namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent
 
         private void textBoxCountProduct_KeyDown (object sender, KeyEventArgs e) => CashiersWorkplaceComponent.textBoxCountProduct_KeyDown(sender, e);
 
-        //private void TextBox_LostFocus (object sender, RoutedEventArgs e) => TextBox_LostFocus(sender, e);
-        private void TextBox_LostFocus (object sender, RoutedEventArgs e) {
-            CashiersWorkplaceComponent.UpdateTotalSumCheck();
-        }
+        private void TextBoxPrice_TextChanged (object sender, TextChangedEventArgs e) => CashiersWorkplaceComponent.textBoxPrice_TextChanged (sender, e);
+        
+        private void TextBoxCount_TextChanged (object sender, TextChangedEventArgs e) => CashiersWorkplaceComponent.textBoxCount_TextChanged (sender, e);
+        
+
     }
 }
