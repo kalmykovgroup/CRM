@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
 {
-    [Table("price")]
+    [Table("prices")]
     public class Price
     {
          

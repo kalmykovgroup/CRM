@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
 {
-    [Table("unit")]
+    [Table("units")]
     public class Unit //шт. л. кг.
     { 
         public int Id { get; set; }

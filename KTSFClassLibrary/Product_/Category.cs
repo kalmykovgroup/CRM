@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
 {
-    [Table("category")]
+    [Table("categories")]
     public class Category
     { 
         public int Id { get ; set; }
          
-        // НЕ ПОНЯТНО ... ЧТО ЭТО?
-        public int? ParentId { get ; set; }
+        public string Name { get ; set; } = String.Empty;
 
-        // И ТУТ ТОЖЕ
+
+        [ForeignKey(nameof(Category))]
+        public int? ParentId { get ; set; }
         public Category? Parent { get ; set; }
+
+        public List<Product> Products { get; } = [];
+        public List<ProductToCategoryJoinTable> ProductToCategoryJoinTables { get; } = [];
     }
 }

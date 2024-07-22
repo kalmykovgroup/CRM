@@ -31,7 +31,7 @@ namespace CRST_ServerAPI.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "appointment",
+                name: "appointments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -41,45 +41,32 @@ namespace CRST_ServerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_appointment", x => x.Id);
+                    table.PrimaryKey("PK_appointments", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "category",
+                name: "categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
                     ParentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_category", x => x.Id);
+                    table.PrimaryKey("PK_categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_category_category_ParentId",
+                        name: "FK_categories_categories_ParentId",
                         column: x => x.ParentId,
-                        principalTable: "category",
+                        principalTable: "categories",
                         principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "database_action",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_database_action", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "EmployeeStatus",
+                name: "employee_statuses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -88,12 +75,12 @@ namespace CRST_ServerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeStatus", x => x.Id);
+                    table.PrimaryKey("PK_employee_statuses", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "group",
+                name: "units",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -102,26 +89,12 @@ namespace CRST_ServerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_group", x => x.Id);
+                    table.PrimaryKey("PK_units", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "unit",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_unit", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "user",
+                name: "users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -136,12 +109,12 @@ namespace CRST_ServerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user", x => x.Id);
+                    table.PrimaryKey("PK_users", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "component_access_attribute",
+                name: "component_access_attributes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -151,9 +124,9 @@ namespace CRST_ServerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_component_access_attribute", x => x.Id);
+                    table.PrimaryKey("PK_component_access_attributes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_component_access_attribute_a_set_of_rules_ASetOfRulesId",
+                        name: "FK_component_access_attributes_a_set_of_rules_ASetOfRulesId",
                         column: x => x.ASetOfRulesId,
                         principalTable: "a_set_of_rules",
                         principalColumn: "Id",
@@ -162,71 +135,32 @@ namespace CRST_ServerAPI.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "database_access_attribute",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    ASetOfRulesId = table.Column<int>(type: "int", nullable: false),
-                    Token = table.Column<string>(type: "longtext", nullable: false),
-                    IsAdminsConsent = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: true),
-                    RangeFrom = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    RangeTo = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_database_access_attribute", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_database_access_attribute_a_set_of_rules_ASetOfRulesId",
-                        column: x => x.ASetOfRulesId,
-                        principalTable: "a_set_of_rules",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "product",
+                name: "products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    NameToPrint = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
-                    Description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
-                    GroupId = table.Column<int>(type: "int", nullable: false),
-                    UnitId = table.Column<int>(type: "int", nullable: false),
-                    Width = table.Column<int>(type: "int", nullable: true),
-                    Height = table.Column<int>(type: "int", nullable: true),
-                    Length = table.Column<int>(type: "int", nullable: true),
-                    Weight = table.Column<int>(type: "int", nullable: true),
                     BuyPrice = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     BuySales = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     OldPrice = table.Column<ulong>(type: "bigint unsigned", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UnitId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_product", x => x.Id);
+                    table.PrimaryKey("PK_products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_product_group_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "group",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_product_unit_UnitId",
+                        name: "FK_products_units_UnitId",
                         column: x => x.UnitId,
-                        principalTable: "unit",
+                        principalTable: "units",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "company",
+                name: "companies",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -236,79 +170,114 @@ namespace CRST_ServerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_company", x => x.Id);
+                    table.PrimaryKey("PK_companies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_company_user_UserId",
+                        name: "FK_companies_users_UserId",
                         column: x => x.UserId,
-                        principalTable: "user",
+                        principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "article",
+                name: "articles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_article", x => x.Id);
+                    table.PrimaryKey("PK_articles", x => x.Name);
                     table.ForeignKey(
-                        name: "FK_article_product_ProductId",
+                        name: "FK_articles_products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "product",
-                        principalColumn: "Id");
+                        principalTable: "products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "barcode",
+                name: "barcodes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Code = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
+                    Code = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_barcode", x => x.Id);
+                    table.PrimaryKey("PK_barcodes", x => x.Code);
                     table.ForeignKey(
-                        name: "FK_barcode_product_ProductId",
+                        name: "FK_barcodes_products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "product",
-                        principalColumn: "Id");
+                        principalTable: "products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "price",
+                name: "product_informations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Cost = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    NameToPrint = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
+                    Description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
+                    Width = table.Column<int>(type: "int", nullable: true),
+                    Height = table.Column<int>(type: "int", nullable: true),
+                    Length = table.Column<int>(type: "int", nullable: true),
+                    Weight = table.Column<double>(type: "double", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_price", x => x.Id);
+                    table.PrimaryKey("PK_product_informations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_price_product_ProductId",
+                        name: "FK_product_informations_products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "product",
-                        principalColumn: "Id");
+                        principalTable: "products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "object",
+                name: "product_to_category_join_tables",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_product_to_category_join_tables", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_product_to_category_join_tables_categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_product_to_category_join_tables_products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "objects",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -319,18 +288,39 @@ namespace CRST_ServerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_object", x => x.Id);
+                    table.PrimaryKey("PK_objects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_object_company_CompanyId",
+                        name: "FK_objects_companies_CompanyId",
                         column: x => x.CompanyId,
-                        principalTable: "company",
+                        principalTable: "companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "employee",
+                name: "prices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Cost = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ProductInformationId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_prices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_prices_product_informations_ProductInformationId",
+                        column: x => x.ProductInformationId,
+                        principalTable: "product_informations",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "employees",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -358,36 +348,66 @@ namespace CRST_ServerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_employee", x => x.Id);
+                    table.PrimaryKey("PK_employees", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_employee_EmployeeStatus_EmployeeStatusId",
-                        column: x => x.EmployeeStatusId,
-                        principalTable: "EmployeeStatus",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_employee_a_set_of_rules_ASetOfRulesId",
+                        name: "FK_employees_a_set_of_rules_ASetOfRulesId",
                         column: x => x.ASetOfRulesId,
                         principalTable: "a_set_of_rules",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_employee_appointment_AppointmentId",
+                        name: "FK_employees_appointments_AppointmentId",
                         column: x => x.AppointmentId,
-                        principalTable: "appointment",
+                        principalTable: "appointments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_employee_object_ObjectId",
+                        name: "FK_employees_employee_statuses_EmployeeStatusId",
+                        column: x => x.EmployeeStatusId,
+                        principalTable: "employee_statuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_employees_objects_ObjectId",
                         column: x => x.ObjectId,
-                        principalTable: "object",
+                        principalTable: "objects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "employee_action",
+                name: "database_access_attributes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    ASetOfRulesId = table.Column<int>(type: "int", nullable: false),
+                    Token = table.Column<string>(type: "longtext", nullable: false),
+                    IsAdminsConsent = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    RangeFrom = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    RangeTo = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_database_access_attributes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_database_access_attributes_a_set_of_rules_ASetOfRulesId",
+                        column: x => x.ASetOfRulesId,
+                        principalTable: "a_set_of_rules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_database_access_attributes_employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employees",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "employee_actions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -404,17 +424,17 @@ namespace CRST_ServerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_employee_action", x => x.Id);
+                    table.PrimaryKey("PK_employee_actions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_employee_action_employee_EmployeeId",
+                        name: "FK_employee_actions_employees_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "employee",
+                        principalTable: "employees",
                         principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "packing_list",
+                name: "packing_lists",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -424,18 +444,18 @@ namespace CRST_ServerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_packing_list", x => x.Id);
+                    table.PrimaryKey("PK_packing_lists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_packing_list_employee_EmployeeId",
+                        name: "FK_packing_lists_employees_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "employee",
+                        principalTable: "employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "packing_list_product",
+                name: "packing_list_to_product_joint_tables",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -446,110 +466,128 @@ namespace CRST_ServerAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_packing_list_product", x => x.Id);
+                    table.PrimaryKey("PK_packing_list_to_product_joint_tables", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_packing_list_product_packing_list_PackingListId",
+                        name: "FK_packing_list_to_product_joint_tables_packing_lists_PackingLi~",
                         column: x => x.PackingListId,
-                        principalTable: "packing_list",
+                        principalTable: "packing_lists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_packing_list_product_product_ProductId",
+                        name: "FK_packing_list_to_product_joint_tables_products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "product",
+                        principalTable: "products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_article_ProductId",
-                table: "article",
+                name: "IX_articles_ProductId",
+                table: "articles",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_barcode_ProductId",
-                table: "barcode",
+                name: "IX_barcodes_ProductId",
+                table: "barcodes",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_category_ParentId",
-                table: "category",
+                name: "IX_categories_ParentId",
+                table: "categories",
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_company_UserId",
-                table: "company",
+                name: "IX_companies_UserId",
+                table: "companies",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_component_access_attribute_ASetOfRulesId",
-                table: "component_access_attribute",
+                name: "IX_component_access_attributes_ASetOfRulesId",
+                table: "component_access_attributes",
                 column: "ASetOfRulesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_database_access_attribute_ASetOfRulesId",
-                table: "database_access_attribute",
+                name: "IX_database_access_attributes_ASetOfRulesId",
+                table: "database_access_attributes",
                 column: "ASetOfRulesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_employee_AppointmentId",
-                table: "employee",
+                name: "IX_database_access_attributes_EmployeeId",
+                table: "database_access_attributes",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_employee_actions_EmployeeId",
+                table: "employee_actions",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_employees_AppointmentId",
+                table: "employees",
                 column: "AppointmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_employee_ASetOfRulesId",
-                table: "employee",
+                name: "IX_employees_ASetOfRulesId",
+                table: "employees",
                 column: "ASetOfRulesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_employee_EmployeeStatusId",
-                table: "employee",
+                name: "IX_employees_EmployeeStatusId",
+                table: "employees",
                 column: "EmployeeStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_employee_ObjectId",
-                table: "employee",
+                name: "IX_employees_ObjectId",
+                table: "employees",
                 column: "ObjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_employee_action_EmployeeId",
-                table: "employee_action",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_object_CompanyId",
-                table: "object",
+                name: "IX_objects_CompanyId",
+                table: "objects",
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_packing_list_EmployeeId",
-                table: "packing_list",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_packing_list_product_PackingListId",
-                table: "packing_list_product",
+                name: "IX_packing_list_to_product_joint_tables_PackingListId",
+                table: "packing_list_to_product_joint_tables",
                 column: "PackingListId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_packing_list_product_ProductId",
-                table: "packing_list_product",
-                column: "ProductId");
+                name: "IX_packing_list_to_product_joint_tables_ProductId_PackingListId",
+                table: "packing_list_to_product_joint_tables",
+                columns: new[] { "ProductId", "PackingListId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_price_ProductId",
-                table: "price",
-                column: "ProductId");
+                name: "IX_packing_lists_EmployeeId",
+                table: "packing_lists",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_product_GroupId",
-                table: "product",
-                column: "GroupId");
+                name: "IX_prices_ProductInformationId",
+                table: "prices",
+                column: "ProductInformationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_product_UnitId",
-                table: "product",
+                name: "IX_product_informations_ProductId",
+                table: "product_informations",
+                column: "ProductId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_product_to_category_join_tables_CategoryId",
+                table: "product_to_category_join_tables",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_product_to_category_join_tables_ProductId_CategoryId",
+                table: "product_to_category_join_tables",
+                columns: new[] { "ProductId", "CategoryId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_products_UnitId",
+                table: "products",
                 column: "UnitId");
         }
 
@@ -557,64 +595,64 @@ namespace CRST_ServerAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "article");
+                name: "articles");
 
             migrationBuilder.DropTable(
-                name: "barcode");
+                name: "barcodes");
 
             migrationBuilder.DropTable(
-                name: "category");
+                name: "component_access_attributes");
 
             migrationBuilder.DropTable(
-                name: "component_access_attribute");
+                name: "database_access_attributes");
 
             migrationBuilder.DropTable(
-                name: "database_access_attribute");
+                name: "employee_actions");
 
             migrationBuilder.DropTable(
-                name: "database_action");
+                name: "packing_list_to_product_joint_tables");
 
             migrationBuilder.DropTable(
-                name: "employee_action");
+                name: "prices");
 
             migrationBuilder.DropTable(
-                name: "packing_list_product");
+                name: "product_to_category_join_tables");
 
             migrationBuilder.DropTable(
-                name: "price");
+                name: "packing_lists");
 
             migrationBuilder.DropTable(
-                name: "packing_list");
+                name: "product_informations");
 
             migrationBuilder.DropTable(
-                name: "product");
+                name: "categories");
 
             migrationBuilder.DropTable(
-                name: "employee");
+                name: "employees");
 
             migrationBuilder.DropTable(
-                name: "group");
-
-            migrationBuilder.DropTable(
-                name: "unit");
-
-            migrationBuilder.DropTable(
-                name: "EmployeeStatus");
+                name: "products");
 
             migrationBuilder.DropTable(
                 name: "a_set_of_rules");
 
             migrationBuilder.DropTable(
-                name: "appointment");
+                name: "appointments");
 
             migrationBuilder.DropTable(
-                name: "object");
+                name: "employee_statuses");
 
             migrationBuilder.DropTable(
-                name: "company");
+                name: "objects");
 
             migrationBuilder.DropTable(
-                name: "user");
+                name: "units");
+
+            migrationBuilder.DropTable(
+                name: "companies");
+
+            migrationBuilder.DropTable(
+                name: "users");
         }
     }
 }

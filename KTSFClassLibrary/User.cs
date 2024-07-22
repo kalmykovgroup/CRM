@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary
 {
-    [Table("user")]
+    [Table("users")]
     public partial class User
     { 
         public int Id { get; set; }

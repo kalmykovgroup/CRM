@@ -8,12 +8,17 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary.Product_
 {
-    [Table("article")]
+    [Table("articles")]
     public class Article
     { 
         public int Id { get; set; }
-         
-        [MaxLength(255)]
+
+        [ForeignKey(nameof(Product))]
+        public int ProductId { get; set; }
+        public Product Product { get; set; } = null!;
+
+        [MaxLength(512)]
+        [Key]
         public string Name { get; set; } = String.Empty;
     }
 }

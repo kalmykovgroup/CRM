@@ -40,9 +40,7 @@ namespace KTSF.Components.SignInPageComponent.Components.AuthFormComponent
 
         //Метод вызовится когда сервер сгенерирует и пришлет QR code
         private void GenerateBarCode(string code)
-        {
-           
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+        {  QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(code, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
