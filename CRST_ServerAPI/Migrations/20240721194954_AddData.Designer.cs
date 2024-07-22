@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRST_ServerAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240720121721_initial data")]
-    partial class initialdata
+    [Migration("20240721194954_AddData")]
+    partial class AddData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,7 +22,7 @@ namespace CRST_ServerAPI.Migrations
                 .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("KTSFClassLibrary.ABAC.Appointment", b =>
+            modelBuilder.Entity("KTSFClassLibrary.ABAC.ASetOfRules", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,15 +30,17 @@ namespace CRST_ServerAPI.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("appointment");
+                    b.ToTable("a_set_of_rules");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.ABAC.ComponentAccessAttribute", b =>
@@ -47,7 +49,7 @@ namespace CRST_ServerAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("AppointmentId")
+                    b.Property<int>("ASetOfRulesId")
                         .HasColumnType("int");
 
                     b.Property<string>("Token")
@@ -56,7 +58,7 @@ namespace CRST_ServerAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointmentId");
+                    b.HasIndex("ASetOfRulesId");
 
                     b.ToTable("component_access_attribute");
                 });
@@ -67,20 +69,13 @@ namespace CRST_ServerAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DataBaseActionId")
+                    b.Property<int>("ASetOfRulesId")
                         .HasColumnType("int");
 
                     b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FieldName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("IsAdminsСonsent")
+                    b.Property<bool>("IsAdminsConsent")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("RangeFrom")
@@ -89,15 +84,13 @@ namespace CRST_ServerAPI.Migrations
                     b.Property<DateTime>("RangeTo")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("TableName")
+                    b.Property<string>("Token")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointmentId");
-
-                    b.HasIndex("DataBaseActionId");
+                    b.HasIndex("ASetOfRulesId");
 
                     b.ToTable("database_access_attribute");
                 });
@@ -110,7 +103,8 @@ namespace CRST_ServerAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -126,14 +120,14 @@ namespace CRST_ServerAPI.Migrations
                     b.Property<bool>("AdminsСonsent")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("DataType")
+                    b.Property<string>("Agent")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int>("FieldId")
@@ -141,17 +135,16 @@ namespace CRST_ServerAPI.Migrations
 
                     b.Property<string>("Ip")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("NewData")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("OldData")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("TableName")
                         .IsRequired()
@@ -163,6 +156,27 @@ namespace CRST_ServerAPI.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("employee_action");
+                });
+
+            modelBuilder.Entity("KTSFClassLibrary.Appointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("appointment");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Company", b =>
@@ -192,14 +206,19 @@ namespace CRST_ServerAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("ASetOfRulesId")
+                        .HasColumnType("int");
+
                     b.Property<string>("AccessToken")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
 
                     b.Property<string>("Address")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime>("ApplyingDate")
+                    b.Property<DateTime?>("ApplyingDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("AppointmentId")
@@ -209,7 +228,11 @@ namespace CRST_ServerAPI.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(7)
+                        .HasColumnType("varchar(7)");
+
+                    b.Property<int>("EmployeeStatusId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("LayoffDate")
                         .HasColumnType("datetime(6)");
@@ -222,11 +245,18 @@ namespace CRST_ServerAPI.Migrations
                     b.Property<int>("ObjectId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PassportNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("PassportNumber")
+                        .HasMaxLength(6)
+                        .HasColumnType("varchar(6)");
 
-                    b.Property<int?>("PassportSeries")
-                        .HasColumnType("int");
+                    b.Property<string>("PassportSeries")
+                        .HasMaxLength(4)
+                        .HasColumnType("varchar(4)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Patronymic")
                         .IsRequired()
@@ -235,10 +265,12 @@ namespace CRST_ServerAPI.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(12)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<string>("Snils")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(12)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -246,18 +278,38 @@ namespace CRST_ServerAPI.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Tin")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(12)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<DateTime>("Updated_At")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ASetOfRulesId");
+
                     b.HasIndex("AppointmentId");
+
+                    b.HasIndex("EmployeeStatusId");
 
                     b.HasIndex("ObjectId");
 
                     b.ToTable("employee");
+                });
+
+            modelBuilder.Entity("KTSFClassLibrary.EmployeeStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeeStatus");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Object", b =>
@@ -294,10 +346,12 @@ namespace CRST_ServerAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("packing_list");
                 });
@@ -306,6 +360,9 @@ namespace CRST_ServerAPI.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Count")
                         .HasColumnType("int");
 
                     b.Property<int>("PackingListId")
@@ -403,8 +460,8 @@ namespace CRST_ServerAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Cost")
-                        .HasColumnType("int");
+                    b.Property<ulong>("Cost")
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -425,11 +482,11 @@ namespace CRST_ServerAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("BuyPrice")
-                        .HasColumnType("int");
+                    b.Property<ulong>("BuyPrice")
+                        .HasColumnType("bigint unsigned");
 
-                    b.Property<int>("BuySales")
-                        .HasColumnType("int");
+                    b.Property<ulong>("BuySales")
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -456,11 +513,8 @@ namespace CRST_ServerAPI.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("OldPrice")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PackingListId")
-                        .HasColumnType("int");
+                    b.Property<ulong?>("OldPrice")
+                        .HasColumnType("bigint unsigned");
 
                     b.Property<int>("UnitId")
                         .HasColumnType("int");
@@ -477,8 +531,6 @@ namespace CRST_ServerAPI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
-
-                    b.HasIndex("PackingListId");
 
                     b.HasIndex("UnitId");
 
@@ -509,7 +561,8 @@ namespace CRST_ServerAPI.Migrations
 
                     b.Property<string>("AccessToken")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -526,7 +579,7 @@ namespace CRST_ServerAPI.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Patronimyc")
+                    b.Property<string>("Patronymic")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
@@ -541,11 +594,6 @@ namespace CRST_ServerAPI.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
 
                     b.ToTable("user");
@@ -553,48 +601,38 @@ namespace CRST_ServerAPI.Migrations
 
             modelBuilder.Entity("KTSFClassLibrary.ABAC.ComponentAccessAttribute", b =>
                 {
-                    b.HasOne("KTSFClassLibrary.ABAC.Appointment", "Appointment")
-                        .WithMany()
-                        .HasForeignKey("AppointmentId")
+                    b.HasOne("KTSFClassLibrary.ABAC.ASetOfRules", "ASetOfRules")
+                        .WithMany("ComponentAccessAttributes")
+                        .HasForeignKey("ASetOfRulesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Appointment");
+                    b.Navigation("ASetOfRules");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.ABAC.DataBaseAccessAttribute", b =>
                 {
-                    b.HasOne("KTSFClassLibrary.ABAC.Appointment", "Appointment")
-                        .WithMany("AccessAttibutes")
-                        .HasForeignKey("AppointmentId")
+                    b.HasOne("KTSFClassLibrary.ABAC.ASetOfRules", "ASetOfRules")
+                        .WithMany("AccessAttributes")
+                        .HasForeignKey("ASetOfRulesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KTSFClassLibrary.ABAC.DataBaseAction", "DataBaseAction")
-                        .WithMany()
-                        .HasForeignKey("DataBaseActionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
-
-                    b.Navigation("DataBaseAction");
+                    b.Navigation("ASetOfRules");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.ABAC.EmployeeAction", b =>
                 {
                     b.HasOne("KTSFClassLibrary.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Company", b =>
                 {
-                    b.HasOne("KTSFClassLibrary.Employee", "User")
+                    b.HasOne("KTSFClassLibrary.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -605,9 +643,21 @@ namespace CRST_ServerAPI.Migrations
 
             modelBuilder.Entity("KTSFClassLibrary.Employee", b =>
                 {
-                    b.HasOne("KTSFClassLibrary.ABAC.Appointment", "Appointment")
+                    b.HasOne("KTSFClassLibrary.ABAC.ASetOfRules", "ASetOfRules")
+                        .WithMany()
+                        .HasForeignKey("ASetOfRulesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KTSFClassLibrary.Appointment", "Appointment")
                         .WithMany()
                         .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KTSFClassLibrary.EmployeeStatus", "EmployeeStatus")
+                        .WithMany()
+                        .HasForeignKey("EmployeeStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -617,7 +667,11 @@ namespace CRST_ServerAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ASetOfRules");
+
                     b.Navigation("Appointment");
+
+                    b.Navigation("EmployeeStatus");
 
                     b.Navigation("Object");
                 });
@@ -633,10 +687,21 @@ namespace CRST_ServerAPI.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("KTSFClassLibrary.PackingList_.PackingList", b =>
+                {
+                    b.HasOne("KTSFClassLibrary.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("KTSFClassLibrary.PackingList_.PackingListProduct", b =>
                 {
                     b.HasOne("KTSFClassLibrary.PackingList_.PackingList", "PackingList")
-                        .WithMany()
+                        .WithMany("PackingListProducts")
                         .HasForeignKey("PackingListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -690,10 +755,6 @@ namespace CRST_ServerAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KTSFClassLibrary.PackingList_.PackingList", null)
-                        .WithMany("Products")
-                        .HasForeignKey("PackingListId");
-
                     b.HasOne("KTSFClassLibrary.Product_.Unit", "Unit")
                         .WithMany()
                         .HasForeignKey("UnitId")
@@ -705,14 +766,16 @@ namespace CRST_ServerAPI.Migrations
                     b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("KTSFClassLibrary.ABAC.Appointment", b =>
+            modelBuilder.Entity("KTSFClassLibrary.ABAC.ASetOfRules", b =>
                 {
-                    b.Navigation("AccessAttibutes");
+                    b.Navigation("AccessAttributes");
+
+                    b.Navigation("ComponentAccessAttributes");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.PackingList_.PackingList", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("PackingListProducts");
                 });
 
             modelBuilder.Entity("KTSFClassLibrary.Product_.Product", b =>

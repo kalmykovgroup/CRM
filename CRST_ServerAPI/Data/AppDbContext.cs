@@ -15,30 +15,39 @@ namespace CRST_ServerAPI.Data
         public static string ConnectionString { get; set; } = String.Empty;
  
 
-        public DbSet<Employee> Employees { get; set; }
+        
         public DbSet<KTSFClassLibrary.Object> Objects { get; set; }
         public DbSet<User> MainUsers { get; set; }
         public DbSet<Company> Companies { get; set; }
+
+
+        #region Employee
+
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<DataBaseAction> DataBaseActions { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+
+        #endregion
 
         #region ABAC
 
         public DbSet<User> Users { get; set; }
 
         public DbSet<DataBaseAccessAttribute> DataBaseAccessAttributes { get; set; }
-        public DbSet<DataBaseAction> DataBaseActions { get; set; }
 
         public DbSet<ComponentAccessAttribute> ComponentAccessAttributes { get; set; }
 
          public DbSet<EmployeeAction> EmployeeActions { get; set; }
-         public DbSet<Appointment> Appointments { get; set; }
+         public DbSet<ASetOfRules> ASetOfRules { get; set; }
 
         #endregion
 
 
+
         #region PackingList
 
-             //Товарная накладная
-             public DbSet<PackingList> PackingLists { get; set; }
+        //Товарная накладная
+        public DbSet<PackingList> PackingLists { get; set; }
              public DbSet<PackingListProduct> PackingListProducts { get; set; }
 
         #endregion
@@ -56,8 +65,8 @@ namespace CRST_ServerAPI.Data
         #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseMySQL("Server=127.0.0.1;Database=test;Uid=root;Pwd=;");
+        { 
+            optionsBuilder.UseMySQL("Server=127.0.0.1;Database=crm;Uid=root;Pwd=;");
         }
     }
 }

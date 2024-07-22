@@ -1,6 +1,8 @@
 
 using CRST_ServerAPI.Data;
+using KTSFClassLibrary;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 
 namespace CRST_ServerAPI
@@ -22,7 +24,7 @@ namespace CRST_ServerAPI
             string connectionString = builder.Configuration.GetConnectionString("MySql") ?? throw new ArgumentNullException("Connection string is null");
 
             AppDbContext.ConnectionString = connectionString;
-           // builder.Services.AddDbContext<AppDbContext>(options => options.UseMySQL(connectionString));
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseMySQL(connectionString));
            
             var app = builder.Build();
 
@@ -33,9 +35,11 @@ namespace CRST_ServerAPI
                 app.UseSwaggerUI();
             }
 
+
+            // // Настройте конвейер HTTP-запросов.
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseAuthorization(); 
 
             // устанавливаем сопоставление маршрутов с контроллерами
             app.MapControllerRoute(
@@ -45,8 +49,15 @@ namespace CRST_ServerAPI
              );
 
             app.MapControllers();
+             
 
             app.Run();
+
+
+           
         }
+ 
+
+       
     }
 }

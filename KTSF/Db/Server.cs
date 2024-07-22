@@ -3,6 +3,7 @@ using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
 using KTSFClassLibrary;
 using KTSFClassLibrary.ABAC;
 using KTSFClassLibrary.Product_;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KTSF.Db
 {
@@ -42,24 +44,26 @@ namespace KTSF.Db
         //Делаем запрос на авторизацию владельца
         //Возвращаем список доступным компаний, обьектов и список пользователей на этих обьектах
 
-        public async Task<(bool result, string? error, User? user)> Authorization(string login, string password)
+        public async Task<(bool result, string? error, User? user)> Authorization(string Phone, string password)
             {
                 await Task.Delay(0);
 
-                if (login == "t" && password == "t")
+                if (Phone == "+79260128187" && password == "tester")
                 {
                     return (true, null, new User()
-                    { 
-                        Email = "Admin@mail.ru",
-                        Name = "Name",
-                        Surname = "Surname",
-                        Patronymic = "Patronimyc",
-                        AccessToken = "tester"
+                    {
+                        Email = "kalmykov@mail.ru",
+                        Phone = "+79260128187",
+                        Password = "tester",
+                        AccessToken = "test-user-access-token",
+                        Name = "Иван",
+                        Surname = "Калмыков",
+                        Patronymic = "Алексеевич",
                     });
                 }
                 else
                 {
-                return (false, $"Логин или пароль не подходят {login}:{password}", null);
+                return (false, $"Логин или пароль не подходят {Phone}:{password}", null);
                 }
 
             }
@@ -67,15 +71,19 @@ namespace KTSF.Db
             {
                 await Task.Delay(0);
 
-                if (token == "tester")
+                bool result = true;
+
+                if (result)
                 {
                     return (true, null, new User()
-                    { 
-                        Email = "Admin@mail.ru",
-                        Name = "Name",
-                        Surname = "Surname",
-                        Patronymic = "Patronimyc",
-                        AccessToken = "tester"
+                    {
+                        Email = "kalmykov@mail.ru",
+                        Phone = "+79260128187",
+                        Password = "tester",
+                        AccessToken = "test-user-access-token",
+                        Name = "Иван",
+                        Surname = "Калмыков",
+                        Patronymic = "Алексеевич",
                     });
                 }
                 else
@@ -99,9 +107,23 @@ namespace KTSF.Db
 
             Employee employee = new Employee()
             {
-                Name = "Name",
-                Surname = "Surname",
-                Patronymic = "Patronymic"
+                ObjectId = 1,
+                AppointmentId = 3,
+                AccessToken = "test-employee-access-token",
+                Name = "Александр",
+                Surname = "Трунин",
+                Patronymic = "Владимирович",
+                PassportSeries = "1234",
+                PassportNumber = "123456",
+                Tin = "12345678901",
+                Snils = "123456789012",
+                Address = "Шевченко 4",
+                Phone = "+79267654356",
+                Email = "admin3@mail.ru",
+                ApplyingDate = DateTime.Now,
+                Created_At = DateTime.Now,
+                Updated_At = DateTime.Now,
+
             };
 
             SetEmployee.Invoke(employee);
@@ -175,75 +197,90 @@ namespace KTSF.Db
             return new Product() { Name = "Product 12", Id = 12 };                
         }
 
-        #region User
-        
-        public async Task<List<Employee>> GetUsers() //Получить список всех пользователей
-        {
-            await Task.Delay(500);            
+      
+ 
 
-            return new List<Employee> {
-                new Employee() { Id = 1 , Name = "Иван" , Surname = "Иванов", 
-                             Patronymic = "Иванович", PassportSeries = "1111", PassportNumber = "123456",
-                             Tin = "0123456789012", Snils = "123-456-789-00", Appointment = new Appointment(){ Name = "Кассир"},
-                             Address = "г.Москва, ул.Тверская..." , Phone = "8(925)123-45-67",
-                             Email = "ivanov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = false, Updated_At = new DateTime(2024, 02, 01)},
-                new Employee() { Id = 1 , Name = "Петр" , Surname = "Петров",
-                             Patronymic = "Петрович", PassportSeries = "2222", PassportNumber = "123456",
-                             Tin = "3123456789012", Snils = "123-456-789-55", Appointment = new Appointment(){ Name = "Директор"},
-                             Address = "г.Москва, ул.Болотная..." , Phone = "8(985)987-65-43",
-                             Email = "petrov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = false, Updated_At = new DateTime(2024, 02, 01)},
-               new Employee() { Id = 1 , Name = "Федор" , Surname = "Федоров",
-                             Patronymic = "Федорович", PassportSeries = "3333", PassportNumber = "123456",
-                             Tin = "6123456789012", Snils = "123-456-789-99", Appointment = new Appointment(){ Name = "Управляющий"},
-                             Address = "г.Москва, ул.Абрикосовая..." , Phone = "8(919)444-55-66",
-                             Email = "fedorov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = false, Updated_At = new DateTime(2024, 02, 01)},
-            };
-        }
+        #region Employee
 
-        public async Task<List<Employee>> GetFiredUsers() //Получить список всех пользователей
+        public async Task<List<Employee>> GetEmployees() //Получить список всех сотрудников
         {
             await Task.Delay(0);
 
             return new List<Employee> {
-                new Employee() { Id = 1 , Name = "Ольга" , Surname = "Ольгова",
-                             Patronymic = "Ольговна", PassportSeries = "1111", PassportNumber = "123456",
-                             Tin = "0123456789012", Snils = "123-456-789-00", Appointment = new Appointment(){ Name = "Кассир"},
-                             Address = "г.Москва, ул.Тверская..." , Phone = "8(925)123-45-67",
-                             Email = "ivanov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = true, LayoffDate = new DateTime(2024, 07, 08) , Updated_At = new DateTime(2024, 07, 08)},
-                new Employee() { Id = 1 , Name = "Зинаида" , Surname = "Зинаидова",
-                             Patronymic = "Зинаидовна", PassportSeries = "2222", PassportNumber = "123456",
-                             Tin = "3123456789012", Snils = "123-456-789-55", Appointment = new Appointment(){ Name = "Кассир"},
-                             Address = "г.Москва, ул.Болотная..." , Phone = "8(985)987-65-43",
-                             Email = "petrov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = true, LayoffDate = new DateTime(2024, 07, 08) , Updated_At = new DateTime(2024, 07, 08)},
-               new Employee() { Id = 1 , Name = "Екатерина" , Surname = "Екатеринова",
-                             Patronymic = "Екатериновна", PassportSeries = "3333", PassportNumber = "123456",
-                             Tin = "6123456789012", Snils = "123-456-789-99", Appointment = new Appointment(){ Name = "Управляющий"},
-                             Address = "г.Москва, ул.Абрикововая..." , Phone = "8(919)444-55-66",
-                             Email = "fedorov@mail.ru", ApplyingDate = new DateTime(2024, 02, 01),
-                             IsFired = false, LayoffDate = new DateTime(2024, 07, 08) , Updated_At = new DateTime(2024, 07, 08)},
+                new Employee()
+                {
+                    ObjectId = 1,
+                    AppointmentId = 1,
+                    AccessToken = "lkvbmekjlgnwieufhwyueigf",
+                    Name = "Иван",
+                    Surname = "Калмыков",
+                    Patronymic = "Алексеевич",
+                    PassportSeries = "1234",
+                    PassportNumber = "123456",
+                    Tin = "12345678901",
+                    Snils = "123456789012",
+                    Address = "Красная прощать 4",
+                    Phone = "+79260128187",
+                    Email = "admin@mail.ru",
+                    ApplyingDate = DateTime.Now,
+                   Created_At = DateTime.Now,
+                    Updated_At = DateTime.Now,
+
+                },
+
+                  new Employee()
+                {
+                    ObjectId = 1,
+                    AppointmentId = 2,
+                    AccessToken = "weifubsudyvbwirugniewrug",
+                    Name = "Артур",
+                    Surname = "Соколов",
+                    Patronymic = "Игоревич",
+                    PassportSeries = "1234",
+                    PassportNumber = "123456",
+                    Tin = "12345678901",
+                    Snils = "123456789012",
+                    Address = "Арбатская 6",
+                    Phone = "+79260125434",
+                    Email = "admin2@mail.ru",
+                    ApplyingDate = DateTime.Now,
+                    Created_At = DateTime.Now,
+                    Updated_At = DateTime.Now,
+
+                },
+                new Employee()
+                {
+                    ObjectId = 1,
+                    AppointmentId = 3,
+                    AccessToken = "aslkgfoiaerjglisermhl",
+                    Name = "Александр",
+                    Surname = "Трунин",
+                    Patronymic = "Владимирович",
+                    PassportSeries = "1234",
+                    PassportNumber = "123456",
+                    Tin = "12345678901",
+                    Snils = "123456789012",
+                    Address = "Шевченко 4",
+                    Phone = "+79267654356",
+                    Email = "admin3@mail.ru",
+                    ApplyingDate = DateTime.Now,
+                    Created_At = DateTime.Now,
+                    Updated_At = DateTime.Now,
+
+                }
             };
         }
+     
 
         //Нужно определить где будет отслеживатся информация о том каие поля мы меняем
-        public async Task<(bool result, string? message)> UpdateUser(Employee user)
+        public async Task<(bool result, string? message, Employee copyEmployee)> UpdateEmployee(Employee employee)
         {
-            await Task.Delay(1000);
+            await Task.Delay(0);
 
-            return (result: true, message: null);
+            return (result: true, message: null, employee);
         }
 
-        //По факту пользователь станет не активным
-        public async Task<(bool result, string? message)> DeleteUser(Employee user)
-        {
-            await Task.Delay(1000); 
-
-            return (result: true, message: null);
-        }
+        
 
         public async Task<bool> GetUserStatistics(Employee user) //Загрузка статистических данных о пользователи
         {
@@ -252,8 +289,9 @@ namespace KTSF.Db
             return true;
         }
 
-
         #endregion
+
+
 
 
 

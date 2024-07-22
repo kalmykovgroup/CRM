@@ -9,13 +9,19 @@ namespace KTSFClassLibrary
     [Table("employee")]
     public partial class Employee
     { 
+         
         public int Id { get; set; }
          
         public int ObjectId { get; set; }
         public Object Object { get; set; }     
         
-        public Appointment Appointment { get; set; } //Должность ----  СРАЗУ new Appointment() ????????
+        public int AppointmentId { get; set; } //Должность
+        public Appointment Appointment { get; set; } //Должность
 
+        public int ASetOfRulesId { get; set; } //Набор правил доступа
+        public ASetOfRules ASetOfRules { get; set; } //Набор правил доступа
+
+        [MaxLength(512)]
         public string AccessToken { get; set; } = String.Empty;
 
         [MaxLength(255)]
@@ -27,24 +33,31 @@ namespace KTSFClassLibrary
         [MaxLength(255)]
         public string Patronymic { get; set; } = String.Empty; //Отчество
 
-        [Length(4, 4)]
+        [MaxLength(4)]
+        [MinLength(4)]
         public string? PassportSeries {  get; set; }
 
-        [Length(6, 6)]
+        [MaxLength(6)]
+        [MinLength(6)]
         public string? PassportNumber { get; set; }
 
-        [Length(12, 12)]
+        [MaxLength(12)]
+        [MinLength(12)]
         public string? Tin{ get; set; }  //ИНН (12 цифр)
 
-        [Length(12, 12)] 
-        public string? Snils { get; set; } = String.Empty; 
+        [MaxLength(12)] 
+        [MinLength(12)] 
+        public string? Snils { get; set; } = String.Empty; // переименовать??
 
+        [MaxLength(255)]
         public string? Address { get; set; } = String.Empty; // Адрес
 
-        [Length(3, 12)]
+        [MaxLength(12)]
+        [MinLength(3)]
         public string Phone { get; set; } = String.Empty; // Телефон
 
-        [Length(7, 255)]
+        [MaxLength(7)]
+        [MinLength(255)]
         public string? Email { get; set; } = String.Empty;
 
         public DateTime? ApplyingDate { get; set; } // Дата оформления 
@@ -53,12 +66,39 @@ namespace KTSFClassLibrary
         public DateTime Created_At { get; set; } // Дата создания
         public DateTime Updated_At { get; set; } // Дата последнего обновления
 
-        public bool IsFired { get; set; } = false; // ?????? позже удалить !!!!
 
+        [MaxLength(255)]
         public string Password { get; set; } // генерируется и приходит на почту
 
         public int EmployeeStatusId { get; set; }
         public EmployeeStatus EmployeeStatus { get; set; }
+
+        public Employee Copy()
+        {
+            return new Employee()
+            {
+                Id = this.Id,
+                ObjectId = this.ObjectId, 
+                AccessToken = this.AccessToken,
+                AppointmentId = this.AppointmentId,
+                Name = this.Name,
+                Surname = this.Surname,
+                Patronymic = this.Patronymic,
+                PassportSeries = this.PassportSeries,
+                PassportNumber = this.PassportNumber,
+                Tin = this.Tin,
+                Snils = this.Snils,
+                Address = this.Address,
+                Phone = this.Phone,
+                Email = this.Email,
+                ApplyingDate = this.ApplyingDate,
+                LayoffDate = this.LayoffDate,
+                Created_At = this.Created_At,
+                Updated_At = this.Updated_At, 
+                Password = this.Password,
+                EmployeeStatusId = this.EmployeeStatusId
+            };
+        }
 
     }
 }

@@ -8,18 +8,17 @@ using System.Threading.Tasks;
 
 namespace KTSFClassLibrary
 {
-    [Table("company")]
-    public class Company
-    { 
+    [Table("appointment")]
+    public class Appointment
+    {
         public int Id { get; set; }
-         
-        public int UserId { get; set; }
-        public User User { get; set; }
 
-         
         [MaxLength(255)]
         public string Name { get; set; }
 
-       
+        [MaxLength(1000)]
+        public string Description { get; set; } = "";
+
+
     }
 }

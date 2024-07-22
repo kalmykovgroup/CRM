@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using CRST_ServerAPI.Model;
+using Dapper;
 using KTSFClassLibrary;
 using KTSFClassLibrary.ABAC;
 using Microsoft.Data.SqlClient; 
@@ -9,7 +10,7 @@ using System.Data;
 
 namespace CRST_ServerAPI.Data
 {
-
+    public enum ActionDatabase { Delete, Read,}
 
     public class UserRepository : Repository
     {
@@ -40,9 +41,22 @@ namespace CRST_ServerAPI.Data
                     @{nameof(Employee.Patronymic)}, 
                     returning id";
             } }
+ 
 
-       
-      
+        private string GetTableName(Type type)
+        {
+            foreach (var attrib in Attribute.GetCustomAttributes(type))
+            {
+                if (attrib.GetType().Name == "Table")
+                {
+                    return attrib.GetType().FullName;
+                }
+            }
+            throw new Exception("Not attribute `Table`");
+        }
+
+
+
 
         public override T? Find<T>(int id) where T : default
         {
@@ -53,11 +67,17 @@ namespace CRST_ServerAPI.Data
         }
 
 
-       
+        [ABAC("", "", 1, 1)]
         public override void Delete<T>(int id)
         {
-          
 
+            string accessToken = GenerateAccessToken();
+
+            //Сделать запрос в базу и посмотреть есть ли такой токен в таблице доступа
+            if (true)
+            {
+
+            }
 
             using (IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString))
             {
@@ -65,6 +85,14 @@ namespace CRST_ServerAPI.Data
             }
         }
 
+        private string GenerateAccessToken()
+        {
+            //Получить аттрибут
+            //Получить текущего пользователя
+            //Вернуть токен
+            return "";
+        }
+         
         public override List<T> GetAll<T>()
         {
             
@@ -87,6 +115,8 @@ namespace CRST_ServerAPI.Data
 
             throw new NotImplementedException();
         }
- 
+
+     
+
     }
 }

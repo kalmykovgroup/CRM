@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -13,15 +14,12 @@ namespace KTSFClassLibrary.ABAC
     {
         public int Id { get; set; }
 
-        public int AppointmentId { get; set; }
-        public Appointment Appointment { get; set; }
+        public int ASetOfRulesId { get; set; }
+        public ASetOfRules ASetOfRules { get; set; }
 
-        public string TableName { get; set; }
-        public string FieldName { get; set; }
-
-        public int DataBaseActionId { get; set; }
-        public DataBaseAction DataBaseAction { get; set; }
-
+        //TableName + FieldName + UserId + Action
+        public string Token { get; set; }
+          
         public bool IsAdminsConsent { get; set; } //Нужно ли подтверждение администратора на это действие
         public int? EmployeeId { get; set; } //Ссылка на старшего работника, который должен подтвердить действие
 

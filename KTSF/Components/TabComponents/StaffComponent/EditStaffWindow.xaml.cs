@@ -21,7 +21,7 @@ namespace KTSF
     /// </summary>
     public partial class EditStaffWindow : Window
     {
-        private Employee Employee;
+        public Employee Employee { get; }
 
         private Regex nameRegex = new(@"[A-ZА-Я]{1}[a-zа-я]+"); // имя фамилия отчество
         private Regex passportSeriesRegex = new(@"\d{4}");
@@ -31,17 +31,19 @@ namespace KTSF
         private Regex phoneNumberRegex = new(@"(\+7|8)[\(\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[)\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)");
         private Regex emailRegex = new(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.\w{2,3}$");
 
-        public EditStaffWindow(Employee employee)
+        private Action<EditStaffWindow> Action {  get; }
+
+        public EditStaffWindow(Employee employee, Action<EditStaffWindow> action)
         {
             InitializeComponent();
-            this.Employee = employee;
-
+            Employee = employee;
+            Action = action;
             this.DataContext = Employee;
         }
 
         private void saveButtonButton_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
+            Action.Invoke(this);
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)

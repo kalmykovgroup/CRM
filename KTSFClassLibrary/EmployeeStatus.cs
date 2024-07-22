@@ -10,6 +10,6 @@ namespace KTSFClassLibrary
     {
         public int Id {  get; set; }
 
-        public string NameStaus { get; set; }
+        public string Name { get; set; }
     }
 }
