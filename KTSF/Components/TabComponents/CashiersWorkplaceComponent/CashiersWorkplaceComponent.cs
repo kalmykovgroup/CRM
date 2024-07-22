@@ -162,6 +162,11 @@ public partial class BuyProduct : ObservableObject {
         TotalSumProduct = Price * Count;
     }
 
+    public BuyProduct()
+    {
+
+    }
+
     public void UpdateTotalSumProduct () {
         TotalSumProduct = Price * Count;
     }
