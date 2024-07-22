@@ -12,8 +12,10 @@ namespace KTSFClassLibrary.Product_
     { 
         public int Id { get ; set; }
          
+        // НЕ ПОНЯТНО ... ЧТО ЭТО?
         public int? ParentId { get ; set; }
 
+        // И ТУТ ТОЖЕ
         public Category? Parent { get ; set; }
     }
 }

@@ -50,12 +50,14 @@ namespace KTSFClassLibrary.Product_
          
         public int BuyPrice { get; set; } //Цена закупки
          
+        // ПЕРЕИМЕНОВАТЬ?? SalePrice ???
         public int BuySales { get; set; } //Цена продажи
          
         public int? OldPrice { get; set; } //Это маркетинговая цена (зачеркнутая), нужна для сайтов.
          
         public DateTime CreatedAt { get; set; }
          
+        // ОБНУЛИМЫЙ ????
         public DateTime UpdatedAt { get; set; }
 
     }
