@@ -34,17 +34,20 @@ namespace KTSF.Components.Window.MainMenuComponent
         public MainMenuWinComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
         {
             CurrentFrame = new UserControlVM();
-             
+
+            WarehouseComponent warehouse = new WarehouseComponent(CurrentFrame, appControl);
+
+
             LeftNavigationBar.Add(new CashiersWorkplaceComponent(CurrentFrame, appControl)); 
             LeftNavigationBar.Add(new SalesComponent(CurrentFrame, appControl)); 
             LeftNavigationBar.Add(new PurchasesComponent(CurrentFrame, appControl)); 
-            LeftNavigationBar.Add(new WarehouseComponent(CurrentFrame, appControl)); 
+            LeftNavigationBar.Add(warehouse); 
             LeftNavigationBar.Add(new MoneyComponent(CurrentFrame, appControl)); 
             LeftNavigationBar.Add(new StaffComponent(CurrentFrame, appControl));
             LeftNavigationBar.Add(new CompanyComponent(CurrentFrame, appControl));
             LeftNavigationBar.Add(new SettingsComponent(CurrentFrame, appControl));
- 
 
+            warehouse.Show();
         }
 
         public override void Show(object? parametr = null)

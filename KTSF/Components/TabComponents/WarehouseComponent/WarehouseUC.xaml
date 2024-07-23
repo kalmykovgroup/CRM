@@ -6,7 +6,147 @@
              xmlns:local="clr-namespace:KTSF.Components.TabComponents.WarehouseComponent"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <!--Стилизация для DataGrid-->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="FontSize" Value="9"/>
+        </Style>
+        <Style TargetType="DataGridRow">
+            <Setter Property="FontSize" Value="9"/>
+            <Setter Property="FontFamily" Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#fde68f"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="BorderBrush" Value="#c7a936"/>
+                    <Setter Property="BorderThickness" Value="0.3"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <ControlTemplate x:Key="SearchBtn" TargetType="Button">
+            <Border Background="Transparent"
+                    Padding="3">
+                <ContentControl Content="{TemplateBinding Content}" />
+            </Border>
+
+
+
+        </ControlTemplate>
+    </UserControl.Resources>
+    
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Первая строка с названием страницы-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="Back" Content="Back"/>
+            <Button Grid.Column="1" x:Name="Next" Content="Next"/>
+            <TextBlock Grid.Column="2" Text="Номенклатура" FontSize="16"/>
+        </Grid>
+
+        <!--Таблица номенклатуры-->
+        <DataGrid Grid.Row="3" x:Name="dataGrid" ItemsSource="{Binding Products}" AutoGenerateColumns="False" IsReadOnly="True" 
+                  AlternatingRowBackground="#e6e6e6" AlternationCount="2" GridLinesVisibility="None">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Наименование" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ContentControl>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Padding="2">
+                                        <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/Boxes.png"/>
+                                    </Border>
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}" Padding="5"/>
+                                </Grid>
+                            </ContentControl>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Остаток" MaxWidth="80" MinWidth="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Id}" Padding="5" HorizontalAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header=""  MaxWidth="20" MinWidth="20">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Template="{StaticResource SearchBtn}">
+                                <Button.Content>
+                                    <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/Search.png" />
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Едн.изм" MaxWidth="43" MinWidth="43">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                             <TextBlock Text="{Binding Name}" Padding="5" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="" MaxWidth="20" MinWidth="20">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Template="{StaticResource SearchBtn}">
+                                <Button.Content>
+                                    <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/Cart.png" />
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Розничная цена" MaxWidth="77" MinWidth="77">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                             <TextBlock Text="{Binding Id}" Padding="5" HorizontalAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Артикул" MaxWidth="70" MinWidth="70">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Id}" Padding="5" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <ContentControl Foreground="Black" Template="{StaticResource ContentControlLoad}"/>
+
+        <!--Пагинация-->
+        <Grid Grid.Row="4" x:Name="Pagination" HorizontalAlignment="Right">
+
+        </Grid>
     </Grid>
 </UserControl>

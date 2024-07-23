@@ -77,9 +77,9 @@ namespace KTSF.Db
         }
 
         //Получить страницу с товарами
-        public async Task<List<Product>> GetProducts(int offset, int count)
+        public async Task<KeyValuePair<int, List<Product>>> GetProducts(int offset, int count)
         { 
-            await Task.Delay(1000);
+            await Task.Delay(0);
 
             List <Product> result =  new List<Product> {
                 new Product() { Name = "Product 1", Id = 1 },
@@ -92,9 +92,19 @@ namespace KTSF.Db
                 new Product() { Name = "Product 8", Id = 8 },
                 new Product() { Name = "Product 9", Id = 9 },
                 new Product() { Name = "Product 10", Id = 10 },
-            }; 
+            };
 
-            return result;
+            List<Product> arrSelection = new();
+
+            for (int i = offset * count; i < offset * count + count; i++)
+            {
+                if (i >= result.Count)
+                    break;
+                arrSelection.Add(result[i]);
+            }
+            KeyValuePair <int, List<Product>> resultOnServer = new KeyValuePair<int, List<Product>> ( result.Count, arrSelection );
+
+            return resultOnServer;
         }
 
         //Получить списанные товары
