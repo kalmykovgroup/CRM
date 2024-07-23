@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace KTSFClassLibrary
 {
+    [Table("companies")]
     public class Company
-    {
-        public int Id { get; }
+    { 
+        public int Id { get; set; }
 
-        public int UserId { get; }
-        public User User { get; }
+        [ForeignKey(nameof(User))]
+        public int UserId { get; set; }
+        public User User { get; set; } = null!;
 
-        public string Name { get; }
 
+        [MaxLength(255)]
+        public string Name { get; set; } = String.Empty;
+
+       
     }
 }

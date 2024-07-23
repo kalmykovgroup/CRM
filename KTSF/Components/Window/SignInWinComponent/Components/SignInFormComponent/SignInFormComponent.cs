@@ -13,8 +13,11 @@ namespace KTSF.Components.CommonComponents.SignInFormComponent
 {
     public partial class SignInFormComponent : Component
     {
-
-        public SignInFormComponent(UserControlVM binding, AppControl appControl): base(binding, appControl) {}
+        public User User { get; set; }
+         
+        public SignInFormComponent(User user, UserControlVM binding, AppControl appControl): base(binding, appControl) {
+            User = user;
+        }
 
 
 

@@ -19,11 +19,14 @@ namespace KTSF.Components.TabComponents.StaffComponent
     /// Логика взаимодействия для StaffUC.xaml
     /// </summary>
     public partial class StaffUC : UserControl
-    {
+    {        
+
         public StaffUC(StaffComponent StaffComponent)
         {
             InitializeComponent();
             DataContext = StaffComponent;
+           
         }
+       
     }
 }

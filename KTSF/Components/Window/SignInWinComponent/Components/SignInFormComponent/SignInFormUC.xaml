@@ -88,12 +88,12 @@
 
             <!--Tag="{Binding User.IsFocusablePassword}"-->
             <Grid Style="{StaticResource GridTextBoxStyle}">
-                <TextBox x:Name="Username" Style="{StaticResource TextBoxStyle}" 
+                <TextBox x:Name="Phone" Style="{StaticResource TextBoxStyle}" 
                    Validation.ErrorTemplate="{StaticResource ValidationFailed}" 
                    TextChanged="TextBoxChanged"
                    LostFocus="TextBoxLostFocus">
                     <TextBox.Text>
-                        <Binding Path="AppControl.MainUser.Username" UpdateSourceTrigger="Explicit" NotifyOnTargetUpdated="True">
+                        <Binding Path="User.Phone" UpdateSourceTrigger="Explicit" NotifyOnTargetUpdated="True">
                             <Binding.ValidationRules>
                                 <DataErrorValidationRule ValidatesOnTargetUpdated="False" />
                             </Binding.ValidationRules>
@@ -106,17 +106,17 @@
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
-                <TextBlock IsHitTestVisible="False" Text="Username" Margin="10 2 0 0" FontSize="13" Foreground="Gray"/>
+                <TextBlock IsHitTestVisible="False" Text="Phone" Margin="10 2 0 0" FontSize="13" Foreground="Gray"/>
             </Grid>
 
- <!--Tag="{Binding User.IsFocusablePassword}"-->
+           <!--Tag="{Binding User.IsFocusablePassword}"-->
             <Grid Style="{StaticResource GridTextBoxStyle}">
                 <TextBox x:Name="Password" Style="{StaticResource TextBoxStyle}" 
                    Validation.ErrorTemplate="{StaticResource ValidationFailed}" 
                    TextChanged="TextBoxChanged"
                    LostFocus="TextBoxLostFocus"   >
                     <TextBox.Text>
-                        <Binding Path="AppControl.MainUser.Password" UpdateSourceTrigger="Explicit" NotifyOnTargetUpdated="True">
+                        <Binding Path="User.Password" UpdateSourceTrigger="Explicit" NotifyOnTargetUpdated="True">
                             <Binding.ValidationRules>
                                 <DataErrorValidationRule ValidatesOnTargetUpdated="False" />
                             </Binding.ValidationRules>

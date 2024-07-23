@@ -12,7 +12,9 @@ using KTSF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -49,6 +51,8 @@ namespace KTSF.Components.Window.MainMenuComponent
 
             warehouse.Show();
         }
+
+     
 
         public override void Show(object? parametr = null)
         {

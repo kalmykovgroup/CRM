@@ -20,13 +20,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Components\TabComponents\StaffComponent\Img\Fired.png" />
+    <None Remove="Components\TabComponents\StaffComponent\Img\Foto.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\Boxes.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\cart-arrow-down_9795333.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\Cart.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\Search.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\search_269128.png" />
     <None Remove="Components\Window\LoadWinComponent\Img\hacking-hack.gif" />
+    <None Remove="Img\app_store_logo.png" />
+    <None Remove="Img\google_play_logo.png" />
     <None Remove="Img\loading.gif" />
+    <None Remove="Img\loading_2.gif" />
     <None Remove="Img\warning.png" />
     <None Remove="language.json" />
   </ItemGroup>
@@ -44,7 +49,19 @@
     <Content Include="Components\Window\LoadWinComponent\Img\hacking-hack.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Img\app_store_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\code.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\google_play_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Img\loading.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\loading_2.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Img\warning.png">
@@ -56,15 +73,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BarcodeLib" Version="3.1.3" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Text.Json" Version="8.0.3" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.7" />
+    <PackageReference Include="System.Text.Json" Version="8.0.4" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\KTSFClassLibrary\KTSFClassLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Components\TabComponents\StaffComponent\Img\Fired.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Components\TabComponents\StaffComponent\Img\Foto.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

@@ -26,16 +26,6 @@ namespace KTSF.Components.SignInPageComponent.Components.AuthFormComponent
             DataContext = AuthFormComponent;
         }
 
-        public void TextBoxChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBlockError.Text = string.Empty;
-
-            if (Validation.GetHasError((TextBox)sender) == true)
-                BindingOperations.GetBindingExpression((TextBox)sender, TextBox.TextProperty).UpdateSource();
-
-        }
-
-        public void TextBoxLostFocus(object sender, RoutedEventArgs e) => BindingOperations.GetBindingExpression((TextBox)sender, TextBox.TextProperty).UpdateSource();
-
+     
     }
 }
