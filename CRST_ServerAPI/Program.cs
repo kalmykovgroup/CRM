@@ -18,6 +18,13 @@ namespace CRST_ServerAPI
             builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                         
             builder.Services.AddControllers();
+
+          /*  builder.Services.AddControllers()
+              .ConfigureApiBehaviorOptions(options =>
+              {
+                  options.SuppressMapClientErrors = true; //Отключение ответа ProblemDetails
+              });*/
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -47,6 +54,7 @@ namespace CRST_ServerAPI
              pattern: "{controller=Home}/{action=Index}/{id?}"
              
              );
+
 
             app.MapControllers();
              
