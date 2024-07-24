@@ -1,39 +1,48 @@
 ﻿using CRST_ServerAPI.Data;
+using CRST_ServerAPI.Data.Repositories;
 using KTSFClassLibrary;
 using KTSFClassLibrary.Product_;
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CRST_ServerAPI.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class UserController : ControllerBase
+     
+    public class UserController : ApiController
     {
-
-
-       
-        [HttpGet]
-        [Route("all")]
-        public IActionResult Get()
+        public UserController(ILogger<UserController> logger) : base(logger)
         {
-            Repository repository = new UserRepository();
-            return Ok(repository.GetAll<Employee>()); 
-  
+
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<Employee> GetEmployee(int id)
+        public override IActionResult Find(int id)
         {
             Repository repository = new UserRepository();
 
-            var employee = repository.Find<Employee>(id);
+            var employee = repository.Find<User>(id);
             if (employee == null)
             {
                 return NotFound();
             }
-            return employee;
+            return Ok(employee);
         }
 
- 
+        public override IActionResult GetAll()
+        {
+            Repository repository = new UserRepository();
+            return Ok(repository.GetAll<User>());
+        }
+
+       
+
+        public override IActionResult Insert<T>(int id, T obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IActionResult Update<T>(T obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

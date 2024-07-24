@@ -24,6 +24,9 @@ namespace KTSFClassLibrary
         [MaxLength(255)]
         public string Password { get; set; } = String.Empty;
 
+        public byte[]? PasswordHash { get; set; }
+        public byte[]? PasswordSalt { get; set; }
+
         [MaxLength(512)]
         public string AccessToken { get; set; } = String.Empty;
          

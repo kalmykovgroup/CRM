@@ -4,16 +4,16 @@ namespace CRST_ServerAPI.Data
 {
     public interface IRepository
     {
-        void Create<T>(T value);
-
-        void Delete<T>(int id);
+        public Type ClassType { get; }
 
         T? Find<T>(int id);
 
         List<T> GetAll<T>();
 
+        void Create<T>(T value);
+         
         void Update<T>(T value);
 
-        public string TableName {  get; } 
+       
     }
 }

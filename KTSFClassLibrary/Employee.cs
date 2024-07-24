@@ -59,8 +59,8 @@ namespace KTSFClassLibrary
         [MinLength(3)]
         public string Phone { get; set; } = String.Empty; // Телефон
 
-        [MaxLength(7)]
-        [MinLength(255)]
+        [MaxLength(255)]
+        [MinLength(7)]
         public string? Email { get; set; } = String.Empty;
 
         public DateTime? ApplyingDate { get; set; } // Дата оформления 

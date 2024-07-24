@@ -2,37 +2,37 @@
 using CRST_ServerAPI.Data.Repositories;
 using KTSFClassLibrary;
 using KTSFClassLibrary.Product_;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRST_ServerAPI.Controllers
-{ 
-    public class ProductController : ApiController
+{
+     
+    public class EmployeeController : ApiController
     {
-        private readonly ILogger<ProductController> _logger;
+        private readonly ILogger<EmployeeController> _logger;
 
-        public ProductController(ILogger<ProductController> logger): base(logger) {
-       
+        public EmployeeController(ILogger<EmployeeController> logger) : base(logger)
+        {
+
             _logger = logger;
         }
 
         public override IActionResult Find(int id)
         {
-            Repository repository = new ProductRepository();
+            Repository repository = new EmployeeRepository();
 
-            var product = repository.Find<Product>(id);
-            if (product == null)
+            var employee = repository.Find<Employee>(id);
+            if (employee == null)
             {
                 return NotFound();
             }
-            return Ok(product);
+            return Ok(employee);
         }
-         
-
+ 
         public override IActionResult GetAll()
         {
-            Repository repository = new ProductRepository();
-            return Ok(repository.GetAll<Product>());
+            Repository repository = new EmployeeRepository();
+            return Ok(repository.GetAll<Employee>());
         }
 
         public override IActionResult Insert<T>(int id, T obj)
@@ -44,6 +44,6 @@ namespace CRST_ServerAPI.Controllers
         {
             throw new NotImplementedException();
         }
+
     }
- 
 }
