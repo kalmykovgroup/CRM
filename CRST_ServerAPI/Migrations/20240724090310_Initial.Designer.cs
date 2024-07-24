@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRST_ServerAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240722110826_AddData")]
-    partial class AddData
+    [Migration("20240724090310_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -214,8 +214,8 @@ namespace CRST_ServerAPI.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(7)
-                        .HasColumnType("varchar(7)");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("EmployeeStatusId")
                         .HasColumnType("int");
@@ -589,6 +589,12 @@ namespace CRST_ServerAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("longblob");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("longblob");
 
                     b.Property<string>("Patronymic")
                         .IsRequired()
