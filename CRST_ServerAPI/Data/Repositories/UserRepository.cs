@@ -2,6 +2,7 @@
 using Dapper;
 using KTSFClassLibrary;
 using KTSFClassLibrary.ABAC;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using NuGet.Protocol.Core.Types;
@@ -30,6 +31,8 @@ namespace CRST_ServerAPI.Data.Repositories
             return base.GetAll<T>();
 
         }
+
+      
 
 
 

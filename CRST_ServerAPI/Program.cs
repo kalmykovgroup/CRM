@@ -31,18 +31,22 @@ namespace CRST_ServerAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            
             // добавление сервисов аутентификации
             builder.Services.AddAuthentication("Bearer")  // схема аутентификации - с помощью jwt-токенов
                 .AddJwtBearer();      // подключение аутентификации с помощью jwt-токенов
+            
 
+            /*
             //Требовать прошедших проверку подлинности пользователей
-          /*  builder.Services.AddAuthorization(options =>
+           builder.Services.AddAuthorization(options =>
             {
                 options.FallbackPolicy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build();
             });
-*/
+            */
+
 
             string connectionString = builder.Configuration.GetConnectionString("MySql") ?? throw new ArgumentNullException("Connection string is null");
 
@@ -65,7 +69,7 @@ namespace CRST_ServerAPI
 
 
 
-            app.UseAuthentication();   // добавление middleware аутентификации
+            //app.UseAuthentication();   // добавление middleware аутентификации
 
             app.UseAuthorization(); 
             

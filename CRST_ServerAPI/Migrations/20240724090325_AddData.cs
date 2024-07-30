@@ -345,14 +345,14 @@ namespace CRST_ServerAPI.Migrations
             ({nameof(Product.Name)},  
              {nameof(Product.UnitId)}, 
              {nameof(Product.BuyPrice)},
-             {nameof(Product.BuySales)},
+             {nameof(Product.SalePrice)},
              {nameof(Product.OldPrice)},
              {nameof(Product.UpdatedAt)})
             values(
              @{nameof(Product.Name)}, 
              @{nameof(Product.UnitId)},
              @{nameof(Product.BuyPrice)},
-             @{nameof(Product.BuySales)},
+             @{nameof(Product.SalePrice)},
              @{nameof(Product.OldPrice)},
              @{nameof(Product.UpdatedAt)}); select LAST_INSERT_ID();";
 
@@ -404,7 +404,7 @@ namespace CRST_ServerAPI.Migrations
                     Name = "Пассатижи",
                     UnitId = UnitId1,
                     BuyPrice = 200,
-                    BuySales = 450,
+                    SalePrice = 450,
                     OldPrice = 560,
                     UpdatedAt = DateTime.Now
                 });
@@ -446,7 +446,7 @@ namespace CRST_ServerAPI.Migrations
                     UnitId = UnitId1,
 
                     BuyPrice = 1109,
-                    BuySales = 2409,
+                    SalePrice = 2409,
                     OldPrice = 2750,
                     UpdatedAt = DateTime.Now
                 });
@@ -499,7 +499,7 @@ namespace CRST_ServerAPI.Migrations
                     Name = "Набор слесарного инстр-та в чем. 72пр. Волат (1/4\", 1/2\", 6 граней) (18530-72) (18530-72)",
                     UnitId = UnitId1,
                     BuyPrice = 1600,
-                    BuySales = 4932,
+                    SalePrice = 4932,
                     OldPrice = 6700,
                     UpdatedAt = DateTime.Now
                 });
@@ -555,7 +555,7 @@ namespace CRST_ServerAPI.Migrations
                     Name = "Дрель-шуруповерт с набором инструмента TOTAL THKTHP11282 (с 1-им АКБ, кейс, 128 предметов)",
                     UnitId = UnitId1,
                     BuyPrice = 1600,
-                    BuySales = 4932,
+                    SalePrice = 4932,
                     OldPrice = 6700,
                     UpdatedAt = DateTime.Now
                 });
@@ -593,7 +593,7 @@ namespace CRST_ServerAPI.Migrations
                     Name = "Клещи (пресс-клещи) для обжима наконечников электропроводов с сечением 0.25-8 мм2 Gross",
                     UnitId = UnitId1,
                     BuyPrice = 500,
-                    BuySales = 1883,
+                    SalePrice = 1883,
                     OldPrice = 2200,
                     UpdatedAt = DateTime.Now
                 });
@@ -631,7 +631,7 @@ namespace CRST_ServerAPI.Migrations
                     Name = "Смартфон Samsung Galaxy Z Fold6 12/256 ГБ, Dual: nano SIM + eSIM, серебристый",
                     UnitId = UnitId1,
                     BuyPrice = 116268,
-                    BuySales = 176268,
+                    SalePrice = 176268,
                     OldPrice = 220268,
                     UpdatedAt = DateTime.Now
                 });
@@ -669,7 +669,7 @@ namespace CRST_ServerAPI.Migrations
                     Name = "Перфоратор SDS+ 2.7Дж - 780Вт Makita HR2470",
                     UnitId = UnitId1,
                     BuyPrice = 10400,
-                    BuySales = 16460,
+                    SalePrice = 16460,
                     OldPrice = 18900,
                     UpdatedAt = DateTime.Now
                 });

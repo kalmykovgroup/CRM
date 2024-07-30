@@ -1,5 +1,8 @@
-﻿using CRST_ServerAPI.Data;
+﻿using Azure.Core;
+using CRST_ServerAPI.Data;
+using CRST_ServerAPI.Data.Repositories;
 using KTSFClassLibrary;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +14,11 @@ namespace CRST_ServerAPI.Controllers
     {
 
         private readonly IAuthRepository _authRepo;
-        public AuthController(IAuthRepository authRepository)
-        {
-            _authRepo = authRepository;
-        }
+
+        //public AuthController(IAuthRepository authRepository)
+        //{
+        //    _authRepo = authRepository;
+        //}
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
@@ -32,25 +36,52 @@ namespace CRST_ServerAPI.Controllers
             }
         }
 
-      /*  public IActionResult Login(string username, string password)
+        /*  public IActionResult Login(string username, string password)
+          {
+              ServiceResponse<string> response = new ServiceResponse<string>();
+              User user = await _context.Users.FirstOrDefaultAsync(x => x.Username.ToLower().Equals(username.ToLower()));
+
+              return response;
+          }
+        */
+
+        /*
+          [HttpPost("Login")]
+          public async Task<IActionResult> Login(string username, string password)
+          {
+              ServiceResponse<string> response = await _authRepo.Login(
+                  request.Username, request.Password);
+              if (!response.Success)
+              {
+                  return BadRequest(response);
+              }
+              return Ok(response);
+          }
+        */
+
+        [HttpPost("Connect")]
+        [Authorize]
+        public IActionResult Connect()
         {
-            ServiceResponse<string> response = new ServiceResponse<string>();
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.Username.ToLower().Equals(username.ToLower()));
-           
-            return response;
+            return Ok("It's OK");
         }
 
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login(string username, string password)
+        [HttpPost("Login")]       
+        public IActionResult Login(string username , string password)
         {
-            ServiceResponse<string> response = await _authRepo.Login(
-                request.Username, request.Password);
-            if (!response.Success)
+            AuthRepository authRepository = new AuthRepository();
+
+            string? token = authRepository.Login(username, password);
+            if(token == null)
             {
-                return BadRequest(response);
+                return Unauthorized();
             }
-            return Ok(response);
-        }*/
+
+            return Ok(token); // вернуть ключ - значение
+        }
+
+
+
 
     }
 }

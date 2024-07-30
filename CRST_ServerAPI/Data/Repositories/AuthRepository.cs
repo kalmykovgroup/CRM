@@ -1,6 +1,10 @@
-﻿
+﻿using Azure.Core;
+using Dapper;
 using KTSFClassLibrary;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace CRST_ServerAPI.Data.Repositories
 {
@@ -40,7 +44,42 @@ namespace CRST_ServerAPI.Data.Repositories
             }
         }
 
+        public string? Login(string username, string password)
+        {
+            using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
+            db.Open();
 
-     
+            User? user = db.Query<User>($"SELECT * FROM users WHERE Email=@username", new {username = username}).FirstOrDefault();
+
+            if (user != null && password == user.Password) // сравнивыать хеш пароли
+            {
+                user.AccessToken = GenerateAccessToken(user.Id);
+
+
+                // некоректный запрос
+                //try
+                //{
+                //    db.Execute("update user set AccessToken = @AccessToken where Id = @Id",
+                //                new { Id = user.Id, AccessToken = user.AccessToken });
+                //}catch (Exception ex)
+                //{
+                //    return "это эксепшен"; // ???? подумать
+                //}
+
+
+                return user.AccessToken;
+            }            
+
+            return "это конец";
+        }     
+
+        private string GenerateAccessToken(int id)
+        {
+            return "Token test";
+        }
+
+
+
+
     }
 }

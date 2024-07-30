@@ -16,5 +16,8 @@ namespace KTSFClassLibrary.Product_
         public ulong Cost { get; set; } //Стоимость
          
         public DateTime CreatedAt { get; set; } 
+
+        public int ProductInformationIp { get; set; }
+        public ProductInformation ProductInformation { get; set; } = null!;
     }
 }

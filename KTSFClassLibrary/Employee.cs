@@ -74,6 +74,8 @@ namespace KTSFClassLibrary
         public string Password { get; set; } = null!; // генерируется и приходит на почту
 
 
+
+
         [ForeignKey(nameof(EmployeeStatus))]
         public int EmployeeStatusId { get; set; }
         public EmployeeStatus EmployeeStatus { get; set; } = null!;
