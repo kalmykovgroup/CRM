@@ -33,7 +33,7 @@ namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent
         private void TextBoxPrice_TextChanged (object sender, TextChangedEventArgs e) => CashiersWorkplaceComponent.textBoxPrice_TextChanged (sender, e);
         
         private void TextBoxCount_TextChanged (object sender, TextChangedEventArgs e) => CashiersWorkplaceComponent.textBoxCount_TextChanged (sender, e);
-        
 
+        private void ToggleButton_Checked (object sender, RoutedEventArgs e) => CashiersWorkplaceComponent.PayMethodSwitch (sender, e);
     }
 }
