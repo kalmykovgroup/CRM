@@ -1,9 +1,12 @@
-﻿using CRST_ServerAPI.Model;
+﻿using Azure.Core;
+using CRST_ServerAPI.Model;
 using Dapper;
 using KTSFClassLibrary;
 using KTSFClassLibrary.ABAC;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using MySql.Data.MySqlClient;
 using NuGet.Protocol.Core.Types;
 using System;
@@ -18,11 +21,11 @@ namespace CRST_ServerAPI.Data.Repositories
     {
         public override Type ClassType => typeof(User);
 
+
         public override T? Find<T>(int id) where T : default
         {
             return base.Find<T>(id);
         }
-
      
 
         public override List<T> GetAll<T>()
@@ -30,54 +33,104 @@ namespace CRST_ServerAPI.Data.Repositories
 
             return base.GetAll<T>();
 
-        }
-
-      
+        }  
 
 
-
-        public override void Create<T>(T value)
+        public override T Create<T>(T value)
         {
             using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
-
             db.Open();
 
-            using var tran = db.BeginTransaction();
+            using var transaction = db.BeginTransaction();
 
             try
             {
+                string query = $@"INSERT INTO users (
+                                    Email,
+                                    Phone,
+                                    Password,
+                                    PasswordHash,
+                                    PasswordSalt,
+                                    AccessToken,
+                                    Name,
+                                    Surname,
+                                    Patronymic
+                                ) VALUES (
+                                    @Email,
+                                    @Phone,
+                                    @Password,
+                                    @PasswordHash,
+                                    @PasswordSalt,
+                                    @AccessToken,
+                                    @Name,
+                                    @Surname,
+                                    @Patronymic
+                                  )";
 
+                int inserted =  db.Execute(query, value);
 
-                tran.Commit();
+                transaction.Commit();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                tran.Rollback();
+                transaction.Rollback();
             }
+
+            return value;
         }
 
-        public override void Update<T>(T value)
+
+        public override T Update<T>(T value) // в параметрах JSON ??? 
         {
             using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
-
             db.Open();
 
-            using var tran = db.BeginTransaction();
+            using var transaction = db.BeginTransaction();
+            
+            User? user = value as User;
 
-            try
+            if (user != null)
             {
-                
+                try
+                {
+                    string query = $@"UPDATE users SET 
+                                        Email = @Email, 
+                                        Phone = @Phone, 
+                                        Password = @Password, 
+                                        PasswordHash = @PasswordHash, 
+                                        PasswordSalt = @PasswordSalt, 
+                                        AccessToken = @AccessToken, 
+                                        Name = @Name, 
+                                        Surname = @Surname, 
+                                        Patronymic = @Patronymic 
+                                    WHERE Id = @Id
+                    ";
 
-                tran.Commit();
+                    int updated = db.Execute(query, new { 
+                                    Email = user.Email, 
+                                    Phone = user.Phone, 
+                                    Password = user.Password,
+                                    PasswordHash = user.PasswordHash,
+                                    PasswordSalt = user.PasswordSalt, 
+                                    AccessToken = user.AccessToken,
+                                    Name = user.Name,
+                                    Surname = user.Surname, 
+                                    Patronymic = user.Patronymic, 
+                                    Id = user.Id });
 
-               
+                    transaction.Commit();
+
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    transaction.Rollback();
+                }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                tran.Rollback();
-            }
+
+            return value;
         }
 
  

@@ -133,10 +133,10 @@ namespace KTSF.Db
         #endregion
 
 
-       
+        #region Product
 
         //Поиск товаров
-        public async Task<List<Product>> SearchProducts(string text)
+        public async Task<List<Product>> SearchProducts(string text) // возвращает максимум 20 товаров
         {
             await Task.Delay(1000);
 
@@ -153,6 +153,8 @@ namespace KTSF.Db
                 new Product() { Name = "Product 10", Id = 10 },
             };
         }
+
+        // нужен еще метод получения первой страницы с товарами и общим количеством товаров
 
         //Получить страницу с товарами
         public async Task<List<Product>> GetProducts(int offset, int count)
@@ -175,7 +177,8 @@ namespace KTSF.Db
             return result;
         }
 
-        //Получить списанные товары
+        // ????? WTF 
+        //Получить списанные товары 
         public async Task<List<Product>> GetDecommissionedProducts()
         { 
             await Task.Delay(1000);
@@ -197,8 +200,12 @@ namespace KTSF.Db
             return new Product() { Name = "Product 12", Id = 12 };                
         }
 
-      
- 
+        #endregion
+
+        // нужна таблица с чеками ???
+        // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
+        // сохранение чеков
+        // получение полной информации о чеке
 
         #region Employee
 

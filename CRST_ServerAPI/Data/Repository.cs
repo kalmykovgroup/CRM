@@ -37,9 +37,9 @@ namespace CRST_ServerAPI.Data
 
         }
 
-        public abstract void Create<T>(T value);
+        public abstract T Create<T>(T value);
 
-        public abstract void Update<T>(T value);
+        public abstract T Update<T>(T value);
 
 
         private string GetTableName(System.Type type)

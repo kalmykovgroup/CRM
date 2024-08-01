@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRST_ServerAPI.Controllers
-{ 
+{
     public class ProductController : ApiController
     {
         private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ILogger<ProductController> logger): base(logger) {
-       
+        public ProductController(ILogger<ProductController> logger) : base(logger) {
+
             _logger = logger;
         }
 
@@ -27,7 +27,7 @@ namespace CRST_ServerAPI.Controllers
             }
             return Ok(product);
         }
-         
+
 
         public override IActionResult GetAll()
         {
@@ -43,6 +43,14 @@ namespace CRST_ServerAPI.Controllers
         public override IActionResult Update<T>(T obj)
         {
             throw new NotImplementedException();
+        }
+
+        //Получить подробную информацию о товаре
+        [HttpPost("GetProductFullInfo")]
+        public ActionResult<ProductInformation> GetProductFullInfo(int productId)
+        {
+            ProductRepository repository = new ProductRepository();
+            return Ok(repository.GetProductFullInfo(productId));
         }
     }
  

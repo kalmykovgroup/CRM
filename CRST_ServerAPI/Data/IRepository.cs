@@ -10,9 +10,9 @@ namespace CRST_ServerAPI.Data
 
         List<T> GetAll<T>();
 
-        void Create<T>(T value);
+        T Create<T>(T value);
          
-        void Update<T>(T value);
+        T Update<T>(T value);
 
        
     }

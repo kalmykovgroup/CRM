@@ -56,7 +56,7 @@ namespace CRST_ServerAPI.Data.Repositories
                 user.AccessToken = GenerateAccessToken(user.Id);
 
 
-                // некоректный запрос
+                // некорректный запрос
                 //try
                 //{
                 //    db.Execute("update user set AccessToken = @AccessToken where Id = @Id",
