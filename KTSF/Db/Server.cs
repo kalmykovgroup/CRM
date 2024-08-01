@@ -154,38 +154,6 @@ namespace KTSF.Db
             };
         }
 
-        //Получить страницу с товарами
-     /*   public async Task<(int countProduct, List<Product> product)> GetProducts(int offset, int limit)
-        { 
-            await Task.Delay(0);
-
-            List <Product> result =  new List<Product> {
-                new Product() { Name = "Product 1", Id = 1 },
-                new Product() { Name = "Product 2", Id = 2 },
-                new Product() { Name = "Product 3", Id = 3 },
-                new Product() { Name = "Product 4", Id = 4 },
-                new Product() { Name = "Product 5", Id = 5 },
-                new Product() { Name = "Product 6", Id = 6 },
-                new Product() { Name = "Product 7", Id = 7 },
-                new Product() { Name = "Product 8", Id = 8 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-            };
-
-            List<Product> arrSelection = new();
-
-            for (int i = offset * limit; i < offset * limit + limit; i++)
-            {
-                if (i >= result.Count)
-                    break;
-                arrSelection.Add(result[i]);
-            }
-
-            
-            
-            return (3000, arrSelection);
-        }
-*/
         public async Task<(int countPages, List<Product> product)> GetProducts(int page = 1)
         {
             List<Product> products = new List<Product> {
@@ -248,7 +216,7 @@ namespace KTSF.Db
 
             page--;
 
-            int limmit = 5;
+            int limmit = 3;
 
             int countPage = (int)Math.Ceiling((double)products.Count / limmit);
 
@@ -256,7 +224,7 @@ namespace KTSF.Db
 
             List<Product> resultProducts = [];
 
-            for (int i = page * limmit; i < (page * limmit + limmit); i++) {
+            for (int i = page * limmit; i < (page * limmit + limmit) && i < products.Count; i++) {
                 resultProducts.Add(products[i]);
             }
 

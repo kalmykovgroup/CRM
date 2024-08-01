@@ -44,7 +44,9 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         [ObservableProperty] private PaginateBtn? secondBtn = null!;
         [ObservableProperty] private PaginateBtn? penultimateBtn = null;
         [ObservableProperty] private PaginateBtn? endBtn = null;
+        [ObservableProperty] private PaginateBtn? beforeLast = null;
 
+        [ObservableProperty] private PaginateBtn? nextBtn = null;
 
         [ObservableProperty] private bool leftEllipsis = false;
         [ObservableProperty] private bool rightEllipsis = false;
@@ -73,6 +75,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             BeginBtn = new PaginateBtn(1);
             SecondBtn = countPages > 1 ? new PaginateBtn(2) : null;
             PenultimateBtn = countPages > 2 ? new PaginateBtn(countPages - 1 > 3 ? countPages - 1 : 3) : null;
+            BeforeLast = countPages > 1 ? new PaginateBtn(CountPages - 1) : null;
             EndBtn = countPages > 3 ? new PaginateBtn(countPages) : null;
             
  
@@ -86,86 +89,130 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
        
             CurrentPage = BeginBtn;
 
+
             Is();
 
             IsLoad = null;
         }
 
         [RelayCommand]
-        public void PaginateClick(object? parametr)
+        public async void PaginateClick(object? parametr)
         {
             if(parametr == null) throw new ArgumentNullException(nameof(parametr));
             PaginateBtn navBtn = (PaginateBtn)parametr;
 
             CurrentPage = navBtn;
 
-            bool flag = SecondBtn != null  && SecondBtn.Page + 1 != navBtn.Page && SecondBtn.Page + 1 !< navBtn.Page;
+            //bool flag = SecondBtn != null  && SecondBtn.Page + 1 != navBtn.Page && SecondBtn.Page + 1 !< navBtn.Page;
 
+            bool flag = BeginBtn != null && SecondBtn != null && BeginBtn.Page <= navBtn.Page && SecondBtn.Page + 1 != navBtn.Page;
 
+            Products.Clear();
+            (int countPages, List<Product> products) = await AppControl.Server.GetProducts(CurrentPage.Page);
+
+            foreach (Product product in products)
+            {
+                Products.Add(product);
+            }
             if (CountPages > 4 + CountCenterButtons && flag)
             {
+                if (CurrentPage.Page == CountPages - 2 || CurrentPage.Page == 3)
+                    return;
+                else if ((CurrentPage.Page > PaginationButtons[0].Page) && (CurrentPage.Page < PaginationButtons[PaginationButtons.Count - 1].Page))
+                {
+                    return;
+                }
                 PaginationButtons.Clear();
-                
-                int j = CurrentPage.Page - CountCenterButtons / 2;
 
+                int j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
+                if (j > CountPages  - CountCenterButtons)
+                    j = CountPages - CountCenterButtons - 1;
+              
                 for (int i = 0; i < CountCenterButtons; i++, j++)
                 {
-                    if(CurrentPage.Page == j)
+                    if (j > CountPages)
+                        break;
+                    else if (CurrentPage.Page == j)
                     {
                         PaginationButtons.Add(CurrentPage);
                         continue;
                     }
-                    PaginationButtons.Add(new PaginateBtn(j));
+
+                        PaginationButtons.Add(new PaginateBtn(j));
+                    
                 }
 
                 Is();
 
             } 
  
-           // MessageBox.Show($"{navBtn}");
+
         }
 
         private void Is()
         {
             LeftEllipsis = SecondBtn != null && PaginationButtons.Count > 0 && SecondBtn.Page + 1 != PaginationButtons[0].Page;
-            RightEllipsis = PenultimateBtn != null && PaginationButtons.Count > 0 && PenultimateBtn.Page - 1 != PaginationButtons.Last().Page;
-
+           RightEllipsis = BeforeLast != null && PaginationButtons.Count > 0 && CurrentPage.Page < CountPages - CountCenterButtons /2 -1;
         }
-
-
-        /*   public int Pages()
-           {
-               return countProdutc / countPage;
-           }*/
 
         [RelayCommand]
         public async void NextPage(object? parametr)
         {
-        /*    if (Build is null)
-            {
-                throw new ArgumentNullException(nameof(Build));
-            }
-            Products.Clear();
-            Button nextBtn = (Button)((WarehouseUC)Build).FindName("nextPage");
-            Button backBtn = (Button)((WarehouseUC)Build).FindName("backPage");
-            if (nextBtn is null)
-            {
-                MessageBox.Show("Ой");
-                return;
-            }
-            backBtn.IsEnabled = true;
-            if (countProdutc / countPage == CurrentPage)
-            {
-                nextBtn.IsEnabled = false;
-            }
 
-            IsLoad = "Загрузка";
-            KeyValuePair<int, List<Product>> list = await AppControl.Server.GetProducts(CurrentPage, countPage);
-            foreach (Product product in list.Value)
+            if (parametr == null) throw new ArgumentNullException(nameof(parametr));
+            PaginateBtn navBtn = new PaginateBtn(CurrentPage.Page + 1);
+
+            CurrentPage = navBtn;
+            bool flag = BeginBtn != null && SecondBtn != null && BeginBtn.Page <= navBtn.Page && SecondBtn.Page <= navBtn.Page;
+
+            Products.Clear();
+            (int countPages, List<Product> products) = await AppControl.Server.GetProducts(CurrentPage.Page);
+
+            foreach (Product product in products)
             {
                 Products.Add(product);
             }
-            IsLoad = null;*/
+            if (CountPages > 4 + CountCenterButtons && flag)
+            {
+                if (SecondBtn != null && CurrentPage.Page == SecondBtn.Page)
+                {
+                    CurrentPage = SecondBtn;
+                    return;
+                }
+                else if (BeforeLast != null && CurrentPage.Page == BeforeLast.Page)
+                {   CurrentPage = BeforeLast;
+                    return;
+                }
+                
+                else if (EndBtn != null && CurrentPage.Page == EndBtn.Page)
+                {
+                    CurrentPage = EndBtn;
+                    ((Button)parametr).IsEnabled = false;
+                    return;
+                }
+
+                PaginationButtons.Clear();
+
+                int j = CurrentPage.Page < CountCenterButtons + 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
+                if (j >= CountPages - CountCenterButtons)
+                    j = CountPages - CountCenterButtons - 1;
+     
+                for (int i = 0; i < CountCenterButtons; i++, j++)
+                {
+                    if (j > CountPages)
+                        break;
+                    else if (CurrentPage.Page == j)
+                    {
+                        PaginationButtons.Add(CurrentPage);
+                        continue;
+                    }
+
+                    PaginationButtons.Add(new PaginateBtn(j));
+
+                }
+
+                Is();
+            }
         }
 
        [RelayCommand]
