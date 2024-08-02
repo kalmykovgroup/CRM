@@ -37,22 +37,19 @@ namespace KTSF.Components.Window.MainMenuComponent
         {
             CurrentFrame = new UserControlVM();
 
-            CashiersWorkplaceComponent CashiersWorkplaceComponent = new CashiersWorkplaceComponent(CurrentFrame, appControl);
+            WarehouseComponent warehouse = new WarehouseComponent(CurrentFrame, appControl);
 
-            CashiersWorkplaceComponent.Show();
-             
 
-            LeftNavigationBar.Add(CashiersWorkplaceComponent); 
-            LeftNavigationBar.Add(new SalesComponent(CurrentFrame, appControl));
-            LeftNavigationBar.Add(new PurchasesComponent(CurrentFrame, appControl));
-            LeftNavigationBar.Add(new WarehouseComponent(CurrentFrame, appControl));
-            LeftNavigationBar.Add(new MoneyComponent(CurrentFrame, appControl));
+            LeftNavigationBar.Add(new CashiersWorkplaceComponent(CurrentFrame, appControl)); 
+            LeftNavigationBar.Add(new SalesComponent(CurrentFrame, appControl)); 
+            LeftNavigationBar.Add(new PurchasesComponent(CurrentFrame, appControl)); 
+            LeftNavigationBar.Add(warehouse); 
+            LeftNavigationBar.Add(new MoneyComponent(CurrentFrame, appControl)); 
             LeftNavigationBar.Add(new StaffComponent(CurrentFrame, appControl));
             LeftNavigationBar.Add(new CompanyComponent(CurrentFrame, appControl));
             LeftNavigationBar.Add(new SettingsComponent(CurrentFrame, appControl));
 
-
-
+            warehouse.Show();
         }
 
      
