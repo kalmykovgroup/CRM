@@ -27,5 +27,13 @@ namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent
             CashiersWorkplaceComponent = cashiersWorkplaceComponent;
             DataContext = CashiersWorkplaceComponent;
         }
+
+        private void textBoxCountProduct_KeyDown (object sender, KeyEventArgs e) => CashiersWorkplaceComponent.textBoxCountProduct_KeyDown(sender, e);
+
+        private void TextBoxPrice_TextChanged (object sender, TextChangedEventArgs e) => CashiersWorkplaceComponent.textBoxPrice_TextChanged (sender, e);
+        
+        private void TextBoxCount_TextChanged (object sender, TextChangedEventArgs e) => CashiersWorkplaceComponent.textBoxCount_TextChanged (sender, e);
+
+        private void ToggleButton_Checked (object sender, RoutedEventArgs e) => CashiersWorkplaceComponent.PayMethodSwitch (sender, e);
     }
 }

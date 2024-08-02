@@ -16,8 +16,7 @@ namespace KTSF.Components.CommonComponents.SearchComponent
 {
     public partial class SearchComponent : Component
     {
-        public SearchComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
-        {
+        public SearchComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl) {           
         }
 
     
@@ -28,31 +27,31 @@ namespace KTSF.Components.CommonComponents.SearchComponent
 
         public ObservableCollection<Product> ListSearchedProduct { get; } = new ObservableCollection<Product>();
 
-        [ObservableProperty] public string search = String.Empty;
-         
+        [ObservableProperty] public string search = "Test product";
+
+        public Product SelectedProduct = new Product();
 
         public Action<Product>? SearchAction;
 
         [RelayCommand]
         public async Task SearchClick()
         {
-            List<Product> newListProduct = await AppControl.Server.SearchProducts(Search);
-            if (newListProduct.Count > 0)
-            {
-                IsVisibilityList = true;
-            }
-            foreach (Product product in newListProduct)
-            {
-                ListSearchedProduct.Add(product);
-            }
+            
         }
 
-        public void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        public async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = ((TextBox)sender).Text;
             if (text.Count() > 2)
             {
-
+                ListSearchedProduct.Clear ();
+                List<Product> newListProduct = await AppControl.Server.SearchProducts (Search);
+                if (newListProduct.Count > 0) {
+                    IsVisibilityList = true;
+                }
+                foreach (Product product in newListProduct) {
+                    ListSearchedProduct.Add (product);
+                }
             }
         }
 
@@ -64,9 +63,10 @@ namespace KTSF.Components.CommonComponents.SearchComponent
                 throw new ArgumentNullException(nameof(parameter));
             }
 
-            Product product = (Product)parameter;
-
-            MessageBox.Show(product.Name);
+            SearchAction?.Invoke((Product)parameter);
+            ListSearchedProduct.Clear ();
+            IsVisibilityList = false;
+            Search = "";
         }
 
     }
