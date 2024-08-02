@@ -3,8 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent;
 using KTSF.ViewModel;
-using KTSFClassLibrary.CashiersWorkplace_;
-using KTSFClassLibrary.Product_;
+using KTSF.Core.CashiersWorkplace_;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using KTSF.Core.Product_;
 
 namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent;
 
