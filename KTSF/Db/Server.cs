@@ -1,8 +1,8 @@
 ﻿
 using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
-using KTSFClassLibrary;
-using KTSFClassLibrary.ABAC;
-using KTSFClassLibrary.Product_;
+using KTSF.Core;
+using KTSF.Core.ABAC;
+using KTSF.Core.Product_;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
@@ -54,7 +54,7 @@ namespace KTSF.Db
                     {
                         Email = "kalmykov@mail.ru",
                         Phone = "+79260128187",
-                        Password = "tester",
+                       // Password = "tester",
                         AccessToken = "test-user-access-token",
                         Name = "Иван",
                         Surname = "Калмыков",
@@ -79,7 +79,7 @@ namespace KTSF.Db
                     {
                         Email = "kalmykov@mail.ru",
                         Phone = "+79260128187",
-                        Password = "tester",
+                      //  Password = "tester",
                         AccessToken = "test-user-access-token",
                         Name = "Иван",
                         Surname = "Калмыков",

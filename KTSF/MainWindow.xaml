@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:KTSF"
         mc:Ignorable="d"
          xmlns:gif="http://wpfanimatedgif.codeplex.com"  
-        Title="KTSF" Width="1000" Height="600" WindowStartupLocation="CenterScreen" d:DesignHeight="300" d:DesignWidth="700">
+        Title="CRM" Width="1000" Height="600" WindowStartupLocation="CenterScreen" d:DesignHeight="300" d:DesignWidth="700">
   
         <ContentControl Content="{Binding CurrentFrame.UserControl}" />
  

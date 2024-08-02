@@ -1,12 +1,21 @@
-
-using CRST_ServerAPI.Data;
-using KTSFClassLibrary;
+ 
+ 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.Exchange.WebServices.Data;
+using Microsoft.IdentityModel.Tokens;
+using KTSF.Api.Model;
+using Microsoft.AspNetCore.Authentication;
+using KTSF.Persistence;
+using KTSF.Application.Service;
+using KTSF.Api.Extensions.Repositories; 
+using KTSF.Infrastructure;
+using KTSF.Application.Interfaces.Auth;
 
 namespace CRST_ServerAPI
 {
@@ -32,23 +41,60 @@ namespace CRST_ServerAPI
             builder.Services.AddSwaggerGen();
 
             // добавление сервисов аутентификации
-            builder.Services.AddAuthentication("Bearer")  // схема аутентификации - с помощью jwt-токенов
-                .AddJwtBearer();      // подключение аутентификации с помощью jwt-токенов
+           /* builder.Services.AddAuthentication("Bearer")  // схема аутентификации - с помощью jwt-токенов
+                .AddJwtBearer();      // подключение аутентификации с помощью jwt-токенов*/
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                   .AddJwtBearer(options =>
+                   {
+                       options.RequireHttpsMetadata = false;
+                       options.TokenValidationParameters = new TokenValidationParameters
+                       {
+                           // укзывает, будет ли валидироватьс€ издатель при валидации токена
+                           ValidateIssuer = true,
+                           // строка, представл€юща€ издател€
+                           ValidIssuer = AuthOptions.ISSUER,
+
+                           // будет ли валидироватьс€ потребитель токена
+                           ValidateAudience = true,
+                           // установка потребител€ токена
+                           ValidAudience = AuthOptions.AUDIENCE,
+                           // будет ли валидироватьс€ врем€ существовани€
+                           ValidateLifetime = true,
+
+                           // установка ключа безопасности
+                           IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                           // валидаци€ ключа безопасности
+                           ValidateIssuerSigningKey = true,
+                       };
+                   });
+
+           /* builder.Services.AddAuthentication("BasicAuthentication")
+        .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);*/
 
             //“ребовать прошедших проверку подлинности пользователей
-          /*  builder.Services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            });
-*/
+            /*  builder.Services.AddAuthorization(options =>
+              {
+                  options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                      .RequireAuthenticatedUser()
+                      .Build();
+              });
+  */
 
-            string connectionString = builder.Configuration.GetConnectionString("MySql") ?? throw new ArgumentNullException("Connection string is null");
+            string connectionString = builder.Configuration.GetConnectionString(nameof(AppDbContext)) ?? throw new ArgumentNullException("Connection string is null");
 
             AppDbContext.ConnectionString = connectionString;
             builder.Services.AddDbContext<AppDbContext>(options => options.UseMySQL(connectionString));
-           
+             
+
+            builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
+
+            builder.Services.AddTransient<EmployeesService>();
+            builder.Services.AddTransient<UsersService>();
+            builder.Services.AddTransient<ProductsService>();
+            builder.Services.AddTransient<AuthService>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -86,8 +132,7 @@ namespace CRST_ServerAPI
 
            
         }
- 
+         
 
-       
     }
 }

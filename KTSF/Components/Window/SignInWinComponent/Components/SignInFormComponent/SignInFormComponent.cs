@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.Window.SignInPageComponent;
 using KTSF.ViewModel;
-using KTSFClassLibrary;
+using KTSF.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
-using KTSFClassLibrary;
+ 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualBasic;
-  
+using KTSF.Core;
+
 
 namespace CRST_ServerAPI.Model
 {

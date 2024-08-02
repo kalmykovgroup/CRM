@@ -24,7 +24,7 @@ using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace KTSFClassLibrary.Language
+namespace KTSF.Core.Language
 {
     public partial class Languages: ObservableObject
     {

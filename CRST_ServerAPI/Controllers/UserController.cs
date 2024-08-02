@@ -1,48 +1,85 @@
-﻿using CRST_ServerAPI.Data;
-using CRST_ServerAPI.Data.Repositories;
-using KTSFClassLibrary;
-using KTSFClassLibrary.Product_;
+﻿using CSharpFunctionalExtensions;
+using KTSF.Api.Extensions.Repositories;
+using KTSF.Application.Service;
+using KTSF.Core;
+using KTSF.Core.Product_;
+using KTSF.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRST_ServerAPI.Controllers
 {
-     
-    public class UserController : ApiController
+    [ApiController]
+    [Route("[controller]")]
+    public class UserController : ControllerBase
     {
-        public UserController(ILogger<UserController> logger) : base(logger)
-        {
+        private readonly ILogger<UserController> _logger;
 
+        private UsersService usersService;
+
+        public UserController(ILogger<UserController> logger, UsersService usersService)
+        {
+            _logger = logger;
+            this.usersService = usersService;
         }
 
-        public override IActionResult Find(int id)
-        {
-            Repository repository = new UserRepository();
 
-            var employee = repository.Find<User>(id);
-            if (employee == null)
+        [HttpGet("{id}")]
+        public IActionResult Find(int id)
+        {
+
+            Result<User> result = usersService.Find(id);
+            if (result.IsSuccess)
             {
-                return NotFound();
+                return Ok(result.Value);
             }
-            return Ok(employee);
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
+
         }
 
-        public override IActionResult GetAll()
+        [HttpGet("all")]
+        public IActionResult GetAll()
         {
-            Repository repository = new UserRepository();
-            return Ok(repository.GetAll<User>());
+            return Ok(usersService.GetAll());
         }
 
-       
 
-        public override IActionResult Insert<T>(int id, T obj)
+        [HttpPost]
+        [Route("insert")]
+        public IActionResult Insert(User user)
         {
-            throw new NotImplementedException();
+            Result<User> result = usersService.Create(user);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
         }
 
-        public override IActionResult Update<T>(T obj)
+        [HttpPost]
+        [Route("update")]
+        public IActionResult Update(User user)
         {
-            throw new NotImplementedException();
+            Result<User> result = usersService.Update(user);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
         }
     }
 }

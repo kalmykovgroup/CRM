@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Navigation;
 using System.Windows;
-using KTSFClassLibrary;
+using KTSF.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Windows.Data;
 using KTSF.Components.Window.LoadComponent;
@@ -102,7 +102,7 @@ namespace KTSF.Components.Window.SignInPageComponent
             IsLoad = "Авторизация...";
 
             //Сделали запрос на вход 
-            (bool result, string? error, User? user) = await AppControl.Server.Authorization(AppControl.User.Phone, AppControl.User.Password);
+            (bool result, string? error, User? user) = await AppControl.Server.Authorization(AppControl.User.Phone, AppControl.User.PasswordHash);
 
             IsLoad = null;
 

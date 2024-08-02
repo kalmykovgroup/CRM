@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
 using KTSF.ViewModel;
-using KTSFClassLibrary.Product_;
+using KTSF.Core.Product_;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
