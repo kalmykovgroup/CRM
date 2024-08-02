@@ -14,6 +14,7 @@ namespace KTSFClassLibrary.Product_
 
 
     [Table("barcodes")]
+    [PrimaryKey(nameof(Id))]
     public class Barcode
     { 
         public int Id { get; set; }
