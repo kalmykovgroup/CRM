@@ -1,8 +1,9 @@
-﻿using CRST_ServerAPI.Data;
-using CRST_ServerAPI.Data.Repositories;
-using Dapper;
-using KTSFClassLibrary;
-using KTSFClassLibrary.Product_;
+﻿using CSharpFunctionalExtensions;
+using KTSF.Api.Extensions.Repositories;
+using KTSF.Application.Service;
+using KTSF.Core;
+using KTSF.Core.Product_;
+using KTSF.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -13,40 +14,60 @@ using System.Text;
 
 namespace CRST_ServerAPI.Controllers
 {
-
-    public class UserController : ApiController
+    [ApiController]
+    [Route("[controller]")]
+    public class UserController : ControllerBase
     {
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(ILogger<UserController> logger) : base(logger)
+        private UsersService usersService;
+
+        public UserController(ILogger<UserController> logger, UsersService usersService)
         {
-
+            _logger = logger;
+            this.usersService = usersService;
         }
 
 
-        public override IActionResult Find(int id)
+        [HttpGet("{id}")]
+        public IActionResult Find(int id)
         {
-            Repository repository = new UserRepository();
 
-            var employee = repository.Find<User>(id);
-            if (employee == null)
+            Result<User> result = usersService.Find(id);
+            if (result.IsSuccess)
             {
-                return NotFound();
+                return Ok(result.Value);
             }
-            return Ok(employee);
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
+
+        }
+
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            return Ok(usersService.GetAll());
         }
 
 
-        public override IActionResult GetAll()
+        [HttpPost]
+        [Route("insert")]
+        public IActionResult Insert(User user)
         {
-            Repository repository = new UserRepository();
-            return Ok(repository.GetAll<User>());
-        }
+            Result<User> result = usersService.Create(user);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
 
 
-        // ????
-        public override IActionResult Insert<T>(int id, T obj)
-        {
-            throw new NotImplementedException();
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
         }
 
         [HttpPost("Update")]
@@ -106,11 +127,21 @@ namespace CRST_ServerAPI.Controllers
             return $"{user.Name} {user.Surname} {user.Email}";
         }
 
-
-        // ?????
-        public override IActionResult Update<T>(T obj)
+        [HttpPost]
+        [Route("update")]
+        public IActionResult Update(User user)
         {
-            throw new NotImplementedException();
+            Result<User> result = usersService.Update(user);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using KTSFClassLibrary;
+﻿using KTSF.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

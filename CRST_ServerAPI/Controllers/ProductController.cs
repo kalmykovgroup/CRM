@@ -1,48 +1,88 @@
-﻿using CRST_ServerAPI.Data;
-using CRST_ServerAPI.Data.Repositories;
-using KTSFClassLibrary;
-using KTSFClassLibrary.Product_;
+﻿using CSharpFunctionalExtensions;
+using Dapper;
+using KTSF.Api.Extensions.Repositories;
+using KTSF.Application.Service;
+using KTSF.Core;
+using KTSF.Core.Product_;
+using KTSF.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
+using System.Data;
+using System.Data.Common;
 
 namespace CRST_ServerAPI.Controllers
 {
-    public class ProductController : ApiController
+    [ApiController]
+    [Route("[controller]")]
+    public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ILogger<ProductController> logger) : base(logger) {
+        private ProductsService productsService;
 
+        public ProductController(ILogger<ProductController> logger, ProductsService productsService)
+        {
             _logger = logger;
+            this.productsService = productsService;
         }
 
-        public override IActionResult Find(int id)
+        [HttpGet("{id}")]
+        public IActionResult Find(int id)
         {
-            Repository repository = new ProductRepository();
 
-            var product = repository.Find<Product>(id);
-            if (product == null)
+            Result<Product> result = productsService.Find(id);
+            if (result.IsSuccess)
             {
-                return NotFound();
+                return Ok(result.Value);
             }
-            return Ok(product);
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
+
+        }
+
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            return Ok(productsService.GetAll());
         }
 
 
-        public override IActionResult GetAll()
+        [HttpPost]
+        [Route("insert")]
+        public IActionResult Insert(Product product)
         {
-            Repository repository = new ProductRepository();
-            return Ok(repository.GetAll<Product>());
+            Result<Product> result = productsService.Create(product);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
         }
 
-        public override IActionResult Insert<T>(int id, T obj)
+        [HttpPost]
+        [Route("update")]
+        public IActionResult Update(Product product)
         {
-            throw new NotImplementedException();
-        }
+            Result<Product> result = productsService.Update(product);
 
-        public override IActionResult Update<T>(T obj)
-        {
-            throw new NotImplementedException();
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
         }
 
         //Получить подробную информацию о товаре

@@ -1,11 +1,15 @@
-﻿using Azure.Core;
-using CRST_ServerAPI.Data;
-using CRST_ServerAPI.Data.Repositories;
-using KTSFClassLibrary;
-using Microsoft.AspNetCore.Authorization;
+﻿ 
+ 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
+using System.IdentityModel.Tokens.Jwt;
+using KTSF.Api.Model;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using MySql.Data.MySqlClient;
+using System.Data;
+using Dapper;
+using KTSF.Core;
+using KTSF.Persistence;
 namespace CRST_ServerAPI.Controllers
 {
     [ApiController]
@@ -13,7 +17,17 @@ namespace CRST_ServerAPI.Controllers
     public class AuthController : ControllerBase
     {
 
-        private readonly IAuthRepository _authRepo;
+
+        private string GeneratePassword(string password) {
+            return BCrypt.Net.BCrypt.EnhancedHashPassword(password);
+        }
+
+
+      /*  private readonly IAuthRepository _authRepo;
+        public AuthController(IAuthRepository authRepository)
+        {
+            _authRepo = authRepository;
+        }*/
 
         //public AuthController(IAuthRepository authRepository)
         //{
@@ -43,9 +57,7 @@ namespace CRST_ServerAPI.Controllers
 
               return response;
           }
-        */
 
-        /*
           [HttpPost("Login")]
           public async Task<IActionResult> Login(string username, string password)
           {
@@ -56,32 +68,69 @@ namespace CRST_ServerAPI.Controllers
                   return BadRequest(response);
               }
               return Ok(response);
-          }
-        */
+          }*/
 
-        [HttpPost("Connect")]
-        [Authorize]
-        public IActionResult Connect()
+        // тестовые данные вместо использования базы данных
+        private List<User> people = new List<User>
         {
-            return Ok("It's OK");
-        }
+            new User {Email="admin@gmail.com", PasswordHash="12345" },
+            new User { Email="qwerty@gmail.com", PasswordHash="55555" }
+        };
 
-        [HttpPost("Login")]       
-        public IActionResult Login(string username , string password)
+        [HttpPost("login")]
+        public IActionResult Login(string username, string password)
         {
-            AuthRepository authRepository = new AuthRepository();
+            return Ok("ok");
 
-            string? token = authRepository.Login(username, password);
-            if(token == null)
+            ClaimsIdentity? identity = GetIdentity(username, password);
+            if (identity == null)
             {
-                return Unauthorized();
+                return BadRequest(new { errorText = "Invalid username or password." });
             }
 
-            return Ok(token); // вернуть ключ - значение
+            var now = DateTime.UtcNow;
+            // создаем JWT-токен
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.ISSUER,
+                    audience: AuthOptions.AUDIENCE,
+                    notBefore: now,
+                    claims: identity.Claims,
+                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            var response = new
+            {
+                access_token = encodedJwt,
+                username = identity.Name
+            };
+
+            return Ok(response);
         }
 
+        private ClaimsIdentity? GetIdentity(string username, string password)
+        { 
+            using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
 
+            db.Open();
 
+            User? user = db.ExecuteScalar<User>($"SELECT * FROM user WHERE email = {username} and password_hash = {password}");
+            if (user != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+                 //   new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
+                };
+                ClaimsIdentity claimsIdentity =
+                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+                return claimsIdentity;
+            }
+
+            // если пользователя не найдено
+            return null;
+        }
 
     }
 }

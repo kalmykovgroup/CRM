@@ -1,8 +1,8 @@
 ﻿
 using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
-using KTSFClassLibrary;
-using KTSFClassLibrary.ABAC;
-using KTSFClassLibrary.Product_;
+using KTSF.Core;
+using KTSF.Core.ABAC;
+using KTSF.Core.Product_;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
@@ -54,7 +54,7 @@ namespace KTSF.Db
                     {
                         Email = "kalmykov@mail.ru",
                         Phone = "+79260128187",
-                        Password = "tester",
+                       // Password = "tester",
                         AccessToken = "test-user-access-token",
                         Name = "Иван",
                         Surname = "Калмыков",
@@ -79,7 +79,7 @@ namespace KTSF.Db
                     {
                         Email = "kalmykov@mail.ru",
                         Phone = "+79260128187",
-                        Password = "tester",
+                      //  Password = "tester",
                         AccessToken = "test-user-access-token",
                         Name = "Иван",
                         Surname = "Калмыков",
@@ -138,30 +138,37 @@ namespace KTSF.Db
         //Поиск товаров
         public async Task<List<Product>> SearchProducts(string text) // возвращает максимум 20 товаров
         {
+            // Максимальное число поиска товаров не должно превышать 20 товаров
+        
             await Task.Delay(1000);
 
             return new List<Product> {
-                new Product() { Name = "Product 1", Id = 1 },
-                new Product() { Name = "Product 2", Id = 2 },
-                new Product() { Name = "Product 3", Id = 3 },
-                new Product() { Name = "Product 4", Id = 4 },
-                new Product() { Name = "Product 5", Id = 5 },
-                new Product() { Name = "Product 6", Id = 6 },
-                new Product() { Name = "Product 7", Id = 7 },
-                new Product() { Name = "Product 8", Id = 8 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 1", Id = 1, BuySales = 800 },
+                new Product() { Name = "Product 2", Id = 2, BuySales = 750 },
+                new Product() { Name = "Product 3", Id = 3, BuySales = 700 },
+                new Product() { Name = "Product 4", Id = 4, BuySales = 300 },
+                new Product() { Name = "Product 5", Id = 5, BuySales = 450 },
+                new Product() { Name = "Product 6", Id = 6, BuySales = 880 },
+                new Product() { Name = "Product 7", Id = 7, BuySales = 1000 },
+                new Product() { Name = "Product 8", Id = 8, BuySales = 450 },
+                new Product() { Name = "Product 9", Id = 9, BuySales = 200 },
+                new Product() { Name = "Product 10", Id = 10, BuySales = 620 },
+                new Product() { Name = "Product 11", Id = 11, BuySales = 780 },
+                new Product() { Name = "Product 12", Id = 12, BuySales = 560 },
+                new Product() { Name = "Product 13", Id = 13, BuySales = 780 },
+                new Product() { Name = "Product 14", Id = 14, BuySales = 290 },
+                new Product() { Name = "Product 15", Id = 15, BuySales = 970 },
+                new Product() { Name = "Product 16", Id = 16, BuySales = 1210 },
+                new Product() { Name = "Product 17", Id = 17, BuySales = 160 },
+                new Product() { Name = "Product 18", Id = 18, BuySales = 850 },
+                new Product() { Name = "Product 19", Id = 19, BuySales = 780 },
+                new Product() { Name = "Product 20", Id = 20, BuySales = 640 },
             };
         }
 
-        // нужен еще метод получения первой страницы с товарами и общим количеством товаров
-
-        //Получить страницу с товарами
-        public async Task<List<Product>> GetProducts(int offset, int count)
-        { 
-            await Task.Delay(1000);
-
-            List <Product> result =  new List<Product> {
+        public async Task<(int countPages, List<Product> product)> GetProducts(int page = 1)
+        {
+            List<Product> products = new List<Product> {
                 new Product() { Name = "Product 1", Id = 1 },
                 new Product() { Name = "Product 2", Id = 2 },
                 new Product() { Name = "Product 3", Id = 3 },
@@ -172,9 +179,69 @@ namespace KTSF.Db
                 new Product() { Name = "Product 8", Id = 8 },
                 new Product() { Name = "Product 9", Id = 9 },
                 new Product() { Name = "Product 10", Id = 10 },
-            }; 
+                new Product() { Name = "Product 1", Id = 1 },
+                new Product() { Name = "Product 2", Id = 2 },
+                new Product() { Name = "Product 3", Id = 3 },
+                new Product() { Name = "Product 4", Id = 4 },
+                new Product() { Name = "Product 5", Id = 5 },
+                new Product() { Name = "Product 6", Id = 6 },
+                new Product() { Name = "Product 7", Id = 7 },
+                new Product() { Name = "Product 8", Id = 8 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 1", Id = 1 },
+                new Product() { Name = "Product 2", Id = 2 },
+                new Product() { Name = "Product 3", Id = 3 },
+                new Product() { Name = "Product 4", Id = 4 },
+                new Product() { Name = "Product 5", Id = 5 },
+                new Product() { Name = "Product 6", Id = 6 },
+                new Product() { Name = "Product 7", Id = 7 },
+                new Product() { Name = "Product 8", Id = 8 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+                new Product() { Name = "Product 9", Id = 9 },
+                new Product() { Name = "Product 10", Id = 10 },
+            };
 
-            return result;
+            page--;
+
+            int limmit = 3;
+
+            int countPage = (int)Math.Ceiling((double)products.Count / limmit);
+
+            if (page > countPage || page < 0) throw new ArgumentException();
+
+            List<Product> resultProducts = [];
+
+            for (int i = page * limmit; i < (page * limmit + limmit) && i < products.Count; i++) {
+                resultProducts.Add(products[i]);
+            }
+
+            return (countPage, resultProducts);
+
         }
 
         // ????? WTF 

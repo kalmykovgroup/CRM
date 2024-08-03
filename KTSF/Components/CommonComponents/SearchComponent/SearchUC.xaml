@@ -99,7 +99,10 @@
                         <Button Command="{Binding DataContext.ProductClickCommand, ElementName=UserControl}" CommandParameter="{Binding}">
                             <Button.Template>
                                 <ControlTemplate>
-                                    <Border BorderBrush="#999" BorderThickness="1">
+                                    <Border
+                                        Width="{Binding ActualWidth, ElementName=UserControl}"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="1">
                                         <TextBlock Text="{Binding Name}" />
                                     </Border>
                                 </ControlTemplate>

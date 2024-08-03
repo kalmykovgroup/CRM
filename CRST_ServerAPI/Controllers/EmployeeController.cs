@@ -1,9 +1,9 @@
-﻿using CRST_ServerAPI.Data;
-using CRST_ServerAPI.Data.Repositories;
-using Dapper;
-using KTSFClassLibrary;
-using KTSFClassLibrary.ABAC;
-using KTSFClassLibrary.Product_;
+﻿using CSharpFunctionalExtensions;
+using KTSF.Api.Extensions.Repositories;
+using KTSF.Application.Service;
+using KTSF.Core;
+using KTSF.Core.Product_;
+using KTSF.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Exchange.WebServices.Data;
@@ -12,120 +12,76 @@ using System.Data;
 
 namespace CRST_ServerAPI.Controllers
 {
-     
-    public class EmployeeController : ApiController
+    [ApiController]
+    [Route("[controller]")]
+    public class EmployeeController : ControllerBase
     {
-   
 
+         private EmployeesService employeesService; 
 
-        private readonly ILogger<EmployeeController> _logger;
-
-        public EmployeeController(ILogger<EmployeeController> logger) : base(logger)
+        public EmployeeController(EmployeesService EmployeesService)
         {
-            _logger = logger;
+            this.employeesService = EmployeesService;
         }
 
-        public override IActionResult Find(int id)
+        [HttpGet("{id}")]
+        public IActionResult Find(int id)
         {
-            Repository repository = new EmployeeRepository();
 
-            var employee = repository.Find<Employee>(id);
-            if (employee == null)
+            Result<Employee> result = employeesService.Find(id);
+            if (result.IsSuccess)
             {
-                return NotFound();
+                return Ok(result.Value);
             }
-            return Ok(employee);
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
+
         }
 
-        //Получить список всех сотрудников
-        public override IActionResult GetAll()
+        [HttpGet("all")]
+        public IActionResult GetAll()
         {
-            Repository repository = new EmployeeRepository();
-            return Ok(repository.GetAll<Employee>());
+            Result<Employee[]> result = employeesService.GetAll();
+
+             return Ok(result.Value);
         }
 
 
-        //  ?????? Зачем ID в параметрах, если мы инсертим??? и вообще нужен этот метод (есть Create)????
-        public override IActionResult Insert<T>(int id, T obj)
+        [HttpPost]
+        [Route("insert")]
+        public IActionResult Insert(Employee employee)
         {
-            throw new NotImplementedException();
-        }
+            Result<Employee> result = employeesService.Create(employee);
 
-
-        [HttpPost("Update")]
-        public  ActionResult<Employee> Update(int id) // в параметрах ID и JSON ???
-        {
-            using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
-            db.Open();
-
-            Employee? empl = db.Query<Employee>("SELECT * FROM employees WHERE Id = @Id", new { Id = id }).FirstOrDefault();
-
-            if (empl != null)
+            if (result.IsSuccess)
             {
-                empl.ObjectId = 1;
-                empl.AppointmentId = 4;
-                empl.ASetOfRulesId = 4;
-                empl.AccessToken = "lkvbmekjlgnwieufhwyueigf";
-                empl.Name = "XXXXXXXX";
-                empl.Surname = "XXXXXXXXX";
-                empl.Patronymic = "XXXXXXXX";
-                empl.PassportSeries = "1234";
-                empl.PassportNumber = "123456";
-                empl.Tin = "999999999999";
-                empl.Snils = "5555555555555";
-                empl.Address = "Красная прощать 4";
-                empl.Phone = "+79260128187";
-                empl.Email = "aaa@aaa.ru";
-                empl.ApplyingDate = DateTime.Now;
-                empl.Created_At = DateTime.Now;
-                empl.Updated_At = DateTime.Now;
-                empl.Password = "tester";
-                empl.EmployeeStatusId = 2;
-
-
-                EmployeeRepository repository = new EmployeeRepository();
-                repository.Update(empl);
+                return Ok(result.Value);
             }
-            return Ok(empl);
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
         }
 
-        [HttpPost("Create")]
-        public ActionResult<Employee> Create() // Employee в параметрах ??? нужен ??
+        [HttpPost]
+        [Route("update")]
+        public IActionResult Update(Employee employee)
         {
-            Employee empl = new Employee()  // тестовый (использовать employee из параметров) 
+            Result<Employee> result = employeesService.Update(employee);
+
+            if (result.IsSuccess)
             {
-                ObjectId = 1,
-                AppointmentId = 4,
-                ASetOfRulesId = 4,
-                AccessToken = "lkvbmekjlgnwieufhwyueigf",
-                Name = "QQQQ",
-                Surname = "WWWW",
-                Patronymic = "EEEE",
-                PassportSeries = "1234",
-                PassportNumber = "123456",
-                Tin = "999999999999",
-                Snils = "5555555555555",
-                Address = "Красная прощать 4",
-                Phone = "+79260128187",
-                Email = "aaa@aaa.ru",
-                ApplyingDate = DateTime.Now,
-                Created_At = DateTime.Now,
-                Updated_At = DateTime.Now,
-                Password = "tester",
-                EmployeeStatusId = 2
-            };            
-
-            EmployeeRepository repository = new EmployeeRepository();
-            repository.Create(empl);
-
-            return Ok(empl);
-        }
+                return Ok(result.Value);
+            }
 
 
-        // ????
-        public override IActionResult Update<T>(T obj)
-        {
-            throw new NotImplementedException();
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
         }
     }
 }

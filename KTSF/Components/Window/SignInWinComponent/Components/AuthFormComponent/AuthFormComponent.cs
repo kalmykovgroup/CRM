@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SignInFormComponent;
 using KTSF.ViewModel;
-using KTSFClassLibrary;
+using KTSF.Core;
 using QRCoder;
 using SkiaSharp;
 using System;

@@ -5,7 +5,7 @@
     xmlns:components="clr-namespace:KTSF.Components"
     xmlns:converters="clr-namespace:KTSF.Components.Window.MainMenuWinComponent.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:language="clr-namespace:KTSFClassLibrary.Language"
+    xmlns:language="clr-namespace:KTSF.Core.Language"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="This"
     d:DesignHeight="450"

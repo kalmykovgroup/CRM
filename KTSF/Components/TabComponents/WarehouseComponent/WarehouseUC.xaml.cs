@@ -25,5 +25,6 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             InitializeComponent();
             DataContext = WarehouseComponent;
         }
+
     }
 }

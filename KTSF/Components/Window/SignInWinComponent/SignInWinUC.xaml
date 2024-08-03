@@ -20,7 +20,7 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MinHeight="300">
             <TextBlock FontSize="40" HorizontalAlignment="Center" FontWeight="DemiBold" Margin="0 0 0 50">
                 <Run Text="CRM" Foreground="White"/>
-                <Run Text="KTSF" Foreground="{StaticResource ColorCompanyNameYellow}"/>
+                <Run Text="CRM" Foreground="{StaticResource ColorCompanyNameYellow}"/>
             </TextBlock>
 
             <ContentControl Content="{Binding FormContainer.UserControl}"/> 
