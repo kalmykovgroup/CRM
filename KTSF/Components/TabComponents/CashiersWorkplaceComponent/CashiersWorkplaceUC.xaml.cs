@@ -23,9 +23,11 @@ namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent
         public CashiersWorkplaceComponent CashiersWorkplaceComponent { get; }
         public CashiersWorkplaceUC(CashiersWorkplaceComponent cashiersWorkplaceComponent)
         {
-            InitializeComponent();
             CashiersWorkplaceComponent = cashiersWorkplaceComponent;
             DataContext = CashiersWorkplaceComponent;
+
+            InitializeComponent();
+          
         }
 
         private void textBoxCountProduct_KeyDown (object sender, KeyEventArgs e) => CashiersWorkplaceComponent.textBoxCountProduct_KeyDown(sender, e);
@@ -34,6 +36,5 @@ namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent
         
         private void TextBoxCount_TextChanged (object sender, TextChangedEventArgs e) => CashiersWorkplaceComponent.textBoxCount_TextChanged (sender, e);
 
-        private void ToggleButton_Checked (object sender, RoutedEventArgs e) => CashiersWorkplaceComponent.PayMethodSwitch (sender, e);
-    }
+      }
 }

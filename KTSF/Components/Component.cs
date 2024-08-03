@@ -1,9 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent;
-using KTSF.ViewModel;
-using KTSFClassLibrary.Language;
-using KTSFClassLibrary.Product_;
+using KTSF.Core.Language;
+using KTSF.ViewModel; 
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

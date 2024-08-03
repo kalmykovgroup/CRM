@@ -2,8 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent;
-using KTSF.ViewModel;
-using KTSF.Core.CashiersWorkplace_;
+using KTSF.ViewModel; 
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +15,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using KTSF.Core.Product_;
+using KTSF.Contracts.CashiersWorkplace;
 
 namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent;
 
@@ -122,13 +122,17 @@ public partial class CashiersWorkplaceComponent : TabComponent
         IsPayment = true;
     }
 
-    public void PayMethodSwitch (object sender, RoutedEventArgs e) {
-        if (((ToggleButton) sender).Tag == "cash") {
-            CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethod.Cash;
-        } else {
-            CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethod.Card;
-        }
-    }
+    
+    [RelayCommand]
+    public void PayCardClick(object? parameter = null) => CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethod.Card;
+    
+    
+    [RelayCommand]
+    public void PayCashClick(object? parameter = null)  => CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethod.Cash;
+   
+
+
+     
 }
 
 public partial class Receipt : ObservableObject {

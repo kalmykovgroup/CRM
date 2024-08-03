@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KTSF.Core.CashiersWorkplace_;
+namespace KTSF.Contracts.CashiersWorkplace;
 
 public enum PaymentMethod {
     None,
@@ -13,10 +14,14 @@ public enum PaymentMethod {
     Mixed
 }
 
-public class PaymentInfo {
+public partial class PaymentInfo: ObservableObject {
+
     public double CashAmount { get; set; }
     public double CardAmount { get; set; }
 
+    private PaymentMethod paymentMethod;
+
+    
     public PaymentMethod PaymentMethod {
         get {
             //if (CashAmount > 0 && CardAmount > 0)
@@ -27,9 +32,9 @@ public class PaymentInfo {
             //    return PaymentMethod.Card;
             //else
             //    return PaymentMethod.None;
-            return PaymentMethod;
+            return paymentMethod;
         }
-        set { PaymentMethod = value; }
+        set { SetProperty(ref paymentMethod, value); }
     }
 
     public PaymentInfo (double cashAmount, double cardAmount) {
