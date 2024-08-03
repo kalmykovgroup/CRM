@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KTSF.ViewModel;
-using KTSFClassLibrary.Product_;
+using KTSF.Core.Product_;
+using KTSF.ViewModel; 
 using System;
 using System.CodeDom;
 using System.Collections.Generic;

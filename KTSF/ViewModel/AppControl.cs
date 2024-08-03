@@ -1,4 +1,4 @@
-﻿using KTSFClassLibrary;
+﻿using KTSF.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using KTSF.Db;
 using System;
@@ -18,7 +18,7 @@ using System.Configuration;
 using System.Windows;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using KTSFClassLibrary.Language;
+using KTSF.Core.Language;
 using Microsoft.Win32;
 using KTSF.Components.Window.SignInPageComponent;
 using KTSF.Components.Window.MainMenuComponent;

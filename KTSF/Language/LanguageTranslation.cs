@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KTSFClassLibrary.Language
+namespace KTSF.Core.Language
 {
     public class LanguageTranslation
     {

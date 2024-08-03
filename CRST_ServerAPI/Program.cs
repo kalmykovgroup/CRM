@@ -1,9 +1,21 @@
-
-using CRST_ServerAPI.Data;
-using KTSFClassLibrary;
+ 
+ 
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.Exchange.WebServices.Data;
+using Microsoft.IdentityModel.Tokens;
+using KTSF.Api.Model;
+using Microsoft.AspNetCore.Authentication;
+using KTSF.Persistence;
+using KTSF.Application.Service;
+using KTSF.Api.Extensions.Repositories; 
+using KTSF.Infrastructure;
+using KTSF.Application.Interfaces.Auth;
 
 namespace CRST_ServerAPI
 {
@@ -16,16 +28,73 @@ namespace CRST_ServerAPI
             // Add services to the container.
 
             builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-                        
-            builder.Services.AddControllers();
+ 
+
+            builder.Services.AddControllers()
+            .ConfigureApiBehaviorOptions(options =>
+            {
+               // options.SuppressMapClientErrors = true; //Отключение ответа ProblemDetails
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            string connectionString = builder.Configuration.GetConnectionString("MySql") ?? throw new ArgumentNullException("Connection string is null");
+
+            // добавление сервисов аутентификации
+           /* builder.Services.AddAuthentication("Bearer")  // схема аутентификации - с помощью jwt-токенов
+                .AddJwtBearer();      // подключение аутентификации с помощью jwt-токенов*/
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                   .AddJwtBearer(options =>
+                   {
+                       options.RequireHttpsMetadata = false;
+                       options.TokenValidationParameters = new TokenValidationParameters
+                       {
+                           // укзывает, будет ли валидироваться издатель при валидации токена
+                           ValidateIssuer = true,
+                           // строка, представляющая издателя
+                           ValidIssuer = AuthOptions.ISSUER,
+
+                           // будет ли валидироваться потребитель токена
+                           ValidateAudience = true,
+                           // установка потребителя токена
+                           ValidAudience = AuthOptions.AUDIENCE,
+                           // будет ли валидироваться время существования
+                           ValidateLifetime = true,
+
+                           // установка ключа безопасности
+                           IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                           // валидация ключа безопасности
+                           ValidateIssuerSigningKey = true,
+                       };
+                   });
+
+           /* builder.Services.AddAuthentication("BasicAuthentication")
+        .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);*/
+
+            //Требовать прошедших проверку подлинности пользователей
+            /*  builder.Services.AddAuthorization(options =>
+              {
+                  options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                      .RequireAuthenticatedUser()
+                      .Build();
+              });
+  */
+
+            string connectionString = builder.Configuration.GetConnectionString(nameof(AppDbContext)) ?? throw new ArgumentNullException("Connection string is null");
 
             AppDbContext.ConnectionString = connectionString;
             builder.Services.AddDbContext<AppDbContext>(options => options.UseMySQL(connectionString));
-           
+             
+
+            builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
+
+            builder.Services.AddTransient<EmployeesService>();
+            builder.Services.AddTransient<UsersService>();
+            builder.Services.AddTransient<ProductsService>();
+            builder.Services.AddTransient<AuthService>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -39,7 +108,13 @@ namespace CRST_ServerAPI
             // // Настройте конвейер HTTP-запросов.
             app.UseHttpsRedirection();
 
+
+
+
+            app.UseAuthentication();   // добавление middleware аутентификации
+
             app.UseAuthorization(); 
+            
 
             // устанавливаем сопоставление маршрутов с контроллерами
             app.MapControllerRoute(
@@ -47,6 +122,7 @@ namespace CRST_ServerAPI
              pattern: "{controller=Home}/{action=Index}/{id?}"
              
              );
+
 
             app.MapControllers();
              
@@ -56,8 +132,7 @@ namespace CRST_ServerAPI
 
            
         }
- 
+         
 
-       
     }
 }

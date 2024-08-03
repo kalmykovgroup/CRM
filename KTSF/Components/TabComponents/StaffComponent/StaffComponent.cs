@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent;
 using KTSF.ViewModel;
-using KTSFClassLibrary;
-using KTSFClassLibrary.ABAC;
+using KTSF.Core;
+using KTSF.Core.ABAC;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

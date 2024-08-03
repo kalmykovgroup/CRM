@@ -1,7 +1,11 @@
-﻿using CRST_ServerAPI.Data;
-using KTSFClassLibrary;
-using KTSFClassLibrary.Product_;
-using Microsoft.AspNetCore.Mvc; 
+﻿using CSharpFunctionalExtensions;
+using KTSF.Api.Extensions.Repositories;
+using KTSF.Application.Service;
+using KTSF.Core;
+using KTSF.Core.Product_;
+using KTSF.Persistence;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CRST_ServerAPI.Controllers
 {
@@ -9,31 +13,73 @@ namespace CRST_ServerAPI.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
+        private readonly ILogger<UserController> _logger;
 
+        private UsersService usersService;
 
-       
-        [HttpGet]
-        [Route("all")]
-        public IActionResult Get()
+        public UserController(ILogger<UserController> logger, UsersService usersService)
         {
-            Repository repository = new UserRepository();
-            return Ok(repository.GetAll<Employee>()); 
-  
+            _logger = logger;
+            this.usersService = usersService;
         }
+
 
         [HttpGet("{id}")]
-        public ActionResult<Employee> GetEmployee(int id)
+        public IActionResult Find(int id)
         {
-            Repository repository = new UserRepository();
 
-            var employee = repository.Find<Employee>(id);
-            if (employee == null)
+            Result<User> result = usersService.Find(id);
+            if (result.IsSuccess)
             {
-                return NotFound();
+                return Ok(result.Value);
             }
-            return employee;
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
+
         }
 
- 
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            return Ok(usersService.GetAll());
+        }
+
+
+        [HttpPost]
+        [Route("insert")]
+        public IActionResult Insert(User user)
+        {
+            Result<User> result = usersService.Create(user);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
+        }
+
+        [HttpPost]
+        [Route("update")]
+        public IActionResult Update(User user)
+        {
+            Result<User> result = usersService.Update(user);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+
+
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
+        }
     }
 }
