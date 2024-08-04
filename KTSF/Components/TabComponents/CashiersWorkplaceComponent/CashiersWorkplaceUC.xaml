@@ -215,7 +215,7 @@
                     <Button.Template>
                         <ControlTemplate>
                             <Border>
-                                <TextBlock Text="Картой" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Text="{Binding Property.LabelBtnCard}" d:Text="Карта" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="BorderThickness" Value="1"/>
@@ -240,7 +240,7 @@
                     <Button.Template>
                         <ControlTemplate>
                             <Border>
-                                <TextBlock Text="Наличкой" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Text="{Binding Property.LabelBtnCash}" d:Text="Наличные" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="BorderThickness" Value="1"/>
