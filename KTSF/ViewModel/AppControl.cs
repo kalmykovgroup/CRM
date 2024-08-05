@@ -57,7 +57,7 @@ namespace KTSF
             }
         } 
 
-        public Languages Languages { get; } = new();
+        public LanguageControl LanguageControl { get; } = new();
 
         //Главное окно в котором отображаеться UserControl
         public MainWindow MainWindow { get; }

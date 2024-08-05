@@ -7,7 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,6 +26,7 @@ namespace KTSF.Components
          
         public static ObservableCollection<Component> History = new();
 
+        
      
         public AppControl AppControl { get; }
 
@@ -46,10 +49,11 @@ namespace KTSF.Components
             }
         }
 
+        public virtual SeparateTabMode SeparateTabMode { get; }
 
         private UserControlVM binding;
 
-        public string? Name { get; set; }
+        [ObservableProperty] private string? name;
 
         private void Ini() {
             UserControl = Initial();
@@ -65,42 +69,73 @@ namespace KTSF.Components
         public abstract UserControl Initial();
 
 
-        public Component(UserControlVM binding, AppControl appControl)
-        {
-            this.binding = binding;
-            AppControl = appControl;
+        private dynamic? property;
 
-            Type type = this.GetType();
-            //Устанавливаем ему языл
-            foreach (LanguageTranslation languageTranslation in this.AppControl.Languages.LanguageTranslations)
+        public dynamic? Property { 
+            get => property;
+            set
             {
-                if (languageTranslation.Component == type.Name)
-                {
-                    foreach (var item in languageTranslation.Translations)
-                    {
-                        if (item.Key.Code == this.AppControl.Languages.Selected.Code)
-                        {
-                            this.Name = item.Value;
-                        }
-                    }
-                }
-
+                SetProperty(ref property, value); 
             }
+        }
+
+
+        private void LoadLanguage()
+        {
+            string? name = this.GetType().Name;
+
+            PropertyInfo? propertyInfo = AppControl.LanguageControl.Language.Pack.GetType().GetProperty($"ITranslation{name}");
+
+            object? obj = propertyInfo?.GetValue(AppControl.LanguageControl.Language.Pack);
+
+            if (obj is null) return;
+
+            dynamic dynamicObject = new ExpandoObject();
+
+            var propertyList = obj.GetType().GetProperties();
+
+            foreach (var property in propertyList)
+            {
+                object text = property.GetValue(obj) ?? "No name";
+
+                ((IDictionary<string, object>)dynamicObject)[property.Name] = text;
+            }
+
+            Property = dynamicObject; 
 
         }
 
+        public Component(UserControlVM binding, AppControl appControl)
+        {
+            SeparateTabMode = SeparateTabMode.Off;
+
+            this.binding = binding;
+            AppControl = appControl;
+
+            LoadLanguage();
+            AppControl.LanguageControl.LanguageChange += LoadLanguage;
+
+        }
 
 
         [RelayCommand]
         public virtual void Show(object? parametr = null)
         {
             binding.UserControl = Build;
-            History.Add(this);
+
+            if(SeparateTabMode == SeparateTabMode.Multy)
+            {
+                History.Add(this);
+
+            }else if (SeparateTabMode == SeparateTabMode.One)
+            {
+
+            }
+
+           
         }
         
-
-        public override string ToString() => Name ?? this.GetType().Name; 
-
+ 
        
     }
 }
