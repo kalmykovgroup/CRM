@@ -216,20 +216,18 @@
                 </Button>
 
 
-                <Button Content="Next" Name="nextButton" DataContext="{Binding CurrentPage}"
+                <Button Content="Next" Name="nextButton" 
                     Command="{Binding NextPageCommand}" CommandParameter="{Binding ElementName=nextButton}">
                     <Button.Style>
                         <Style TargetType="Button">
-
+                            
                             <Setter Property="Visibility" Value="Visible"/>
-                            <Setter Property="IsEnabled" Value="True"/>
-
+                           
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding}" Value="{x:Null}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
 
                                 </DataTrigger>
-
                             </Style.Triggers>
 
                         </Style>

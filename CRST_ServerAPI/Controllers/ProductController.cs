@@ -1,16 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
-using Dapper;
-using KTSF.Api.Extensions.Repositories;
 using KTSF.Application.Service;
-using KTSF.Core;
 using KTSF.Core.Product_;
-using KTSF.Persistence;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
-using System.Data;
-using System.Data.Common;
 
 namespace CRST_ServerAPI.Controllers
 {
@@ -85,13 +76,13 @@ namespace CRST_ServerAPI.Controllers
             return NotFound(error);
         }
 
-        //Получить подробную информацию о товаре
-        [HttpPost("GetProductFullInfo")]
-        public ActionResult<ProductInformation> GetProductFullInfo(int productId)
-        {
-            ProductRepository repository = new ProductRepository();
-            return Ok(repository.GetProductFullInfo(productId));
-        }
+        ////Получить подробную информацию о товаре
+        //[HttpPost("GetProductFullInfo")]
+        //public ActionResult<ProductInformation> GetProductFullInfo(int productId)
+        //{
+        //    ProductRepository repository = new ProductRepository();
+        //    return Ok(repository.GetProductFullInfo(productId));
+        //}
     }
  
 }

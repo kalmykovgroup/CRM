@@ -42,7 +42,7 @@ public partial class CashiersWorkplaceComponent : TabComponent
 
     // Добавление найденого товара в текущий чек
     public void SelectedProductFromSearchList(Product product) {
-        BuyProduct newProduct = new BuyProduct (product, product.BuySales, 1);
+        BuyProduct newProduct = new BuyProduct (product, product.SalePrice, 1);
         if (CheckList.AddProduct(newProduct)) {
             SelectedProduct = newProduct;
             IsBuy = true;

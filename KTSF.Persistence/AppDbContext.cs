@@ -344,7 +344,7 @@ namespace KTSF.Persistence
                     Name = "Пассатижи",
                     UnitId = Units[0].Id,
                     BuyPrice = 200,
-                    BuySales = 450,
+                    SalePrice = 450,
                     OldPrice = 560,
                     UpdatedAt = DateTime.Now
                 },
@@ -354,7 +354,7 @@ namespace KTSF.Persistence
                     Name = "Набор профессиональных отверток и бит DEKO SS100 с удобной подставкой (100 предметов)",
                     UnitId = Units[0].Id,
                     BuyPrice = 1109,
-                    BuySales = 2409,
+                    SalePrice = 2409,
                     OldPrice = 2750,
                     UpdatedAt = DateTime.Now
                 },
@@ -364,7 +364,7 @@ namespace KTSF.Persistence
                     Name = "Набор слесарного инстр-та в чем. 72пр. Волат (1/4\", 1/2\", 6 граней) (18530-72) (18530-72)",
                     UnitId = Units[0].Id,
                     BuyPrice = 1600,
-                    BuySales = 4932,
+                    SalePrice = 4932,
                     OldPrice = 6700,
                     UpdatedAt = DateTime.Now
                 },
@@ -374,7 +374,7 @@ namespace KTSF.Persistence
                     Name = "Дрель-шуруповерт с набором инструмента TOTAL THKTHP11282 (с 1-им АКБ, кейс, 128 предметов)",
                     UnitId = Units[0].Id,
                     BuyPrice = 1600,
-                    BuySales = 4932,
+                    SalePrice = 4932,
                     OldPrice = 6700,
                     UpdatedAt = DateTime.Now
                 },
@@ -384,7 +384,7 @@ namespace KTSF.Persistence
                     Name = "Клещи (пресс-клещи) для обжима наконечников электропроводов с сечением 0.25-8 мм2 Gross",
                     UnitId = Units[0].Id,
                     BuyPrice = 500,
-                    BuySales = 1883,
+                    SalePrice = 1883,
                     OldPrice = 2200,
                     UpdatedAt = DateTime.Now
                 },
@@ -394,7 +394,7 @@ namespace KTSF.Persistence
                     Name = "Смартфон Samsung Galaxy Z Fold6 12/256 ГБ, Dual: nano SIM + eSIM, серебристый",
                     UnitId = Units[0].Id,
                     BuyPrice = 116268,
-                    BuySales = 176268,
+                    SalePrice = 176268,
                     OldPrice = 220268,
                     UpdatedAt = DateTime.Now
                 },
@@ -404,7 +404,7 @@ namespace KTSF.Persistence
                     Name = "Перфоратор SDS+ 2.7Дж - 780Вт Makita HR2470",
                     UnitId = Units[0].Id,
                     BuyPrice = 10400,
-                    BuySales = 16460,
+                    SalePrice = 16460,
                     OldPrice = 18900,
                     UpdatedAt = DateTime.Now
                 }

@@ -1,14 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
-using KTSF.Api.Extensions.Repositories;
 using KTSF.Application.Service;
 using KTSF.Core;
-using KTSF.Core.Product_;
-using KTSF.Persistence;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Exchange.WebServices.Data;
-using MySql.Data.MySqlClient;
-using System.Data;
 
 namespace CRST_ServerAPI.Controllers
 {

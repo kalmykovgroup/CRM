@@ -70,62 +70,62 @@ namespace CRST_ServerAPI.Controllers
             return NotFound(error);
         }
 
-        [HttpPost("Update")]
-        public ActionResult<User> Update(int id) // в параметрах ID и JSON ???
-        {
-            using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
-            db.Open();
+        //[HttpPost("Update")]
+        //public ActionResult<User> Update(int id) // в параметрах ID и JSON ???
+        //{
+        //    using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
+        //    db.Open();
 
-            User? user = db.Query<User>("SELECT * FROM users WHERE Id = @Id", new {Id = id}).FirstOrDefault();
+        //    User? user = db.Query<User>("SELECT * FROM users WHERE Id = @Id", new {Id = id}).FirstOrDefault();
 
-            if (user != null)
-            {
-                user.Email = "garry@test.ru";
-                user.Phone = "+2223331100";
-                user.Name = "SSSSSSS";
-                user.Surname = "DDDDDDD";
-                user.Patronymic = "FFFFFF";
+        //    if (user != null)
+        //    {
+        //        user.Email = "garry@test.ru";
+        //        user.Phone = "+2223331100";
+        //        user.Name = "SSSSSSS";
+        //        user.Surname = "DDDDDDD";
+        //        user.Patronymic = "FFFFFF";
 
-                UserRepository repository = new UserRepository();
-                repository.Update(user);
-            }
+        //        UserRepository repository = new UserRepository();
+        //        repository.Update(user);
+        //    }
 
-            return user == null ? NotFound() : Ok(user); // ????
-        }
+        //    return user == null ? NotFound() : Ok(user); // ????
+        //}
 
-        [HttpPost("Create")]
-        public ActionResult<User> Create() // User в параметрах ??? нужен ??
-        {      
-            User us = new User() // тестовый (использовать user из параметров) 
-            {
-                Email = "qqq@qqq.ru",
-                Phone = "+79260128187",
-                Password = "tester",
-                AccessToken = "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ",
-                Name = "QQQ",
-                Surname = "WWW",
-                Patronymic = "EEE",
-                PasswordHash = Encoding.UTF8.GetBytes("test"),
-                PasswordSalt = Encoding.UTF8.GetBytes("test")
-            };
+        //[HttpPost("Create")]
+        //public ActionResult<User> Create() // User в параметрах ??? нужен ??
+        //{      
+        //    User us = new User() // тестовый (использовать user из параметров) 
+        //    {
+        //        Email = "qqq@qqq.ru",
+        //        Phone = "+79260128187",
+        //        Password = "tester",
+        //        AccessToken = "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ",
+        //        Name = "QQQ",
+        //        Surname = "WWW",
+        //        Patronymic = "EEE",
+        //        PasswordHash = Encoding.UTF8.GetBytes("test"),
+        //        PasswordSalt = Encoding.UTF8.GetBytes("test")
+        //    };
 
-            UserRepository repository = new UserRepository();
-            repository.Create(us);
+        //    UserRepository repository = new UserRepository();
+        //    repository.Create(us);
 
 
-            return Ok(us);
-        }
+        //    return Ok(us);
+        //}
 
-        [HttpGet("GetByEmail")]
-        public string GetByEmail(string email)
-        {    
-            using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
-            db.Open();
+        //[HttpGet("GetByEmail")]
+        //public string GetByEmail(string email)
+        //{    
+        //    using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
+        //    db.Open();
 
-            var user = db.Query<User>($"SELECT * FROM users WHERE Email={email}").First();
+        //    var user = db.Query<User>($"SELECT * FROM users WHERE Email={email}").First();
 
-            return $"{user.Name} {user.Surname} {user.Email}";
-        }
+        //    return $"{user.Name} {user.Surname} {user.Email}";
+        //}
 
         [HttpPost]
         [Route("update")]
