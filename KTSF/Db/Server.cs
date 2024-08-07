@@ -3,14 +3,20 @@ using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
 using KTSF.Core;
 using KTSF.Core.ABAC;
 using KTSF.Core.Product_;
+using KTSF.Dto.Product_;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -19,6 +25,11 @@ namespace KTSF.Db
     public class Server 
     {
         AppControl AppControl {  get; }
+
+        public static HttpClient httpClient = new()
+        {
+            BaseAddress = new Uri("https://localhost:7286")
+        };
 
         public Server(AppControl appControl) { 
             AppControl = appControl;
@@ -138,36 +149,48 @@ namespace KTSF.Db
         //Поиск товаров
         public async Task<List<Product>> SearchProducts(string text) // возвращает максимум 20 товаров
         {
-            // Максимальное число поиска товаров не должно превышать 20 товаров
-        
-            await Task.Delay(1000);
+            using HttpResponseMessage response = await httpClient.GetAsync($"Product/SearchProduct?name={text}");
 
-            return new List<Product> {
-                new Product() { Name = "Product 1", Id = 1, SalePrice = 800 },
-                new Product() { Name = "Product 2", Id = 2, SalePrice = 750 },
-                new Product() { Name = "Product 3", Id = 3, SalePrice = 700 },
-                new Product() { Name = "Product 4", Id = 4, SalePrice = 300 },
-                new Product() { Name = "Product 5", Id = 5, SalePrice = 450 },
-                new Product() { Name = "Product 6", Id = 6, SalePrice = 880 },
-                new Product() { Name = "Product 7", Id = 7, SalePrice = 1000 },
-                new Product() { Name = "Product 8", Id = 8, SalePrice = 450 },
-                new Product() { Name = "Product 9", Id = 9, SalePrice = 200 },
-                new Product() { Name = "Product 10", Id = 10, SalePrice = 620 },
-                new Product() { Name = "Product 11", Id = 11, SalePrice = 780 },
-                new Product() { Name = "Product 12", Id = 12, SalePrice = 560 },
-                new Product() { Name = "Product 13", Id = 13, SalePrice = 780 },
-                new Product() { Name = "Product 14", Id = 14, SalePrice = 290 },
-                new Product() { Name = "Product 15", Id = 15, SalePrice = 970 },
-                new Product() { Name = "Product 16", Id = 16, SalePrice = 1210 },
-                new Product() { Name = "Product 17", Id = 17, SalePrice = 160 },
-                new Product() { Name = "Product 18", Id = 18, SalePrice = 850 },
-                new Product() { Name = "Product 19", Id = 19, SalePrice = 780 },
-                new Product() { Name = "Product 20", Id = 20, SalePrice = 640 },
-            };
+            if(response.StatusCode == HttpStatusCode.OK)
+            {
+                List<Product>? products = await httpClient.GetFromJsonAsync<List<Product>>($"Product/SearchProduct?name={text}");
+
+                return products;
+            }
+
+            return null;
         }
 
-        public async Task<(int countPages, List<Product> product)> GetProducts(int page = 1)
+        public async Task<List<Product>?> GetProducts(int page)
         {
+            /*
+            try
+            {
+                products = await httpClient.GetFromJsonAsync<List<Product>>($"Product/GetProducts?page={page}");
+                return products;
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    // обработка не авторизованных 
+                }
+                else
+                {
+                    // обработка серверных ошибок
+                }
+            }
+            */
+
+            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");       
+
+            return products;            
+        }
+
+        // первая страница продуктов и общее количество продуктов
+        public async Task<FirstPage?> GetFirstPage(int page = 1)
+        {
+            /*
             List<Product> products = new List<Product> {
                 new Product() { Name = "Product 1", Id = 1 },
                 new Product() { Name = "Product 2", Id = 2 },
@@ -226,25 +249,30 @@ namespace KTSF.Db
                 new Product() { Name = "Product 10", Id = 10 },
             };
 
-            page--;
+            page--; // че это значит?? зачем??
 
-            int limmit = 3;
+            int limmit = 3; // должен быть фиксированный ???
 
-            int countPage = (int)Math.Ceiling((double)products.Count / limmit);
+            int countPage = (int)Math.Ceiling((double)products.Count / limmit); // приходит с сервера ???
 
             if (page > countPage || page < 0) throw new ArgumentException();
 
             List<Product> resultProducts = [];
 
-            for (int i = page * limmit; i < (page * limmit + limmit) && i < products.Count; i++) {
+            for (int i = page * limmit; i < (page * limmit + limmit) && i < products.Count; i++)
+            {
                 resultProducts.Add(products[i]);
             }
 
             return (countPage, resultProducts);
+            */        
 
+            FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
+                
+            return firstPage;   
         }
 
-        // ????? WTF 
+        // ????? WTF  Откуда их брать?
         //Получить списанные товары 
         public async Task<List<Product>> GetDecommissionedProducts()
         { 
@@ -260,11 +288,27 @@ namespace KTSF.Db
         }
 
         //Получить подробную информацию о товаре
-        public async Task<Product> GetProductFullInfo(int id)
+        public async Task<ProductDTO?> GetProductFullInfo(int id)
         {
-            await Task.Delay(1000);
+            /*
+            using HttpResponseMessage response = await httpClient.GetAsync($"Product/GetAllInformation?id={id}");
 
-            return new Product() { Name = "Product 12", Id = 12 };                
+            if(response.StatusCode == HttpStatusCode.OK)
+            {
+                //var tt = await response.Content.ReadAsStringAsync();
+                //var product = JsonSerializer.Deserialize<ProductDTO>(tt);
+
+                ProductDTO? product = await httpClient.GetFromJsonAsync<ProductDTO>($"Product/GetAllInformation?id={id}");
+
+                return product;
+            }
+
+            return null;
+            */
+
+            ProductDTO? product = await Request<ProductDTO>($"Product/GetProductFullInfo?id={id}");
+
+            return product;
         }
 
         #endregion
@@ -276,8 +320,9 @@ namespace KTSF.Db
 
         #region Employee
 
-        public async Task<List<Employee>> GetEmployees() //Получить список всех сотрудников
+        public async Task<List<Employee>?> GetEmployees() //Получить список всех сотрудников
         {
+            /*
             await Task.Delay(0);
 
             return new List<Employee> {
@@ -343,6 +388,10 @@ namespace KTSF.Db
 
                 }
             };
+            */
+
+            List<Employee>? employees = await Request<List<Employee>>("Employee/all");
+            return employees;
         }
      
 
@@ -366,7 +415,27 @@ namespace KTSF.Db
         #endregion
 
 
+        private async Task<T?> Request<T>(string url) where T : class
+        {            
+            try
+            {
+                T? products = await httpClient.GetFromJsonAsync<T>(url);
+                return products;
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    // обработка не авторизованных 
+                }
+                else
+                {
+                    // обработка серверных ошибок
+                }
 
+            }
+            return null;
+        }
 
 
     }

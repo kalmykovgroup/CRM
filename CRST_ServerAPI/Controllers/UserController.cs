@@ -30,117 +30,69 @@ namespace CRST_ServerAPI.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult Find(int id)
+        public async Task<IActionResult> Find(int id)
         {
-
-            Result<User> result = usersService.Find(id);
+            Result<User> result = await usersService.Find(id);
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
-
             result.TryGetError(out string? error);
 
             return NotFound(error);
-
         }
 
-        [HttpGet("all")]
-        public IActionResult GetAll()
+
+        [HttpGet("GetByEmail")]
+        public async Task<IActionResult> GetByEmail(string email)
         {
-            return Ok(usersService.GetAll());
+            Result<User?> result = await usersService.GetByEmail(email);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            result.TryGetError(out string? error);
+            return NotFound(error);
+        }
+
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            Result<User[]> result = await usersService.GetAll();
+            return Ok(result.Value);
         }
 
 
         [HttpPost]
         [Route("insert")]
-        public IActionResult Insert(User user)
+        public async Task<IActionResult> Insert(User user)
         {
-            Result<User> result = usersService.Create(user);
+            Result<User> result = await usersService.Create(user);
 
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
-
             result.TryGetError(out string? error);
-
             return NotFound(error);
         }
 
-        //[HttpPost("Update")]
-        //public ActionResult<User> Update(int id) // в параметрах ID и JSON ???
-        //{
-        //    using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
-        //    db.Open();
-
-        //    User? user = db.Query<User>("SELECT * FROM users WHERE Id = @Id", new {Id = id}).FirstOrDefault();
-
-        //    if (user != null)
-        //    {
-        //        user.Email = "garry@test.ru";
-        //        user.Phone = "+2223331100";
-        //        user.Name = "SSSSSSS";
-        //        user.Surname = "DDDDDDD";
-        //        user.Patronymic = "FFFFFF";
-
-        //        UserRepository repository = new UserRepository();
-        //        repository.Update(user);
-        //    }
-
-        //    return user == null ? NotFound() : Ok(user); // ????
-        //}
-
-        //[HttpPost("Create")]
-        //public ActionResult<User> Create() // User в параметрах ??? нужен ??
-        //{      
-        //    User us = new User() // тестовый (использовать user из параметров) 
-        //    {
-        //        Email = "qqq@qqq.ru",
-        //        Phone = "+79260128187",
-        //        Password = "tester",
-        //        AccessToken = "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ",
-        //        Name = "QQQ",
-        //        Surname = "WWW",
-        //        Patronymic = "EEE",
-        //        PasswordHash = Encoding.UTF8.GetBytes("test"),
-        //        PasswordSalt = Encoding.UTF8.GetBytes("test")
-        //    };
-
-        //    UserRepository repository = new UserRepository();
-        //    repository.Create(us);
-
-
-        //    return Ok(us);
-        //}
-
-        //[HttpGet("GetByEmail")]
-        //public string GetByEmail(string email)
-        //{    
-        //    using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
-        //    db.Open();
-
-        //    var user = db.Query<User>($"SELECT * FROM users WHERE Email={email}").First();
-
-        //    return $"{user.Name} {user.Surname} {user.Email}";
-        //}
 
         [HttpPost]
         [Route("update")]
-        public IActionResult Update(User user)
+        public async Task<IActionResult> Update(User user)
         {
-            Result<User> result = usersService.Update(user);
+            Result<User> result = await usersService.Update(user);
 
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
-
             result.TryGetError(out string? error);
-
             return NotFound(error);
         }
     }

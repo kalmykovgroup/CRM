@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.42.5" />
-    <PackageReference Include="Microsoft.Exchange.WebServices" Version="2.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.0" />
   </ItemGroup>
 
@@ -21,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CRM.Core\KTSF.Core.csproj" />
     <ProjectReference Include="..\KTSF.Application\KTSF.Application.csproj" />
+    <ProjectReference Include="..\KTSF.Dto\KTSF.Dto.csproj" />
     <ProjectReference Include="..\KTSF.Infrastructure\KTSF.Infrastructure.csproj" />
     <ProjectReference Include="..\KTSF.Persistence\KTSF.Persistence.csproj" />
   </ItemGroup>

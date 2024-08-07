@@ -1,7 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using KTSF.Application.Service;
+using KTSF.Core;
 using KTSF.Core.Product_;
+using KTSF.Dto.Product_;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace CRST_ServerAPI.Controllers
 {
@@ -19,70 +22,108 @@ namespace CRST_ServerAPI.Controllers
             this.productsService = productsService;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Find(int id)
-        {
 
-            Result<Product> result = productsService.Find(id);
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Find(int id)
+        {    
+            Result<Product> result = await productsService.Find(id);            
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            result.TryGetError(out string? error);
+            return NotFound(error);
+        }
+
+
+        [HttpGet("GetProductFullInfo")]
+        public async Task<IActionResult> GetProductFullInfo(int id)
+        {
+            Result<ProductDTO> result = await productsService.GetProductFullInfo(id);
+
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
             result.TryGetError(out string? error);
-
             return NotFound(error);
-
         }
 
-        [HttpGet("all")]
-        public IActionResult GetAll()
+
+        [HttpGet("SearchProduct")]
+        public async Task<IActionResult> SearchProduct(string name)
         {
-            return Ok(productsService.GetAll());
+            Result<Product[]> result = await productsService.SearchProduct(name);
+            return Ok(result.Value);
+        }
+
+
+        // первая страница продуктов и общее количество продуктов
+        [HttpGet("GetFirstPage")]
+        public async Task<IActionResult> GetFirstPage()
+        {
+            Result<FirstPage> result = await productsService.GetFirstPage();
+            return Ok(result.Value);
+        }
+
+
+        [HttpGet("GetProducts")]
+        public async Task<IActionResult> GetProducts(int page)
+        {
+            Result<Product[]> result = await productsService.GetProducts(page);
+            return Ok(result.Value);
+        }
+
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            Result<List<Product>> result = await productsService.GetAll();
+            return Ok(result.Value);
         }
 
 
         [HttpPost]
         [Route("insert")]
-        public IActionResult Insert(Product product)
+        public async Task<IActionResult> Insert(Product product)
         {
-            Result<Product> result = productsService.Create(product);
+            Result<Product> result = await productsService.Insert(product);
 
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
-
             result.TryGetError(out string? error);
-
             return NotFound(error);
         }
+
 
         [HttpPost]
         [Route("update")]
-        public IActionResult Update(Product product)
+        public async Task<IActionResult> Update(Product product)
         {
-            Result<Product> result = productsService.Update(product);
+            Result<Product> result = await productsService.Update(product);
 
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
-
             result.TryGetError(out string? error);
-
             return NotFound(error);
         }
 
-        ////Получить подробную информацию о товаре
-        //[HttpPost("GetProductFullInfo")]
-        //public ActionResult<ProductInformation> GetProductFullInfo(int productId)
-        //{
-        //    ProductRepository repository = new ProductRepository();
-        //    return Ok(repository.GetProductFullInfo(productId));
-        //}
+
+      
+
+
+      
+
+        
+
     }
  
 }

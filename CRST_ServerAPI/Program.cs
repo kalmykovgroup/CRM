@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.Exchange.WebServices.Data;
 using Microsoft.IdentityModel.Tokens;
 using KTSF.Api.Model;
 using Microsoft.AspNetCore.Authentication;
@@ -128,10 +127,8 @@ namespace CRST_ServerAPI
             app.MapControllers();
              
 
-            app.Run();
+            app.Run();           
 
-
-           
         }
          
 

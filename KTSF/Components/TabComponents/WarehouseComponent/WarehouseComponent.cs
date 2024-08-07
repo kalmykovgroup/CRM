@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Core.Product_;
+using KTSF.Dto.Product_;
 using KTSF.ViewModel; 
 using System;
 using System.CodeDom;
@@ -60,14 +61,14 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         }
 
         public override async void ComponentLoaded()
-        {
+        {                        
             IsLoad = "Загрузка";
         
-            (int countPages, List<Product> products) = await AppControl.Server.GetProducts();
+            FirstPage? firstPage = await AppControl.Server.GetFirstPage();
 
-            CountPages = countPages;
+            CountPages = firstPage.pageCount; 
 
-            foreach (Product product in products)
+            foreach (Product product in firstPage.Products)
             {
                 Products.Add(product);
             }
@@ -98,7 +99,10 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         [RelayCommand]
         public async void PaginateClick(object? parametr)
         {
-            if(parametr == null) throw new ArgumentNullException(nameof(parametr));
+            // for test ... delete it later !!!!!
+            //ProductDTO pr = await AppControl.Server.GetProductFullInfo(1);
+
+            if (parametr == null) throw new ArgumentNullException(nameof(parametr));
             PaginateBtn navBtn = (PaginateBtn)parametr;
 
             CurrentPage = navBtn;
@@ -108,7 +112,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             bool flag = BeginBtn != null && SecondBtn != null && BeginBtn.Page <= navBtn.Page && SecondBtn.Page + 1 != navBtn.Page;
 
             Products.Clear();
-            (int countPages, List<Product> products) = await AppControl.Server.GetProducts(CurrentPage.Page);
+            List<Product> products = await AppControl.Server.GetProducts(CurrentPage.Page);
 
             foreach (Product product in products)
             {
@@ -138,15 +142,11 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                         continue;
                     }
 
-                        PaginationButtons.Add(new PaginateBtn(j));
-                    
+                        PaginationButtons.Add(new PaginateBtn(j));                    
                 }
 
                 Is();
-
             } 
- 
-
         }
 
         private void Is()
@@ -157,7 +157,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
 
         [RelayCommand]
         public async void NextPage(object? parametr)
-        {
+        {            
 
             if (parametr == null) throw new ArgumentNullException(nameof(parametr));
             PaginateBtn navBtn = new PaginateBtn(CurrentPage.Page + 1);
@@ -166,7 +166,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             bool flag = BeginBtn != null && SecondBtn != null && BeginBtn.Page <= navBtn.Page && SecondBtn.Page <= navBtn.Page;
 
             Products.Clear();
-            (int countPages, List<Product> products) = await AppControl.Server.GetProducts(CurrentPage.Page);
+            List<Product> products = await AppControl.Server.GetProducts(CurrentPage.Page);
 
             foreach (Product product in products)
             {
