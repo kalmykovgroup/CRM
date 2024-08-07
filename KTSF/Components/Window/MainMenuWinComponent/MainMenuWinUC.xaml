@@ -32,12 +32,12 @@
                         Text="Название компании" />
                 </Border>
 
-                <ComboBox
+                <!--<ComboBox
                     x:Name="Languege"
                     SelectionChanged="Languege_SelectionChanged"
                     Width="100"
                     HorizontalAlignment="Right"
-                    ItemsSource="{Binding AppControl.LanguageControl.Select}" SelectedValue="{Binding AppControl.LanguageControl.Language}"/>
+                    ItemsSource="{Binding AppControl.LanguageControl.Select}" SelectedValue="{Binding AppControl.LanguageControl.Language}"/>-->
 
 
             </Grid>

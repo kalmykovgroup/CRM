@@ -30,10 +30,10 @@ namespace KTSF.Components.Window.MainMenuComponent
            
         }
 
-        private void Languege_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MainMenuWinComponent.AppControl.LanguageControl.Language = (Language)((ComboBox)sender).SelectedItem;
-        }
+        //private void Languege_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    MainMenuWinComponent.AppControl.LanguageControl.Language = (Language)((ComboBox)sender).SelectedItem;
+        //}
     }
      
 }
