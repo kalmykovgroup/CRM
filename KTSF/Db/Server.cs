@@ -228,7 +228,7 @@ namespace KTSF.Db
 
             page--;
 
-            int limmit = 5;
+            int limmit = 100;
 
             int countPage = (int)Math.Ceiling((double)products.Count / limmit);
 

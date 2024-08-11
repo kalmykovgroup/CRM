@@ -101,9 +101,9 @@
         <!--Пагинация-->
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" x:Name="Pagination" >
-                
-                <Button Content="Prev" Name="prevButton" DataContext="{Binding}" 
+                <Button Name="prevButton" DataContext="{Binding}" 
      Command="{Binding BackPageCommand}" CommandParameter="{Binding ElementName=prevButton}">
+                    <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/back.png" />
                     <Button.Style>
                         <Style TargetType="Button">
 
@@ -125,6 +125,7 @@
                     </Button.Style>
                 </Button>
 
+                
                 <Button x:Name="begin"
                     DataContext="{Binding BeginBtn}" 
                     Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}" CommandParameter="{Binding}"
@@ -138,6 +139,7 @@
                                 <DataTrigger Binding="{Binding}" Value="{x:Null}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                 </DataTrigger>
+                              
                             </Style.Triggers>
 
                         </Style>
@@ -148,6 +150,7 @@
                 <ContentControl>
                     <ContentControl.Style>
                         <Style TargetType="ContentControl">
+                            
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Button x:Name="second"
@@ -159,6 +162,9 @@
                                 
                             </Setter>
                             <Style.Triggers>
+                                <DataTrigger Binding="{Binding DataContext.CountPages, ElementName=UserControl}" Value="1">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
                                 <DataTrigger Binding="{Binding LeftEllipsis}" Value="True">
  
 
@@ -179,7 +185,7 @@
                 
 
 
-                <ItemsControl ItemsSource="{Binding PaginationButtons}" d:ItemsSource="{d:SampleData ItemCount=3}" x:Name="array">
+                <ItemsControl ItemsSource="{Binding PaginationButtons}" d:ItemsSource="{d:SampleData ItemCount=4}" x:Name="array">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}" CommandParameter="{Binding}"
@@ -222,6 +228,10 @@
                                         </Setter.Value>
                                     </Setter>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </ContentControl.Style>
@@ -250,8 +260,9 @@
                 </Button>
 
 
-                <Button Content="Next" Name="nextButton" DataContext="{Binding}" 
+                <Button Name="nextButton" DataContext="{Binding}" 
                     Command="{Binding NextPageCommand}" CommandParameter="{Binding ElementName=nextButton}">
+                    <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/next.png" />
                     <Button.Style>
                         <Style TargetType="Button">
 

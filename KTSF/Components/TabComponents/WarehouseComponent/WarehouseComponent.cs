@@ -6,6 +6,7 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -95,6 +96,12 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             else
                 RightEllipsis = false;
 
+            if (countPages == 1)
+            {
+                IsCounterPages = true;
+
+            }
+
             IsLoad = null;
         }
 
@@ -104,9 +111,9 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             if(parametr == null) throw new ArgumentNullException(nameof(parametr));
             PaginateBtn navBtn = (PaginateBtn)parametr;
 
-            CurrentPage = navBtn;
+            bool isMore = navBtn.Page > CurrentPage.Page ? true : false;
 
-            //bool flag = SecondBtn != null  && SecondBtn.Page + 1 != navBtn.Page && SecondBtn.Page + 1 !< navBtn.Page;
+            CurrentPage = navBtn;
 
             if (CurrentPage.Page == CountPages)
             IsCounterPages = true;
@@ -131,8 +138,11 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                     return;
                 }
                 PaginationButtons.Clear();
-
-                int j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
+                int j= 0;
+                if (isMore)
+                 j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2 - 1;
+                else
+                    j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
                 if (j > CountPages  - CountCenterButtons)
                     j = CountPages - CountCenterButtons - 1;
               
@@ -150,7 +160,10 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                     
                 }
 
-                Is();
+                if (countPages > CountCenterButtons + 4)
+                    Is();
+                else
+                    RightEllipsis = false;
 
             } 
  
@@ -159,7 +172,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
 
         private void Is()
         {
-            LeftEllipsis = SecondBtn != null && PaginationButtons.Count > 0 && SecondBtn.Page + 1 != PaginationButtons[0].Page;
+           LeftEllipsis = SecondBtn != null && PaginationButtons.Count > 0 && SecondBtn.Page + 1 != PaginationButtons[0].Page;
            RightEllipsis = BeforeLast != null && PaginationButtons.Count > 0  && CurrentPage.Page < CountPages - CountCenterButtons /2 - 1;
         }
 
@@ -185,7 +198,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             {
                 Products.Add(product);
             }
-            if (CountPages > 4 + CountCenterButtons && flag)
+            if (flag)
             {
                 if (SecondBtn != null && CurrentPage.Page == SecondBtn.Page)
                 {
@@ -193,38 +206,60 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                     return;
                 }
                 else if (BeforeLast != null && CurrentPage.Page == BeforeLast.Page)
-                {   CurrentPage = BeforeLast;
+                {
+                    CurrentPage = BeforeLast;
                     return;
                 }
-                
+
                 else if (EndBtn != null && CurrentPage.Page == EndBtn.Page)
                 {
                     CurrentPage = EndBtn;
                     return;
                 }
-
+                int j = 3;
+                int counter = 0;
+                if (countPages > 4 + CountCenterButtons)
+                {
+                    counter = CountCenterButtons;
+                    j = CurrentPage.Page < CountCenterButtons + 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
+                    if (j >= CountPages - CountCenterButtons)
+                        j = CountPages - CountCenterButtons;
+                    if (CurrentPage.Page == CountPages - 2)
+                    {
+                        j = CountPages - CountCenterButtons - 1;
+                    }
+                }
+                else
+                {
+                    counter = CountPages - 4;
+                }
+        
                 PaginationButtons.Clear();
 
-                int j = CurrentPage.Page < CountCenterButtons + 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
-                if (j >= CountPages - CountCenterButtons)
-                    j = CountPages - CountCenterButtons - 1;
-     
-                for (int i = 0; i < CountCenterButtons; i++, j++)
-                {
-                    if (j > CountPages)
-                        break;
-                    else if (CurrentPage.Page == j)
+
+                    for (int i = 0; i < counter; i++, j++)
                     {
-                        PaginationButtons.Add(CurrentPage);
-                        continue;
+                        if (j > CountPages)
+                            break;
+                        else if (CurrentPage.Page == j)
+                        {
+                            PaginationButtons.Add(CurrentPage);
+                            continue;
+                        }
+
+                        PaginationButtons.Add(new PaginateBtn(j));
                     }
 
-                    PaginationButtons.Add(new PaginateBtn(j));
+                
+             
+                if (countPages > CountCenterButtons + 4)
+                    Is();
+                else
+                    RightEllipsis = false;
 
-                }
 
-                Is();
             }
+            
         }
 
        [RelayCommand]
@@ -248,7 +283,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             {
                 Products.Add(product);
             }
-            if (CountPages > 4 + CountCenterButtons && flag)
+            if (flag)
             {
                 if (SecondBtn != null && CurrentPage.Page == SecondBtn.Page)
                 {
@@ -266,13 +301,27 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                     CurrentPage = BeginBtn;
                     return;
                 }
+                int j = 3;
+                int counter = 0;
+                if (countPages > 4 + CountCenterButtons)
+                {
+                    counter = CountCenterButtons;
+                    j = CurrentPage.Page < CountCenterButtons + 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
+                    if (j >= CountPages - CountCenterButtons)
+                        j = CountPages - CountCenterButtons;
+                    if (CurrentPage.Page == CountPages - 2)
+                    {
+                        j = CountPages - CountCenterButtons - 1;
+                    }
+                }
+                else
+                {
+                    counter = CountPages - 4;
+                }
 
                 PaginationButtons.Clear();
 
-                int j = CurrentPage.Page < CountCenterButtons + 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
-                if (j >= CountPages - CountCenterButtons)
-                    j = CountPages - CountCenterButtons - 1;
-
+             
                 for (int i = 0; i < CountCenterButtons; i++, j++)
                 {
                     if (j > CountPages)
@@ -287,7 +336,10 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
 
                 }
 
-                Is();
+                if (countPages > CountCenterButtons + 4)
+                    Is();
+                else
+                    RightEllipsis = false;
             }
         }
 
