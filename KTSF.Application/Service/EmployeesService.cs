@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Object = KTSF.Core.Object;
 
 namespace KTSF.Application.Service
 {
@@ -55,6 +57,39 @@ namespace KTSF.Application.Service
         }
 
 
+        // поиск по ФАМИЛИИ или ИМЕНИ
+        public async Task<Result<List<Employee>>> GetBySurname(string name)
+        {
+            List<Employee> employees = await dbContext.Employees.ToListAsync();
+
+            List<Employee> resultSurname = [];
+            List<Employee> resultName = [];
+
+            foreach (Employee employee in employees)
+            {
+                if (employee.Surname.ToLower().Contains(name.ToLower()))
+                {
+                    resultSurname.Add(employee);
+                }
+
+                if (employee.Name.ToLower().Contains(name.ToLower()))
+                {
+                    resultName.Add(employee);
+                }
+            }
+
+            if (resultSurname.Count > 0)
+            {
+                return Result.Success(resultSurname);
+            }
+            else if (resultName.Count > 0)
+            {
+                return Result.Success(resultName);
+            }
+            else return Result.Failure<List<Employee>>("Not found");
+        }
+
+
         // получить всех EMPLOYEE
         public async Task<Result<Employee[]>> GetAll()
         {
@@ -68,28 +103,65 @@ namespace KTSF.Application.Service
         }
 
 
-        public async Task<Result<Employee>> Create(Employee employee)
+        public async Task<Result<bool>> Create(Employee employee)
         {
             dbContext.Employees.Add(employee);
             try
             {
+                await Console.Out.WriteLineAsync(employee.Phone);
+
                 await dbContext.SaveChangesAsync();
-                return Result.Success(employee);
+
+                await Console.Out.WriteLineAsync(employee.PassportNumber);
+                return Result.Success(true);
 
             }
             catch (Exception ex)
             {
-                return Result.Failure<Employee>(ex.ToString());
+                return Result.Failure<bool>(ex.ToString());
             }
         }
 
 
         public async Task<Result<Employee>> Update(Employee employee)
         {
+            await Console.Out.WriteLineAsync(employee.ToString());
             try
             {
-                dbContext.Attach(employee);
-                await dbContext.SaveChangesAsync();
+                //var yy = dbContext.Attach<Employee>(employee);     
+
+                //dbContext.Entry<Employee>(employee).State = EntityState.Modified;
+
+              
+                Employee? empl = dbContext.Employees.Where(emp => emp.Id == employee.Id).FirstOrDefault();
+
+                if (empl == null) return Result.Failure<Employee>("Not found"); ;
+
+                await Console.Out.WriteLineAsync(empl.Phone);
+
+                empl.Id = employee.Id;
+                empl.ObjectId = employee.ObjectId;              
+                empl.AccessToken = employee.AccessToken;
+                empl.AppointmentId = employee.AppointmentId;   
+                empl.Name = employee.Name;
+                empl.Surname = employee.Surname;
+                empl.Patronymic = employee.Patronymic;
+                empl.PassportSeries = employee.PassportSeries;
+                empl.PassportNumber = employee.PassportNumber;
+                empl.Tin = employee.Tin;
+                empl.Snils = employee.Snils;
+                empl.Address = employee.Address;
+                empl.Phone = employee.Phone;
+                empl.Email = employee.Email;
+                empl.ApplyingDate = employee.ApplyingDate;
+                empl.LayoffDate = employee.LayoffDate;
+                empl.Created_At = employee.Created_At;
+                empl.Updated_At = employee.Updated_At;
+                empl.Password = employee.Password;
+                empl.EmployeeStatusId = employee.EmployeeStatusId;   
+               
+
+                await dbContext.SaveChangesAsync();               
 
                 return Result.Success(employee);
             }

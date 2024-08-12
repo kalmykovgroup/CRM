@@ -300,7 +300,7 @@
                 <DataGridTemplateColumn Header="Розничная цена" MaxWidth="77" MinWidth="77">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                             <TextBlock Text="{Binding Id}" d:Text="1000" Padding="5" HorizontalAlignment="Right"/>
+                            <TextBlock Text="{Binding SalePrice}" d:Text="1000" Padding="5" HorizontalAlignment="Right"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

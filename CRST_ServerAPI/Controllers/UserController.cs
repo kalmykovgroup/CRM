@@ -54,7 +54,7 @@ namespace CRST_ServerAPI.Controllers
             }
             result.TryGetError(out string? error);
             return NotFound(error);
-        }
+        }       
 
 
         [HttpGet("all")]

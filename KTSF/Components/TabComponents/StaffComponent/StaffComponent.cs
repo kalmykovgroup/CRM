@@ -54,7 +54,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
         }      
 
         [RelayCommand]
-        public void AddNewEmployee()
+        public async void AddNewEmployee()
         {
             Employee employee = new Employee();
             employee.Appointment = new Appointment();
@@ -62,13 +62,22 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
             if (userWindow.ShowDialog() == true)
             {
-                employee.Updated_At = DateTime.Now;               
-
+                employee.Updated_At = DateTime.Now; 
                 employee.Created_At = DateTime.Now; // ЭТО ПОЛЕ НУЖНО, ЕСЛИ ЕСТЬ ApplyingDate ???
+
+                employee.ObjectId = Employees[0].ObjectId; // при входе в приложение
+
+                employee.AppointmentId = Employees[0].AppointmentId;
+                employee.EmployeeStatusId = Employees[0].EmployeeStatusId;
+                employee.ASetOfRulesId = Employees[0].ASetOfRulesId;
+
+                employee.AccessToken = "";
+                employee.Password = "tester";
 
                 Employees.Add(employee); // тестовая версия
 
-                // в реале -> запрос на сервер, для сохранения в БД
+                bool t = await AppControl.Server.CreateEmployee(employee);
+
             }
         }
          

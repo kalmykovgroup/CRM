@@ -10,11 +10,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -29,6 +32,13 @@ namespace KTSF.Db
         public static HttpClient httpClient = new()
         {
             BaseAddress = new Uri("https://localhost:7286")
+        };
+
+        public static JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            //Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic ),
+            WriteIndented = true
         };
 
         public Server(AppControl appControl) { 
@@ -147,8 +157,9 @@ namespace KTSF.Db
         #region Product
 
         //Поиск товаров
-        public async Task<List<Product>> SearchProducts(string text) // возвращает максимум 20 товаров
+        public async Task<List<Product>?> SearchProducts(string text) // возвращает максимум 20 товаров
         {
+            /*
             using HttpResponseMessage response = await httpClient.GetAsync($"Product/SearchProduct?name={text}");
 
             if(response.StatusCode == HttpStatusCode.OK)
@@ -159,6 +170,9 @@ namespace KTSF.Db
             }
 
             return null;
+            */
+            List<Product>? products = await Request<List<Product>>($"Product/SearchProduct?name={text}");
+            return products;
         }
 
         public async Task<List<Product>?> GetProducts(int page)
@@ -182,7 +196,7 @@ namespace KTSF.Db
             }
             */
 
-            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");       
+            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");     
 
             return products;            
         }
@@ -395,21 +409,59 @@ namespace KTSF.Db
         }
      
 
-        //Нужно определить где будет отслеживатся информация о том каие поля мы меняем
+        //Нужно определить где будет отслеживатся информация о том какие поля мы меняем
         public async Task<(bool result, string? message, Employee copyEmployee)> UpdateEmployee(Employee employee)
-        {
-            await Task.Delay(0);
+        {   
+            string tmp = JsonSerializer.Serialize(employee, options); 
+            
+            HttpContent content = new StringContent(tmp);
+            content.Headers.Remove("Content-Type");
+            content.Headers.Add("Content-Type", "application/json; charset=utf-8");            
+
+            using var response = await httpClient.PostAsJsonAsync("Employee/update", tmp);
+
+            response.EnsureSuccessStatusCode();
+
+            Employee? person = await response.Content.ReadFromJsonAsync<Employee>();
 
             return (result: true, message: null, employee);
         }
 
-        
 
-        public async Task<bool> GetUserStatistics(Employee user) //Загрузка статистических данных о пользователи
+        public async Task<bool> CreateEmployee(Employee employee)
+        {
+            string tmp = JsonSerializer.Serialize(employee, options);
+
+            HttpContent content = new StringContent(tmp);
+            content.Headers.Remove("Content-Type");
+            content.Headers.Add("Content-Type", "application/json; charset=utf-8");
+
+            using var response = await httpClient.PostAsJsonAsync("Employee/insert", tmp);
+
+            response.EnsureSuccessStatusCode();
+
+            bool? person = await response.Content.ReadFromJsonAsync<bool>();
+
+            return true;
+        }
+
+
+        //Загрузка статистических данных о пользователи
+        public async Task<bool> GetUserStatistics(Employee user) 
         {
             await Task.Delay(1000);
 
             return true;
+        }
+
+
+        // поиск по ФАМИЛИИ или ИМЕНИ
+        public async Task<List<Employee>?> GetBySurname(string name)
+        {
+            List<Employee>? employees =
+                await Request<List<Employee>>($"Employee/GetBySurname?name={name}");
+
+            return employees;
         }
 
         #endregion
@@ -432,7 +484,6 @@ namespace KTSF.Db
                 {
                     // обработка серверных ошибок
                 }
-
             }
             return null;
         }

@@ -51,7 +51,7 @@ namespace KTSF.Application.Service
             return user != null ? Result.Success(user) : Result.Failure<User>("Not found");
         }
 
-
+        
         // получить всех USER
         public async Task<Result<User[]>> GetAll()
         {     

@@ -2,6 +2,7 @@
 using KTSF.Application.Service;
 using KTSF.Core;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace CRST_ServerAPI.Controllers
 {
@@ -45,6 +46,19 @@ namespace CRST_ServerAPI.Controllers
         }
 
 
+        [HttpGet("GetBySurname")]
+        public async Task<IActionResult> GetBySurname(string name)
+        {
+            Result<List<Employee>> result = await employeesService.GetBySurname(name);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            result.TryGetError(out string? error);
+            return NotFound(error);
+        }
+
+
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
@@ -56,9 +70,11 @@ namespace CRST_ServerAPI.Controllers
 
         [HttpPost]
         [Route("insert")]
-        public async Task<IActionResult> Insert(Employee employee)
-        {
-            Result<Employee> result = await employeesService.Create(employee);
+        public async Task<IActionResult> Insert([FromBody] string str)
+        {     
+            Employee employee = JsonSerializer.Deserialize<Employee>(str);           
+
+            Result<bool> result = await employeesService.Create(employee);
 
             if (result.IsSuccess)
             {
@@ -72,12 +88,14 @@ namespace CRST_ServerAPI.Controllers
 
         [HttpPost]
         [Route("update")]
-        public async Task<IActionResult> Update(Employee employee)
-        {
+        public async Task<IActionResult> Update([FromBody]string str)
+        {         
+            Employee employee = JsonSerializer.Deserialize<Employee>(str)!;            
+
             Result<Employee> result = await employeesService.Update(employee);
 
             if (result.IsSuccess)
-            {
+            {                
                 return Ok(result.Value);
             }
 

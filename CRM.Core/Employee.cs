@@ -2,14 +2,14 @@
 using KTSF.Core.ABAC;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace KTSF.Core
 {
 
     [Table("employees")]
     public partial class Employee
-    { 
-         
+    {          
         public int Id { get; set; }
 
         [ForeignKey(nameof(Object))]
@@ -17,11 +17,11 @@ namespace KTSF.Core
         public Object Object { get; set; } = null!;
 
         [ForeignKey(nameof(Appointment))]
-        public int AppointmentId { get; set; } //Должность
+        public int AppointmentId { get; set; } //Должность      
         public Appointment Appointment { get; set; } = null!; //Должность
 
         [ForeignKey(nameof(ASetOfRules))]
-        public int ASetOfRulesId { get; set; } //Набор правил доступа
+        public int ASetOfRulesId { get; set; } //Набор правил доступа       
         public ASetOfRules ASetOfRules { get; set; } = null!; //Набор правил доступа
 
         [MaxLength(512)]
@@ -77,7 +77,7 @@ namespace KTSF.Core
 
 
         [ForeignKey(nameof(EmployeeStatus))]
-        public int EmployeeStatusId { get; set; }
+        public int EmployeeStatusId { get; set; }        
         public EmployeeStatus EmployeeStatus { get; set; } = null!;
 
         public Employee Copy()
