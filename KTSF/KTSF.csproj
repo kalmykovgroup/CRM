@@ -37,6 +37,16 @@
     <None Remove="Img\google_play_logo.png" />
     <None Remove="Img\loading.gif" />
     <None Remove="Img\loading_2.gif" />
+    <None Remove="Img\TabComponents\cashiersWorkplaceIcon.svg" />
+    <None Remove="Img\TabComponents\Company.svg" />
+    <None Remove="Img\TabComponents\HistoryIcon.svg" />
+    <None Remove="Img\TabComponents\MenuIcon.svg" />
+    <None Remove="Img\TabComponents\Money.svg" />
+    <None Remove="Img\TabComponents\Purchases.svg" />
+    <None Remove="Img\TabComponents\SalesIcon.svg" />
+    <None Remove="Img\TabComponents\Settings.svg" />
+    <None Remove="Img\TabComponents\Staff.svg" />
+    <None Remove="Img\TabComponents\Warehouse.svg" />
     <None Remove="Img\warning.png" />
     <None Remove="language.json" />
   </ItemGroup>
@@ -82,6 +92,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
+    <PackageReference Include="SharpVectors" Version="1.8.4.1" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
@@ -105,6 +116,16 @@
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\delete.png" />
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\minus.png" />
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\plus.png" />
+    <Resource Include="Img\TabComponents\cashiersWorkplaceIcon.svg" />
+    <Resource Include="Img\TabComponents\Company.svg" />
+    <Resource Include="Img\TabComponents\HistoryIcon.svg" />
+    <Resource Include="Img\TabComponents\MenuIcon.svg" />
+    <Resource Include="Img\TabComponents\Money.svg" />
+    <Resource Include="Img\TabComponents\Purchases.svg" />
+    <Resource Include="Img\TabComponents\SalesIcon.svg" />
+    <Resource Include="Img\TabComponents\Settings.svg" />
+    <Resource Include="Img\TabComponents\Staff.svg" />
+    <Resource Include="Img\TabComponents\Warehouse.svg" />
   </ItemGroup>
 
 </Project>

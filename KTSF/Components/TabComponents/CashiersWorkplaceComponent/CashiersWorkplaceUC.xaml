@@ -37,7 +37,7 @@
     </Image>-->
 
     <DockPanel>
-        <Grid Height="Auto" DockPanel.Dock="Top">
+        <Grid Height="Auto" DockPanel.Dock="Top" Margin="0 5 5 0">
             <ContentControl Height="30" Content="{Binding SearchComponent.Build}" />
         </Grid>
 
@@ -337,7 +337,7 @@
 
         <Border
             Height="100"
-            Margin="5,5,0,0"
+            Margin="0,5,0,0"
             Background="#fff"
             BorderBrush="#21303D"
             BorderThickness="1"
@@ -502,7 +502,7 @@
         <!--  Текущий выбранный продукт  -->
 
         <Border
-            Margin="5,5,0,5"
+            Margin="0,5,0,5"
             Background="#fff"
             BorderBrush="#21303D"
             BorderThickness="1"

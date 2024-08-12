@@ -10,7 +10,7 @@ namespace KTSF.Components.TabComponents.PurchasesComponent
 {
     public class PurchasesComponent : TabComponent //Закупки
     {
-        public PurchasesComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
+        public PurchasesComponent(UserControlVM binding, AppControl appControl, string iconPath) : base (binding, appControl, iconPath)
         {
         }
 

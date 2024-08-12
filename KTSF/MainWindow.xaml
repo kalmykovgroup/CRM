@@ -20,7 +20,7 @@
     ResizeMode="CanResizeWithGrip"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
-    mc:Ignorable="d">
+    mc:Ignorable="d" >
 
     <Window.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
@@ -204,6 +204,7 @@
                 Height="36"
                 Background="#637FA0"
                 CornerRadius="10 10 0 0"
+                BorderThickness="0"
                 MouseDown="Border_MouseDown">
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
@@ -276,7 +277,7 @@
                 </Grid>
             </Border>
 
-            <ContentControl Grid.Row="1" Content="{Binding CurrentFrame.UserControl}" />
+            <ContentControl Grid.Row="1" Content="{Binding CurrentFrame.UserControl}" Background="#fff"/>
         </Grid>
     </Border>
 

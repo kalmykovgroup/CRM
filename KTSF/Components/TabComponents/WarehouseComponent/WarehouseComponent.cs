@@ -54,7 +54,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
 
         public int[] arrNumbersPage =  [];
 
-        public WarehouseComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
+        public WarehouseComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
         {
 
         }

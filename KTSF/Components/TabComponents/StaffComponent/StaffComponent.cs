@@ -26,7 +26,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
         public bool isLoaded = false;      
       
 
-        public StaffComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
+        public StaffComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
         {
             SearchComponent = new SearchComponent(binding, appControl);
             SearchComponentFired = new SearchComponent(binding, appControl);

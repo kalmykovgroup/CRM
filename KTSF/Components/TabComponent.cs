@@ -8,22 +8,17 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 
-namespace KTSF.Components
+namespace KTSF.Components;
+
+public abstract class TabComponent : Component
 {
-    public abstract class TabComponent : Component
+
+    public virtual string IconPath { get; set; }
+
+    public TabComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl) 
     {
-
-
-        public TabComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
-        {
-
-        }
-         
-        public virtual ImageSource? Icon => new BitmapImage(new Uri("/Img/warning.png"));
- 
-
-     
-    
-
+        IconPath = iconPath;
     }
+     
+    public virtual ImageSource? Icon => new BitmapImage(new Uri("/Img/warning.png"));
 }

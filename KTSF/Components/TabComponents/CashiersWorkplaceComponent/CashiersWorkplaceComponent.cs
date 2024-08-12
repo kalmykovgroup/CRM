@@ -34,7 +34,7 @@ public partial class CashiersWorkplaceComponent : TabComponent
 
     [ObservableProperty] public BuyProduct? selectedProduct;
 
-    public CashiersWorkplaceComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
+    public CashiersWorkplaceComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
     {
         SearchComponent = new SearchComponent(binding, appControl);
         SearchComponent.SearchAction += SelectedProductFromSearchList;
