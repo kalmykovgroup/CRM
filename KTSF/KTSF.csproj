@@ -27,6 +27,8 @@
     <None Remove="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\delete.png" />
     <None Remove="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\minus.png" />
     <None Remove="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\plus.png" />
+    <None Remove="Components\TabComponents\StaffComponent\Img\NotEmployed.png" />
+    <None Remove="Components\TabComponents\StaffComponent\Img\Qualifying.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\Boxes.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\cart-arrow-down_9795333.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\Cart.png" />
@@ -105,6 +107,12 @@
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\delete.png" />
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\minus.png" />
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\plus.png" />
+    <Resource Include="Components\TabComponents\StaffComponent\Img\NotEmployed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Components\TabComponents\StaffComponent\Img\Qualifying.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

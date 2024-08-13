@@ -3,6 +3,7 @@ using KTSF.Core;
 using KTSF.Core.Product_;
 using KTSF.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace KTSF.Application.Service
 {
     public class EmployeesService
     {
-        public AppDbContext dbContext;
+        public AppDbContext dbContext;        
 
         public EmployeesService(AppDbContext appDbContext)
         {
@@ -108,13 +109,8 @@ namespace KTSF.Application.Service
             dbContext.Employees.Add(employee);
             try
             {
-                await Console.Out.WriteLineAsync(employee.Phone);
-
-                await dbContext.SaveChangesAsync();
-
-                await Console.Out.WriteLineAsync(employee.PassportNumber);
+                await dbContext.SaveChangesAsync();                
                 return Result.Success(true);
-
             }
             catch (Exception ex)
             {
@@ -124,20 +120,12 @@ namespace KTSF.Application.Service
 
 
         public async Task<Result<Employee>> Update(Employee employee)
-        {
-            await Console.Out.WriteLineAsync(employee.ToString());
+        {            
             try
             {
-                //var yy = dbContext.Attach<Employee>(employee);     
-
-                //dbContext.Entry<Employee>(employee).State = EntityState.Modified;
-
-              
                 Employee? empl = dbContext.Employees.Where(emp => emp.Id == employee.Id).FirstOrDefault();
 
-                if (empl == null) return Result.Failure<Employee>("Not found"); ;
-
-                await Console.Out.WriteLineAsync(empl.Phone);
+                if (empl == null) return Result.Failure<Employee>("Not found");              
 
                 empl.Id = employee.Id;
                 empl.ObjectId = employee.ObjectId;              
@@ -163,7 +151,7 @@ namespace KTSF.Application.Service
 
                 await dbContext.SaveChangesAsync();               
 
-                return Result.Success(employee);
+                return Result.Success(empl);
             }
             catch (Exception ex)
             {

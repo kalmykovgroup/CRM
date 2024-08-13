@@ -23,5 +23,6 @@ namespace KTSF.Core.ABAC
         public List<DataBaseAccessAttribute> AccessAttributes { get; } = [];
         public List<ComponentAccessAttribute> ComponentAccessAttributes { get; } = [];
 
+        public override string ToString() => Name;
     }
 }

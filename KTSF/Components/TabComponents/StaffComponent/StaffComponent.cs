@@ -17,7 +17,16 @@ namespace KTSF.Components.TabComponents.StaffComponent
 {    
     public partial class StaffComponent : TabComponent
     {
-        public ObservableCollection<Employee> Employees { get; } = new ObservableCollection<Employee>(); 
+        public ObservableCollection<Employee> Employees { get; } = [];
+        public ObservableCollection<Employee> FiredEmployees { get; } = [];
+        public ObservableCollection<Employee> QualifyingEmployees { get; } = [];
+        public ObservableCollection<Employee> NotEmployedEmployees { get; } = [];
+
+        public ObservableCollection<Appointment> Appointments { get; } = [];
+        public ObservableCollection<EmployeeStatus> EmployeeStatuses { get; } = [];
+        public ObservableCollection<ASetOfRules> ASetOfRules { get; } = [];
+
+        
 
         public Component SearchComponent { get; }
         public Component SearchComponentFired { get; }
@@ -46,11 +55,45 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
         public async Task Load()
         {           
-            List<Employee> employees = await AppControl.Server.GetEmployees();
+            List<Employee>? employees = await AppControl.Server.GetEmployees();
 
             foreach (Employee employee in employees) {
-                Employees.Add(employee);
-            }            
+
+                if (employee.EmployeeStatus.Name == "Трудоустроен") // работает
+                {
+                    Employees.Add(employee);
+                }
+                else if(employee.EmployeeStatus.Name == "Уволен") // уволен
+                {
+                    FiredEmployees.Add(employee);
+                }
+                else if(employee.EmployeeStatus.Name == "На испытательном сроке")
+                {
+                    QualifyingEmployees.Add(employee);
+                }
+                else if(employee.EmployeeStatus.Name == "Не трудоустроен")
+                {
+                    NotEmployedEmployees.Add(employee);
+                }
+            }
+
+            List<Appointment>? appointments = await AppControl.Server.GetAllAppointment();
+            foreach(Appointment appointment in appointments)
+            {
+                Appointments.Add(appointment);
+            }
+
+            List<EmployeeStatus> employeeStatuses = await AppControl.Server.GetAllEmployeeStatus();
+            foreach (EmployeeStatus employeeStatus in employeeStatuses)
+            {
+                EmployeeStatuses.Add(employeeStatus);
+            }
+
+            List<ASetOfRules> aSetOfRules = await AppControl.Server.GetAllASetOfRules();
+            foreach (ASetOfRules aSetOfRule in aSetOfRules)
+            {
+                ASetOfRules.Add(aSetOfRule);
+            }
         }      
 
         [RelayCommand]

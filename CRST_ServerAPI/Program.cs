@@ -15,6 +15,7 @@ using KTSF.Application.Service;
 using KTSF.Api.Extensions.Repositories; 
 using KTSF.Infrastructure;
 using KTSF.Application.Interfaces.Auth;
+using KTSF.Api.Controllers;
 
 namespace CRST_ServerAPI
 {
@@ -93,6 +94,9 @@ namespace CRST_ServerAPI
             builder.Services.AddTransient<UsersService>();
             builder.Services.AddTransient<ProductsService>();
             builder.Services.AddTransient<AuthService>();
+            builder.Services.AddTransient<AppointmentService>();
+            builder.Services.AddTransient<EmployeeStatusService>();
+            builder.Services.AddTransient<ASetOfRulesService>();
 
 
             var app = builder.Build();

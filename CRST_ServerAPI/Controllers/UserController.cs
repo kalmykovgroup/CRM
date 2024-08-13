@@ -11,6 +11,7 @@ using Microsoft.Extensions.FileSystemGlobbing;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Text;
+using System.Text.Json;
 
 namespace CRST_ServerAPI.Controllers
 {
@@ -67,8 +68,9 @@ namespace CRST_ServerAPI.Controllers
 
         [HttpPost]
         [Route("insert")]
-        public async Task<IActionResult> Insert(User user)
+        public async Task<IActionResult> Insert([FromBody] string str)
         {
+            User user = JsonSerializer.Deserialize<User>(str);
             Result<User> result = await usersService.Create(user);
 
             if (result.IsSuccess)
@@ -83,8 +85,9 @@ namespace CRST_ServerAPI.Controllers
 
         [HttpPost]
         [Route("update")]
-        public async Task<IActionResult> Update(User user)
+        public async Task<IActionResult> Update([FromBody] string str)
         {
+            User user = JsonSerializer.Deserialize<User>(str);
             Result<User> result = await usersService.Update(user);
 
             if (result.IsSuccess)

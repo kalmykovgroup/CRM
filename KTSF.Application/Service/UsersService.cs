@@ -80,7 +80,19 @@ namespace KTSF.Application.Service
         {
             try
             {
-                dbContext.Attach(user);
+                User? us = await dbContext.Users.Where(u => u.Id == user.Id).FirstOrDefaultAsync();
+
+                if (us == null) return Result.Failure<User>("Not found");
+
+                us.Id = user.Id;
+                us.Email = user.Email;
+                us.Phone = user.Phone;
+                us.PasswordHash = user.PasswordHash;
+                us.AccessToken = user.AccessToken;
+                us.Name = user.Name;
+                us.Surname = user.Surname;
+                us.Patronymic = user.Patronymic;
+
                 await dbContext.SaveChangesAsync();
 
                 return Result.Success(user);

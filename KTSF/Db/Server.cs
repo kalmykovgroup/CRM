@@ -60,6 +60,30 @@ namespace KTSF.Db
             return true;
         }
 
+
+
+        private async Task<T?> Request<T>(string url) where T : class
+        {
+            try
+            {
+                T? products = await httpClient.GetFromJsonAsync<T>(url);
+                return products;
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    // обработка не авторизованных 
+                }
+                else
+                {
+                    // обработка серверных ошибок
+                }
+            }
+            return null;
+        }
+
+
         #region Авторизация
 
         //Делаем запрос на авторизацию владельца
@@ -321,7 +345,6 @@ namespace KTSF.Db
             */
 
             ProductDTO? product = await Request<ProductDTO>($"Product/GetProductFullInfo?id={id}");
-
             return product;
         }
 
@@ -406,10 +429,9 @@ namespace KTSF.Db
 
             List<Employee>? employees = await Request<List<Employee>>("Employee/all");
             return employees;
-        }
-     
+        }     
 
-        //Нужно определить где будет отслеживатся информация о том какие поля мы меняем
+        
         public async Task<(bool result, string? message, Employee copyEmployee)> UpdateEmployee(Employee employee)
         {   
             string tmp = JsonSerializer.Serialize(employee, options); 
@@ -466,27 +488,54 @@ namespace KTSF.Db
 
         #endregion
 
+        #region Appointment
 
-        private async Task<T?> Request<T>(string url) where T : class
-        {            
-            try
-            {
-                T? products = await httpClient.GetFromJsonAsync<T>(url);
-                return products;
-            }
-            catch (HttpRequestException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    // обработка не авторизованных 
-                }
-                else
-                {
-                    // обработка серверных ошибок
-                }
-            }
-            return null;
+        public async Task<List<Appointment>?> GetAllAppointment()
+        {
+            List<Appointment>? appointments = await Request<List<Appointment>>("Appointment/all");
+            return appointments;
         }
+
+        public async Task<Appointment> GetAppointmentById(int id)
+        {
+            Appointment? appointment = await Request<Appointment>($"Appointment/{id}");
+            return appointment;
+        }
+
+        #endregion
+
+        #region EmployeeStatus
+
+        public async Task<List<EmployeeStatus>> GetAllEmployeeStatus()
+        {
+            List<EmployeeStatus>? employeeStatuses = await Request<List<EmployeeStatus>>("EmployeeStatus/all");
+            return employeeStatuses;
+        }
+
+        public async Task<EmployeeStatus> GetEmployeeStatusById(int id)
+        {
+            EmployeeStatus? employeeStatus = await Request<EmployeeStatus>($"EmployeeStatus/{id}");
+            return employeeStatus;
+        }
+
+        #endregion
+
+        #region ASetOfRules
+
+        public async Task<List<ASetOfRules>> GetAllASetOfRules()
+        {
+            List<ASetOfRules> aSetOfRules = await Request<List<ASetOfRules>>("ASetOfRules/all");
+            return aSetOfRules;
+        }
+
+        public async Task<ASetOfRules> GetASetOfRulesById(int id)
+        {
+            ASetOfRules aSetOfRule = await Request<ASetOfRules>($"ASetOfRules/{id}");
+            return aSetOfRule;
+        }
+
+        #endregion
+
 
 
     }
