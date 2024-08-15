@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Numerics;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -19,6 +21,8 @@ namespace KTSF.Db
     public class Server 
     {
         AppControl AppControl {  get; }
+
+     
 
         public Server(AppControl appControl) { 
             AppControl = appControl;
@@ -31,9 +35,17 @@ namespace KTSF.Db
             return true;
         }
 
+        private static HttpClient sharedClient = new()
+        {
+            BaseAddress = new Uri("https://localhost:7286/"),
+        };
+
+
         //Делаем запрос при для проверки подключения к сети и получению необходимых данных из сервера
         public async Task<bool> LoadData()
         {
+         
+
             await Task.Delay(0);
 
             return true;
@@ -53,7 +65,7 @@ namespace KTSF.Db
                     return (true, null, new User()
                     {
                         Email = "kalmykov@mail.ru",
-                        Phone = "+79260128187",
+                        PhoneNumber = "+79260128187",
                        // Password = "tester",
                         AccessToken = "test-user-access-token",
                         Name = "Иван",
@@ -78,7 +90,7 @@ namespace KTSF.Db
                     return (true, null, new User()
                     {
                         Email = "kalmykov@mail.ru",
-                        Phone = "+79260128187",
+                        PhoneNumber = "+79260128187",
                       //  Password = "tester",
                         AccessToken = "test-user-access-token",
                         Name = "Иван",
@@ -139,31 +151,24 @@ namespace KTSF.Db
         public async Task<List<Product>> SearchProducts(string text)
         {
             // Максимальное число поиска товаров не должно превышать 20 товаров
-        
-            await Task.Delay(1000);
 
-            return new List<Product> {
-                new Product() { Name = "Product 1", Id = 1, BuySales = 800 },
-                new Product() { Name = "Product 2", Id = 2, BuySales = 750 },
-                new Product() { Name = "Product 3", Id = 3, BuySales = 700 },
-                new Product() { Name = "Product 4", Id = 4, BuySales = 300 },
-                new Product() { Name = "Product 5", Id = 5, BuySales = 450 },
-                new Product() { Name = "Product 6", Id = 6, BuySales = 880 },
-                new Product() { Name = "Product 7", Id = 7, BuySales = 1000 },
-                new Product() { Name = "Product 8", Id = 8, BuySales = 450 },
-                new Product() { Name = "Product 9", Id = 9, BuySales = 200 },
-                new Product() { Name = "Product 10", Id = 10, BuySales = 620 },
-                new Product() { Name = "Product 11", Id = 11, BuySales = 780 },
-                new Product() { Name = "Product 12", Id = 12, BuySales = 560 },
-                new Product() { Name = "Product 13", Id = 13, BuySales = 780 },
-                new Product() { Name = "Product 14", Id = 14, BuySales = 290 },
-                new Product() { Name = "Product 15", Id = 15, BuySales = 970 },
-                new Product() { Name = "Product 16", Id = 16, BuySales = 1210 },
-                new Product() { Name = "Product 17", Id = 17, BuySales = 160 },
-                new Product() { Name = "Product 18", Id = 18, BuySales = 850 },
-                new Product() { Name = "Product 19", Id = 19, BuySales = 780 },
-                new Product() { Name = "Product 20", Id = 20, BuySales = 640 },
-            };
+           
+            using HttpResponseMessage response = await sharedClient.GetAsync("product/all");
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+
+                List<Product>? products = JsonSerializer.Deserialize<List<Product>>(json);
+
+
+                if (products is not null) return products;
+
+            }
+
+            return new();
+
+
         }
 
         public async Task<(int countPages, List<Product> product)> GetProducts(int page = 1)
@@ -267,6 +272,8 @@ namespace KTSF.Db
 
             return new Product() { Name = "Product 12", Id = 12 };                
         }
+
+
 
       
  

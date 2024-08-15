@@ -16,10 +16,12 @@ using System.Threading.Tasks;
 namespace KTSF.Languages.Packages
 {
     public class Russian : ILanguage
-    { 
+    {
+ 
+
         private class TranslationSearchComponent : ITranslationSearchComponent
         {
-            public string Placeholder => "Поиск";
+            public string Placeholder => "Поиск"; 
         }
 
         public ITranslationSearchComponent ITranslationSearchComponent => new TranslationSearchComponent();
@@ -81,5 +83,7 @@ namespace KTSF.Languages.Packages
         }
 
         public ITranslationWarehouseComponent ITranslationWarehouseComponent => new TranslationWarehouseComponent();
+
+      
     }
 }

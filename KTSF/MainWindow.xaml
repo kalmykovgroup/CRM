@@ -95,12 +95,12 @@
                         <Button
                             x:Name="btnMinimize"
                             Click="btnMinimize_Click"
-                            Content="{StaticResource minimize2}"
+                            Content="{StaticResource minimize}"
                             Style="{StaticResource IconButtonStyle}" />
                         <Button
                             x:Name="btnMaximize"
                             Click="btnMaximize_Click"
-                            Content="{StaticResource maximize2}"
+                            Content="{StaticResource maximize}"
                             Style="{StaticResource IconButtonStyle}" />
                         <Button
                             x:Name="btnClose"

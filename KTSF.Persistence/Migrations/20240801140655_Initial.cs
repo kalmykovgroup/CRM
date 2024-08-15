@@ -552,7 +552,7 @@ namespace KTSF.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "users",
-                columns: new[] { "Id", "AccessToken", "Email", "Name", "PasswordHash", "Patronymic", "Phone", "Surname" },
+                columns: new[] { "Id", "AccessToken", "Email", "Name", "PasswordHash", "Patronymic", "PhoneNumber", "Surname" },
                 values: new object[] { 1, "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ", "tester@mail.ru", "tester", "tester", "testerovich", "+7111111111", "testerov" });
 
             migrationBuilder.InsertData(
@@ -654,7 +654,7 @@ namespace KTSF.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "employees",
-                columns: new[] { "Id", "ASetOfRulesId", "AccessToken", "Address", "ApplyingDate", "AppointmentId", "Created_At", "Email", "EmployeeStatusId", "LayoffDate", "Name", "ObjectId", "PassportNumber", "PassportSeries", "Password", "Patronymic", "Phone", "Snils", "Surname", "Tin", "Updated_At" },
+                columns: new[] { "Id", "ASetOfRulesId", "AccessToken", "Address", "ApplyingDate", "AppointmentId", "Created_At", "Email", "EmployeeStatusId", "LayoffDate", "Name", "ObjectId", "PassportNumber", "PassportSeries", "Password", "Patronymic", "PhoneNumber", "Snils", "Surname", "Tin", "Updated_At" },
                 values: new object[,]
                 {
                     { 1, 1, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEifQ.GQm1j57RyZMHdwsolLnzhoB9A49mC0KusQBpHS9_-kQ", "Красная прощать 4", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9471), 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9483), "admin@mail.ru", 1, null, "Иван", 1, "123456", "1234", "tester", "Алексеевич", "+79260128187", "123456789012", "Калмыков", "12345678901", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9484) },

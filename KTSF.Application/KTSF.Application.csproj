@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CRM.Core\KTSF.Core.csproj" />
+    <ProjectReference Include="..\KTSF.Dto\KTSF.Dto.csproj" />
     <ProjectReference Include="..\KTSF.Persistence\KTSF.Persistence.csproj" />
   </ItemGroup>
 

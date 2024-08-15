@@ -1,5 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-using KTSF.Api.Extensions.Repositories;
+﻿using CSharpFunctionalExtensions; 
 using KTSF.Application.Service;
 using KTSF.Core;
 using KTSF.Core.Product_;
@@ -11,6 +10,7 @@ namespace CRST_ServerAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;

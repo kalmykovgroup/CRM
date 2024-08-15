@@ -354,7 +354,7 @@ namespace KTSF.Persistence.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("varchar(12)");
@@ -1243,7 +1243,7 @@ namespace KTSF.Persistence.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
