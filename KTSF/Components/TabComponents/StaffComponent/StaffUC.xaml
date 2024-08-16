@@ -237,7 +237,7 @@
             <TabItem Header="Трудоустроен">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="40" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
@@ -387,12 +387,13 @@
                                         <Grid Grid.Row="0" Grid.Column="4">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
-                                                <RowDefinition />
+                                                <RowDefinition Height="2*"/>
+                                                <RowDefinition Height="2*"/>
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="0"
+                                                Grid.Row="1"
                                                 Width="90"
                                                 Height="20"
                                                 Margin="0,0,15,0"
@@ -401,7 +402,7 @@
                                                 Content="Редактировать"
                                                 Style="{StaticResource buttonStyle}" />
 
-                                            <Button
+                                            <!--<Button
                                                 Grid.Row="1"
                                                 Width="90"
                                                 Height="20"
@@ -409,7 +410,7 @@
                                                 Command="{Binding DataContext.DeleteUserCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="Уволить"
-                                                Style="{StaticResource buttonStyle}" />
+                                                Style="{StaticResource buttonStyle}" />-->
                                             <ToggleButton
                                                 x:Name="userInfoToggleButton"
                                                 Grid.Row="2"
@@ -547,7 +548,7 @@
             <TabItem Header="Уволеные">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="40" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
@@ -581,7 +582,7 @@
                             Margin="5,5"
                             Content="{Binding SearchComponentFired.Build}" />
 
-                        <!--<Button
+                        <Button
                             Grid.Column="1"
                             Width="90"
                             Height="20"
@@ -590,8 +591,8 @@
                             Background="Transparent"
                             BorderBrush="Black"
                             BorderThickness="0,0,0,1"
-                            Command="{Binding DataContext.AddNewUserCommand, ElementName=UserControl}"
-                            Content="Добавить" />-->
+                            Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
+                            Content="Добавить" />
                     </Grid>
 
                     <ItemsControl Grid.Row="1" ItemsSource="{Binding FiredEmployees}">
@@ -695,6 +696,7 @@
 
                                         <Grid Grid.Row="0" Grid.Column="4">
                                             <Grid.RowDefinitions>
+                                                <RowDefinition />
                                                 <RowDefinition />
                                                 <RowDefinition />
                                                 <RowDefinition />
@@ -873,7 +875,7 @@
             <TabItem Header="Испытательный срок">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="40" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
@@ -1016,12 +1018,13 @@
                                         <Grid Grid.Row="0" Grid.Column="4">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
-                                                <RowDefinition />
+                                                <RowDefinition Height="2*"/>
+                                                <RowDefinition Height="2*"/>
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="0"
+                                                Grid.Row="1"
                                                 Width="90"
                                                 Height="20"
                                                 Margin="0,0,15,0"
@@ -1030,7 +1033,7 @@
                                                 Content="Редактировать"
                                                 Style="{StaticResource buttonStyle}" />
 
-                                            <Button
+                                            <!--<Button
                                                 Grid.Row="1"
                                                 Width="90"
                                                 Height="20"
@@ -1038,7 +1041,7 @@
                                                 Command="{Binding DataContext.DeleteUserCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="Уволить"
-                                                Style="{StaticResource buttonStyle}" />
+                                                Style="{StaticResource buttonStyle}" />-->
                                             <ToggleButton
                                                 x:Name="userInfoToggleButton"
                                                 Grid.Row="2"
@@ -1176,7 +1179,7 @@
             <TabItem Header="Не трудоустроен">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="40" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
@@ -1319,12 +1322,13 @@
                                         <Grid Grid.Row="0" Grid.Column="4">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
-                                                <RowDefinition />
+                                                <RowDefinition Height="2*"/>
+                                                <RowDefinition Height="2*"/>
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="0"
+                                                Grid.Row="1"
                                                 Width="90"
                                                 Height="20"
                                                 Margin="0,0,15,0"
@@ -1333,7 +1337,7 @@
                                                 Content="Редактировать"
                                                 Style="{StaticResource buttonStyle}" />
 
-                                            <Button
+                                            <!--<Button
                                                 Grid.Row="1"
                                                 Width="90"
                                                 Height="20"
@@ -1341,7 +1345,7 @@
                                                 Command="{Binding DataContext.DeleteUserCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="Уволить"
-                                                Style="{StaticResource buttonStyle}" />
+                                                Style="{StaticResource buttonStyle}" />-->
                                             <ToggleButton
                                                 x:Name="userInfoToggleButton"
                                                 Grid.Row="2"
@@ -1474,6 +1478,7 @@
                     </ItemsControl>
                 </Grid>
             </TabItem>
+            
         </TabControl>
     </ScrollViewer>
 </UserControl>

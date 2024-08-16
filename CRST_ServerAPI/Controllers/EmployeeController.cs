@@ -74,7 +74,7 @@ namespace CRST_ServerAPI.Controllers
         {     
             Employee employee = JsonSerializer.Deserialize<Employee>(str);           
 
-            Result<bool> result = await employeesService.Create(employee);
+            Result<Employee> result = await employeesService.Create(employee);
 
             if (result.IsSuccess)
             {

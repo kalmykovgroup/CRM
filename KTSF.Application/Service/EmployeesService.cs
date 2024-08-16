@@ -104,17 +104,41 @@ namespace KTSF.Application.Service
         }
 
 
-        public async Task<Result<bool>> Create(Employee employee)
+        public async Task<Result<Employee>> Create(Employee employee)
         {
-            dbContext.Employees.Add(employee);
+            Employee empl = new Employee();
+            empl.Id = employee.Id;
+            empl.ObjectId = employee.ObjectId;
+            empl.AccessToken = employee.AccessToken;
+            empl.AppointmentId = employee.AppointmentId;
+            empl.Name = employee.Name;
+            empl.Surname = employee.Surname;
+            empl.Patronymic = employee.Patronymic;
+            empl.PassportSeries = employee.PassportSeries;
+            empl.PassportNumber = employee.PassportNumber;
+            empl.Tin = employee.Tin;
+            empl.Snils = employee.Snils;
+            empl.Address = employee.Address;
+            empl.Phone = employee.Phone;
+            empl.Email = employee.Email;
+            empl.ApplyingDate = employee.ApplyingDate;
+            empl.LayoffDate = employee.LayoffDate;
+            empl.Created_At = employee.Created_At;
+            empl.Updated_At = employee.Updated_At;
+            empl.Password = employee.Password;
+            empl.EmployeeStatusId = employee.EmployeeStatusId;
+            empl.ASetOfRulesId = employee.ASetOfRulesId;
+
+
+            dbContext.Employees.Add(empl);
             try
             {
                 await dbContext.SaveChangesAsync();                
-                return Result.Success(true);
+                return Result.Success(empl);
             }
             catch (Exception ex)
             {
-                return Result.Failure<bool>(ex.ToString());
+                return Result.Failure<Employee>(ex.ToString());
             }
         }
 

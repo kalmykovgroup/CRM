@@ -450,7 +450,7 @@ namespace KTSF.Db
         }
 
 
-        public async Task<bool> CreateEmployee(Employee employee)
+        public async Task<Employee> CreateEmployee(Employee employee)
         {
             string tmp = JsonSerializer.Serialize(employee, options);
 
@@ -462,9 +462,9 @@ namespace KTSF.Db
 
             response.EnsureSuccessStatusCode();
 
-            bool? person = await response.Content.ReadFromJsonAsync<bool>();
+           Employee person = await response.Content.ReadFromJsonAsync<Employee>();
 
-            return true;
+            return person;
         }
 
 
