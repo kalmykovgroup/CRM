@@ -23,6 +23,7 @@ namespace KTSF.Application.Service
 
 
 
+
         // создание 
         public async Task<Result<ASetOfRules>> Insert(ASetOfRules setOfRules)
         {

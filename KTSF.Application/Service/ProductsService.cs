@@ -129,6 +129,7 @@ namespace KTSF.Application.Service
         }
 
 
+
         // получить определенную страницу с продуктами
         public async Task<Result<Product[]>> GetProducts(int page)
         {

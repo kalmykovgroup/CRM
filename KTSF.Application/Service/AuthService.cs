@@ -13,6 +13,7 @@ namespace KTSF.Application.Service
            throw new NotImplementedException();
        }
 
+
         /*  public Task<Microsoft.Exchange.WebServices.Data.ServiceResponse<int>> Register(User user, string password)
           {
               CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
