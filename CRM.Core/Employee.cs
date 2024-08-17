@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿
 using KTSF.Core.ABAC;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +7,7 @@ namespace KTSF.Core
 {
 
     [Table("employees")]
-    public partial class Employee
+    public class Employee
     { 
          
         public int Id { get; set; }

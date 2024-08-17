@@ -1,18 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
+﻿using KTSF.Core;
 using Microsoft.AspNetCore.Authorization;
- 
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.VisualBasic;
-using KTSF.Core;
 
-
-namespace CRST_ServerAPI.Model
+namespace KTSF.Application.Extensions
 {
-    public class UserIsOwnerAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, User>
+   public class TokenAuthenticationHandler : AuthorizationHandler<OperationAuthorizationRequirement, User>
     {
         UserManager<IdentityUser> _userManager;
 
-        public UserIsOwnerAuthorizationHandler(UserManager<IdentityUser> userManager)
+        public TokenAuthenticationHandler(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
         }
@@ -23,10 +20,9 @@ namespace CRST_ServerAPI.Model
             {
                 return Task.CompletedTask;
             }
-
             // Если вы не спрашиваете разрешения на использование CRUD, вернитесь.
 
-           /* if (requirement.Name != Constants.CreateOperationName &&
+            /*if (requirement.Name != Constants.CreateOperationName &&
                 requirement.Name != Constants.ReadOperationName &&
                 requirement.Name != Constants.UpdateOperationName &&
                 requirement.Name != Constants.DeleteOperationName)
@@ -36,10 +32,11 @@ namespace CRST_ServerAPI.Model
 
             if (resource.AccessToken == _userManager.GetUserId(context.User))
             {
+                //string? token = await _userManager.GetAuthenticationTokenAsync(context.User);
                 context.Succeed(requirement);
             }
 
             return Task.CompletedTask;
         }
-    }
+    } 
 }

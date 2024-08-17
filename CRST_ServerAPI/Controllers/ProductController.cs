@@ -1,10 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
-using Dapper;
-using KTSF.Api.Extensions.Repositories;
+using CSharpFunctionalExtensions.ValueTasks;
+using Dapper; 
 using KTSF.Application.Service;
 using KTSF.Core;
 using KTSF.Core.Product_;
 using KTSF.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
@@ -16,6 +17,7 @@ namespace CRST_ServerAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
@@ -47,7 +49,14 @@ namespace CRST_ServerAPI.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            return Ok(productsService.GetAll());
+            Result<Product[]> result = productsService.GetAll();
+
+            if (result.IsSuccess) {
+                return Ok(result.Value);
+            }
+            
+            return Ok(new Product[0] );
+          
         }
 
 

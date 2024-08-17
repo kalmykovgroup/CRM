@@ -12,7 +12,6 @@
 
         <converter:QualsToBoolConverter x:Key="QualsToBoolConverter"/>
 
-        
 
         <!--Style and template for the DataGrid.-->
     
@@ -102,22 +101,59 @@
         <!--Пагинация-->
         <Grid DockPanel.Dock="Bottom" Height="50">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" x:Name="Pagination" >
-                <Button>Prev</Button>
+                <Button Name="prevButton" DataContext="{Binding}" 
+     Command="{Binding BackPageCommand}" CommandParameter="{Binding ElementName=prevButton}">
+                    <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/back.png" />
+                    <Button.Style>
+                        <Style TargetType="Button">
 
-                <Button 
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="IsEnabled" Value="True"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding CurrentPage.Page}" Value="1">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                
+                <Button x:Name="begin"
                     DataContext="{Binding BeginBtn}" 
                     Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}" CommandParameter="{Binding}"
                     Template="{StaticResource PaginateBtn}">
-                  
+                    <Button.Style>
+                        <Style TargetType="Button">
+
+                            <Setter Property="Visibility" Value="Visible"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                              
+                            </Style.Triggers>
+
+                        </Style>
+                    </Button.Style>
                 </Button>
 
 
                 <ContentControl>
                     <ContentControl.Style>
                         <Style TargetType="ContentControl">
+                            
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <Button 
+                                    <Button x:Name="second"
                                           DataContext="{Binding SecondBtn}" 
                                           Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}" CommandParameter="{Binding}"
                                           Template="{StaticResource PaginateBtn}">
@@ -126,6 +162,9 @@
                                 
                             </Setter>
                             <Style.Triggers>
+                                <DataTrigger Binding="{Binding DataContext.CountPages, ElementName=UserControl}" Value="1">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
                                 <DataTrigger Binding="{Binding LeftEllipsis}" Value="True">
  
 
@@ -146,10 +185,11 @@
                 
 
 
-                <ItemsControl ItemsSource="{Binding PaginationButtons}" d:ItemsSource="{d:SampleData ItemCount=3}">
+                <ItemsControl ItemsSource="{Binding PaginationButtons}" d:ItemsSource="{d:SampleData ItemCount=4}" x:Name="array">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}" CommandParameter="{Binding}"
+                                        x:Name="arrayBtn"
                                         Template="{StaticResource PaginateBtn}">
                                     
                                 </Button>
@@ -188,6 +228,10 @@
                                         </Setter.Value>
                                     </Setter>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </ContentControl.Style>
@@ -196,7 +240,7 @@
               
  
 
-                <Button DataContext="{Binding EndBtn}"
+                <Button DataContext="{Binding EndBtn}" x:Name="endBtn"
                     Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}" CommandParameter="{Binding}"
                     Template="{StaticResource PaginateBtn}">
                     <Button.Style>
@@ -216,8 +260,9 @@
                 </Button>
 
 
-                <Button Content="Next" Name="nextButton" DataContext="{Binding CurrentPage}"
+                <Button Name="nextButton" DataContext="{Binding}" 
                     Command="{Binding NextPageCommand}" CommandParameter="{Binding ElementName=nextButton}">
+                    <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/next.png" />
                     <Button.Style>
                         <Style TargetType="Button">
 
@@ -230,6 +275,9 @@
 
                                 </DataTrigger>
 
+                                <DataTrigger Binding="{Binding IsCounterPages}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
                             </Style.Triggers>
 
                         </Style>
