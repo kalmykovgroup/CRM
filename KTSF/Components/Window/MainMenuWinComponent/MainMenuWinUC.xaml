@@ -35,7 +35,7 @@
 
                     <Border
                         Grid.Row="0"
-                        Margin="5 0 5 0"
+                        Margin="5,0,5,0"
                         BorderBrush="#21303D"
                         BorderThickness="1"
                         CornerRadius="5">
@@ -127,7 +127,7 @@
                         BorderBrush="#21303D"
                         BorderThickness="1"
                         CornerRadius="5">
-                        <Grid Margin="0,5,0,0">
+                        <Grid Margin="0,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -135,13 +135,14 @@
 
                             <Grid Grid.Row="0" Height="40">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="30" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
                                 <svgc:SvgViewbox
                                     Width="26"
                                     Height="26"
+                                    Margin="-6,0,0,0"
                                     Source="/Img/TabComponents/HistoryIcon.svg" />
 
 
@@ -152,11 +153,10 @@
                                     Text="История" />
                             </Grid>
 
-
-                            <ScrollViewer Grid.Row="3" Style="{StaticResource LeftScrollViewer}">
+                            <ScrollViewer Grid.Row="3" >
                                 <ItemsControl
                                     HorizontalContentAlignment="Stretch"
-                                    d:ItemsSource="{d:SampleData ItemCount=4}"
+                                    d:ItemsSource="{d:SampleData ItemCount=14}"
                                     ItemsSource="{x:Static components:Component.History}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -166,7 +166,7 @@
                                                         <Border
                                                             Padding="10,5"
                                                             BorderBrush="#21303D"
-                                                            BorderThickness="0,0,0.5,0.5">
+                                                            BorderThickness="0,0,0,0.5">
                                                             <TextBlock
                                                                 Margin="10,0,0,0"
                                                                 VerticalAlignment="Center"
@@ -184,9 +184,45 @@
                                             <StackPanel />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
-
-
                                 </ItemsControl>
+
+                                <ScrollViewer.Style>
+                                    <Style TargetType="ScrollViewer">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                                    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <ScrollContentPresenter
+                                                            x:Name="PART_ScrollContentPresenter"
+                                                            Grid.Column="0"
+                                                            Margin="{TemplateBinding Padding}"
+                                                            CanContentScroll="{TemplateBinding CanContentScroll}"
+                                                            CanHorizontallyScroll="False"
+                                                            CanVerticallyScroll="False"
+                                                            Content="{TemplateBinding Content}"
+                                                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                                        <ScrollBar
+                                                            x:Name="PART_VerticalScrollBar"
+                                                            Grid.Column="1"
+                                                            Width="8"
+                                                            AutomationProperties.AutomationId="VerticalScrollBar"
+                                                            Cursor="Arrow"
+                                                            Maximum="{TemplateBinding ScrollableHeight}"
+                                                            Minimum="0"
+                                                            ViewportSize="{TemplateBinding ViewportHeight}"
+                                                            Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                                            Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ScrollViewer.Style>
                             </ScrollViewer>
 
                         </Grid>
