@@ -12,12 +12,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using KTSF.Dto.Employee_;
 
 namespace KTSF.Components.TabComponents.StaffComponent
 {    
     public partial class StaffComponent : TabComponent
     {
-        public ObservableCollection<Employee> Employees { get; } = new ObservableCollection<Employee>(); 
+        public ObservableCollection<Employee> Employees { get; } = [];
+        public ObservableCollection<Employee> FiredEmployees { get; } = [];
+        public ObservableCollection<Employee> QualifyingEmployees { get; } = [];
+        public ObservableCollection<Employee> NotEmployedEmployees { get; } = [];
+
+        //public List<Appointment> Appointments { get; } = [];
+        //public List<EmployeeStatus> EmployeeStatuses { get; } = [];
+        //public List<ASetOfRules> ASetOfRules { get; } = [];
+
+        public EmployeeVM EmployeeVM { get; } = new EmployeeVM(); 
+        
 
         public Component SearchComponent { get; }
         public Component SearchComponentFired { get; }
@@ -44,41 +55,82 @@ namespace KTSF.Components.TabComponents.StaffComponent
             IsLoaded = true;
         }
 
-        public async Task Load()
-        {           
-            List<Employee> employees = await AppControl.Server.GetEmployees();
+        
 
-            foreach (Employee employee in employees) {
-                Employees.Add(employee);
+        public async Task Load()
+        {
+            CreateEmployeeLists();
+
+            List<Appointment>? appointments = await AppControl.Server.GetAllAppointment();
+            foreach(Appointment appointment in appointments)
+            {
+                EmployeeVM.Appointments.Add(appointment);
+                //Appointments.Add(appointment);
             }
 
-            
-        }      
+            List<EmployeeStatus> employeeStatuses = await AppControl.Server.GetAllEmployeeStatus();
+            foreach (EmployeeStatus employeeStatus in employeeStatuses)
+            {
+                EmployeeVM.EmployeeStatuses.Add(employeeStatus);
+                //EmployeeStatuses.Add(employeeStatus);
+            }
+
+            List<ASetOfRules> aSetOfRules = await AppControl.Server.GetAllASetOfRules();
+            foreach (ASetOfRules aSetOfRule in aSetOfRules)
+            {
+                EmployeeVM.ASetOfRules.Add(aSetOfRule);
+                //ASetOfRules.Add(aSetOfRule);
+            }
+        }
+
+        // ?????????????????????????
+        //[RelayCommand]
+        //public async Task<bool> DeleteUser(object sender)
+        //{
+        //    Employee employee = (Employee)sender;
+        //    employee.Updated_At = DateTime.Now;
+        //    employee.LayoffDate = DateTime.Now;
+
+        //    Employees.Remove(employee);
+
+        //    return true;
+        //}
 
         [RelayCommand]
-        public void AddNewEmployee()
+        public async void AddNewEmployee()
         {
-            Employee employee = new Employee();
-            employee.Appointment = new Appointment();
-            AddNewStaffWindow userWindow = new AddNewStaffWindow(employee);
+            EmployeeVM.Employee = new Employee();
+
+            AddNewStaffWindow userWindow = new AddNewStaffWindow(EmployeeVM);
 
             if (userWindow.ShowDialog() == true)
             {
-                employee.Updated_At = DateTime.Now;               
+                Employee employee = await AppControl.Server.CreateEmployee(EmployeeVM.Employee);
 
-                employee.Created_At = DateTime.Now; // ЭТО ПОЛЕ НУЖНО, ЕСЛИ ЕСТЬ ApplyingDate ???
-
-                Employees.Add(employee); // тестовая версия
-
-                // в реале -> запрос на сервер, для сохранения в БД
+                CreateEmployeeLists();
             }
         }
          
 
         [RelayCommand]
         public void EditEmployee(object sender)
-        { 
-            EditStaffWindow editStaffWindow = new EditStaffWindow(((Employee)sender).Copy(), EditStaffWindowSaveClick); // передавать копию??
+        {
+            EmployeeVM.Employee = ((Employee)sender).Copy();            
+             
+            EmployeeVM.Employee.Appointment = EmployeeVM.Appointments
+                        .Where(app => app.Name == EmployeeVM.Employee.Appointment.Name)
+                        .First();
+
+            EmployeeVM.Employee.EmployeeStatus = EmployeeVM.EmployeeStatuses
+                        .Where(empl => empl.Name == EmployeeVM.Employee.EmployeeStatus.Name)
+                        .First();
+
+            EmployeeVM.Employee.ASetOfRules = EmployeeVM.ASetOfRules
+                        .Where(aset => aset.Name == EmployeeVM.Employee.ASetOfRules.Name)
+                        .First();
+
+            EditStaffWindow editStaffWindow = new EditStaffWindow(EmployeeVM,             
+                EditStaffWindowSaveClick); // передавать копию??
 
             editStaffWindow.ShowDialog();
         
@@ -86,45 +138,54 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
         private async void EditStaffWindowSaveClick(EditStaffWindow editStaffWindow)
         {
-            (bool result, string? message, Employee copyEmployee) = await AppControl.Server.UpdateEmployee(editStaffWindow.Employee);
+            editStaffWindow.EmployeeVM.Employee.Updated_At = DateTime.Now;
+
+            (bool result, string? message, Employee copyEmployee) = await AppControl.Server.UpdateEmployee(editStaffWindow.EmployeeVM.Employee);
 
             if (result)
-            {
-                Employee employee = Employees.First(employee => employee.Id == copyEmployee.Id);
+            {   
+                CreateEmployeeLists();
 
-                int i = Employees.IndexOf(employee);
-
-                Employees[i] = copyEmployee; 
-                 
                 editStaffWindow.DialogResult = true;
             }
             else
             {
                 MessageBox.Show(message);
             }
-        }
+        }     
 
 
-        [RelayCommand]
-        public async Task<bool> DeleteUser(object sender)
+        private async void CreateEmployeeLists()
         {
-            Employee employee = (Employee)sender; 
-            employee.Updated_At = DateTime.Now;
-            employee.LayoffDate = DateTime.Now;
+            List<Employee>? employees = await AppControl.Server.GetEmployees();
 
-            Employees.Remove(employee); 
+            Employees.Clear();
+            FiredEmployees.Clear();
+            QualifyingEmployees.Clear();
+            NotEmployedEmployees.Clear();
 
-            // на сервер -> удаление Юзера
-            // с сервера -> список активных изеров
-            // с сервера -> список уволенных изеров
-          //  await AppControl.Server?.DeleteUser(employee);
+            foreach (Employee employee in employees)
+            {
 
-            // ждеем ответ
-
-            return true;
+                if (employee.EmployeeStatus.Name == "Трудоустроен") // работает
+                {
+                    Employees.Add(employee);
+                }
+                else if (employee.EmployeeStatus.Name == "Уволен") // уволен
+                {
+                    FiredEmployees.Add(employee);
+                }
+                else if (employee.EmployeeStatus.Name == "На испытательном сроке")
+                {
+                    QualifyingEmployees.Add(employee);
+                }
+                else if (employee.EmployeeStatus.Name == "Не трудоустроен")
+                {
+                    NotEmployedEmployees.Add(employee);
+                }
+            }
         }
 
-      
 
     }
 }

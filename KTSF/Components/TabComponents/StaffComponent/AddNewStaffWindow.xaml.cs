@@ -1,43 +1,58 @@
 ﻿using KTSF.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KTSF.Core.ABAC;
+using KTSF.Dto.Employee_;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace KTSF
 {
-    /// <summary>
-    /// Логика взаимодействия для AddNewUserWindow.xaml
-    /// </summary>
     public partial class AddNewStaffWindow : Window
-    {
-        private Employee Employee { get; set; }
+    {        
+        private EmployeeVM EmployeeVM { get; set; }
 
-        public AddNewStaffWindow(Employee employee)
+        public AddNewStaffWindow(EmployeeVM employeeVM)
         {
             InitializeComponent();
-
-            this.Employee = employee;
-            DataContext = employee;
+            
+            this.EmployeeVM = employeeVM;
+            DataContext = EmployeeVM;
         }
 
         private void saveButtonButton_Click(object sender, RoutedEventArgs e)
         {
+            EmployeeVM.Employee.Created_At = DateTime.Now;
+            EmployeeVM.Employee.Updated_At = DateTime.Now;
+
+            EmployeeVM.Employee.Password = "tester"; // жесткий хардкод
+            EmployeeVM.Employee.AccessToken = ""; // жесткий хардкод
+            EmployeeVM.Employee.ObjectId = 1; // жесткий хардкод            
+
             DialogResult = true;
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {    
             DialogResult = false;
+        }
+
+        private void positionComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            Appointment appointment = (Appointment)positionComboBox.SelectedItem;
+            EmployeeVM.Employee.AppointmentId = appointment.Id;
+            EmployeeVM.Employee.Appointment = appointment;
+        }
+
+        private void statusComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            EmployeeStatus employeeStatus = (EmployeeStatus)statusComboBox.SelectedItem;
+            EmployeeVM.Employee.EmployeeStatusId = employeeStatus.Id;
+            EmployeeVM.Employee.EmployeeStatus = employeeStatus;
+        }
+
+        private void permissionComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            ASetOfRules setOfRules = (ASetOfRules)permissionComboBox.SelectedItem;
+            EmployeeVM.Employee.ASetOfRulesId = setOfRules.Id;
+            EmployeeVM.Employee.ASetOfRules = setOfRules;
         }
     }
 }

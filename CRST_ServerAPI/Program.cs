@@ -61,6 +61,9 @@ namespace CRST_ServerAPI
             builder.Services.AddTransient<UsersService>();
             builder.Services.AddTransient<ProductsService>();
             builder.Services.AddTransient<AuthService>();
+            builder.Services.AddTransient<AppointmentService>();
+            builder.Services.AddTransient<EmployeeStatusService>();
+            builder.Services.AddTransient<ASetOfRulesService>();
 
             builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
 
@@ -87,7 +90,7 @@ namespace CRST_ServerAPI
 
 
 
-            app.UseAuthentication();   // добавление middleware аутентификации
+            //app.UseAuthentication();   // добавление middleware аутентификации
 
             app.UseAuthorization(); 
             
@@ -103,10 +106,8 @@ namespace CRST_ServerAPI
             app.MapControllers();
              
 
-            app.Run();
+            app.Run();           
 
-
-           
         }
          
 

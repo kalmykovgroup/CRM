@@ -3,6 +3,7 @@ using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
 using KTSF.Core;
 using KTSF.Core.ABAC;
 using KTSF.Core.Product_;
+using KTSF.Dto.Product_;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -50,6 +53,30 @@ namespace KTSF.Db
 
             return true;
         }
+
+
+
+        private async Task<T?> Request<T>(string url) where T : class
+        {
+            try
+            {
+                T? products = await httpClient.GetFromJsonAsync<T>(url);
+                return products;
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    // обработка не авторизованных 
+                }
+                else
+                {
+                    // обработка серверных ошибок
+                }
+            }
+            return null;
+        }
+
 
         #region Авторизация
 
@@ -145,10 +172,28 @@ namespace KTSF.Db
         #endregion
 
 
-       
+        #region Product
 
         //Поиск товаров
-        public async Task<List<Product>> SearchProducts(string text)
+        public async Task<List<Product>?> SearchProducts(string text) // возвращает максимум 20 товаров
+        {
+            /*
+            using HttpResponseMessage response = await httpClient.GetAsync($"Product/SearchProduct?name={text}");
+
+            if(response.StatusCode == HttpStatusCode.OK)
+            {
+                List<Product>? products = await httpClient.GetFromJsonAsync<List<Product>>($"Product/SearchProduct?name={text}");
+
+                return products;
+            }
+
+            return null;
+            */
+            List<Product>? products = await Request<List<Product>>($"Product/SearchProduct?name={text}");
+            return products;
+        }
+
+        public async Task<List<Product>?> GetProducts(int page)
         {
             // Максимальное число поиска товаров не должно превышать 20 товаров
 
@@ -171,8 +216,10 @@ namespace KTSF.Db
 
         }
 
-        public async Task<(int countPages, List<Product> product)> GetProducts(int page = 1)
+        // первая страница продуктов и общее количество продуктов
+        public async Task<FirstPage?> GetFirstPage(int page = 1)
         {
+            /*
             List<Product> products = new List<Product> {
                 new Product() { Name = "Product 1", Id = 1 },
                 new Product() { Name = "Product 2", Id = 2 },
@@ -231,27 +278,31 @@ namespace KTSF.Db
                 new Product() { Name = "Product 10", Id = 10 },
             };
 
-            page--;
+            page--; // че это значит?? зачем??
 
             int limmit = 100;
 
-            int countPage = (int)Math.Ceiling((double)products.Count / limmit);
+            int countPage = (int)Math.Ceiling((double)products.Count / limmit); // приходит с сервера ???
 
             if (page > countPage || page < 0) throw new ArgumentException();
 
             List<Product> resultProducts = [];
 
-            for (int i = page * limmit; i < (page * limmit + limmit) && i < products.Count; i++) {
+            for (int i = page * limmit; i < (page * limmit + limmit) && i < products.Count; i++)
+            {
                 resultProducts.Add(products[i]);
             }
 
             return (countPage, resultProducts);
+            */        
 
+            FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
+                
+            return firstPage;   
         }
- 
 
-
-        //Получить списанные товары
+        // ????? WTF  Откуда их брать?
+        //Получить списанные товары 
         public async Task<List<Product>> GetDecommissionedProducts()
         { 
             await Task.Delay(1000);
@@ -266,12 +317,20 @@ namespace KTSF.Db
         }
 
         //Получить подробную информацию о товаре
-        public async Task<Product> GetProductFullInfo(int id)
+        public async Task<ProductDTO?> GetProductFullInfo(int id)
         {
-            await Task.Delay(1000);
+            /*
+            using HttpResponseMessage response = await httpClient.GetAsync($"Product/GetAllInformation?id={id}");
 
-            return new Product() { Name = "Product 12", Id = 12 };                
-        }
+            if(response.StatusCode == HttpStatusCode.OK)
+            {
+                //var tt = await response.Content.ReadAsStringAsync();
+                //var product = JsonSerializer.Deserialize<ProductDTO>(tt);
+
+                ProductDTO? product = await httpClient.GetFromJsonAsync<ProductDTO>($"Product/GetAllInformation?id={id}");
+
+                return product;
+            }
 
 
 
@@ -280,8 +339,9 @@ namespace KTSF.Db
 
         #region Employee
 
-        public async Task<List<Employee>> GetEmployees() //Получить список всех сотрудников
+        public async Task<List<Employee>?> GetEmployees() //Получить список всех сотрудников
         {
+            /*
             await Task.Delay(0);
 
             return new List<Employee> {
@@ -347,29 +407,116 @@ namespace KTSF.Db
 
                 }
             };
-        }
-     
+            */
 
-        //Нужно определить где будет отслеживатся информация о том каие поля мы меняем
+            List<Employee>? employees = await Request<List<Employee>>("Employee/all");
+            return employees;
+        }     
+
+        
         public async Task<(bool result, string? message, Employee copyEmployee)> UpdateEmployee(Employee employee)
-        {
-            await Task.Delay(0);
+        {   
+            string tmp = JsonSerializer.Serialize(employee, options); 
+            
+            HttpContent content = new StringContent(tmp);
+            content.Headers.Remove("Content-Type");
+            content.Headers.Add("Content-Type", "application/json; charset=utf-8");            
+
+            using var response = await httpClient.PostAsJsonAsync("Employee/update", tmp);
+
+            response.EnsureSuccessStatusCode();
+
+            Employee? person = await response.Content.ReadFromJsonAsync<Employee>();
 
             return (result: true, message: null, employee);
         }
 
-        
 
-        public async Task<bool> GetUserStatistics(Employee user) //Загрузка статистических данных о пользователи
+        public async Task<Employee> CreateEmployee(Employee employee)
+        {
+            string tmp = JsonSerializer.Serialize(employee, options);
+
+            HttpContent content = new StringContent(tmp);
+            content.Headers.Remove("Content-Type");
+            content.Headers.Add("Content-Type", "application/json; charset=utf-8");
+
+            using var response = await httpClient.PostAsJsonAsync("Employee/insert", tmp);
+
+            response.EnsureSuccessStatusCode();
+
+           Employee person = await response.Content.ReadFromJsonAsync<Employee>();
+
+            return person;
+        }
+
+
+        //Загрузка статистических данных о пользователи
+        public async Task<bool> GetUserStatistics(Employee user) 
         {
             await Task.Delay(1000);
 
             return true;
         }
 
+
+        // поиск по ФАМИЛИИ или ИМЕНИ
+        public async Task<List<Employee>?> GetBySurname(string name)
+        {
+            List<Employee>? employees =
+                await Request<List<Employee>>($"Employee/GetBySurname?name={name}");
+
+            return employees;
+        }
+
         #endregion
 
+        #region Appointment
 
+        public async Task<List<Appointment>?> GetAllAppointment()
+        {
+            List<Appointment>? appointments = await Request<List<Appointment>>("Appointment/all");
+            return appointments;
+        }
+
+        public async Task<Appointment> GetAppointmentById(int id)
+        {
+            Appointment? appointment = await Request<Appointment>($"Appointment/{id}");
+            return appointment;
+        }
+
+        #endregion
+
+        #region EmployeeStatus
+
+        public async Task<List<EmployeeStatus>> GetAllEmployeeStatus()
+        {
+            List<EmployeeStatus>? employeeStatuses = await Request<List<EmployeeStatus>>("EmployeeStatus/all");
+            return employeeStatuses;
+        }
+
+        public async Task<EmployeeStatus> GetEmployeeStatusById(int id)
+        {
+            EmployeeStatus? employeeStatus = await Request<EmployeeStatus>($"EmployeeStatus/{id}");
+            return employeeStatus;
+        }
+
+        #endregion
+
+        #region ASetOfRules
+
+        public async Task<List<ASetOfRules>> GetAllASetOfRules()
+        {
+            List<ASetOfRules> aSetOfRules = await Request<List<ASetOfRules>>("ASetOfRules/all");
+            return aSetOfRules;
+        }
+
+        public async Task<ASetOfRules> GetASetOfRulesById(int id)
+        {
+            ASetOfRules aSetOfRule = await Request<ASetOfRules>($"ASetOfRules/{id}");
+            return aSetOfRule;
+        }
+
+        #endregion
 
 
 
