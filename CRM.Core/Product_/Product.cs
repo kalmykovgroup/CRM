@@ -20,6 +20,7 @@ namespace KTSF.Core.Product_
         public ulong? OldPrice { get; set; } //Это маркетинговая цена (зачеркнутая), нужна для сайтов.
           
          
+        // ОБНУЛИМЫЙ ????
         public DateTime UpdatedAt { get; set; }
 
 

@@ -1,18 +1,21 @@
  
-  
-using Microsoft.AspNetCore.Authentication.JwtBearer; 
-using Microsoft.EntityFrameworkCore;  
+ 
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.IdentityModel.Tokens;
+using KTSF.Api.Model;
+using Microsoft.AspNetCore.Authentication;
 using KTSF.Persistence;
 using KTSF.Application.Service; 
 using KTSF.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using KTSF.Application.Interfaces.Auth;
-using KTSF.Persistence.Configurations;
-using Microsoft.AspNetCore.Authentication; 
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.DependencyInjection;
-using KTSF.Application.Extensions;
-using CRST_ServerAPI.Extensions;
+using KTSF.Api.Controllers;
 
 namespace CRST_ServerAPI
 {
@@ -37,7 +40,21 @@ namespace CRST_ServerAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-         
+            
+            // добавление сервисов аутентификации
+           /* builder.Services.AddAuthentication("Bearer")  // схема аутентификации - с помощью jwt-токенов
+                .AddJwtBearer();      // подключение аутентификации с помощью jwt-токенов*/
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                   .AddJwtBearer(options =>
+                   {
+                       options.RequireHttpsMetadata = false;
+                       options.TokenValidationParameters = new TokenValidationParameters
+                       {
+                           // укзывает, будет ли валидироватьс€ издатель при валидации токена
+                           ValidateIssuer = true,
+                           // строка, представл€юща€ издател€
+                           ValidIssuer = AuthOptions.ISSUER,
 
          /*   builder.Services.AddAuthentication("BasicAuthentication")
          .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null); */
@@ -61,6 +78,9 @@ namespace CRST_ServerAPI
             builder.Services.AddTransient<UsersService>();
             builder.Services.AddTransient<ProductsService>();
             builder.Services.AddTransient<AuthService>();
+            builder.Services.AddTransient<AppointmentService>();
+            builder.Services.AddTransient<EmployeeStatusService>();
+            builder.Services.AddTransient<ASetOfRulesService>();
 
             builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
 
@@ -87,7 +107,7 @@ namespace CRST_ServerAPI
 
 
 
-            app.UseAuthentication();   // добавление middleware аутентификации
+            //app.UseAuthentication();   // добавление middleware аутентификации
 
             app.UseAuthorization(); 
             
@@ -103,10 +123,8 @@ namespace CRST_ServerAPI
             app.MapControllers();
              
 
-            app.Run();
+            app.Run();           
 
-
-           
         }
          
 

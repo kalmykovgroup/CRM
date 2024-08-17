@@ -13,14 +13,14 @@
 
     <Window.Resources>
 
-        <!--TextBlock-->
+        <!--  TextBlock  -->
         <Style x:Key="TextBlockStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="10,0" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="TextAlignment" Value="Right" />
         </Style>
 
-        <!--TextBox-->
+        <!--  TextBox  -->
         <Style x:Key="TextBoxStyle" TargetType="TextBox">
             <Setter Property="Width" Value="200" />
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -29,7 +29,7 @@
             <Setter Property="TextAlignment" Value="Center" />
         </Style>
 
-        <!--Button-->
+        <!--  Button  -->
         <Style x:Key="buttonStyle" TargetType="Button">
             <Setter Property="Control.Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0,0,0,1" />
@@ -42,9 +42,9 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
                                 <Border
-                            Background="Transparent"
-                            BorderBrush="#ef8b1c"
-                            BorderThickness="0,0,0,1">
+                                    Background="Transparent"
+                                    BorderBrush="#ef8b1c"
+                                    BorderThickness="0,0,0,1">
 
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
@@ -75,6 +75,8 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
 
         </Grid.RowDefinitions>
 
@@ -87,7 +89,7 @@
             Grid.Row="0"
             Grid.Column="1"
             Style="{StaticResource TextBoxStyle}"
-            Text="{Binding Name, Mode=TwoWay}" />
+            Text="{Binding Employee.Name, Mode=TwoWay}" />
 
         <TextBlock
             Grid.Row="1"
@@ -98,7 +100,7 @@
             Grid.Row="1"
             Grid.Column="1"
             Style="{StaticResource TextBoxStyle}"
-            Text="{Binding Surname, Mode=TwoWay}" />
+            Text="{Binding Employee.Surname, Mode=TwoWay}" />
 
         <TextBlock
             Grid.Row="2"
@@ -109,7 +111,7 @@
             Grid.Row="2"
             Grid.Column="1"
             Style="{StaticResource TextBoxStyle}"
-            Text="{Binding Patronymic, Mode=TwoWay}" />
+            Text="{Binding Employee.Patronymic, Mode=TwoWay}" />
 
         <TextBlock
             Grid.Row="3"
@@ -128,7 +130,7 @@
                 Margin="5"
                 HorizontalAlignment="Right"
                 Style="{StaticResource TextBoxStyle}"
-                Text="{Binding PassportSeries, Mode=TwoWay}" />
+                Text="{Binding Employee.PassportSeries, Mode=TwoWay}" />
 
             <TextBox
                 Grid.Column="1"
@@ -136,8 +138,8 @@
                 Margin="5"
                 HorizontalAlignment="Left"
                 Style="{StaticResource TextBoxStyle}"
-                Text="{Binding PassportNumber, Mode=TwoWay}" />
-        </Grid>        
+                Text="{Binding Employee.PassportNumber, Mode=TwoWay}" />
+        </Grid>
 
         <TextBlock
             Grid.Row="4"
@@ -148,7 +150,7 @@
             Grid.Row="4"
             Grid.Column="1"
             Style="{StaticResource TextBoxStyle}"
-            Text="{Binding Tin, Mode=TwoWay}" />
+            Text="{Binding Employee.Tin, Mode=TwoWay}" />
 
         <TextBlock
             Grid.Row="5"
@@ -159,18 +161,21 @@
             Grid.Row="5"
             Grid.Column="1"
             Style="{StaticResource TextBoxStyle}"
-            Text="{Binding Snils, Mode=TwoWay}" />
+            Text="{Binding Employee.Snils, Mode=TwoWay}" />
 
         <TextBlock
             Grid.Row="6"
             Grid.Column="0"
             Style="{StaticResource TextBlockStyle}"
             Text="Должность :" />
-        <TextBox
+        <ComboBox
+            Name="positionComboBox"
             Grid.Row="6"
             Grid.Column="1"
-            Style="{StaticResource TextBoxStyle}"
-            Text="{Binding Appointment.Name, Mode=TwoWay}" />
+            Width="150"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            ItemsSource="{Binding Appointments}" SelectionChanged="positionComboBox_SelectionChanged" />
 
         <TextBlock
             Grid.Row="7"
@@ -181,7 +186,7 @@
             Grid.Row="7"
             Grid.Column="1"
             Style="{StaticResource TextBoxStyle}"
-            Text="{Binding Address, Mode=TwoWay}" />
+            Text="{Binding Employee.Address, Mode=TwoWay}" />
 
         <TextBlock
             Grid.Row="8"
@@ -192,7 +197,7 @@
             Grid.Row="8"
             Grid.Column="1"
             Style="{StaticResource TextBoxStyle}"
-            Text="{Binding Phone, Mode=TwoWay}" />
+            Text="{Binding Employee.Phone, Mode=TwoWay}" />
 
         <TextBlock
             Grid.Row="9"
@@ -203,25 +208,53 @@
             Grid.Row="9"
             Grid.Column="1"
             Style="{StaticResource TextBoxStyle}"
-            Text="{Binding Email, Mode=TwoWay}" />
+            Text="{Binding Employee.Email, Mode=TwoWay}" />
 
         <TextBlock
             Grid.Row="10"
             Grid.Column="0"
             Style="{StaticResource TextBlockStyle}"
+            Text="Статус сотрудника :" />
+        <ComboBox
+            x:Name="statusComboBox"
+            Grid.Row="10"
+            Grid.Column="1"
+            Width="150"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            ItemsSource="{Binding EmployeeStatuses}" SelectionChanged="statusComboBox_SelectionChanged"/>
+
+        <TextBlock
+            Grid.Row="11"
+            Grid.Column="0"
+            Style="{StaticResource TextBlockStyle}"
+            Text="Разрешения сотрудника :" />
+        <ComboBox
+            x:Name="permissionComboBox"
+            Grid.Row="11"
+            Grid.Column="1"
+            Width="150"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            ItemsSource="{Binding ASetOfRules}" SelectionChanged="permissionComboBox_SelectionChanged"/>
+
+        <TextBlock
+            Grid.Row="12"
+            Grid.Column="0"
+            Style="{StaticResource TextBlockStyle}"
             Text="Дата оформнления :" />
         <DatePicker
             x:Name="applyingDateDatePicker"
-            Grid.Row="10"
+            Grid.Row="12"
             Grid.Column="1"
             Width="200"
             VerticalAlignment="Center"
             Background="LightBlue"
             BorderThickness="0,0,0,1"
-            SelectedDate="{Binding ApplyingDate, Mode=TwoWay}" />
+            SelectedDate="{Binding Employee.ApplyingDate, Mode=TwoWay}" />
 
         <UniformGrid
-            Grid.Row="11"
+            Grid.Row="13"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Rows="1">
@@ -230,16 +263,16 @@
                 x:Name="saveButton"
                 Width="90"
                 Height="20"
-                Style="{StaticResource buttonStyle}"           
                 Click="saveButtonButton_Click"
-                Content="Сохранить" />
+                Content="Сохранить"
+                Style="{StaticResource buttonStyle}" />
             <Button
                 x:Name="cancelButton"
                 Width="90"
                 Height="20"
-                Style="{StaticResource buttonStyle}"
                 Click="cancelButton_Click"
-                Content="Отмена" />
+                Content="Отмена"
+                Style="{StaticResource buttonStyle}" />
         </UniformGrid>
     </Grid>
 </Window>

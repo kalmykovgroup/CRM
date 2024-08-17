@@ -30,7 +30,26 @@ namespace CRST_ServerAPI.Controllers
         public async Task<IActionResult> Login([FromBody] LoginUserRequest loginUserDto)
         {
 
-            Result<User> result = await _authService.Login(loginUserDto.Username, loginUserDto.Password);
+        //public AuthController(IAuthRepository authRepository)
+        //{
+        //    _authRepo = authRepository;
+        //}
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != passwordHash[i])
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
 
             if (result.IsSuccess)
                 return Ok(result.Value);

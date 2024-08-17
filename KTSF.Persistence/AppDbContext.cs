@@ -69,8 +69,9 @@ namespace KTSF.Persistence {
         //    Database.EnsureCreated();
         //}
 
-        protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseMySQL ("Server=127.0.0.1;Database=crm;Uid=root;Pwd=;");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseMySQL("Server=127.0.0.1;Database=crm;Uid=root;Pwd=;");
         }
 
         protected override void OnModelCreating (ModelBuilder modelBuilder) {
@@ -89,16 +90,16 @@ namespace KTSF.Persistence {
               .UsingEntity<PackingListToProductJoinTable> ();
 
 
-            modelBuilder.Entity<ProductToCategoryJoinTable> ().HasIndex (x => new { x.ProductId, x.CategoryId }).IsUnique ();
-            modelBuilder.Entity<PackingListToProductJoinTable> ().HasIndex (x => new { x.ProductId, x.PackingListId }).IsUnique ();
+            modelBuilder.Entity<ProductToCategoryJoinTable>().HasIndex(x => new { x.ProductId, x.CategoryId }).IsUnique();
+            modelBuilder.Entity<PackingListToProductJoinTable>().HasIndex(x => new { x.ProductId, x.PackingListId }).IsUnique();
 
-            modelBuilder.Entity<User> ().HasData (GetUsersDefault ());
-            modelBuilder.Entity<Company> ().HasData (GetCompaniesDefault ());
-            modelBuilder.Entity<Object> ().HasData (GetObjectsDefault ());
-            modelBuilder.Entity<Appointment> ().HasData (GetAppointmentsDefault ());
-            modelBuilder.Entity<ASetOfRules> ().HasData (GetASetOfRulesDefault ());
-            modelBuilder.Entity<EmployeeStatus> ().HasData (GetEmployeeStatusesDefault ());
-            modelBuilder.Entity<Employee> ().HasData (GetEmployeesDefault ());
+            modelBuilder.Entity<User>().HasData(GetUsersDefault());
+            modelBuilder.Entity<Company>().HasData(GetCompaniesDefault());
+            modelBuilder.Entity<Object>().HasData(GetObjectsDefault());
+            modelBuilder.Entity<Appointment>().HasData(GetAppointmentsDefault());
+            modelBuilder.Entity<ASetOfRules>().HasData(GetASetOfRulesDefault());
+            modelBuilder.Entity<EmployeeStatus>().HasData(GetEmployeeStatusesDefault());
+            modelBuilder.Entity<Employee>().HasData(GetEmployeesDefault());
 
             modelBuilder.Entity<Unit> ().HasData (GetUnitsDefault ());
             modelBuilder.Entity<Category> ().HasData (GetCategoriesDefault ());
@@ -122,7 +123,7 @@ namespace KTSF.Persistence {
                         {
                             Id = 1,
                             Email = "tester@mail.ru",
-                            PhoneNumber = "+7111111111",
+                            Phone = "+7111111111",
                             PasswordHash = "tester",
                             AccessToken = "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ",
                             Name = "tester",
@@ -131,7 +132,8 @@ namespace KTSF.Persistence {
                         }
                 ];
         }
-        private Company[] GetCompaniesDefault () {
+        private Company[] GetCompaniesDefault()
+        {
             return [
                 new Company()
                 {
@@ -143,7 +145,8 @@ namespace KTSF.Persistence {
             ];
         }
 
-        private Object[] GetObjectsDefault () {
+        private Object[] GetObjectsDefault()
+        {
             return [
                 new Object()
                 {
@@ -155,7 +158,8 @@ namespace KTSF.Persistence {
             ];
         }
 
-        private Appointment[] GetAppointmentsDefault () {
+        private Appointment[] GetAppointmentsDefault()
+        {
             return [
              new Appointment() { Id = 1, Name = "Администратор", Description = "" },
                 new Appointment() { Id = 2, Name = "Менеджер по закупкам", Description = "" },
@@ -169,7 +173,8 @@ namespace KTSF.Persistence {
                 new Appointment() { Id = 10, Name = "Слесарь", Description = "" },
             ];
         }
-        private ASetOfRules[] GetASetOfRulesDefault () {
+        private ASetOfRules[] GetASetOfRulesDefault()
+        {
             return [
              new ASetOfRules() { Id = 1, Name = "Администратор", Description = "" },
                 new ASetOfRules() { Id = 2, Name = "Старший кассир", Description = "" },
@@ -179,7 +184,8 @@ namespace KTSF.Persistence {
                 new ASetOfRules() { Id = 6, Name = "Бухгалтер", Description = "" },
             ];
         }
-        private EmployeeStatus[] GetEmployeeStatusesDefault () {
+        private EmployeeStatus[] GetEmployeeStatusesDefault()
+        {
             return [
              new EmployeeStatus() { Id = 1, Name = "Не трудоустроен" },
                 new EmployeeStatus() { Id = 2, Name = "На испытательном сроке" },
@@ -188,7 +194,8 @@ namespace KTSF.Persistence {
             ];
         }
 
-        private Employee[] GetEmployeesDefault () {
+        private Employee[] GetEmployeesDefault()
+        {
 
             return [new Employee()
             {

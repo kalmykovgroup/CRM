@@ -1,10 +1,4 @@
-﻿using KTSF.Persistence.Configurations;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-
-namespace CRST_ServerAPI.Extensions
+﻿namespace CRST_ServerAPI.Extensions
 {
     public static class ApiExtensions
     {
