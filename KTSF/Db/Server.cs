@@ -10,10 +10,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -21,9 +25,9 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KTSF.Db
 {
-    public class Server 
+    public class Server
     {
-        AppControl AppControl {  get; }
+        AppControl AppControl { get; }
 
         public static HttpClient httpClient = new()
         {
@@ -38,12 +42,13 @@ namespace KTSF.Db
             WriteIndented = true
         };
 
-        public Server(AppControl appControl) { 
+        public Server(AppControl appControl)
+        {
             AppControl = appControl;
         }
 
         public async Task<bool> Connect()
-        {        
+        {
             await Task.Delay(0);
 
             return true;
@@ -87,55 +92,55 @@ namespace KTSF.Db
         //Возвращаем список доступным компаний, обьектов и список пользователей на этих обьектах
 
         public async Task<(bool result, string? error, User? user)> Authorization(string Phone, string password)
-            {
-                await Task.Delay(0);
+        {
+            await Task.Delay(0);
 
-                if (Phone == "+79260128187" && password == "tester")
+            if (Phone == "+79260128187" && password == "tester")
+            {
+                return (true, null, new User()
                 {
-                    return (true, null, new User()
-                    {
-                        Email = "kalmykov@mail.ru",
-                        PhoneNumber = "+79260128187",
-                       // Password = "tester",
-                        AccessToken = "test-user-access-token",
-                        Name = "Иван",
-                        Surname = "Калмыков",
-                        Patronymic = "Алексеевич",
-                    });
-                }
-                else
-                {
+                    Email = "kalmykov@mail.ru",
+                    PhoneNumber = "+79260128187",
+                    // Password = "tester",
+                    AccessToken = "test-user-access-token",
+                    Name = "Иван",
+                    Surname = "Калмыков",
+                    Patronymic = "Алексеевич",
+                });
+            }
+            else
+            {
                 return (false, $"Логин или пароль не подходят {Phone}:{password}", null);
-                }
-
             }
-            public async Task<(bool result, string? error, User? user)> Authorization(string token)
+
+        }
+        public async Task<(bool result, string? error, User? user)> Authorization(string token)
+        {
+            await Task.Delay(0);
+
+            bool result = true;
+
+            if (result)
             {
-                await Task.Delay(0);
-
-                bool result = true;
-
-                if (result)
+                return (true, null, new User()
                 {
-                    return (true, null, new User()
-                    {
-                        Email = "kalmykov@mail.ru",
-                        PhoneNumber = "+79260128187",
-                      //  Password = "tester",
-                        AccessToken = "test-user-access-token",
-                        Name = "Иван",
-                        Surname = "Калмыков",
-                        Patronymic = "Алексеевич",
-                    });
-                }
-                else
-                {
-                    return (false, "token не подходит", null);
-                }
-
+                    Email = "kalmykov@mail.ru",
+                    PhoneNumber = "+79260128187",
+                    //  Password = "tester",
+                    AccessToken = "test-user-access-token",
+                    Name = "Иван",
+                    Surname = "Калмыков",
+                    Patronymic = "Алексеевич",
+                });
+            }
+            else
+            {
+                return (false, "token не подходит", null);
             }
 
-           
+        }
+
+
 
 
         public async void Authentication(Action<string> GenerateBarCode, Action<Employee> SetEmployee)
@@ -198,25 +203,28 @@ namespace KTSF.Db
 
         public async Task<List<Product>?> GetProducts(int page)
         {
-            // Максимальное число поиска товаров не должно превышать 20 товаров
-
-           
-            using HttpResponseMessage response = await sharedClient.GetAsync("product/all");
-
-            if (response.StatusCode == HttpStatusCode.OK)
+            /*
+            try
             {
-                string json = await response.Content.ReadAsStringAsync();
-
-                List<Product>? products = JsonSerializer.Deserialize<List<Product>>(json);
-
-
-                if (products is not null) return products;
-
+                products = await httpClient.GetFromJsonAsync<List<Product>>($"Product/GetProducts?page={page}");
+                return products;
             }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    // обработка не авторизованных 
+                }
+                else
+                {
+                    // обработка серверных ошибок
+                }
+            }
+            */
 
-            return new();
+            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");
 
-
+            return products;
         }
 
         // первая страница продуктов и общее количество продуктов
@@ -283,7 +291,7 @@ namespace KTSF.Db
 
             page--; // че это значит?? зачем??
 
-            int limmit = 100;
+            int limmit = 3; // должен быть фиксированный ???
 
             int countPage = (int)Math.Ceiling((double)products.Count / limmit); // приходит с сервера ???
 
@@ -297,24 +305,24 @@ namespace KTSF.Db
             }
 
             return (countPage, resultProducts);
-            */        
+            */
 
             FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
-                
-            return firstPage;   
+
+            return firstPage;
         }
 
         // ????? WTF  Откуда их брать?
         //Получить списанные товары 
         public async Task<List<Product>> GetDecommissionedProducts()
-        { 
+        {
             await Task.Delay(1000);
 
             List<Product> result = new List<Product> {
                 new Product() { Name = "Product 11", Id = 11 },
                 new Product() { Name = "Product 12", Id = 12 },
-                new Product() { Name = "Product 13", Id = 13 }, 
-            };             
+                new Product() { Name = "Product 13", Id = 13 },
+            };
 
             return result;
         }
@@ -335,10 +343,19 @@ namespace KTSF.Db
                 return product;
             }
 
+            return null;
+            */
 
+            ProductDTO? product = await Request<ProductDTO>($"Product/GetProductFullInfo?id={id}");
+            return product;
+        }
 
-      
- 
+        #endregion
+
+        // нужна таблица с чеками ???
+        // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
+        // сохранение чеков
+        // получение полной информации о чеке
 
         #region Employee
 
@@ -414,16 +431,16 @@ namespace KTSF.Db
 
             List<Employee>? employees = await Request<List<Employee>>("Employee/all");
             return employees;
-        }     
+        }
 
-        
+
         public async Task<(bool result, string? message, Employee copyEmployee)> UpdateEmployee(Employee employee)
-        {   
-            string tmp = JsonSerializer.Serialize(employee, options); 
-            
+        {
+            string tmp = JsonSerializer.Serialize(employee, options);
+
             HttpContent content = new StringContent(tmp);
             content.Headers.Remove("Content-Type");
-            content.Headers.Add("Content-Type", "application/json; charset=utf-8");            
+            content.Headers.Add("Content-Type", "application/json; charset=utf-8");
 
             using var response = await httpClient.PostAsJsonAsync("Employee/update", tmp);
 
@@ -447,14 +464,14 @@ namespace KTSF.Db
 
             response.EnsureSuccessStatusCode();
 
-           Employee person = await response.Content.ReadFromJsonAsync<Employee>();
+            Employee person = await response.Content.ReadFromJsonAsync<Employee>();
 
             return person;
         }
 
 
         //Загрузка статистических данных о пользователи
-        public async Task<bool> GetUserStatistics(Employee user) 
+        public async Task<bool> GetUserStatistics(Employee user)
         {
             await Task.Delay(1000);
 

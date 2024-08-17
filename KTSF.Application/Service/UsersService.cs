@@ -22,7 +22,7 @@ namespace KTSF.Application.Service
             this.dbContext = dbContext;
         }
 
-        public Result<User> Find(int id)
+        public async Task<Result<User>> Find(int id)
         {
             User? user = await dbContext.Users.FindAsync(id);
 
@@ -75,7 +75,7 @@ namespace KTSF.Application.Service
 
                 us.Id = user.Id;
                 us.Email = user.Email;
-                us.Phone = user.Phone;
+                us.PhoneNumber = user.PhoneNumber;
                 us.PasswordHash = user.PasswordHash;
                 us.AccessToken = user.AccessToken;
                 us.Name = user.Name;

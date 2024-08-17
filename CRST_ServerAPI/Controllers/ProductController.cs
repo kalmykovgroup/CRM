@@ -3,6 +3,7 @@ using KTSF.Application.Service;
 using KTSF.Core;
 using KTSF.Core.Product_;
 using KTSF.Dto.Product_;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -82,7 +83,7 @@ namespace CRST_ServerAPI.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            Result<Product[]> result = productsService.GetAll();
+            Result<List<Product>> result = await productsService.GetAll();
 
             if (result.IsSuccess) {
                 return Ok(result.Value);
