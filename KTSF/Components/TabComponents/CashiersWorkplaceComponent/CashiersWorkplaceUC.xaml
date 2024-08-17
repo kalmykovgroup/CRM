@@ -559,7 +559,7 @@
                                 Padding="0"
                                 HorizontalContentAlignment="Stretch"
                                 BorderBrush="#3194FC"
-                                BorderThickness="1"
+                                BorderThickness="0 0 0.5 0"
                                 Command="{Binding DataContext.SelectedProductFromCheckListCommand, ElementName=UserControl}"
                                 CommandParameter="{Binding}">
                                 <Grid Height="30" Background="#DBEDFF">
