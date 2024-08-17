@@ -11,7 +11,7 @@ namespace KTSF.Application.Service
         /* public Task<Microsoft.Exchange.WebServices.Data.ServiceResponse<string>> Login(string username, string password)
        {
            throw new NotImplementedException();
-       }*/
+       }
 
         /*  public Task<Microsoft.Exchange.WebServices.Data.ServiceResponse<int>> Register(User user, string password)
           {
