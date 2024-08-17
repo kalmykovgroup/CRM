@@ -37,6 +37,9 @@
     <None Remove="Img\google_play_logo.png" />
     <None Remove="Img\loading.gif" />
     <None Remove="Img\loading_2.gif" />
+    <None Remove="Img\MainWindow\close.svg" />
+    <None Remove="Img\MainWindow\maximize.svg" />
+    <None Remove="Img\MainWindow\minimize.svg" />
     <None Remove="Img\TabComponents\cashiersWorkplaceIcon.svg" />
     <None Remove="Img\TabComponents\Company.svg" />
     <None Remove="Img\TabComponents\HistoryIcon.svg" />
@@ -116,6 +119,9 @@
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\delete.png" />
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\minus.png" />
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\plus.png" />
+    <Resource Include="Img\MainWindow\close.svg" />
+    <Resource Include="Img\MainWindow\maximize.svg" />
+    <Resource Include="Img\MainWindow\minimize.svg" />
     <Resource Include="Img\TabComponents\cashiersWorkplaceIcon.svg" />
     <Resource Include="Img\TabComponents\Company.svg" />
     <Resource Include="Img\TabComponents\HistoryIcon.svg" />

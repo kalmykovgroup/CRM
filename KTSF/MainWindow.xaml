@@ -6,6 +6,7 @@
     xmlns:gif="http://wpfanimatedgif.codeplex.com"
     xmlns:local="clr-namespace:KTSF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
     Name="mainWindow"
     Title="KTSF"
     Width="1000"
@@ -20,7 +21,7 @@
     ResizeMode="CanResizeWithGrip"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
-    mc:Ignorable="d" >
+    mc:Ignorable="d">
 
     <Window.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
@@ -203,8 +204,8 @@
                 Grid.Column="0"
                 Height="36"
                 Background="#637FA0"
-                CornerRadius="10 10 0 0"
                 BorderThickness="0"
+                CornerRadius="10 10 0 0"
                 MouseDown="Border_MouseDown">
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
@@ -229,6 +230,7 @@
                         Grid.Column="2"
                         Width="100"
                         Height="24"
+                        Margin="10,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Background="Transparent"
@@ -250,34 +252,73 @@
                         Grid.Column="3"
                         Margin="0"
                         Orientation="Horizontal">
-                        <Button
-                            x:Name="btnMinimize"
-                            Click="btnMinimize_Click"
-                            VerticalContentAlignment="Center"
-                            HorizontalContentAlignment="Center"
-                            Content="{StaticResource minimize3}"
-                            Foreground="#21303D"
-                            Style="{StaticResource IconButtonMinimizeStyle}" />
-                        <Button
-                            x:Name="btnMaximize"
-                            Click="btnMaximize_Click"
-                            Content="{StaticResource maximize3}"
-                            Foreground="#21303D"
-                            Style="{StaticResource IconButtonMaximizeStyle}" />
-                        <Button
-                            x:Name="btnClose"
-                            MinWidth="30"
-                            MinHeight="30"
-                            Click="btnClose_Click"
-                            Content="{StaticResource close3}"
-                            Foreground="#21303D"
-                            Style="{StaticResource IconButtonCloseStyle}" />
+                        <StackPanel.Resources>
+                            <Style x:Key="TopNavButton" TargetType="Button">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="Height" Value="36" />
+                                <Setter Property="Width" Value="45" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter />
+                                            </Border>
+
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#4F6985" />
+
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Resources>
+
+                        <Button Click="btnMinimize_Click" Style="{StaticResource TopNavButton}">
+                            <svgc:SvgViewbox
+                                Width="16"
+                                Height="16"
+                                Source="/Img/MainWindow/minimize.svg" />
+                        </Button>
+
+                        <Button Click="btnMaximize_Click" Style="{StaticResource TopNavButton}">
+                            <svgc:SvgViewbox
+                                Width="14"
+                                Height="14"
+                                Source="/Img/MainWindow/maximize.svg" />
+                        </Button>
+
+                        <Button Click="btnClose_Click">
+                            <svgc:SvgViewbox
+                                Width="14"
+                                Height="14"
+                                Source="/Img/MainWindow/close.svg" />
+                            <Button.Style>
+                                <Style BasedOn="{StaticResource TopNavButton}" TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" CornerRadius="0 10 0 0">
+                                                    <ContentPresenter />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <ContentControl Grid.Row="1" Content="{Binding CurrentFrame.UserControl}" Background="#fff"/>
+            <ContentControl
+                Grid.Row="1"
+                Background="#fff"
+                Content="{Binding CurrentFrame.UserControl}" />
         </Grid>
     </Border>
 
