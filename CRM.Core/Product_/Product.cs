@@ -15,7 +15,7 @@ namespace KTSF.Core.Product_
 
         public ulong BuyPrice { get; set; } //Цена закупки
          
-        public ulong BuySales { get; set; } //Цена продажи
+        public ulong SalePrice { get; set; } //Цена продажи
          
         public ulong? OldPrice { get; set; } //Это маркетинговая цена (зачеркнутая), нужна для сайтов.
           
