@@ -9,6 +9,7 @@ using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Authorization;
 namespace CRST_ServerAPI.Controllers
 {
+
     [ApiController]
     [Route("[controller]")]
     [Authorize]

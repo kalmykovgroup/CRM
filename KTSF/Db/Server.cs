@@ -25,7 +25,18 @@ namespace KTSF.Db
     {
         AppControl AppControl {  get; }
 
-     
+        public static HttpClient httpClient = new()
+        {
+            BaseAddress = new Uri("https://localhost:7286")
+        };
+
+
+        public static JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            //Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic ),
+            WriteIndented = true
+        };
 
         public Server(AppControl appControl) { 
             AppControl = appControl;
@@ -38,17 +49,9 @@ namespace KTSF.Db
             return true;
         }
 
-        private static HttpClient sharedClient = new()
-        {
-            BaseAddress = new Uri("https://localhost:7286/"),
-        };
-
-
         //Делаем запрос при для проверки подключения к сети и получению необходимых данных из сервера
         public async Task<bool> LoadData()
         {
-         
-
             await Task.Delay(0);
 
             return true;
