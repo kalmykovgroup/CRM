@@ -10,6 +10,7 @@ namespace CRST_ServerAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
@@ -80,8 +81,14 @@ namespace CRST_ServerAPI.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            Result<List<Product>> result = await productsService.GetAll();
-            return Ok(result.Value);
+            Result<Product[]> result = productsService.GetAll();
+
+            if (result.IsSuccess) {
+                return Ok(result.Value);
+            }
+            
+            return Ok(new Product[0] );
+          
         }
 
 

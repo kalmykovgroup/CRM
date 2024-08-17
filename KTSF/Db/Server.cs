@@ -10,14 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -29,17 +25,7 @@ namespace KTSF.Db
     {
         AppControl AppControl {  get; }
 
-        public static HttpClient httpClient = new()
-        {
-            BaseAddress = new Uri("https://localhost:7286")
-        };
-
-        public static JsonSerializerOptions options = new JsonSerializerOptions
-        {
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-            //Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic ),
-            WriteIndented = true
-        };
+     
 
         public Server(AppControl appControl) { 
             AppControl = appControl;
@@ -52,9 +38,17 @@ namespace KTSF.Db
             return true;
         }
 
+        private static HttpClient sharedClient = new()
+        {
+            BaseAddress = new Uri("https://localhost:7286/"),
+        };
+
+
         //Делаем запрос при для проверки подключения к сети и получению необходимых данных из сервера
         public async Task<bool> LoadData()
         {
+         
+
             await Task.Delay(0);
 
             return true;
@@ -98,7 +92,7 @@ namespace KTSF.Db
                     return (true, null, new User()
                     {
                         Email = "kalmykov@mail.ru",
-                        Phone = "+79260128187",
+                        PhoneNumber = "+79260128187",
                        // Password = "tester",
                         AccessToken = "test-user-access-token",
                         Name = "Иван",
@@ -123,7 +117,7 @@ namespace KTSF.Db
                     return (true, null, new User()
                     {
                         Email = "kalmykov@mail.ru",
-                        Phone = "+79260128187",
+                        PhoneNumber = "+79260128187",
                       //  Password = "tester",
                         AccessToken = "test-user-access-token",
                         Name = "Иван",
@@ -201,28 +195,25 @@ namespace KTSF.Db
 
         public async Task<List<Product>?> GetProducts(int page)
         {
-            /*
-            try
-            {
-                products = await httpClient.GetFromJsonAsync<List<Product>>($"Product/GetProducts?page={page}");
-                return products;
-            }
-            catch (HttpRequestException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    // обработка не авторизованных 
-                }
-                else
-                {
-                    // обработка серверных ошибок
-                }
-            }
-            */
+            // Максимальное число поиска товаров не должно превышать 20 товаров
 
-            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");     
+           
+            using HttpResponseMessage response = await sharedClient.GetAsync("product/all");
 
-            return products;            
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+
+                List<Product>? products = JsonSerializer.Deserialize<List<Product>>(json);
+
+
+                if (products is not null) return products;
+
+            }
+
+            return new();
+
+
         }
 
         // первая страница продуктов и общее количество продуктов
@@ -289,7 +280,7 @@ namespace KTSF.Db
 
             page--; // че это значит?? зачем??
 
-            int limmit = 3; // должен быть фиксированный ???
+            int limmit = 100;
 
             int countPage = (int)Math.Ceiling((double)products.Count / limmit); // приходит с сервера ???
 
@@ -341,19 +332,10 @@ namespace KTSF.Db
                 return product;
             }
 
-            return null;
-            */
 
-            ProductDTO? product = await Request<ProductDTO>($"Product/GetProductFullInfo?id={id}");
-            return product;
-        }
 
-        #endregion
-
-        // нужна таблица с чеками ???
-        // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
-        // сохранение чеков
-        // получение полной информации о чеке
+      
+ 
 
         #region Employee
 

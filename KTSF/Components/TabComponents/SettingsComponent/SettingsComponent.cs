@@ -10,7 +10,7 @@ namespace KTSF.Components.TabComponents.SettingsComponent
 {
     public class SettingsComponent : TabComponent
     {
-        public SettingsComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
+        public SettingsComponent(UserControlVM binding, AppControl appControl, string iconPath) : base (binding, appControl, iconPath)
         {
         }
 

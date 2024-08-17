@@ -8,6 +8,6 @@ namespace KTSF.Components.CommonComponents.SearchComponent
 {
     public interface ITranslationSearchComponent
     {
-        public string Placeholder { get; } 
+        public string Placeholder { get; }    
     }
 }

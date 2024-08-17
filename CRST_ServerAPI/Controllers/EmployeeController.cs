@@ -8,6 +8,7 @@ namespace CRST_ServerAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class EmployeeController : ControllerBase
     {
 
