@@ -12,6 +12,7 @@ using KTSF.Core;
 using KTSF.Persistence;
 namespace CRST_ServerAPI.Controllers
 {
+
     [ApiController]
     [Route("[controller]")]
     public class AuthController : ControllerBase

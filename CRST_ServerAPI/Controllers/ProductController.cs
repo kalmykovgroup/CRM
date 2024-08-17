@@ -69,6 +69,7 @@ namespace CRST_ServerAPI.Controllers
         }
 
 
+
         [HttpGet("GetProducts")]
         public async Task<IActionResult> GetProducts(int page)
         {

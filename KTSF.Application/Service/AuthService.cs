@@ -14,6 +14,7 @@ namespace KTSF.Application.Service
        }
 
 
+
         /*  public Task<Microsoft.Exchange.WebServices.Data.ServiceResponse<int>> Register(User user, string password)
           {
               CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);

@@ -34,6 +34,7 @@ namespace KTSF.Db
             BaseAddress = new Uri("https://localhost:7286")
         };
 
+
         public static JsonSerializerOptions options = new JsonSerializerOptions
         {
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,

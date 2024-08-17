@@ -42,6 +42,7 @@ namespace KTSF.Application.Service
 
 
 
+
         // поиск по EMAIL
         public async Task<Result<Employee>> GetByEmail(string email)
         {
