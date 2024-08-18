@@ -278,7 +278,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                 IsCounterPages = false;
 
             Products.Clear();
-            (int countPages, List<Product> products) = await AppControl.Server.GetProducts(CurrentPage.Page);
+            List<Product> products = await AppControl.Server.GetProducts(CurrentPage.Page);
 
             foreach (Product product in products)
             {
