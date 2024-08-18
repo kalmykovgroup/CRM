@@ -10,7 +10,7 @@ namespace CRST_ServerAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;

@@ -123,7 +123,7 @@ namespace KTSF.Persistence {
                         {
                             Id = 1,
                             Email = "tester@mail.ru",
-                            Phone = "+7111111111",
+                            PhoneNumber = "+7111111111",
                             PasswordHash = "tester",
                             AccessToken = "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ",
                             Name = "tester",

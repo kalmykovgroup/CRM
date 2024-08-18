@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
-using CSharpFunctionalExtensions.ValueTasks; 
+using CSharpFunctionalExtensions.ValueTasks;
+using KTSF.Application.Interfaces.Auth;
 using KTSF.Core;
 using KTSF.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace KTSF.Application.Service
     public class UsersService
     {
       
+        public IPasswordHasher passwordHasher;
 
         private AppDbContext dbContext;
 
@@ -84,7 +86,7 @@ namespace KTSF.Application.Service
 
                 us.Id = user.Id;
                 us.Email = user.Email;
-                us.Phone = user.Phone;
+                us.PhoneNumber = user.PhoneNumber;
                 us.PasswordHash = user.PasswordHash;
                 us.AccessToken = user.AccessToken;
                 us.Name = user.Name;
