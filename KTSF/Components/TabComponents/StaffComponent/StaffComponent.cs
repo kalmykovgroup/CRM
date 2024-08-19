@@ -63,6 +63,10 @@ namespace KTSF.Components.TabComponents.StaffComponent
             CreateEmployeeLists();
 
             List<Appointment>? appointments = await AppControl.Server.GetAllAppointment();
+
+            if (appointments == null)
+                return;
+
             foreach(Appointment appointment in appointments)
             {
                 EmployeeVM.Appointments.Add(appointment);
@@ -191,6 +195,9 @@ namespace KTSF.Components.TabComponents.StaffComponent
             FiredEmployees.Clear();
             QualifyingEmployees.Clear();
             NotEmployedEmployees.Clear();
+
+            if (employees == null)
+                return; 
 
             foreach (Employee employee in employees)
             {

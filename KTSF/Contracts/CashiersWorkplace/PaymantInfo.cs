@@ -14,27 +14,16 @@ public enum PaymentMethod {
     Mixed
 }
 
-public partial class PaymentInfo: ObservableObject {
+public partial class PaymentInfo : ObservableObject {
 
-    public double CashAmount { get; set; }
-    public double CardAmount { get; set; }
+    [ObservableProperty] public double cashAmount;
+    [ObservableProperty] public double cardAmount;
 
     private PaymentMethod paymentMethod;
 
-    
     public PaymentMethod PaymentMethod {
-        get {
-            //if (CashAmount > 0 && CardAmount > 0)
-            //    return PaymentMethod.Mixed;
-            //else if (CashAmount > 0)
-            //    return PaymentMethod.Cash;
-            //else if (CardAmount > 0)
-            //    return PaymentMethod.Card;
-            //else
-            //    return PaymentMethod.None;
-            return paymentMethod;
-        }
-        set { SetProperty(ref paymentMethod, value); }
+        get { return paymentMethod; }
+        set { paymentMethod = value; }
     }
 
     public PaymentInfo (double cashAmount, double cardAmount) {

@@ -68,6 +68,9 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         
             FirstPage? firstPage = await AppControl.Server.GetFirstPage();
 
+            if (firstPage == null)
+                return;
+
             CountPages = firstPage.pageCount; 
 
             foreach (Product product in firstPage.Products)

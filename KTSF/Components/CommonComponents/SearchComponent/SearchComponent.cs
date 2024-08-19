@@ -45,10 +45,13 @@ namespace KTSF.Components.CommonComponents.SearchComponent
             if (text.Count() > 2)
             {
                 ListSearchedProduct.Clear ();
-                List<Product> newListProduct = await AppControl.Server.SearchProducts(text);
-                if (newListProduct.Count > 0) {
+                List<Product>? newListProduct = await AppControl.Server.SearchProducts(text);
+
+                if (newListProduct == null)
+                    return;
+                else
                     IsVisibilityList = true;
-                }
+
                 foreach (Product product in newListProduct) {
                     ListSearchedProduct.Add (product);
                 }

@@ -183,7 +183,7 @@ namespace KTSF.Db
         #region Product
 
         //Поиск товаров
-        public async Task<List<Product>?> SearchProducts(string text) // возвращает максимум 20 товаров
+        public async Task<List<Product>?> SearchProducts (string text) // возвращает максимум 20 товаров
         {
             /*
             using HttpResponseMessage response = await httpClient.GetAsync($"Product/SearchProduct?name={text}");
@@ -196,8 +196,33 @@ namespace KTSF.Db
             }
 
             return null;
-            */
-            List<Product>? products = await Request<List<Product>>($"Product/SearchProduct?name={text}");
+            
+            List<Product>? products = await Request<List<Product>> ($"Product/SearchProduct?name={text}");
+            return products; */
+
+            List<Product> products = new List<Product> {
+                new Product() { Name = "Product 1", Id = 1, SalePrice = 220 },
+                new Product() { Name = "Product 2", Id = 2, SalePrice = 270 },
+                new Product() { Name = "Product 3", Id = 3, SalePrice = 350 },
+                new Product() { Name = "Product 4", Id = 4, SalePrice = 860 },
+                new Product() { Name = "Product 5", Id = 5, SalePrice = 1500 },
+                new Product() { Name = "Product 6", Id = 6, SalePrice = 680 },
+                new Product() { Name = "Product 7", Id = 7, SalePrice = 590 },
+                new Product() { Name = "Product 8", Id = 8, SalePrice = 480 },
+                new Product() { Name = "Product 9", Id = 9, SalePrice = 920 },
+                new Product() { Name = "Product 10", Id = 10, SalePrice = 660 },
+                new Product() { Name = "Product 1", Id = 11, SalePrice = 550 },
+                new Product() { Name = "Product 2", Id = 12, SalePrice = 880 },
+                new Product() { Name = "Product 3", Id = 13, SalePrice = 430 },
+                new Product() { Name = "Product 4", Id = 14, SalePrice = 790 },
+                new Product() { Name = "Product 5", Id = 15, SalePrice = 1110 },
+                new Product() { Name = "Product 6", Id = 16, SalePrice = 1080 },
+                new Product() { Name = "Product 7", Id = 17, SalePrice = 540 },
+                new Product() { Name = "Product 8", Id = 18, SalePrice = 370 },
+                new Product() { Name = "Product 9", Id = 19, SalePrice = 610 },
+                new Product() { Name = "Product 10", Id = 20, SalePrice = 450 },
+            };
+
             return products;
         }
 
