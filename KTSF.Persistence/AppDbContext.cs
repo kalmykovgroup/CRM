@@ -44,8 +44,6 @@ namespace KTSF.Persistence
 
         #endregion
 
-
-
         #region PackingList
 
         //Товарная накладная
@@ -67,11 +65,11 @@ namespace KTSF.Persistence
 
         #endregion
 
-        public AppDbContext()
-        {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
-        }
+        //public AppDbContext()
+        //{
+        //    Database.EnsureDeleted();
+        //    Database.EnsureCreated();
+        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         { 
@@ -125,17 +123,18 @@ namespace KTSF.Persistence
         private User[] GetUsersDefault()
         {
             return [
-                new User()
-            {
-                Id = 1,
-                Email = "tester@mail.ru",
-                Phone = "+7111111111",
-                PasswordHash = "tester",
-                AccessToken = "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ",
-                Name = "tester",
-                Surname = "testerov",
-                Patronymic = "testerovich",
-            }];
+                        new User()
+                        {
+                            Id = 1,
+                            Email = "tester@mail.ru",
+                            Phone = "+7111111111",
+                            PasswordHash = "tester",
+                            AccessToken = "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ",
+                            Name = "tester",
+                            Surname = "testerov",
+                            Patronymic = "testerovich",
+                        }
+                ];
         }
         private Company[] GetCompaniesDefault()
         { 
@@ -222,7 +221,6 @@ namespace KTSF.Persistence
                     ApplyingDate = DateTime.Now,
                     Created_At = DateTime.Now,
                     Updated_At = DateTime.Now,
-
                 },
                 new Employee()
                 {
@@ -246,7 +244,6 @@ namespace KTSF.Persistence
                     ApplyingDate = DateTime.Now,
                     Created_At = DateTime.Now,
                     Updated_At = DateTime.Now,
-
                 },
                 new Employee()
                 {
@@ -270,7 +267,6 @@ namespace KTSF.Persistence
                     ApplyingDate = DateTime.Now,
                     Created_At = DateTime.Now,
                     Updated_At = DateTime.Now,
-
                 },
                 new Employee()
                 {
@@ -294,7 +290,6 @@ namespace KTSF.Persistence
                     ApplyingDate = DateTime.Now,
                     Created_At = DateTime.Now,
                     Updated_At = DateTime.Now,
-
                 },
                 new Employee()
                 {
@@ -318,7 +313,52 @@ namespace KTSF.Persistence
                     ApplyingDate = DateTime.Now,
                     Created_At = DateTime.Now,
                     Updated_At = DateTime.Now,
-
+                },
+                new Employee()
+                {
+                    Id = 6,
+                    ObjectId = 1,
+                    AppointmentId = 4,
+                    ASetOfRulesId = 4,
+                    EmployeeStatusId = 3,
+                    AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM",
+                    Name = "Мерлин",
+                    Surname = "Мэнсон",
+                    Patronymic = "Витальевич",
+                    PassportSeries = "1234",
+                    PassportNumber = "123456",
+                    Tin = "12345678901",
+                    Snils = "123456789012",
+                    Address = "Hell street 66/6",
+                    Phone = "+79266726545",
+                    Email = "merlin@mail.ru",
+                    Password = "tester",
+                    ApplyingDate = DateTime.Now,
+                    Created_At = DateTime.Now,
+                    Updated_At = DateTime.Now,
+                },
+                new Employee()
+                {
+                    Id = 7,
+                    ObjectId = 1,
+                    AppointmentId = 4,
+                    ASetOfRulesId = 4,
+                    EmployeeStatusId = 3,
+                    AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM",
+                    Name = "Прохор",
+                    Surname = "Шаляпин",
+                    Patronymic = "Иванович",
+                    PassportSeries = "1234",
+                    PassportNumber = "123456",
+                    Tin = "12345678901",
+                    Snils = "123456789012",
+                    Address = "Hell street 66/6",
+                    Phone = "+79266726545",
+                    Email = "prohor@mail.ru",
+                    Password = "tester",
+                    ApplyingDate = DateTime.Now,
+                    Created_At = DateTime.Now,
+                    Updated_At = DateTime.Now,
                 }
             ];
         }
@@ -344,7 +384,7 @@ namespace KTSF.Persistence
                     Name = "Пассатижи",
                     UnitId = Units[0].Id,
                     BuyPrice = 200,
-                    BuySales = 450,
+                    SalePrice = 450,
                     OldPrice = 560,
                     UpdatedAt = DateTime.Now
                 },
@@ -354,7 +394,7 @@ namespace KTSF.Persistence
                     Name = "Набор профессиональных отверток и бит DEKO SS100 с удобной подставкой (100 предметов)",
                     UnitId = Units[0].Id,
                     BuyPrice = 1109,
-                    BuySales = 2409,
+                    SalePrice = 2409,
                     OldPrice = 2750,
                     UpdatedAt = DateTime.Now
                 },
@@ -364,7 +404,7 @@ namespace KTSF.Persistence
                     Name = "Набор слесарного инстр-та в чем. 72пр. Волат (1/4\", 1/2\", 6 граней) (18530-72) (18530-72)",
                     UnitId = Units[0].Id,
                     BuyPrice = 1600,
-                    BuySales = 4932,
+                    SalePrice = 4932,
                     OldPrice = 6700,
                     UpdatedAt = DateTime.Now
                 },
@@ -374,7 +414,7 @@ namespace KTSF.Persistence
                     Name = "Дрель-шуруповерт с набором инструмента TOTAL THKTHP11282 (с 1-им АКБ, кейс, 128 предметов)",
                     UnitId = Units[0].Id,
                     BuyPrice = 1600,
-                    BuySales = 4932,
+                    SalePrice = 4932,
                     OldPrice = 6700,
                     UpdatedAt = DateTime.Now
                 },
@@ -384,7 +424,7 @@ namespace KTSF.Persistence
                     Name = "Клещи (пресс-клещи) для обжима наконечников электропроводов с сечением 0.25-8 мм2 Gross",
                     UnitId = Units[0].Id,
                     BuyPrice = 500,
-                    BuySales = 1883,
+                    SalePrice = 1883,
                     OldPrice = 2200,
                     UpdatedAt = DateTime.Now
                 },
@@ -394,7 +434,7 @@ namespace KTSF.Persistence
                     Name = "Смартфон Samsung Galaxy Z Fold6 12/256 ГБ, Dual: nano SIM + eSIM, серебристый",
                     UnitId = Units[0].Id,
                     BuyPrice = 116268,
-                    BuySales = 176268,
+                    SalePrice = 176268,
                     OldPrice = 220268,
                     UpdatedAt = DateTime.Now
                 },
@@ -404,10 +444,180 @@ namespace KTSF.Persistence
                     Name = "Перфоратор SDS+ 2.7Дж - 780Вт Makita HR2470",
                     UnitId = Units[0].Id,
                     BuyPrice = 10400,
-                    BuySales = 16460,
+                    SalePrice = 16460,
                     OldPrice = 18900,
                     UpdatedAt = DateTime.Now
-                }
+                },
+                new Product()
+                {
+                    Id = 8,
+                    Name = "Комбинированные плоскогубцы Gigant 180 мм GCP 180",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 205,
+                    SalePrice = 480,
+                    OldPrice = 590,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 9,
+                    Name = "Диэлектрические пассатижи SHTOK 1000В 180 мм",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 320,
+                    SalePrice = 650,
+                    OldPrice = 730,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 10,
+                    Name = "Мини пассатижи SHTOK 120 мм",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 130,
+                    SalePrice = 350,
+                    OldPrice = 420,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 11,
+                    Name = "Никелированные пассатижи Inforce 200мм",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 460,
+                    SalePrice = 900,
+                    OldPrice = 910,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 12,
+                    Name = "Комплект насадок с ключом-трещоткой (26 предметов) Bosch",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 1560,
+                    SalePrice = 2100,
+                    OldPrice = 2050,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 13,
+                    Name = "Набор торцевых головок SAE 3/4",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 17200,
+                    SalePrice = 26500,
+                    OldPrice = 25300,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 14,
+                    Name = "Набор инструментов STARTUL 1/4 , 1/2 6 граней 108 предметов PRO Stuttgart PRO-108S",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 3620,
+                    SalePrice = 6950,
+                    OldPrice = 6200,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 15,
+                    Name = "Набор трещоток 8100 SC 2 Zyklop 1/2 Wera WE-003645",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 52900,
+                    SalePrice = 75550,
+                    OldPrice = 72630,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 16,
+                    Name = "Раскладной ящик с инструментами для механиков IZELTAS металлический, 63 предмета, 190х420х200",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 16530,
+                    SalePrice = 25800,
+                    OldPrice = 24200,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 17,
+                    Name = "Перфоратор Ресанта П-32-1400КВ 75/3/6",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 8630,
+                    SalePrice = 10700,
+                    OldPrice = 10800,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 18,
+                    Name = "Набор двенадцатигранных торцевых головок IZELTAS 24 предмета 1114006024",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 12100,
+                    SalePrice = 16200,
+                    OldPrice = 15650,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 19,
+                    Name = "Бесщеточная дрель-шуруповерт Dewalt 18.0 В XR DCD7771D2",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 24500,
+                    SalePrice = 29900,
+                    OldPrice = 30120,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 20,
+                    Name = "Аккумуляторная дрель-шуруповерт Makita DF333DWYE",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 6350,
+                    SalePrice = 10900,
+                    OldPrice = 10800,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 21,
+                    Name = "Аккумуляторная дрель-шуруповерт Makita LXT DDF453RFE",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 17350,
+                    SalePrice = 22490,
+                    OldPrice = 21700,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 22,
+                    Name = "Дрель Makita DF0300",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 3210,
+                    SalePrice = 6490,
+                    OldPrice = 6500,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 23,
+                    Name = "Аккумуляторная бесщеточная ударная дрель-шуруповерт Bosch GSB 12V-30 06019G9120",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 11750,
+                    SalePrice = 17240,
+                    OldPrice = 16240,
+                    UpdatedAt = DateTime.Now
+                },
+                new Product()
+                {
+                    Id = 24,
+                    Name = "Перфоратор Makita HR 2810",
+                    UnitId = Units[0].Id,
+                    BuyPrice = 17640,
+                    SalePrice = 29990,
+                    OldPrice = 28750,
+                    UpdatedAt = DateTime.Now
+                },
             ];
         }
 
@@ -510,7 +720,228 @@ namespace KTSF.Persistence
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 },
-                ];
+                new ProductInformation()
+                {
+                    Id = 8,
+                    ProductId = products[7].Id,
+                    NameToPrint = "Комб. плоскогубцы Gigant 180 мм",
+                    Description = "Комбинированные плоскогубцы Gigant 180 мм GCP 180",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 9,
+                    ProductId = products[8].Id,
+                    NameToPrint = "Диэлект. пассатижи SHTOK 1000В 180 мм",
+                    Description = "Диэлектрические пассатижи SHTOK 1000В 180 мм",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 10,
+                    ProductId = products[9].Id,
+                    NameToPrint = "Мини пассатижи SHTOK 120 мм",
+                    Description = "Мини пассатижи SHTOK 120 мм",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },                
+                new ProductInformation()
+                {
+                    Id = 11,
+                    ProductId = products[10].Id,
+                    NameToPrint = "Никелиров. пассатижи Inforce 200мм",
+                    Description = "Никелированные пассатижи Inforce 200мм",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 12,
+                    ProductId = products[11].Id,
+                    NameToPrint = "Комп. насадок с кл.трещоткой Bosch",
+                    Description = "Комплект насадок с ключом-трещоткой (26 предметов) Bosch",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 13,
+                    ProductId = products[12].Id,
+                    NameToPrint = "Набор торц. головок SAE 3/4",
+                    Description = "Набор торцевых головок SAE 3/4",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 14,
+                    ProductId = products[13].Id,
+                    NameToPrint = "Наб. инстр. STARTUL 108 пред.",
+                    Description = "Набор инструментов STARTUL 1/4 , 1/2 6 граней 108 предметов PRO Stuttgart PRO-108S",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 15,
+                    ProductId = products[14].Id,
+                    NameToPrint = "Наб. трещоток Zyklop",
+                    Description = "Набор трещоток 8100 SC 2 Zyklop 1/2 Wera WE-003645",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 16,
+                    ProductId = products[15].Id,
+                    NameToPrint = "Раскл. ящик с инстр. IZELTAS метал.",
+                    Description = "Раскладной ящик с инструментами для механиков IZELTAS металлический, 63 предмета, 190х420х200",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 17,
+                    ProductId = products[16].Id,
+                    NameToPrint = "Перфоратор Ресанта П-32",
+                    Description = "Перфоратор Ресанта П-32-1400КВ 75/3/6",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 18,
+                    ProductId = products[17].Id,
+                    NameToPrint = "Наб. головок IZELTAS",
+                    Description = "Набор двенадцатигранных торцевых головок IZELTAS 24 предмета 1114006024",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 19,
+                    ProductId = products[18].Id,
+                    NameToPrint = "Бесщет. дрель-шуруповерт Dewalt",
+                    Description = "Бесщеточная дрель-шуруповерт Dewalt 18.0 В XR DCD7771D2",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 20,
+                    ProductId = products[19].Id,
+                    NameToPrint = "Аккум. дрель-шуруповерт Makita DF333DWYE",
+                    Description = "Аккумуляторная дрель-шуруповерт Makita DF333DWYE",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 21,
+                    ProductId = products[20].Id,
+                    NameToPrint = "Аккум. дрель-шуруповерт Makita LXT DDF453RFE",
+                    Description = "Аккумуляторная дрель-шуруповерт Makita LXT DDF453RFE",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 22,
+                    ProductId = products[21].Id,
+                    NameToPrint = "Дрель Makita DF0300",
+                    Description = "Дрель Makita DF0300",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 23,
+                    ProductId = products[22].Id,
+                    NameToPrint = "Аккум. бесщет. ударная дрель-шуруповерт Bosch",
+                    Description = "Аккумуляторная бесщеточная ударная дрель-шуруповерт Bosch GSB 12V-30 06019G9120",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
+                {
+                    Id = 24,
+                    ProductId = products[23].Id,
+                    NameToPrint = "Перфоратор Makita HR 2810",
+                    Description = "Перфоратор Makita HR 2810",
+                    Width = 84,
+                    Height = 214,
+                    Length = 370,
+                    Weight = 2.9,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+            ];
         }
 
         private Barcode[] GetBarcodesDefault()
@@ -581,7 +1012,143 @@ namespace KTSF.Persistence
                     Type = KTSF.Core.Product_.Type.Code128,
 
                 },
-                ];
+                new Barcode()
+                {
+                    Id = 9,
+                    ProductId = 8,
+                    Code = "barcode_8",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 10,
+                    ProductId = 9,
+                    Code = "barcode_9",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 11,
+                    ProductId = 10,
+                    Code = "barcode_10",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 12,
+                    ProductId = 11,
+                    Code = "barcode_11",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 13,
+                    ProductId = 12,
+                    Code = "barcode_12",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 14,
+                    ProductId = 13,
+                    Code = "barcode_13",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 15,
+                    ProductId = 14,
+                    Code = "barcode_14",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 16,
+                    ProductId = 15,
+                    Code = "barcode_15",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 17,
+                    ProductId = 16,
+                    Code = "barcode_16",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 18,
+                    ProductId = 17,
+                    Code = "barcode_17",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 19,
+                    ProductId = 18,
+                    Code = "barcode_18",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 20,
+                    ProductId = 19,
+                    Code = "barcode_19",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 21,
+                    ProductId = 20,
+                    Code = "barcode_20",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 22,
+                    ProductId = 21,
+                    Code = "barcode_21",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 23,
+                    ProductId = 22,
+                    Code = "barcode_22",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 24,
+                    ProductId = 23,
+                    Code = "barcode_23",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+                new Barcode()
+                {
+                    Id = 25,
+                    ProductId = 24,
+                    Code = "barcode_24",
+                    Type = KTSF.Core.Product_.Type.Code128,
+
+                },
+            ];
         }
         private Article[] GetArticlesDefault()
         {
@@ -653,7 +1220,109 @@ namespace KTSF.Persistence
                     ProductId = 7,
                     Name = "article_7",
                 },
-                ];
+                new Article()
+                {
+                    Id = 11,
+                    ProductId = 8,
+                    Name = "article_8",
+                },
+                new Article()
+                {
+                    Id = 12,
+                    ProductId = 9,
+                    Name = "article_9",
+                },
+                new Article()
+                {
+                    Id = 13,
+                    ProductId = 10,
+                    Name = "article_10",
+                },
+                new Article()
+                {
+                    Id = 14,
+                    ProductId = 11,
+                    Name = "article_11",
+                },
+                new Article()
+                {
+                    Id = 15,
+                    ProductId = 12,
+                    Name = "article_12",
+                },
+                new Article()
+                {
+                    Id = 16,
+                    ProductId = 13,
+                    Name = "article_13",
+                },
+                new Article()
+                {
+                    Id = 17,
+                    ProductId = 14,
+                    Name = "article_14",
+                },
+                new Article()
+                {
+                    Id = 18,
+                    ProductId = 15,
+                    Name = "article_15",
+                },
+                new Article()
+                {
+                    Id = 19,
+                    ProductId = 16,
+                    Name = "article_16",
+                },
+                new Article()
+                {
+                    Id = 20,
+                    ProductId = 17,
+                    Name = "article_17",
+                },
+                new Article()
+                {
+                    Id = 21,
+                    ProductId = 18,
+                    Name = "article_18",
+                },
+                new Article()
+                {
+                    Id = 22,
+                    ProductId = 19,
+                    Name = "article_19",
+                },
+                new Article()
+                {
+                    Id = 23,
+                    ProductId = 20,
+                    Name = "article_20",
+                },
+                new Article()
+                {
+                    Id = 24,
+                    ProductId = 21,
+                    Name = "article_21",
+                },
+                new Article()
+                {
+                    Id = 25,
+                    ProductId = 22,
+                    Name = "article_22",
+                },
+                new Article()
+                {
+                    Id = 26,
+                    ProductId = 23,
+                    Name = "article_23",
+                },
+                new Article()
+                {
+                    Id = 27,
+                    ProductId = 24,
+                    Name = "article_24",
+                },
+            ];
         }
 
         private Category[] GetCategoriesDefault()

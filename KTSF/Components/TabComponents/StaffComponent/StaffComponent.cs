@@ -50,9 +50,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
             foreach (Employee employee in employees) {
                 Employees.Add(employee);
-            }
-
-            
+            }            
         }      
 
         [RelayCommand]

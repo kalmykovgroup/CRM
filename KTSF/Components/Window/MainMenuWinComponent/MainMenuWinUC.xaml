@@ -34,9 +34,10 @@
 
                 <ComboBox
                     x:Name="Languege"
+                    SelectionChanged="Languege_SelectionChanged"
                     Width="100"
                     HorizontalAlignment="Right"
-                    ItemsSource="{Binding AppControl.Languages}" />
+                    ItemsSource="{Binding AppControl.LanguageControl.Select}" SelectedValue="{Binding AppControl.LanguageControl.Language}"/>
 
 
             </Grid>
@@ -68,7 +69,7 @@
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 d:Text="Nav"
-                                                Text="{Binding}" />
+                                                Text="{Binding Property.Name}" />
                                             <Border.Style>
                                                 <Style TargetType="Border">
                                                     <Style.Triggers>
@@ -121,7 +122,7 @@
                                                     Margin="10,0,0,0"
                                                     VerticalAlignment="Center"
                                                     d:Text="ComponentName"
-                                                    Text="{Binding}" />
+                                                    Text="{Binding Name}" />
                                             </Border>
                                         </ControlTemplate>
                                     </Button.Template>

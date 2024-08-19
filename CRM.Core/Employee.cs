@@ -74,6 +74,8 @@ namespace KTSF.Core
         public string Password { get; set; } = null!; // генерируется и приходит на почту
 
 
+
+
         [ForeignKey(nameof(EmployeeStatus))]
         public int EmployeeStatusId { get; set; }
         public EmployeeStatus EmployeeStatus { get; set; } = null!;
@@ -84,8 +86,26 @@ namespace KTSF.Core
             {
                 Id = this.Id,
                 ObjectId = this.ObjectId, 
+                Object = new Object()
+                {
+                    Id = this.Object.Id,
+                    Address = this.Object.Address,
+                    Name = this.Object.Name,
+                    CompanyId = this.Object.CompanyId,
+                    Company = new Company()
+                    {
+                        Id = this.Object.Company.Id,
+                        Name = this.Object.Company.Name,    
+                    }
+                },
                 AccessToken = this.AccessToken,
                 AppointmentId = this.AppointmentId,
+                Appointment = new Appointment()
+                {
+                    Id = this.Appointment.Id,
+                    Name = this.Appointment.Name,
+                    Description = this.Appointment.Description,
+                },                
                 Name = this.Name,
                 Surname = this.Surname,
                 Patronymic = this.Patronymic,
@@ -101,7 +121,12 @@ namespace KTSF.Core
                 Created_At = this.Created_At,
                 Updated_At = this.Updated_At, 
                 Password = this.Password,
-                EmployeeStatusId = this.EmployeeStatusId
+                EmployeeStatusId = this.EmployeeStatusId,
+                EmployeeStatus = new EmployeeStatus()
+                {
+                    Id = this.EmployeeStatusId,
+                    Name = this.EmployeeStatus.Name,
+                }
             };
         }
 

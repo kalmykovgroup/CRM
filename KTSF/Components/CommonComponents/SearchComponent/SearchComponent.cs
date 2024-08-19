@@ -42,10 +42,11 @@ namespace KTSF.Components.CommonComponents.SearchComponent
         public async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = ((TextBox)sender).Text;
+
             if (text.Count() > 2)
             {
                 ListSearchedProduct.Clear ();
-                List<Product> newListProduct = await AppControl.Server.SearchProducts (Search);
+                List<Product> newListProduct = await AppControl.Server.SearchProducts(text);
                 if (newListProduct.Count > 0) {
                     IsVisibilityList = true;
                 }

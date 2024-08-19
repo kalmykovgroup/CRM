@@ -7,6 +7,8 @@ using System.Windows.Controls;
 
 namespace KTSF.Components
 {
+    public enum SeparateTabMode { Off, One, Multy};
+
     public interface IComponent
     {
         public AppControl AppControl { get; }
@@ -14,6 +16,8 @@ namespace KTSF.Components
         public string? Name { get; set; }
 
         public void Show(object? parametr);
+
+        public SeparateTabMode SeparateTabMode { get; }
 
     }
 }

@@ -3,6 +3,7 @@ using CSharpFunctionalExtensions.ValueTasks;
 using KTSF.Application.Interfaces.Auth;
 using KTSF.Core;
 using KTSF.Persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace KTSF.Application.Service
             this.dbContext = dbContext;
         }
 
+
         public void Register(string username, string password)
         {
             var hashedPassword = passwordHasher.Generate(password);
@@ -31,26 +33,38 @@ namespace KTSF.Application.Service
         }
 
  
-        public Result<User> Find(int id)
+
+        // поиск по ID
+        public async Task<Result<User>> Find(int id)
         {
-            User? user = dbContext.Users.Find(id);
+            User? user = await dbContext.Users.FindAsync(id);
 
             return user != null ? Result.Success(user) : Result.Failure<User>("Not found");
         }
 
-        public Result<User[]> GetAll()
+
+        // поиск по EMAIL
+        public async Task<Result<User>> GetByEmail(string email)
         {
-            return Result.Success(dbContext.Users.ToArray());
+            User? user = await dbContext.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
+
+            return user != null ? Result.Success(user) : Result.Failure<User>("Not found");
         }
 
 
+        // получить всех USER
+        public async Task<Result<User[]>> GetAll()
+        {     
+            return Result.Success(await dbContext.Users.ToArrayAsync());
+        }
 
-        public Result<User> Create(User user)
+
+        public async Task<Result<User>> Create(User user)
         {
             dbContext.Users.Add(user);
             try
             {
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
                 return Result.Success(user);
 
             }
@@ -61,19 +75,19 @@ namespace KTSF.Application.Service
 
         }
 
-        public Result<User> Update(User user)
+
+        public async Task<Result<User>> Update(User user)
         {
             try
             {
                 dbContext.Attach(user);
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
 
                 return Result.Success(user);
             }
             catch (Exception ex) {
                 return Result.Failure<User>(ex.Message);
-            }
-       
+            }       
         }
 
     }

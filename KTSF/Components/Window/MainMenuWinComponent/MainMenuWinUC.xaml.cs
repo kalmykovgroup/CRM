@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KTSF.Core.Language;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,11 @@ namespace KTSF.Components.Window.MainMenuComponent
             DataContext = MainMenuWinComponent;
            
         }
-         
+
+        private void Languege_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainMenuWinComponent.AppControl.LanguageControl.Language = (Language)((ComboBox)sender).SelectedItem;
+        }
     }
      
 }

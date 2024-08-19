@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.Exchange.WebServices.Data;
 using Microsoft.IdentityModel.Tokens;
 using KTSF.Api.Model;
 using Microsoft.AspNetCore.Authentication;
@@ -40,6 +39,7 @@ namespace CRST_ServerAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            
             // добавление сервисов аутентификации
            /* builder.Services.AddAuthentication("Bearer")  // схема аутентификации - с помощью jwt-токенов
                 .AddJwtBearer();      // подключение аутентификации с помощью jwt-токенов*/
@@ -111,7 +111,7 @@ namespace CRST_ServerAPI
 
 
 
-            app.UseAuthentication();   // добавление middleware аутентификации
+            //app.UseAuthentication();   // добавление middleware аутентификации
 
             app.UseAuthorization(); 
             
@@ -127,10 +127,8 @@ namespace CRST_ServerAPI
             app.MapControllers();
              
 
-            app.Run();
+            app.Run();           
 
-
-           
         }
          
 

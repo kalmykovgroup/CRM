@@ -265,10 +265,9 @@
                     <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/next.png" />
                     <Button.Style>
                         <Style TargetType="Button">
-
+                            
                             <Setter Property="Visibility" Value="Visible"/>
-                            <Setter Property="IsEnabled" Value="True"/>
-
+                           
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding}" Value="{x:Null}">
                                     <Setter Property="Visibility" Value="Collapsed"/>

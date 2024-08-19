@@ -29,6 +29,11 @@ namespace CRST_ServerAPI.Controllers
             _authRepo = authRepository;
         }*/
 
+        //public AuthController(IAuthRepository authRepository)
+        //{
+        //    _authRepo = authRepository;
+        //}
+
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))

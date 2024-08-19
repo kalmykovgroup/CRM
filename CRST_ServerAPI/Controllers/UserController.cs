@@ -6,6 +6,11 @@ using KTSF.Core.Product_;
 using KTSF.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.FileSystemGlobbing;
+using MySql.Data.MySqlClient;
+using System.Data;
+using System.Text;
 
 namespace CRST_ServerAPI.Controllers
 {
@@ -25,60 +30,69 @@ namespace CRST_ServerAPI.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult Find(int id)
+        public async Task<IActionResult> Find(int id)
         {
-
-            Result<User> result = usersService.Find(id);
+            Result<User> result = await usersService.Find(id);
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
-
             result.TryGetError(out string? error);
 
             return NotFound(error);
-
         }
 
-        [HttpGet("all")]
-        public IActionResult GetAll()
+
+        [HttpGet("GetByEmail")]
+        public async Task<IActionResult> GetByEmail(string email)
         {
-            return Ok(usersService.GetAll());
+            Result<User?> result = await usersService.GetByEmail(email);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            result.TryGetError(out string? error);
+            return NotFound(error);
+        }
+
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            Result<User[]> result = await usersService.GetAll();
+            return Ok(result.Value);
         }
 
 
         [HttpPost]
         [Route("insert")]
-        public IActionResult Insert(User user)
+        public async Task<IActionResult> Insert(User user)
         {
-            Result<User> result = usersService.Create(user);
+            Result<User> result = await usersService.Create(user);
 
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
-
             result.TryGetError(out string? error);
-
             return NotFound(error);
         }
 
+
         [HttpPost]
         [Route("update")]
-        public IActionResult Update(User user)
+        public async Task<IActionResult> Update(User user)
         {
-            Result<User> result = usersService.Update(user);
+            Result<User> result = await usersService.Update(user);
 
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
-
             result.TryGetError(out string? error);
-
             return NotFound(error);
         }
     }
