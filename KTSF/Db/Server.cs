@@ -19,6 +19,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -73,12 +74,12 @@ namespace KTSF.Db
             catch (HttpRequestException ex)
             {
                 if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
+                {                   
                     // обработка не авторизованных 
                 }
                 else
                 {
-                    // обработка серверных ошибок
+                    MessageBox.Show("The server is not responding");                    
                 }
             }
             return null;
@@ -196,6 +197,7 @@ namespace KTSF.Db
 
             return null;
             */
+
             List<Product>? products = await Request<List<Product>>($"Product/SearchProduct?name={text}");
             return products;
         }
@@ -221,9 +223,8 @@ namespace KTSF.Db
             }
             */
 
-            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");     
-
-            return products;            
+            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");
+            return products;          
         }
 
         // первая страница продуктов и общее количество продуктов
@@ -304,11 +305,10 @@ namespace KTSF.Db
             }
 
             return (countPage, resultProducts);
-            */        
+            */
 
             FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
-                
-            return firstPage;   
+            return firstPage;
         }
 
         // ????? WTF  Откуда их брать?

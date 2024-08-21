@@ -23,16 +23,20 @@ namespace KTSF.Application.Service
 
 
 
-
-
         // создание 
         public async Task<Result<ASetOfRules>> Insert(ASetOfRules setOfRules)
         {
-            dbContext.ASetOfRules.Add(setOfRules);
+            ASetOfRules rules = new ASetOfRules();
+
+            rules.Id = setOfRules.Id;
+            rules.Name = setOfRules.Name;
+            rules.Description = setOfRules.Description;
+
+            dbContext.ASetOfRules.Add(rules);
             try
             {
                 await dbContext.SaveChangesAsync();
-                return Result.Success(setOfRules);
+                return Result.Success(rules);
             }
             catch (Exception ex)
             {

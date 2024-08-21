@@ -3,13 +3,14 @@ using KTSF.Application.Service;
 using KTSF.Core;
 using KTSF.Core.Product_;
 using KTSF.Dto.Product_;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace CRST_ServerAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]")] 
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
