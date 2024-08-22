@@ -52,7 +52,7 @@ namespace KTSF.Application.Service
 
             us.Id = user.Id;
             us.Email = user.Email;
-            us.Phone = user.Phone;
+            us.PhoneNumber = user.PhoneNumber;
             us.PasswordHash = user.PasswordHash;
             us.AccessToken = user.AccessToken;
             us.Name = user.Name;

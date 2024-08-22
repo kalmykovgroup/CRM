@@ -102,8 +102,10 @@ namespace KTSF.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    Phone = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    PasswordHash = table.Column<string>(type: "longtext", nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     AccessToken = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false),
                     Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     Surname = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
@@ -144,7 +146,7 @@ namespace KTSF.Persistence.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     BuyPrice = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    BuySales = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    SalePrice = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     OldPrice = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UnitId = table.Column<int>(type: "int", nullable: false)
@@ -206,15 +208,14 @@ namespace KTSF.Persistence.Migrations
                 name: "barcodes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
                     Code = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_barcodes", x => x.Id);
+                    table.PrimaryKey("PK_barcodes", x => x.Code);
                     table.ForeignKey(
                         name: "FK_barcodes_products_ProductId",
                         column: x => x.ProductId,
@@ -309,7 +310,8 @@ namespace KTSF.Persistence.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Cost = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ProductInformationId = table.Column<int>(type: "int", nullable: true)
+                    ProductInformationIp = table.Column<int>(type: "int", nullable: false),
+                    ProductInformationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -318,7 +320,8 @@ namespace KTSF.Persistence.Migrations
                         name: "FK_prices_product_informations_ProductInformationId",
                         column: x => x.ProductInformationId,
                         principalTable: "product_informations",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -552,8 +555,8 @@ namespace KTSF.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "users",
-                columns: new[] { "Id", "AccessToken", "Email", "Name", "PasswordHash", "Patronymic", "PhoneNumber", "Surname" },
-                values: new object[] { 1, "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ", "tester@mail.ru", "tester", "tester", "testerovich", "+7111111111", "testerov" });
+                columns: new[] { "Id", "AccessToken", "Email", "EmailConfirmed", "Name", "PasswordHash", "Patronymic", "PhoneNumber", "PhoneNumberConfirmed", "Surname" },
+                values: new object[] { 1, "", "tester@mail.ru", false, "tester", "$2a$11$fDnrWaI/aPl8oIic6Pq4ZuSUNI1AkSJLjPa4gbPmkfjj6/pvtKKdS", "testerovich", "+7111111111", false, "testerov" });
 
             migrationBuilder.InsertData(
                 table: "categories",
@@ -571,16 +574,33 @@ namespace KTSF.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "products",
-                columns: new[] { "Id", "BuyPrice", "BuySales", "Name", "OldPrice", "UnitId", "UpdatedAt" },
+                columns: new[] { "Id", "BuyPrice", "Name", "OldPrice", "SalePrice", "UnitId", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, 200ul, 450ul, "Пассатижи", 560ul, 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9605) },
-                    { 2, 1109ul, 2409ul, "Набор профессиональных отверток и бит DEKO SS100 с удобной подставкой (100 предметов)", 2750ul, 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9609) },
-                    { 3, 1600ul, 4932ul, "Набор слесарного инстр-та в чем. 72пр. Волат (1/4\", 1/2\", 6 граней) (18530-72) (18530-72)", 6700ul, 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9611) },
-                    { 4, 1600ul, 4932ul, "Дрель-шуруповерт с набором инструмента TOTAL THKTHP11282 (с 1-им АКБ, кейс, 128 предметов)", 6700ul, 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9613) },
-                    { 5, 500ul, 1883ul, "Клещи (пресс-клещи) для обжима наконечников электропроводов с сечением 0.25-8 мм2 Gross", 2200ul, 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9615) },
-                    { 6, 116268ul, 176268ul, "Смартфон Samsung Galaxy Z Fold6 12/256 ГБ, Dual: nano SIM + eSIM, серебристый", 220268ul, 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9617) },
-                    { 7, 10400ul, 16460ul, "Перфоратор SDS+ 2.7Дж - 780Вт Makita HR2470", 18900ul, 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9619) }
+                    { 1, 200ul, "Пассатижи", 560ul, 450ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9068) },
+                    { 2, 1109ul, "Набор профессиональных отверток и бит DEKO SS100 с удобной подставкой (100 предметов)", 2750ul, 2409ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9070) },
+                    { 3, 1600ul, "Набор слесарного инстр-та в чем. 72пр. Волат (1/4\", 1/2\", 6 граней) (18530-72) (18530-72)", 6700ul, 4932ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9073) },
+                    { 4, 1600ul, "Дрель-шуруповерт с набором инструмента TOTAL THKTHP11282 (с 1-им АКБ, кейс, 128 предметов)", 6700ul, 4932ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9074) },
+                    { 5, 500ul, "Клещи (пресс-клещи) для обжима наконечников электропроводов с сечением 0.25-8 мм2 Gross", 2200ul, 1883ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9076) },
+                    { 6, 116268ul, "Смартфон Samsung Galaxy Z Fold6 12/256 ГБ, Dual: nano SIM + eSIM, серебристый", 220268ul, 176268ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9078) },
+                    { 7, 10400ul, "Перфоратор SDS+ 2.7Дж - 780Вт Makita HR2470", 18900ul, 16460ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9084) },
+                    { 8, 205ul, "Комбинированные плоскогубцы Gigant 180 мм GCP 180", 590ul, 480ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9086) },
+                    { 9, 320ul, "Диэлектрические пассатижи SHTOK 1000В 180 мм", 730ul, 650ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9091) },
+                    { 10, 130ul, "Мини пассатижи SHTOK 120 мм", 420ul, 350ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9099) },
+                    { 11, 460ul, "Никелированные пассатижи Inforce 200мм", 910ul, 900ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9100) },
+                    { 12, 1560ul, "Комплект насадок с ключом-трещоткой (26 предметов) Bosch", 2050ul, 2100ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9102) },
+                    { 13, 17200ul, "Набор торцевых головок SAE 3/4", 25300ul, 26500ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9104) },
+                    { 14, 3620ul, "Набор инструментов STARTUL 1/4 , 1/2 6 граней 108 предметов PRO Stuttgart PRO-108S", 6200ul, 6950ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9105) },
+                    { 15, 52900ul, "Набор трещоток 8100 SC 2 Zyklop 1/2 Wera WE-003645", 72630ul, 75550ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9107) },
+                    { 16, 16530ul, "Раскладной ящик с инструментами для механиков IZELTAS металлический, 63 предмета, 190х420х200", 24200ul, 25800ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9108) },
+                    { 17, 8630ul, "Перфоратор Ресанта П-32-1400КВ 75/3/6", 10800ul, 10700ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9110) },
+                    { 18, 12100ul, "Набор двенадцатигранных торцевых головок IZELTAS 24 предмета 1114006024", 15650ul, 16200ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9112) },
+                    { 19, 24500ul, "Бесщеточная дрель-шуруповерт Dewalt 18.0 В XR DCD7771D2", 30120ul, 29900ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9113) },
+                    { 20, 6350ul, "Аккумуляторная дрель-шуруповерт Makita DF333DWYE", 10800ul, 10900ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9115) },
+                    { 21, 17350ul, "Аккумуляторная дрель-шуруповерт Makita LXT DDF453RFE", 21700ul, 22490ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9116) },
+                    { 22, 3210ul, "Дрель Makita DF0300", 6500ul, 6490ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9118) },
+                    { 23, 11750ul, "Аккумуляторная бесщеточная ударная дрель-шуруповерт Bosch GSB 12V-30 06019G9120", 16240ul, 17240ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9120) },
+                    { 24, 17640ul, "Перфоратор Makita HR 2810", 28750ul, 29990ul, 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9121) }
                 });
 
             migrationBuilder.InsertData(
@@ -589,30 +609,64 @@ namespace KTSF.Persistence.Migrations
                 values: new object[,]
                 {
                     { "article_1", 1, 1 },
+                    { "article_10", 13, 10 },
+                    { "article_11", 14, 11 },
+                    { "article_12", 15, 12 },
+                    { "article_13", 16, 13 },
+                    { "article_14", 17, 14 },
+                    { "article_15", 18, 15 },
+                    { "article_16", 19, 16 },
+                    { "article_17", 20, 17 },
+                    { "article_18", 21, 18 },
+                    { "article_19", 22, 19 },
                     { "article_2", 2, 2 },
                     { "article_2.1", 3, 2 },
+                    { "article_20", 23, 20 },
+                    { "article_21", 24, 21 },
+                    { "article_22", 25, 22 },
+                    { "article_23", 26, 23 },
+                    { "article_24", 27, 24 },
                     { "article_3", 4, 3 },
                     { "article_4", 5, 4 },
                     { "article_4.1", 6, 4 },
                     { "article_4.2", 7, 4 },
                     { "article_5", 8, 5 },
                     { "article_6", 9, 6 },
-                    { "article_7", 10, 7 }
+                    { "article_7", 10, 7 },
+                    { "article_8", 11, 8 },
+                    { "article_9", 12, 9 }
                 });
 
             migrationBuilder.InsertData(
                 table: "barcodes",
-                columns: new[] { "Id", "Code", "ProductId", "Type" },
+                columns: new[] { "Code", "Id", "ProductId", "Type" },
                 values: new object[,]
                 {
-                    { 1, "barcode_1", 1, 31 },
-                    { 2, "barcode_2", 2, 31 },
-                    { 3, "barcode_3", 3, 31 },
-                    { 4, "barcode_4", 4, 31 },
-                    { 5, "barcode_5", 5, 31 },
-                    { 6, "barcode_6", 6, 31 },
-                    { 7, "barcode_7", 7, 31 },
-                    { 8, "barcode_7.1", 7, 31 }
+                    { "barcode_1", 1, 1, 31 },
+                    { "barcode_10", 11, 10, 31 },
+                    { "barcode_11", 12, 11, 31 },
+                    { "barcode_12", 13, 12, 31 },
+                    { "barcode_13", 14, 13, 31 },
+                    { "barcode_14", 15, 14, 31 },
+                    { "barcode_15", 16, 15, 31 },
+                    { "barcode_16", 17, 16, 31 },
+                    { "barcode_17", 18, 17, 31 },
+                    { "barcode_18", 19, 18, 31 },
+                    { "barcode_19", 20, 19, 31 },
+                    { "barcode_2", 2, 2, 31 },
+                    { "barcode_20", 21, 20, 31 },
+                    { "barcode_21", 22, 21, 31 },
+                    { "barcode_22", 23, 22, 31 },
+                    { "barcode_23", 24, 23, 31 },
+                    { "barcode_24", 25, 24, 31 },
+                    { "barcode_3", 3, 3, 31 },
+                    { "barcode_4", 4, 4, 31 },
+                    { "barcode_5", 5, 5, 31 },
+                    { "barcode_6", 6, 6, 31 },
+                    { "barcode_7", 7, 7, 31 },
+                    { "barcode_7.1", 8, 7, 31 },
+                    { "barcode_8", 9, 8, 31 },
+                    { "barcode_9", 10, 9, 31 }
                 });
 
             migrationBuilder.InsertData(
@@ -630,13 +684,30 @@ namespace KTSF.Persistence.Migrations
                 columns: new[] { "Id", "CreatedAt", "Description", "Height", "Length", "NameToPrint", "ProductId", "UpdatedAt", "Weight", "Width" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9656), "Пассатижи эконом класса", 25, 50, "Пассатижи", 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9656), 0.10000000000000001, 150 },
-                    { 2, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9659), "Набор профессиональных отверток и бит DEKO SS100 с удобной подставкой (100 предметов).", 315, 143, "Набор проф. отверток DEKO SS100", 2, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9660), 2.75, 275 },
-                    { 3, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9662), "Набор инструментов 1/4\", 1/2\" 6 граней 72 предмета волат (18530-72) - многофункциональный набор предназначен для ремонта и обслуживания автомобиля, а также для выполнения других слесарных работ. Рабочие части изготовлены из инструментальной стали. Покрытие сатинированное. Профиль головок шестигранный. Кейс из прочного противоударного пластика, с металлическими замками.", 300, 70, "Набор слесарного инстр-та 72пр.", 3, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9662), 7.3799999999999999, 300 },
-                    { 4, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9668), "Комплектация набора подобрана так, что домашний мастер закроет все бытовые вопросы, связанные с ремонтом и благоустройством, сборкой/разборкой мебели, монтажа/демонтажа", 300, 70, "Дрель-шуруповерт (с 1-им АКБ, кейс, 128 предметов)", 4, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9668), 1.3, 300 },
-                    { 5, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9670), "Пресс-клещи Gross 17724 используются для обжима наконечников электропроводов с сечением 0,25-8 м2. Позволяют добиться качественного соединения проводов при подключении бытовых приборов и электрооборудования. Клещи с автозажимом значительно повышают скорость работы, пригодятся в быту и профессиональной сфере. Преимущества 6-ступенчатая регулировка усилия сжатия позволяет выбрать оптимальный режим для работы с различными проводами. Двухкомпонентные рельефные рукоятки повышают удобство работы, обеспечивая надежный хват без риска проскальзывания инструмента. За счет функции авторазжима не нужно прикладывать усилия для раскрытия рабочих частей. Клещи упакованы в слайд карту для практичного хранения и транспортировк", 180, 3, "Клещи Gross", 5, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9670), 0.29999999999999999, 100 },
-                    { 6, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9672), "Сверхлегкий, тонкий дизайн\r\nТоньше и легче, идеально ложится в карман, и с еще более ярким раскрывающимся экраном, от которого захватывает дух.\r\nСамый простой способ составить сводку в заметках на складных Galaxy\r\nЗаметки со встреч и лекций всего в несколько касаний, даже в условиях многозадачности. Ассистент для заметок превращает записи в текст и организует их в заметки, создавая удобные сводки. Для всего остального пользуйтесь электронным пером пером S Pen, которое на большом экране способно творить чудеса.", 135, 10, "Смартфон Samsung Galaxy Z Fold6 12/256 ГБ, Dual: nano SIM + eSIM, серебристый", 6, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9672), 0.17999999999999999, 150 },
-                    { 7, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9674), "Три режима работы (сверление, сверление с ударом, долбление). Расцепляющая муфта для защиты инструмента и оператора при заклинивании. 40 осевых положений зубила для удобства эксплуатации. Спусковая кнопка с переменной скоростью.", 214, 370, "Перфоратор Makita HR2470", 7, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9675), 2.8999999999999999, 84 }
+                    { 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9190), "Пассатижи эконом класса", 25, 50, "Пассатижи", 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9191), 0.10000000000000001, 150 },
+                    { 2, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9193), "Набор профессиональных отверток и бит DEKO SS100 с удобной подставкой (100 предметов).", 315, 143, "Набор проф. отверток DEKO SS100", 2, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9194), 2.75, 275 },
+                    { 3, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9196), "Набор инструментов 1/4\", 1/2\" 6 граней 72 предмета волат (18530-72) - многофункциональный набор предназначен для ремонта и обслуживания автомобиля, а также для выполнения других слесарных работ. Рабочие части изготовлены из инструментальной стали. Покрытие сатинированное. Профиль головок шестигранный. Кейс из прочного противоударного пластика, с металлическими замками.", 300, 70, "Набор слесарного инстр-та 72пр.", 3, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9196), 7.3799999999999999, 300 },
+                    { 4, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9198), "Комплектация набора подобрана так, что домашний мастер закроет все бытовые вопросы, связанные с ремонтом и благоустройством, сборкой/разборкой мебели, монтажа/демонтажа", 300, 70, "Дрель-шуруповерт (с 1-им АКБ, кейс, 128 предметов)", 4, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9199), 1.3, 300 },
+                    { 5, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9200), "Пресс-клещи Gross 17724 используются для обжима наконечников электропроводов с сечением 0,25-8 м2. Позволяют добиться качественного соединения проводов при подключении бытовых приборов и электрооборудования. Клещи с автозажимом значительно повышают скорость работы, пригодятся в быту и профессиональной сфере. Преимущества 6-ступенчатая регулировка усилия сжатия позволяет выбрать оптимальный режим для работы с различными проводами. Двухкомпонентные рельефные рукоятки повышают удобство работы, обеспечивая надежный хват без риска проскальзывания инструмента. За счет функции авторазжима не нужно прикладывать усилия для раскрытия рабочих частей. Клещи упакованы в слайд карту для практичного хранения и транспортировк", 180, 3, "Клещи Gross", 5, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9201), 0.29999999999999999, 100 },
+                    { 6, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9203), "Сверхлегкий, тонкий дизайн\r\nТоньше и легче, идеально ложится в карман, и с еще более ярким раскрывающимся экраном, от которого захватывает дух.\r\nСамый простой способ составить сводку в заметках на складных Galaxy\r\nЗаметки со встреч и лекций всего в несколько касаний, даже в условиях многозадачности. Ассистент для заметок превращает записи в текст и организует их в заметки, создавая удобные сводки. Для всего остального пользуйтесь электронным пером пером S Pen, которое на большом экране способно творить чудеса.", 135, 10, "Смартфон Samsung Galaxy Z Fold6 12/256 ГБ, Dual: nano SIM + eSIM, серебристый", 6, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9204), 0.17999999999999999, 150 },
+                    { 7, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9206), "Три режима работы (сверление, сверление с ударом, долбление). Расцепляющая муфта для защиты инструмента и оператора при заклинивании. 40 осевых положений зубила для удобства эксплуатации. Спусковая кнопка с переменной скоростью.", 214, 370, "Перфоратор Makita HR2470", 7, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9206), 2.8999999999999999, 84 },
+                    { 8, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9208), "Комбинированные плоскогубцы Gigant 180 мм GCP 180", 214, 370, "Комб. плоскогубцы Gigant 180 мм", 8, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9208), 2.8999999999999999, 84 },
+                    { 9, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9210), "Диэлектрические пассатижи SHTOK 1000В 180 мм", 214, 370, "Диэлект. пассатижи SHTOK 1000В 180 мм", 9, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9210), 2.8999999999999999, 84 },
+                    { 10, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9212), "Мини пассатижи SHTOK 120 мм", 214, 370, "Мини пассатижи SHTOK 120 мм", 10, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9212), 2.8999999999999999, 84 },
+                    { 11, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9218), "Никелированные пассатижи Inforce 200мм", 214, 370, "Никелиров. пассатижи Inforce 200мм", 11, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9218), 2.8999999999999999, 84 },
+                    { 12, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9220), "Комплект насадок с ключом-трещоткой (26 предметов) Bosch", 214, 370, "Комп. насадок с кл.трещоткой Bosch", 12, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9220), 2.8999999999999999, 84 },
+                    { 13, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9222), "Набор торцевых головок SAE 3/4", 214, 370, "Набор торц. головок SAE 3/4", 13, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9223), 2.8999999999999999, 84 },
+                    { 14, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9224), "Набор инструментов STARTUL 1/4 , 1/2 6 граней 108 предметов PRO Stuttgart PRO-108S", 214, 370, "Наб. инстр. STARTUL 108 пред.", 14, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9225), 2.8999999999999999, 84 },
+                    { 15, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9226), "Набор трещоток 8100 SC 2 Zyklop 1/2 Wera WE-003645", 214, 370, "Наб. трещоток Zyklop", 15, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9227), 2.8999999999999999, 84 },
+                    { 16, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9229), "Раскладной ящик с инструментами для механиков IZELTAS металлический, 63 предмета, 190х420х200", 214, 370, "Раскл. ящик с инстр. IZELTAS метал.", 16, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9229), 2.8999999999999999, 84 },
+                    { 17, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9231), "Перфоратор Ресанта П-32-1400КВ 75/3/6", 214, 370, "Перфоратор Ресанта П-32", 17, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9231), 2.8999999999999999, 84 },
+                    { 18, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9233), "Набор двенадцатигранных торцевых головок IZELTAS 24 предмета 1114006024", 214, 370, "Наб. головок IZELTAS", 18, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9233), 2.8999999999999999, 84 },
+                    { 19, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9235), "Бесщеточная дрель-шуруповерт Dewalt 18.0 В XR DCD7771D2", 214, 370, "Бесщет. дрель-шуруповерт Dewalt", 19, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9235), 2.8999999999999999, 84 },
+                    { 20, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9238), "Аккумуляторная дрель-шуруповерт Makita DF333DWYE", 214, 370, "Аккум. дрель-шуруповерт Makita DF333DWYE", 20, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9238), 2.8999999999999999, 84 },
+                    { 21, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9240), "Аккумуляторная дрель-шуруповерт Makita LXT DDF453RFE", 214, 370, "Аккум. дрель-шуруповерт Makita LXT DDF453RFE", 21, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9240), 2.8999999999999999, 84 },
+                    { 22, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9242), "Дрель Makita DF0300", 214, 370, "Дрель Makita DF0300", 22, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9242), 2.8999999999999999, 84 },
+                    { 23, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9244), "Аккумуляторная бесщеточная ударная дрель-шуруповерт Bosch GSB 12V-30 06019G9120", 214, 370, "Аккум. бесщет. ударная дрель-шуруповерт Bosch", 23, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9244), 2.8999999999999999, 84 },
+                    { 24, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9246), "Перфоратор Makita HR 2810", 214, 370, "Перфоратор Makita HR 2810", 24, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9247), 2.8999999999999999, 84 }
                 });
 
             migrationBuilder.InsertData(
@@ -654,14 +725,16 @@ namespace KTSF.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "employees",
-                columns: new[] { "Id", "ASetOfRulesId", "AccessToken", "Address", "ApplyingDate", "AppointmentId", "Created_At", "Email", "EmployeeStatusId", "LayoffDate", "Name", "ObjectId", "PassportNumber", "PassportSeries", "Password", "Patronymic", "PhoneNumber", "Snils", "Surname", "Tin", "Updated_At" },
+                columns: new[] { "Id", "ASetOfRulesId", "AccessToken", "Address", "ApplyingDate", "AppointmentId", "Created_At", "Email", "EmployeeStatusId", "LayoffDate", "Name", "ObjectId", "PassportNumber", "PassportSeries", "Password", "Patronymic", "Phone", "Snils", "Surname", "Tin", "Updated_At" },
                 values: new object[,]
                 {
-                    { 1, 1, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEifQ.GQm1j57RyZMHdwsolLnzhoB9A49mC0KusQBpHS9_-kQ", "Красная прощать 4", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9471), 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9483), "admin@mail.ru", 1, null, "Иван", 1, "123456", "1234", "tester", "Алексеевич", "+79260128187", "123456789012", "Калмыков", "12345678901", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9484) },
-                    { 2, 2, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIifQ.cbpuaPB0oVEkmkgFvfQUcaRb58xRn5zlClDroWd75JA", "Арбатская 6", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9487), 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9487), "admin2@mail.ru", 1, null, "Артур", 1, "123456", "1234", "tester", "Игоревич", "+79260125434", "123456789012", "Соколов", "12345678901", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9487) },
-                    { 3, 3, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMifQ.n0AxopvGMqJUdvyuXVuBZOurMD2Tiah-EqFi-a-lR6E", "Шевченко 4", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9491), 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9491), "admin3@mail.ru", 1, null, "Александр", 1, "123456", "1234", "tester", "Владимирович", "+79267654356", "123456789012", "Трунин", "12345678901", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9491) },
-                    { 4, 4, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQifQ.NiQnkH09RTP1QMiS9rbWLQ3iDJbZ2CV3RsBflk5QjXs", "Ново Павловка 16/3", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9494), 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9494), "admin4@mail.ru", 1, null, "Алексей", 1, "123456", "1234", "tester", "Александрович", "+79266455553", "123456789012", "Федосов", "12345678901", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9495) },
-                    { 5, 5, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM", "Дальний восток 13/3", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9497), 1, new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9497), "admin5@mail.ru", 1, null, "Ансар", 1, "123456", "1234", "tester", "Нуруллович", "+79266726545", "123456789012", "Агадуллин", "12345678901", new DateTime(2024, 8, 1, 17, 6, 54, 802, DateTimeKind.Local).AddTicks(9498) }
+                    { 1, 1, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEifQ.GQm1j57RyZMHdwsolLnzhoB9A49mC0KusQBpHS9_-kQ", "Красная площадь 4", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8929), 1, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8947), "admin@mail.ru", 3, null, "Иван", 1, "123456", "1234", "tester", "Алексеевич", "+79260128187", "123456789012", "Калмыков", "12345678901", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8948) },
+                    { 2, 2, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIifQ.cbpuaPB0oVEkmkgFvfQUcaRb58xRn5zlClDroWd75JA", "Арбатская 6", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8952), 2, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8952), "admin2@mail.ru", 3, null, "Артур", 1, "123456", "1234", "tester", "Игоревич", "+79260125434", "123456789012", "Соколов", "12345678901", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8953) },
+                    { 3, 3, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMifQ.n0AxopvGMqJUdvyuXVuBZOurMD2Tiah-EqFi-a-lR6E", "Шевченко 4", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8955), 6, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8956), "admin3@mail.ru", 3, null, "Александр", 1, "123456", "1234", "tester", "Владимирович", "+79267654356", "123456789012", "Трунин", "12345678901", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8956) },
+                    { 4, 4, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQifQ.NiQnkH09RTP1QMiS9rbWLQ3iDJbZ2CV3RsBflk5QjXs", "Ново Павловка 16/3", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8958), 3, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8958), "admin4@mail.ru", 3, null, "Алексей", 1, "123456", "1234", "tester", "Александрович", "+79266455553", "123456789012", "Федосов", "12345678901", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8959) },
+                    { 5, 5, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM", "Дальний восток 13/3", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8961), 4, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8961), "admin5@mail.ru", 2, null, "Ансар", 1, "123456", "1234", "tester", "Нуруллович", "+79266726545", "123456789012", "Агадуллин", "12345678901", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8962) },
+                    { 6, 4, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM", "Hell street 66/6", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8964), 5, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8964), "merlin@mail.ru", 4, null, "Мерлин", 1, "123456", "1234", "tester", "Витальевич", "+79266726545", "123456789012", "Мэнсон", "12345678901", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8964) },
+                    { 7, 4, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM", "Hell street 66/6", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8966), 6, new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8967), "prohor@mail.ru", 1, null, "Прохор", 1, "123456", "1234", "tester", "Иванович", "+79266726545", "123456789012", "Шаляпин", "12345678901", new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8967) }
                 });
 
             migrationBuilder.CreateIndex(

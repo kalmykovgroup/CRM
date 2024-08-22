@@ -12,7 +12,7 @@ namespace CRST_ServerAPI.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+
     public class AuthController : ControllerBase
     {
          
