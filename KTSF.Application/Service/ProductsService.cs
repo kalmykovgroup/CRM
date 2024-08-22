@@ -15,6 +15,7 @@ namespace KTSF.Application.Service
 {
     public class ProductsService
     {
+        private const int countProduct = 4;
         private AppDbContext dbContext;
 
         public ProductsService(AppDbContext dbContext)
@@ -119,10 +120,10 @@ namespace KTSF.Application.Service
 
             int count = await dbContext.Products.CountAsync();
 
-            result.pageCount = (double)count / 20 > (double)1 ? count / 20 + 1 : 1;
+            result.pageCount = (double)count / countProduct > (double)1 ? count / countProduct : 1;
 
             result.Products = await dbContext.Products
-                .Take(20)
+                .Take(countProduct)
                 .ToArrayAsync();
 
             return result;
@@ -132,16 +133,16 @@ namespace KTSF.Application.Service
         // получить определенную страницу с продуктами
         public async Task<Result<Product[]>> GetProducts(int page)
         {
-            int position = 0;
+            int position = (page - 1) * countProduct;
 
-            if (page != 1)
-            {
-                position = (page - 1) * 20;
-            }                   
+            //if (page != 1)
+            //{
+            //    position = page * 3;
+            //}                  
 
             var products = await dbContext.Products               
                 .Skip(position)
-                .Take(20)
+                .Take(countProduct)
                 .ToArrayAsync();            
 
             return products != null ? Result.Success(products) : Result.Failure<Product[]>("Not found");

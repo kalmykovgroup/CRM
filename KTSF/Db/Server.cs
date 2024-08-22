@@ -163,24 +163,24 @@ namespace KTSF.Db
 
         public async Task<List<Product>?> GetProducts(int page)
         {
-            /*
-            try
-            {
-                products = await httpClient.GetFromJsonAsync<List<Product>>($"Product/GetProducts?page={page}");
-                return products;
-            }
-            catch (HttpRequestException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    // обработка не авторизованных 
-                }
-                else
-                {
-                    // обработка серверных ошибок
-                }
-            }
-            */
+
+            //try
+            //{
+            //    products = await httpClient.GetFromJsonAsync<List<Product>>($"Product/GetProducts?page={page}");
+            //    return products;
+            //}
+            //catch (HttpRequestException ex)
+            //{
+            //    if (ex.StatusCode == HttpStatusCode.Unauthorized)
+            //    {
+            //        // обработка не авторизованных 
+            //    }
+            //    else
+            //    {
+            //        // обработка серверных ошибок
+            //    }
+            //}
+
 
             List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");       
 
@@ -190,86 +190,90 @@ namespace KTSF.Db
         // первая страница продуктов и общее количество продуктов
         public async Task<FirstPage?> GetFirstPage(int page = 1)
         {
-            /*
-            List<Product> products = new List<Product> {
-                new Product() { Name = "Product 1", Id = 1 },
-                new Product() { Name = "Product 2", Id = 2 },
-                new Product() { Name = "Product 3", Id = 3 },
-                new Product() { Name = "Product 4", Id = 4 },
-                new Product() { Name = "Product 5", Id = 5 },
-                new Product() { Name = "Product 6", Id = 6 },
-                new Product() { Name = "Product 7", Id = 7 },
-                new Product() { Name = "Product 8", Id = 8 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 1", Id = 1 },
-                new Product() { Name = "Product 2", Id = 2 },
-                new Product() { Name = "Product 3", Id = 3 },
-                new Product() { Name = "Product 4", Id = 4 },
-                new Product() { Name = "Product 5", Id = 5 },
-                new Product() { Name = "Product 6", Id = 6 },
-                new Product() { Name = "Product 7", Id = 7 },
-                new Product() { Name = "Product 8", Id = 8 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 1", Id = 1 },
-                new Product() { Name = "Product 2", Id = 2 },
-                new Product() { Name = "Product 3", Id = 3 },
-                new Product() { Name = "Product 4", Id = 4 },
-                new Product() { Name = "Product 5", Id = 5 },
-                new Product() { Name = "Product 6", Id = 6 },
-                new Product() { Name = "Product 7", Id = 7 },
-                new Product() { Name = "Product 8", Id = 8 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-            };
 
-            page--; // че это значит?? зачем??
+            //List<Product> products = new List<Product> {
+            //    new Product() { Name = "Product 1", Id = 1 },
+            //    new Product() { Name = "Product 2", Id = 2 },
+            //    new Product() { Name = "Product 3", Id = 3 },
+            //    new Product() { Name = "Product 4", Id = 4 },
+            //    new Product() { Name = "Product 5", Id = 5 },
+            //    new Product() { Name = "Product 6", Id = 6 },
+            //    new Product() { Name = "Product 7", Id = 7 },
+            //    new Product() { Name = "Product 8", Id = 8 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 1", Id = 1 },
+            //    new Product() { Name = "Product 2", Id = 2 },
+            //    new Product() { Name = "Product 3", Id = 3 },
+            //    new Product() { Name = "Product 4", Id = 4 },
+            //    new Product() { Name = "Product 5", Id = 5 },
+            //    new Product() { Name = "Product 6", Id = 6 },
+            //    new Product() { Name = "Product 7", Id = 7 },
+            //    new Product() { Name = "Product 8", Id = 8 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 1", Id = 1 },
+            //    new Product() { Name = "Product 2", Id = 2 },
+            //    new Product() { Name = "Product 3", Id = 3 },
+            //    new Product() { Name = "Product 4", Id = 4 },
+            //    new Product() { Name = "Product 5", Id = 5 },
+            //    new Product() { Name = "Product 6", Id = 6 },
+            //    new Product() { Name = "Product 7", Id = 7 },
+            //    new Product() { Name = "Product 8", Id = 8 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //    new Product() { Name = "Product 9", Id = 9 },
+            //    new Product() { Name = "Product 10", Id = 10 },
+            //};
 
-            int limmit = 3; // должен быть фиксированный ???
+            //page--; // че это значит?? зачем??
 
-            int countPage = (int)Math.Ceiling((double)products.Count / limmit); // приходит с сервера ???
+            //int limmit = 3; // должен быть фиксированный ???
 
-            if (page > countPage || page < 0) throw new ArgumentException();
+            //int countPage = (int)Math.Ceiling((double)products.Count / limmit); // приходит с сервера ???
 
-            List<Product> resultProducts = [];
+            //if (page > countPage || page < 0) throw new ArgumentException();
 
-            for (int i = page * limmit; i < (page * limmit + limmit) && i < products.Count; i++)
-            {
-                resultProducts.Add(products[i]);
-            }
+            //List<Product> resultProducts = [];
 
-            return (countPage, resultProducts);
-            */        
+            //for (int i = page * limmit; i < (page * limmit + limmit) && i < products.Count; i++)
+            //{
+            //    resultProducts.Add(products[i]);
+            //}
+
+            //FirstPage firstPage = new();
+            //firstPage.pageCount = countPage;
+            //firstPage.Products = resultProducts.ToArray();
+
+            //return firstPage;
+
 
             FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
-                
-            return firstPage;   
+
+            return firstPage;
         }
 
         // ????? WTF  Откуда их брать?
