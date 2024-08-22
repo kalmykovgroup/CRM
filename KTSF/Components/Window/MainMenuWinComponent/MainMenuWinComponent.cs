@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm;
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent; 
 using KTSF.Components.TabComponents.CashiersWorkplaceComponent;
@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Animation;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace KTSF.Components.Window.MainMenuComponent;
 
@@ -66,15 +67,4 @@ public partial class MainMenuWinComponent : Component {
     }
 
     public override UserControl Initial () => new MainMenuWinUC (this);
-
-    [RelayCommand]
-    public void OpenClosePane () {
-        //if (IsPaneOpen) {
-        //    RequestClosePane?.Invoke ();
-        //    IsPaneOpen = false;
-        //} else {
-        //    RequestOpenPane?.Invoke ();
-        //    IsPaneOpen = true;
-        //}
-    }
 }
