@@ -1,17 +1,17 @@
 ﻿<UserControl
+    d:DataContext="{d:DesignInstance Type=local:CashiersWorkplaceComponent}"
+    d:DesignHeight="800"
+    d:DesignWidth="1200"
+    mc:Ignorable="d"
     x:Class="KTSF.Components.TabComponents.CashiersWorkplaceComponent.CashiersWorkplaceUC"
+    x:Name="UserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:contracts="clr-namespace:KTSF.Contracts.CashiersWorkplace"
     xmlns:cv="clr-namespace:KTSF.Components.TabComponents.CashiersWorkplaceComponent.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:KTSF.Components.TabComponents.CashiersWorkplaceComponent"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Name="UserControl"
-    d:DataContext="{d:DesignInstance Type=local:CashiersWorkplaceComponent}"
-    d:DesignHeight="800"
-    d:DesignWidth="1200"
-    mc:Ignorable="d">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <UserControl.Resources>
         <cv:DiscountedTotalConverter x:Key="discountedTotalConverter" />
@@ -21,12 +21,12 @@
 
     <Grid>
         <Image
-            Width="150"
             Height="150"
             HorizontalAlignment="Center"
+            Source="ImageSource\add-product.png"
             VerticalAlignment="Center"
-            d:Visibility="Hidden"
-            Source="ImageSource\add-product.png">
+            Width="150"
+            d:IsHidden="True">
             <Image.Style>
                 <Style TargetType="Image">
                     <Setter Property="Visibility" Value="Visible" />
@@ -42,22 +42,22 @@
 
         <DockPanel>
             <Grid
+                DockPanel.Dock="Top"
                 Height="Auto"
-                Margin="0,5,5,0"
-                DockPanel.Dock="Top">
-                <ContentControl Height="30" Content="{Binding SearchComponent.Build}" />
+                Margin="0,5,5,0">
+                <ContentControl Content="{Binding SearchComponent.Build}" Height="30" />
             </Grid>
 
             <Border
-                Width="300"
-                Margin="5,5,5,5"
-                d:Visibility="Visible"
                 Background="#fff"
                 BorderBrush="#21303D"
                 BorderThickness="1"
                 CornerRadius="5"
-                DockPanel.Dock="Right">
-                <Grid d:Visibility="Visible">
+                DockPanel.Dock="Right"
+                Margin="5,5,5,5"
+                Width="300"
+                d:Visibility="Visible">
+                <Grid d:IsHidden="False">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed" />
@@ -88,16 +88,16 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock
+                            FontSize="18"
                             Grid.Column="0"
                             HorizontalAlignment="Left"
-                            FontSize="18"
                             Text="Без скидки" />
                         <TextBlock
+                            FontSize="18"
                             Grid.Column="1"
                             HorizontalAlignment="Right"
-                            d:Text="800"
-                            FontSize="18"
-                            Text="{Binding CheckList.TotalSum}" />
+                            Text="{Binding CheckList.TotalSum}"
+                            d:Text="800" />
                     </Grid>
 
 
@@ -108,16 +108,16 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock
+                            FontSize="20"
                             Grid.Column="0"
                             HorizontalAlignment="Left"
-                            FontSize="20"
                             Text="Итого" />
                         <TextBlock
+                            FontSize="24"
                             Grid.Column="1"
                             HorizontalAlignment="Right"
-                            d:Text="800"
-                            FontSize="24"
-                            Text="{Binding CheckList.TotalSum}" />
+                            Text="{Binding CheckList.TotalSum}"
+                            d:Text="800" />
                     </Grid>
 
                     <Grid Grid.Row="3" Margin="10,5">
@@ -127,14 +127,14 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock
+                            FontSize="20"
                             Grid.Column="0"
                             HorizontalAlignment="Left"
-                            FontSize="20"
                             Text="Сдача" />
                         <TextBlock
+                            FontSize="24"
                             Grid.Column="1"
                             HorizontalAlignment="Right"
-                            FontSize="24"
                             Text="{Binding CheckList.ReceiptPaymentInfo, Converter={StaticResource amountPaidConverter}}" />
                     </Grid>
 
@@ -148,18 +148,18 @@
                         </Grid.ColumnDefinitions>
 
                         <Button
+                            Command="{Binding PayCashClickCommand}"
                             Grid.Column="0"
-                            Margin="0,0,2,0"
-                            Command="{Binding PayCashClickCommand}">
+                            Margin="0,0,2,0">
                             <Button.Template>
                                 <ControlTemplate>
                                     <Border>
                                         <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            d:Text="Наличные"
                                             FontSize="16"
-                                            Text="{Binding Property.LabelBtnCash}" />
+                                            HorizontalAlignment="Center"
+                                            Text="{Binding Property.LabelBtnCash}"
+                                            VerticalAlignment="Center"
+                                            d:Text="Наличные" />
                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="BorderThickness" Value="1" />
@@ -181,11 +181,11 @@
                         </Button>
 
                         <TextBox
+                            FontSize="18"
                             Grid.Column="1"
-                            Margin="2,0,0,0"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Right"
-                            FontSize="18"
+                            Margin="2,0,0,0"
                             Text="{Binding CheckList.ReceiptPaymentInfo.CashAmount}">
                             <TextBox.Style>
                                 <Style TargetType="TextBox">
@@ -231,16 +231,16 @@
                             Content="Карта"
                             FontSize="18" />-->
 
-                        <Button Margin="0,0,2,0" Command="{Binding PayCardClickCommand}">
+                        <Button Command="{Binding PayCardClickCommand}" Margin="0,0,2,0">
                             <Button.Template>
                                 <ControlTemplate>
                                     <Border>
                                         <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            d:Text="Карта"
                                             FontSize="16"
-                                            Text="{Binding Property.LabelBtnCard}" />
+                                            HorizontalAlignment="Center"
+                                            Text="{Binding Property.LabelBtnCard}"
+                                            VerticalAlignment="Center"
+                                            d:Text="Карта" />
                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="BorderThickness" Value="1" />
@@ -263,11 +263,11 @@
 
 
                         <TextBox
+                            FontSize="18"
                             Grid.Column="1"
-                            Margin="2,0,0,0"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Right"
-                            FontSize="18"
+                            Margin="2,0,0,0"
                             Text="{Binding CheckList.ReceiptPaymentInfo.CardAmount}">
                             <TextBox.Style>
                                 <Style TargetType="TextBox">
@@ -298,11 +298,11 @@
                     </Grid>
 
                     <Button
+                        Content="Вернуться к подбору"
+                        FontSize="18"
                         Grid.Row="7"
                         Margin="10,5"
-                        Padding="5"
-                        Content="Вернуться к подбору"
-                        FontSize="18">
+                        Padding="5">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Visibility" Value="Hidden" />
@@ -316,11 +316,11 @@
                         </Button.Style>
                     </Button>
                     <Button
+                        Content="Пробить чек"
+                        FontSize="18"
                         Grid.Row="8"
                         Margin="10,5"
-                        Padding="5"
-                        Content="Пробить чек"
-                        FontSize="18">
+                        Padding="5">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Visibility" Value="Hidden" />
@@ -340,16 +340,16 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Button Margin="0,0,2,0" Command="{Binding PayCardClickCommand}">
+                        <Button Command="{Binding PayCardClickCommand}" Margin="0,0,2,0">
                             <Button.Template>
                                 <ControlTemplate>
                                     <Border>
                                         <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            d:Text="Карта"
                                             FontSize="16"
-                                            Text="{Binding Property.LabelBtnCard}" />
+                                            HorizontalAlignment="Center"
+                                            Text="{Binding Property.LabelBtnCard}"
+                                            VerticalAlignment="Center"
+                                            d:Text="Карта" />
                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="BorderThickness" Value="1" />
@@ -371,18 +371,18 @@
                         </Button>
 
                         <Button
+                            Command="{Binding PayCashClickCommand}"
                             Grid.Column="1"
-                            Margin="2,0,0,0"
-                            Command="{Binding PayCashClickCommand}">
+                            Margin="2,0,0,0">
                             <Button.Template>
                                 <ControlTemplate>
                                     <Border>
                                         <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            d:Text="Наличные"
                                             FontSize="16"
-                                            Text="{Binding Property.LabelBtnCash}" />
+                                            HorizontalAlignment="Center"
+                                            Text="{Binding Property.LabelBtnCash}"
+                                            VerticalAlignment="Center"
+                                            d:Text="Наличные" />
                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="BorderThickness" Value="1" />
@@ -418,14 +418,14 @@
                     </Grid>
 
                     <Button
-                        x:Name="PayButton"
+                        Command="{Binding ProcessPaymentCommand}"
+                        Content="{Binding CountProductText}"
+                        FontSize="18"
                         Grid.Row="8"
                         Margin="10,5"
                         Padding="5"
                         d:Content="Оплатить (Позиций: 0)"
-                        Command="{Binding ProcessPaymentCommand}"
-                        Content="{Binding CountProductText}"
-                        FontSize="18">
+                        x:Name="PayButton">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Visibility" Value="Visible" />
@@ -456,15 +456,15 @@
             </Border>
 
             <Border
-                Height="100"
-                Margin="0,5,0,0"
-                d:Visibility="Visible"
                 Background="#fff"
                 BorderBrush="#21303D"
                 BorderThickness="1"
                 CornerRadius="5"
-                DockPanel.Dock="Top">
-                <Grid d:Visibility="Visible">
+                DockPanel.Dock="Top"
+                Height="100"
+                Margin="0,5,0,0"
+                d:Visibility="Visible">
+                <Grid d:IsHidden="False">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed" />
@@ -489,31 +489,31 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock
-                        Grid.Row="0"
-                        Grid.ColumnSpan="3"
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
                         FontSize="32"
                         FontWeight="Bold"
-                        Text="{Binding SelectedProduct.Product.Name}" />
+                        Grid.ColumnSpan="3"
+                        Grid.Row="0"
+                        Margin="10,0,0,0"
+                        Text="{Binding SelectedProduct.Product.Name}"
+                        VerticalAlignment="Center" />
 
                     <Button
-                        Grid.Row="0"
                         Grid.Column="3"
+                        Grid.Row="0"
                         Height="30"
                         Margin="5"
                         Padding="4">
                         <Image
-                            Width="20"
                             Height="20"
-                            Source="ImageSource\delete.png" />
+                            Source="ImageSource\delete.png"
+                            Width="20" />
                     </Button>
 
                     <Grid
-                        Grid.Row="1"
                         Grid.Column="0"
-                        Width="90"
-                        Margin="10,5">
+                        Grid.Row="1"
+                        Margin="10,5"
+                        Width="90">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -521,38 +521,38 @@
                         </Grid.ColumnDefinitions>
 
                         <Border
-                            Grid.Column="0"
-                            Padding="2,1"
                             Background="#fff"
                             BorderBrush="#21303D"
                             BorderThickness="1"
                             ClipToBounds="True"
-                            CornerRadius="5">
+                            CornerRadius="5"
+                            Grid.Column="0"
+                            Padding="2,1">
                             <TextBox
-                                Width="70"
-                                Height="25"
-                                VerticalAlignment="Center"
-                                VerticalContentAlignment="Center"
                                 BorderThickness="0"
                                 FontSize="16"
+                                Height="25"
                                 KeyDown="textBoxCountProduct_KeyDown"
                                 Text="{Binding SelectedProduct.Price}"
-                                TextChanged="TextBoxPrice_TextChanged" />
+                                TextChanged="TextBoxPrice_TextChanged"
+                                VerticalAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Width="70" />
                         </Border>
                         <TextBlock
+                            FontSize="16"
                             Grid.Column="1"
                             Margin="5,0"
-                            VerticalAlignment="Center"
-                            FontSize="16"
                             Text="₽"
-                            TextAlignment="Center" />
+                            TextAlignment="Center"
+                            VerticalAlignment="Center" />
                     </Grid>
 
                     <Grid
-                        Grid.Row="1"
                         Grid.Column="1"
-                        Width="140"
-                        Margin="10,5">
+                        Grid.Row="1"
+                        Margin="10,5"
+                        Width="140">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -561,57 +561,57 @@
                         </Grid.ColumnDefinitions>
 
                         <Border
-                            Grid.Column="0"
-                            Width="25"
-                            Height="25"
                             Background="#759FCB"
                             BorderBrush="#21303D"
                             BorderThickness="1"
-                            CornerRadius="5">
+                            CornerRadius="5"
+                            Grid.Column="0"
+                            Height="25"
+                            Width="25">
                             <Button
-                                Padding="4"
                                 Background="Transparent"
                                 BorderThickness="0"
-                                Command="{Binding ReduceNumberCommand}">
+                                Command="{Binding ReduceNumberCommand}"
+                                Padding="4">
                                 <Image Source="ImageSource/minus.png" />
                             </Button>
                         </Border>
 
                         <Border
-                            Grid.Column="1"
-                            Width="70"
-                            Height="25"
-                            Padding="2,1"
                             Background="#fff"
                             BorderBrush="#21303D"
                             BorderThickness="1"
                             ClipToBounds="True"
-                            CornerRadius="5">
+                            CornerRadius="5"
+                            Grid.Column="1"
+                            Height="25"
+                            Padding="2,1"
+                            Width="70">
                             <TextBox
-                                x:Name="textBoxCountProduct"
-                                VerticalAlignment="Center"
-                                VerticalContentAlignment="Center"
                                 BorderThickness="0"
                                 FontSize="16"
                                 KeyDown="textBoxCountProduct_KeyDown"
                                 Text="{Binding SelectedProduct.Count}"
-                                TextChanged="TextBoxCount_TextChanged" />
+                                TextChanged="TextBoxCount_TextChanged"
+                                VerticalAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                x:Name="textBoxCountProduct" />
                         </Border>
 
                         <Border
-                            Grid.Column="2"
-                            Width="25"
-                            Height="25"
                             Background="#759FCB"
                             BorderBrush="#21303D"
                             BorderThickness="1"
-                            CornerRadius="5">
+                            CornerRadius="5"
+                            Grid.Column="2"
+                            Height="25"
+                            Width="25">
                             <Button
-                                Padding="4"
-                                VerticalAlignment="Top"
                                 Background="Transparent"
                                 BorderThickness="0"
-                                Command="{Binding IncreaseNumberCommand}">
+                                Command="{Binding IncreaseNumberCommand}"
+                                Padding="4"
+                                VerticalAlignment="Top">
                                 <Image Source="ImageSource/plus.png" />
                             </Button>
                         </Border>
@@ -636,13 +636,13 @@
             <!--  Текущий выбранный продукт  -->
 
             <Border
-                Margin="0,5,0,5"
-                d:Visibility="Visible"
                 Background="#fff"
                 BorderBrush="#21303D"
                 BorderThickness="1"
                 CornerRadius="5"
-                DockPanel.Dock="Top">
+                DockPanel.Dock="Top"
+                Margin="0,5,0,5"
+                d:IsHidden="False">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -650,9 +650,9 @@
                     </Grid.RowDefinitions>
 
                     <Border
-                        Grid.Row="0"
                         Background="#5C7FA3"
-                        CornerRadius="4 4 0 0">
+                        CornerRadius="4 4 0 0"
+                        Grid.Row="0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -661,43 +661,43 @@
                                 <ColumnDefinition Width="170" />
                             </Grid.ColumnDefinitions>
                             <TextBlock
-                                Grid.Column="0"
                                 FontSize="18"
+                                Grid.Column="0"
                                 Text="Название товара" />
                             <TextBlock
+                                FontSize="18"
                                 Grid.Column="1"
                                 HorizontalAlignment="Center"
-                                FontSize="18"
                                 Text="Цена" />
                             <TextBlock
+                                FontSize="18"
                                 Grid.Column="2"
                                 HorizontalAlignment="Center"
-                                FontSize="18"
                                 Text="Количество шт." />
                             <TextBlock
+                                FontSize="18"
                                 Grid.Column="3"
                                 HorizontalAlignment="Center"
-                                FontSize="18"
                                 Text="Общая стоймость" />
                         </Grid>
                     </Border>
 
                     <ItemsControl
                         Grid.Row="1"
-                        d:ItemsSource="{d:SampleData ItemCount=3}"
-                        ItemsSource="{Binding CheckList.BuyProducts}">
+                        ItemsSource="{Binding CheckList.BuyProducts}"
+                        d:ItemsSource="{d:SampleData ItemCount=3}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button
-                                    Height="30"
-                                    Margin="0"
-                                    Padding="0"
-                                    HorizontalContentAlignment="Stretch"
                                     BorderBrush="#3194FC"
                                     BorderThickness="0,0,0,0.5"
                                     Command="{Binding DataContext.SelectedProductFromCheckListCommand, ElementName=UserControl}"
-                                    CommandParameter="{Binding}">
-                                    <Grid Height="30" Background="#DBEDFF">
+                                    CommandParameter="{Binding}"
+                                    Height="30"
+                                    HorizontalContentAlignment="Stretch"
+                                    Margin="0"
+                                    Padding="0">
+                                    <Grid Background="#DBEDFF" Height="30">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="70" />
@@ -706,34 +706,34 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
+                                            FontSize="16"
                                             Grid.Column="0"
                                             HorizontalAlignment="Left"
+                                            Text="{Binding Product.Name}"
                                             VerticalAlignment="Center"
-                                            d:Text="Product Name"
-                                            FontSize="16"
-                                            Text="{Binding Product.Name}" />
+                                            d:Text="Product Name" />
                                         <TextBlock
+                                            FontSize="16"
                                             Grid.Column="1"
-                                            Padding="10,0"
                                             HorizontalAlignment="Right"
-                                            VerticalAlignment="Center"
-                                            FontSize="16"
-                                            Text="{Binding Price}" />
+                                            Padding="10,0"
+                                            Text="{Binding Price}"
+                                            VerticalAlignment="Center" />
                                         <TextBlock
+                                            FontSize="16"
                                             Grid.Column="2"
-                                            Padding="10,0"
                                             HorizontalAlignment="Right"
-                                            VerticalAlignment="Center"
-                                            FontSize="16"
-                                            Text="{Binding Count}" />
+                                            Padding="10,0"
+                                            Text="{Binding Count}"
+                                            VerticalAlignment="Center" />
                                         <TextBlock
-                                            Grid.Column="3"
-                                            Padding="10,0"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Center"
-                                            d:Text="3000"
                                             FontSize="16"
-                                            Text="{Binding TotalSumProduct}" />
+                                            Grid.Column="3"
+                                            HorizontalAlignment="Right"
+                                            Padding="10,0"
+                                            Text="{Binding TotalSumProduct}"
+                                            VerticalAlignment="Center"
+                                            d:Text="3000" />
                                     </Grid>
                                 </Button>
                             </DataTemplate>
