@@ -26,9 +26,9 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KTSF.Db
 {
-    public class Server 
+    public class Server
     {
-        AppControl AppControl {  get; }
+        AppControl AppControl { get; }
 
         public static HttpClient httpClient = new()
         {
@@ -43,12 +43,13 @@ namespace KTSF.Db
             WriteIndented = true
         };
 
-        public Server(AppControl appControl) { 
+        public Server(AppControl appControl)
+        {
             AppControl = appControl;
         }
 
         public async Task<bool> Connect()
-        {        
+        {
             await Task.Delay(0);
             return true;
         }
@@ -89,55 +90,55 @@ namespace KTSF.Db
         //Возвращаем список доступным компаний, обьектов и список пользователей на этих обьектах
 
         public async Task<(bool result, string? error, User? user)> Authorization(string Phone, string password)
-            {
-                await Task.Delay(0);
+        {
+            await Task.Delay(0);
 
-                if (Phone == "+79260128187" && password == "tester")
+            if (Phone == "+79260128187" && password == "tester")
+            {
+                return (true, null, new User()
                 {
-                    return (true, null, new User()
-                    {
-                        Email = "kalmykov@mail.ru",
-                        Phone = "+79260128187",
-                       // Password = "tester",
-                        AccessToken = "test-user-access-token",
-                        Name = "Иван",
-                        Surname = "Калмыков",
-                        Patronymic = "Алексеевич",
-                    });
-                }
-                else
-                {
+                    Email = "kalmykov@mail.ru",
+                    PhoneNumber = "+79260128187",
+                    // Password = "tester",
+                    AccessToken = "test-user-access-token",
+                    Name = "Иван",
+                    Surname = "Калмыков",
+                    Patronymic = "Алексеевич",
+                });
+            }
+            else
+            {
                 return (false, $"Логин или пароль не подходят {Phone}:{password}", null);
-                }
-
             }
-            public async Task<(bool result, string? error, User? user)> Authorization(string token)
+
+        }
+        public async Task<(bool result, string? error, User? user)> Authorization(string token)
+        {
+            await Task.Delay(0);
+
+            bool result = true;
+
+            if (result)
             {
-                await Task.Delay(0);
-
-                bool result = true;
-
-                if (result)
+                return (true, null, new User()
                 {
-                    return (true, null, new User()
-                    {
-                        Email = "kalmykov@mail.ru",
-                        Phone = "+79260128187",
-                      //  Password = "tester",
-                        AccessToken = "test-user-access-token",
-                        Name = "Иван",
-                        Surname = "Калмыков",
-                        Patronymic = "Алексеевич",
-                    });
-                }
-                else
-                {
-                    return (false, "token не подходит", null);
-                }
-
+                    Email = "kalmykov@mail.ru",
+                    PhoneNumber = "+79260128187",
+                    //  Password = "tester",
+                    AccessToken = "test-user-access-token",
+                    Name = "Иван",
+                    Surname = "Калмыков",
+                    Patronymic = "Алексеевич",
+                });
+            }
+            else
+            {
+                return (false, "token не подходит", null);
             }
 
-           
+        }
+
+
 
 
         public async void Authentication(Action<string> GenerateBarCode, Action<Employee> SetEmployee)
@@ -202,14 +203,14 @@ namespace KTSF.Db
         // ????? WTF  Откуда их брать?
         //Получить списанные товары 
         public async Task<List<Product>> GetDecommissionedProducts()
-        { 
+        {
             await Task.Delay(1000);
 
             List<Product> result = new List<Product> {
                 new Product() { Name = "Product 11", Id = 11 },
                 new Product() { Name = "Product 12", Id = 12 },
-                new Product() { Name = "Product 13", Id = 13 }, 
-            };             
+                new Product() { Name = "Product 13", Id = 13 },
+            };
 
             return result;
         }
@@ -234,16 +235,16 @@ namespace KTSF.Db
         {
             List<Employee>? employees = await Request<List<Employee>>("Employee/all");
             return employees;
-        }     
+        }
 
-        
+
         public async Task<(bool result, string? message, Employee copyEmployee)> UpdateEmployee(Employee employee)
-        {   
-            string tmp = JsonSerializer.Serialize(employee, options); 
-            
+        {
+            string tmp = JsonSerializer.Serialize(employee, options);
+
             HttpContent content = new StringContent(tmp);
             content.Headers.Remove("Content-Type");
-            content.Headers.Add("Content-Type", "application/json; charset=utf-8");            
+            content.Headers.Add("Content-Type", "application/json; charset=utf-8");
 
             using var response = await httpClient.PostAsJsonAsync("Employee/update", tmp);
 
@@ -267,7 +268,7 @@ namespace KTSF.Db
 
             response.EnsureSuccessStatusCode();
 
-           Employee person = await response.Content.ReadFromJsonAsync<Employee>();
+            Employee person = await response.Content.ReadFromJsonAsync<Employee>();
 
             return person;
         }
@@ -275,7 +276,7 @@ namespace KTSF.Db
 
         // ????? WTF  Откуда их брать?
         //Загрузка статистических данных о пользователи
-        public async Task<bool> GetUserStatistics(Employee user) 
+        public async Task<bool> GetUserStatistics(Employee user)
         {
             await Task.Delay(1000);
 

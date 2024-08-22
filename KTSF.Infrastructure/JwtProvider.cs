@@ -14,7 +14,7 @@ namespace KTSF.Infrastructure
         {
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.NameIdentifier, $"{user.Id}"),
-                new Claim(ClaimTypes.Name, user.Email ?? user.Phone)
+                new Claim(ClaimTypes.Name, user.Email ?? user.PhoneNumber)
             };
 
             // создаем JWT-токен

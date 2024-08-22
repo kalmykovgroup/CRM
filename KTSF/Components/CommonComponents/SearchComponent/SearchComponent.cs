@@ -27,7 +27,7 @@ namespace KTSF.Components.CommonComponents.SearchComponent
 
         public ObservableCollection<Product> ListSearchedProduct { get; } = new ObservableCollection<Product>();
 
-        [ObservableProperty] public string search = "Test product";
+        [ObservableProperty] public string search = "";
 
         public Product SelectedProduct = new Product();
 
@@ -35,8 +35,7 @@ namespace KTSF.Components.CommonComponents.SearchComponent
 
         [RelayCommand]
         public async Task SearchClick()
-        {
-            
+        { 
         }
 
         public async void TextBox_TextChanged(object sender, TextChangedEventArgs e)

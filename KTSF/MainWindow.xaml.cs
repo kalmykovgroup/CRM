@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using KTSF.Components.Window.MainMenuComponent;
+using KTSF.Core.Language;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,6 +19,7 @@ namespace KTSF
     public partial class MainWindow : Window
     {
         private AppControl AppControl { get; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,14 +39,20 @@ namespace KTSF
         }
 
         private void btnMaximize_Click (object sender, RoutedEventArgs e) {
-            if(WindowState == WindowState.Normal)
+            if(WindowState == WindowState.Normal) {
                 WindowState = WindowState.Maximized;
-            else 
+            }   
+            else {
                 WindowState = WindowState.Normal;
+            }   
         }
 
         private void btnClose_Click (object sender, RoutedEventArgs e) {
             Application.Current.Shutdown ();
+        }
+
+        private void Language_SelectionChanged (object sender, SelectionChangedEventArgs e) {
+            AppControl.LanguageControl.Language = (Language) ((ComboBox) sender).SelectedItem;
         }
     }
 }

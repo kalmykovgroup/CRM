@@ -29,54 +29,49 @@ namespace KTSF.Application.Extensions
             _authService = authService;
         }
 
-        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+
+        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            throw new NotImplementedException();
+            // skip authentication if endpoint has [AllowAnonymous] attribute
+            var endpoint = Context.GetEndpoint();
+
+            if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() != null)
+                return AuthenticateResult.NoResult();
+
+            if (!Request.Headers.ContainsKey("Authorization"))
+                return AuthenticateResult.Fail("Missing Authorization Header");
+
+            Result<User> result;
+            try
+            {
+                AuthenticationHeaderValue authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
+
+                if (authHeader == null) return AuthenticateResult.Fail("Invalid Authorization Header");
+                if (authHeader.Parameter is null) return AuthenticateResult.Fail("Invalid Authorization Parameter");
+
+                var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
+                var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
+                var username = credentials[0];
+                var password = credentials[1];
+                result = await _authService.Login(username, password);
+            }
+            catch
+            {
+                return AuthenticateResult.Fail("Invalid Authorization Header");
+            }
+
+            if (result.IsFailure)
+                return AuthenticateResult.Fail("Invalid Username or Password");
+
+            var claims = new[] {
+                new Claim(ClaimTypes.NameIdentifier, result.Value.Id.ToString()),
+                new Claim(ClaimTypes.Name, result.Value.Email ?? result.Value.PhoneNumber),
+            };
+            var identity = new ClaimsIdentity(claims, Scheme.Name);
+            var principal = new ClaimsPrincipal(identity);
+            var ticket = new AuthenticationTicket(principal, Scheme.Name);
+
+            return AuthenticateResult.Success(ticket);
         }
-
-
-        //protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
-        //{
-        //    // skip authentication if endpoint has [AllowAnonymous] attribute
-        //    var endpoint = Context.GetEndpoint();
-
-        //    if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() != null)
-        //        return AuthenticateResult.NoResult();
-
-        //    if (!Request.Headers.ContainsKey("Authorization"))
-        //        return AuthenticateResult.Fail("Missing Authorization Header");
-
-        //    Result<User> result;
-        //    try
-        //    {
-        //        AuthenticationHeaderValue authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
-
-        //        if (authHeader == null) return AuthenticateResult.Fail("Invalid Authorization Header");
-        //        if (authHeader.Parameter is null) return AuthenticateResult.Fail("Invalid Authorization Parameter");
-
-        //        var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
-        //        var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
-        //        var username = credentials[0];
-        //        var password = credentials[1];
-        //        result = await _authService.Login(username, password);
-        //    }
-        //    catch
-        //    {
-        //        return AuthenticateResult.Fail("Invalid Authorization Header");
-        //    }
-
-        //    if (result.IsFailure)
-        //        return AuthenticateResult.Fail("Invalid Username or Password");
-
-        //    var claims = new[] {
-        //        new Claim(ClaimTypes.NameIdentifier, result.Value.Id.ToString()),
-        //        new Claim(ClaimTypes.Name, result.Value.Email ?? result.Value.PhoneNumber),
-        //    };
-        //    var identity = new ClaimsIdentity(claims, Scheme.Name);
-        //    var principal = new ClaimsPrincipal(identity);
-        //    var ticket = new AuthenticationTicket(principal, Scheme.Name);
-
-        //    return AuthenticateResult.Success(ticket);
-        //}
     }
 }

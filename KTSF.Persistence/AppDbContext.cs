@@ -3,13 +3,9 @@ using KTSF.Core;
 using KTSF.Core.ABAC;
 using KTSF.Core.PackingList_;
 using KTSF.Core.Product_;
+using KTSF.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Configuration;
-using System.Diagnostics.Metrics;
-using System.Reflection.Metadata;
-
-using Object = KTSF.Core.Object;
+using Object = KTSF.Core.Object; 
 
 namespace KTSF.Persistence
 {
@@ -116,25 +112,21 @@ namespace KTSF.Persistence
 
         }
 
-
-
-
+         
 
         private User[] GetUsersDefault()
         {
             return [
-                        new User()
-                        {
-                            Id = 1,
-                            Email = "tester@mail.ru",
-                            Phone = "+7111111111",
-                            PasswordHash = "tester",
-                            AccessToken = "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ",
-                            Name = "tester",
-                            Surname = "testerov",
-                            Patronymic = "testerovich",
-                        }
-                ];
+                new User()
+            {
+                Id = 1,
+                Email = "tester@mail.ru",
+                PhoneNumber = "+7111111111",
+                PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("tester"),
+                Name = "tester",
+                Surname = "testerov",
+                Patronymic = "testerovich",
+            }];
         }
         private Company[] GetCompaniesDefault()
         {

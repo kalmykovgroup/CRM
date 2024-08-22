@@ -16,13 +16,7 @@ using System.Threading.Tasks;
 namespace KTSF.Languages.Packages
 {
     public class English : ILanguage
-    { 
-        private class TranslationSearchComponent : ITranslationSearchComponent
-        {
-            public string Placeholder => "Search";
-        }
-
-        public ITranslationSearchComponent ITranslationSearchComponent => new TranslationSearchComponent();
+    {
 
         private class TranslationCashiersWorkplaceComponent : ITranslationCashiersWorkplaceComponent
         {
@@ -68,7 +62,7 @@ namespace KTSF.Languages.Packages
         }
 
         public ITranslationSettingsComponent ITranslationSettingsComponent => new TranslationSettingsComponent();
-        
+
         private class TranslationStaffComponent : ITranslationStaffComponent
         {
             public string Name => "Staff";
@@ -83,5 +77,14 @@ namespace KTSF.Languages.Packages
 
         public ITranslationWarehouseComponent ITranslationWarehouseComponent => new TranslationWarehouseComponent();
 
+
+        private class TranslationSearchComponent : ITranslationSearchComponent
+        {
+            public string Placeholder => "Search"; 
+        }
+
+        public ITranslationSearchComponent ITranslationSearchComponent => new TranslationSearchComponent();
+
+      
     }
 }

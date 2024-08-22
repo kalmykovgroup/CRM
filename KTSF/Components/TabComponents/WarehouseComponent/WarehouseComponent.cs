@@ -7,6 +7,7 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,10 +53,11 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         [ObservableProperty] private bool leftEllipsis = false;
         [ObservableProperty] private bool rightEllipsis = false;
 
+        [ObservableProperty] private bool isCounterPages = false;
 
         public int[] arrNumbersPage =  [];
 
-        public WarehouseComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
+        public WarehouseComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
         {
 
         }
@@ -95,8 +97,16 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
 
             CurrentPage = BeginBtn;
 
+            if (countPages > CountCenterButtons + 4)
+                Is();
+            else
+                RightEllipsis = false;
 
-            Is();
+            if (countPages == 1)
+            {
+                IsCounterPages = true;
+
+            }
 
             IsLoad = null;
         }
@@ -110,9 +120,14 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             if (parametr == null) throw new ArgumentNullException(nameof(parametr));
             PaginateBtn navBtn = (PaginateBtn)parametr;
 
+            bool isMore = navBtn.Page > CurrentPage.Page ? true : false;
+
             CurrentPage = navBtn;
 
-            //bool flag = SecondBtn != null  && SecondBtn.Page + 1 != navBtn.Page && SecondBtn.Page + 1 !< navBtn.Page;
+            if (CurrentPage.Page == CountPages)
+            IsCounterPages = true;
+            else
+                IsCounterPages = false;
 
             bool flag = BeginBtn != null && SecondBtn != null && BeginBtn.Page <= navBtn.Page && SecondBtn.Page + 1 != navBtn.Page;
 
@@ -132,8 +147,11 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                     return;
                 }
                 PaginationButtons.Clear();
-
-                int j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
+                int j= 0;
+                if (isMore)
+                 j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2 - 1;
+                else
+                    j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
                 if (j > CountPages  - CountCenterButtons)
                     j = CountPages - CountCenterButtons - 1;
               
@@ -150,14 +168,18 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                         PaginationButtons.Add(new PaginateBtn(j));                    
                 }
 
-                Is();
+                if (countPages > CountCenterButtons + 4)
+                    Is();
+                else
+                    RightEllipsis = false;
+
             } 
         }
 
         private void Is()
         {
-            LeftEllipsis = SecondBtn != null && PaginationButtons.Count > 0 && SecondBtn.Page + 1 != PaginationButtons[0].Page;
-           RightEllipsis = BeforeLast != null && PaginationButtons.Count > 0 && CurrentPage.Page < CountPages - CountCenterButtons /2 -1;
+           LeftEllipsis = SecondBtn != null && PaginationButtons.Count > 0 && SecondBtn.Page + 1 != PaginationButtons[0].Page;
+           RightEllipsis = BeforeLast != null && PaginationButtons.Count > 0  && CurrentPage.Page < CountPages - CountCenterButtons /2 - 1;
         }
 
         [RelayCommand]
@@ -170,6 +192,11 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             CurrentPage = navBtn;
             bool flag = BeginBtn != null && SecondBtn != null && BeginBtn.Page <= navBtn.Page && SecondBtn.Page <= navBtn.Page;
 
+            if (CurrentPage.Page == CountPages)
+                IsCounterPages = true;
+            else
+                IsCounterPages = false;
+
             Products.Clear();
             List<Product> products = await AppControl.Server.GetProducts(CurrentPage.Page);
 
@@ -177,7 +204,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             {
                 Products.Add(product);
             }
-            if (CountPages > 4 + CountCenterButtons && flag)
+            if (flag)
             {
                 if (SecondBtn != null && CurrentPage.Page == SecondBtn.Page)
                 {
@@ -185,23 +212,122 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                     return;
                 }
                 else if (BeforeLast != null && CurrentPage.Page == BeforeLast.Page)
-                {   CurrentPage = BeforeLast;
+                {
+                    CurrentPage = BeforeLast;
                     return;
                 }
-                
+
                 else if (EndBtn != null && CurrentPage.Page == EndBtn.Page)
                 {
                     CurrentPage = EndBtn;
-                    ((Button)parametr).IsEnabled = false;
                     return;
+                }
+                int j = 3;
+                int counter = 0;
+                if (countPages > 4 + CountCenterButtons)
+                {
+                    counter = CountCenterButtons;
+                    j = CurrentPage.Page < CountCenterButtons + 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
+                    if (j >= CountPages - CountCenterButtons)
+                        j = CountPages - CountCenterButtons;
+                    if (CurrentPage.Page == CountPages - 2)
+                    {
+                        j = CountPages - CountCenterButtons - 1;
+                    }
+                }
+                else
+                {
+                    counter = CountPages - 4;
+                }
+        
+                PaginationButtons.Clear();
+
+
+                    for (int i = 0; i < counter; i++, j++)
+                    {
+                        if (j > CountPages)
+                            break;
+                        else if (CurrentPage.Page == j)
+                        {
+                            PaginationButtons.Add(CurrentPage);
+                            continue;
+                        }
+
+                        PaginationButtons.Add(new PaginateBtn(j));
+                    }
+
+                
+             
+                if (countPages > CountCenterButtons + 4)
+                    Is();
+                else
+                    RightEllipsis = false;
+
+
+            }
+            
+        }
+
+       [RelayCommand]
+         public async void BackPage(object? parametr)
+        {
+            if (parametr == null) throw new ArgumentNullException(nameof(parametr));
+            PaginateBtn navBtn = new PaginateBtn(CurrentPage.Page - 1);
+            
+            CurrentPage = navBtn;
+            bool flag = BeginBtn != null && SecondBtn != null && BeginBtn.Page <= navBtn.Page;
+
+            if (CurrentPage.Page == CountPages)
+                IsCounterPages = true;
+            else
+                IsCounterPages = false;
+
+            Products.Clear();
+            List<Product> products = await AppControl.Server.GetProducts(CurrentPage.Page);
+
+            foreach (Product product in products)
+            {
+                Products.Add(product);
+            }
+            if (flag)
+            {
+                if (SecondBtn != null && CurrentPage.Page == SecondBtn.Page)
+                {
+                    CurrentPage = SecondBtn;
+                    return;
+                }
+                else if (BeforeLast != null && CurrentPage.Page == BeforeLast.Page)
+                {
+                    CurrentPage = BeforeLast;
+                    return;
+                }
+
+                else if (BeginBtn != null && CurrentPage.Page == BeginBtn.Page)
+                {
+                    CurrentPage = BeginBtn;
+                    return;
+                }
+                int j = 3;
+                int counter = 0;
+                if (countPages > 4 + CountCenterButtons)
+                {
+                    counter = CountCenterButtons;
+                    j = CurrentPage.Page < CountCenterButtons + 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
+                    if (j >= CountPages - CountCenterButtons)
+                        j = CountPages - CountCenterButtons;
+                    if (CurrentPage.Page == CountPages - 2)
+                    {
+                        j = CountPages - CountCenterButtons - 1;
+                    }
+                }
+                else
+                {
+                    counter = CountPages - 4;
                 }
 
                 PaginationButtons.Clear();
 
-                int j = CurrentPage.Page < CountCenterButtons + 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
-                if (j >= CountPages - CountCenterButtons)
-                    j = CountPages - CountCenterButtons - 1;
-     
+             
                 for (int i = 0; i < CountCenterButtons; i++, j++)
                 {
                     if (j > CountPages)
@@ -216,33 +342,12 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
 
                 }
 
-                Is();
+                if (countPages > CountCenterButtons + 4)
+                    Is();
+                else
+                    RightEllipsis = false;
             }
         }
-
-       [RelayCommand]
-         public async void BackPage(object? parametr)
-        {
-        //    if (Build is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(Build));
-        //    }
-        //    Products.Clear();
-        //    CurrentPage--;
-        //    Button nextBtn = (Button)((WarehouseUC)Build).FindName("nextPage");
-        //    nextBtn.IsEnabled = true;
-        //    Button backBtn = (Button)((WarehouseUC)Build).FindName("backPage");
-        //    if (CurrentPage == 0)
-        //        backBtn.IsEnabled = false;
-
-        //    IsLoad = "Загрузка";
-        //    List<Product> list = await AppControl.Server.GetProducts(CurrentPage, countPage);
-        //    foreach (Product product in list)
-        //    {
-        //        Products.Add(product);
-        //    }
-        //    IsLoad = null;
-         }
 
 
         public override UserControl Initial() => new WarehouseUC(this);

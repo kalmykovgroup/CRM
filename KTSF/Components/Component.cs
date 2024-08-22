@@ -89,8 +89,10 @@ namespace KTSF.Components
             object? obj = propertyInfo?.GetValue(AppControl.LanguageControl.Language.Pack);
 
             if (obj is null) return;
+             
 
             dynamic dynamicObject = new ExpandoObject();
+             
 
             var propertyList = obj.GetType().GetProperties();
 
