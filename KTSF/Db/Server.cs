@@ -21,6 +21,8 @@ using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using KTSF.Components.TabComponents.CashiersWorkplaceComponent;
+using KTSF.Core.Receipt_;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KTSF.Db
@@ -377,10 +379,19 @@ namespace KTSF.Db
 
         #endregion
 
+        #region Receipt
+
+        public bool SaveReceipt(Receipt receipt)
+        {
+            return true;
+        }
+
         // нужна таблица с чеками ???
         // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
         // сохранение чеков
         // получение полной информации о чеке
+        
+        #endregion
 
         #region Employee
 

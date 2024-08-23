@@ -1,11 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace KTSF.Contracts.CashiersWorkplace;
+namespace KTSF.Core.Receipt_;
 
 public enum PaymentMethod {
     None,
@@ -18,13 +13,11 @@ public partial class PaymentInfo : ObservableObject {
 
     [ObservableProperty] public double cashAmount;
     [ObservableProperty] public double cardAmount;
+     
+    [ObservableProperty] private double totalSum;
+    [ObservableProperty] private double amountPaid;
 
-    private PaymentMethod paymentMethod;
-
-    public PaymentMethod PaymentMethod {
-        get { return paymentMethod; }
-        set { paymentMethod = value; }
-    }
+    [ObservableProperty] private PaymentMethod paymentMethod;
 
     public PaymentInfo (double cashAmount, double cardAmount) {
         CashAmount = cashAmount;

@@ -150,4 +150,8 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\CashiersWorkplace\" />
+  </ItemGroup>
+
 </Project>
