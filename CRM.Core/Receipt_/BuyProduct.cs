@@ -1,31 +1,22 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using CommunityToolkit.Mvvm.ComponentModel;
 using KTSF.Core.Product_;
 
 namespace KTSF.Core.Receipt_;
 
-public partial class BuyProduct : ObservableObject {
-    public Product Product { get; set; }
-
-    [ObservableProperty]
-    private double price;
-
-    [ObservableProperty]
-    private int count;
-
-    [ObservableProperty]
-    private double totalSumProduct;
+public partial class BuyProduct : ObservableObject
+{
+    public int Id { get; set; }
     
-    [ObservableProperty]
-    private double discount = 0;
-
-    public BuyProduct (Product product, double price, int count) {
-        Product = product;
-        Price = price;
-        Count = count;
-        TotalSumProduct = Price * Count;
-    }
-
-    public void UpdateTotalSumProduct () {
-        TotalSumProduct = Price * Count;
-    }
+    [ForeignKey(nameof(Product))]
+    public int ProductId { get; }
+    public Product Product; // Товар 
+    
+    public double Price; // Цена данного товара в чеке
+    
+    public int Count; // Количество данного товара в чеке
+    
+    public double TotalSumProduct; // Общая стомость данного продукта в чеке
+    
+    public double? Discount; // Процент скидки
 }

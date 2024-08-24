@@ -5,8 +5,10 @@ using KTSF.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using KTSF.Contracts.CashiersWorkplace;
 using KTSF.Core.Product_;
 using KTSF.Core.Receipt_;
+using PaymentMethod = KTSF.Core.Receipt_.PaymentMethod;
 
 namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent;
 
@@ -21,9 +23,9 @@ public partial class CashiersWorkplaceComponent : TabComponent
     [ObservableProperty] private bool isPayment = false;
     [ObservableProperty] private string countProductText = "Оплатить (позиций: 1)";
 
-    [ObservableProperty] public Receipt checkList = new Receipt ();
+    [ObservableProperty] public ReceiptVM checkList = new ReceiptVM ();
 
-    [ObservableProperty] public BuyProduct? selectedProduct;
+    [ObservableProperty] public BuyProductVM? selectedProduct;
 
     public CashiersWorkplaceComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
     {
@@ -33,7 +35,7 @@ public partial class CashiersWorkplaceComponent : TabComponent
 
     // Добавление найденого товара в текущий чек
     public void SelectedProductFromSearchList(Product product) {
-        BuyProduct newProduct = new BuyProduct (product, product.SalePrice, 1);
+        BuyProductVM newProduct = new BuyProductVM (product, product.SalePrice, 1);
         if (CheckList.AddProduct(newProduct)) {
             SelectedProduct = newProduct;
             IsBuy = true;
@@ -124,7 +126,7 @@ public partial class CashiersWorkplaceComponent : TabComponent
     [RelayCommand]
     public void SelectedProductFromCheckList(object parameter) {
         if (((BuyProduct)parameter).Product.Id != SelectedProduct.Product.Id) {
-            SelectedProduct = (BuyProduct) parameter;
+            SelectedProduct = (BuyProductVM) parameter;
         } 
     }
 
@@ -186,6 +188,3 @@ public partial class CashiersWorkplaceComponent : TabComponent
         }
     }
 }
-
-
-

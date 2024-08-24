@@ -1,15 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using KTSF.Core.Receipt_;
 
-namespace KTSF.Core.Receipt_;
+namespace KTSF.Contracts.CashiersWorkplace;
 
-public enum PaymentMethod {
-    None,
-    Cash,
-    Card,
-    Mixed
-}
-
-public partial class PaymentInfo : ObservableObject {
+public partial class PaymentInfoVM : ObservableObject {
 
     [ObservableProperty] public double cashAmount;
     [ObservableProperty] public double cardAmount;
@@ -19,7 +13,7 @@ public partial class PaymentInfo : ObservableObject {
 
     [ObservableProperty] private PaymentMethod paymentMethod;
 
-    public PaymentInfo (double cashAmount, double cardAmount) {
+    public PaymentInfoVM (double cashAmount, double cardAmount) {
         CashAmount = cashAmount;
         CardAmount = cardAmount; 
     }
