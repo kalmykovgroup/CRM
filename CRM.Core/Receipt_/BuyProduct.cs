@@ -9,14 +9,14 @@ public partial class BuyProduct : ObservableObject
     public int Id { get; set; }
     
     [ForeignKey(nameof(Product))]
-    public int ProductId { get; }
-    public Product Product; // Товар 
+    public int ProductId { get; set; }
+    public Product Product { get; set; } = null!; // Товар 
     
-    public double Price; // Цена данного товара в чеке
+    public double Price { get; set; } // Цена данного товара в чеке
     
-    public int Count; // Количество данного товара в чеке
+    public int Count { get; set; } // Количество данного товара в чеке
     
-    public double TotalSumProduct; // Общая стомость данного продукта в чеке
+    public double TotalSumProduct { get; set; } // Общая стомость данного продукта в чеке
     
-    public double? Discount; // Процент скидки
+    public double? Discount { get; set; } // Процент скидки
 }

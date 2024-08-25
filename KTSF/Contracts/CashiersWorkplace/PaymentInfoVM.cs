@@ -11,10 +11,17 @@ public partial class PaymentInfoVM : ObservableObject {
     [ObservableProperty] private double totalSum;
     [ObservableProperty] private double amountPaid;
 
-    [ObservableProperty] private PaymentMethod paymentMethod;
+    [ObservableProperty] private PaymentMethodVM paymentMethod;
 
     public PaymentInfoVM (double cashAmount, double cardAmount) {
         CashAmount = cashAmount;
         CardAmount = cardAmount; 
     }
+}
+
+public enum PaymentMethodVM {
+    None = 1,
+    Cash,
+    Card,
+    Mixed
 }

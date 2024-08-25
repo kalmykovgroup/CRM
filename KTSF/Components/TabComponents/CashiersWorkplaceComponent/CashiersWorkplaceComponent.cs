@@ -165,26 +165,32 @@ public partial class CashiersWorkplaceComponent : TabComponent
 
     [RelayCommand]
     public void PayCardClick (object? parameter = null) {
-        CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethod.Card;
+        CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethodVM.Card;
         CheckList.ReceiptPaymentInfo.CashAmount = 0;
     }
 
 
     [RelayCommand]
     public void PayCashClick (object? parameter = null) { 
-        CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethod.Cash;
+        CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethodVM.Cash;
         CheckList.ReceiptPaymentInfo.CardAmount = 0;
     }
 
     [RelayCommand]
     public void PaymentRequestCommand(object? parameter = null)
     {
-        if (CheckList.ReceiptPaymentInfo.PaymentMethod == PaymentMethod.Card)
+        switch (CheckList.ReceiptPaymentInfo.PaymentMethod)
         {
-            // if (PayCard())
-            // {
-            //     AppControl.Server.SaveReceipt(CheckList);
-            // }
+            case PaymentMethodVM.Card:
+            {
+                AppControl.Server.SaveReceipt(CheckList);
+                break;
+            }
+            case PaymentMethodVM.Cash:
+            {
+                AppControl.Server.SaveReceipt(CheckList);
+                break;
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ public partial class Receipt : ObservableObject {
 
     [ForeignKey(nameof(ReceiptPaymentInfo))]
     public int PaymentInfoId;
-    public PaymentInfo ReceiptPaymentInfo; // Класс отвечающий за информацию об оплате
+    public PaymentInfo ReceiptPaymentInfo { get; set; } // Класс отвечающий за информацию об оплате
     
-    public List<BuyProduct> BuyProducts { get; } = []; // Список купленных продуктов
+    public List<BuyProduct> BuyProducts { get; set; } = []; // Список купленных продуктов
 }

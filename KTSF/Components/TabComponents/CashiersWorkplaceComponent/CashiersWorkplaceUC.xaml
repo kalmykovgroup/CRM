@@ -6,7 +6,7 @@
     x:Class="KTSF.Components.TabComponents.CashiersWorkplaceComponent.CashiersWorkplaceUC"
     x:Name="UserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:contracts="clr-namespace:KTSF.Core.Receipt_;assembly=KTSF.Core"
+    xmlns:contracts="clr-namespace:KTSF.Contracts.CashiersWorkplace"
     xmlns:cv="clr-namespace:KTSF.Components.TabComponents.CashiersWorkplaceComponent.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:KTSF.Components.TabComponents.CashiersWorkplaceComponent"
@@ -177,7 +177,7 @@
                                                 <Setter Property="Opacity" Value="0.5" />
                                                 <Setter Property="Height" Value="30" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Cash}">
+                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Cash}">
                                                         <Setter Property="Background" Value="White" />
                                                         <Setter Property="Opacity" Value="1" />
                                                     </DataTrigger>
@@ -207,7 +207,7 @@
                                     <Setter Property="Visibility" Value="Hidden" />
 
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Cash}">
+                                        <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Cash}">
                                             <Setter Property="IsEnabled" Value="True" />
                                             <Setter Property="Visibility" Value="Visible" />
                                         </DataTrigger>
@@ -256,7 +256,7 @@
                                                 <Setter Property="Opacity" Value="0.5" />
                                                 <Setter Property="Height" Value="30" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Card}">
+                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Card}">
                                                         <Setter Property="Background" Value="White" />
                                                         <Setter Property="Opacity" Value="1" />
                                                     </DataTrigger>
@@ -286,7 +286,7 @@
                                     <Setter Property="Visibility" Value="Hidden" />
 
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Card}">
+                                        <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Card}">
                                             <Setter Property="IsEnabled" Value="True" />
                                             <Setter Property="Visibility" Value="Visible" />
                                         </DataTrigger>
@@ -371,7 +371,7 @@
                                                 <Setter Property="Opacity" Value="0.5" />
                                                 <Setter Property="Height" Value="30" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Card}">
+                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Card}">
                                                         <Setter Property="Background" Value="White" />
                                                         <Setter Property="Opacity" Value="1" />
                                                     </DataTrigger>
@@ -404,7 +404,7 @@
                                                 <Setter Property="Opacity" Value="0.5" />
                                                 <Setter Property="Height" Value="30" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Cash}">
+                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Cash}">
                                                         <Setter Property="Background" Value="White" />
                                                         <Setter Property="Opacity" Value="1" />
                                                     </DataTrigger>
