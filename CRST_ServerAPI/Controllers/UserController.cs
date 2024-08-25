@@ -14,6 +14,7 @@ using System.Text.Json;
 
 namespace CRST_ServerAPI.Controllers
 {
+
     [ApiController]
     [Route("[controller]")]
     [Authorize]

@@ -23,12 +23,11 @@ namespace KTSF.Components.TabComponents.StaffComponent
         public ObservableCollection<Employee> QualifyingEmployees { get; } = [];
         public ObservableCollection<Employee> NotEmployedEmployees { get; } = [];
 
-        public List<Appointment> Appointments { get; } = [];
-        public List<EmployeeStatus> EmployeeStatuses { get; } = [];
-        public List<ASetOfRules> ASetOfRules { get; } = [];
+        //public List<Appointment> Appointments { get; } = [];
+        //public List<EmployeeStatus> EmployeeStatuses { get; } = [];
+        //public List<ASetOfRules> ASetOfRules { get; } = [];
 
-        public EmployeeVM EmployeeVM { get; } = new EmployeeVM(); // ???
-
+        public EmployeeVM EmployeeVM { get; } = new EmployeeVM(); 
         
 
         public Component SearchComponent { get; }
@@ -70,76 +69,49 @@ namespace KTSF.Components.TabComponents.StaffComponent
             foreach(Appointment appointment in appointments)
             {
                 EmployeeVM.Appointments.Add(appointment);
-                Appointments.Add(appointment);
+                //Appointments.Add(appointment);
             }
 
             List<EmployeeStatus> employeeStatuses = await AppControl.Server.GetAllEmployeeStatus();
             foreach (EmployeeStatus employeeStatus in employeeStatuses)
             {
                 EmployeeVM.EmployeeStatuses.Add(employeeStatus);
-                EmployeeStatuses.Add(employeeStatus);
+                //EmployeeStatuses.Add(employeeStatus);
             }
 
             List<ASetOfRules> aSetOfRules = await AppControl.Server.GetAllASetOfRules();
             foreach (ASetOfRules aSetOfRule in aSetOfRules)
             {
                 EmployeeVM.ASetOfRules.Add(aSetOfRule);
-                ASetOfRules.Add(aSetOfRule);
+                //ASetOfRules.Add(aSetOfRule);
             }
         }
 
         // ?????????????????????????
-        [RelayCommand]
-        public async Task<bool> DeleteUser(object sender)
-        {
-            Employee employee = (Employee)sender;
-            employee.Updated_At = DateTime.Now;
-            employee.LayoffDate = DateTime.Now;
+        //[RelayCommand]
+        //public async Task<bool> DeleteUser(object sender)
+        //{
+        //    Employee employee = (Employee)sender;
+        //    employee.Updated_At = DateTime.Now;
+        //    employee.LayoffDate = DateTime.Now;
 
-            Employees.Remove(employee);
+        //    Employees.Remove(employee);
 
-            // на сервер -> удаление Юзера
-            // с сервера -> список активных изеров
-            // с сервера -> список уволенных изеров
-            //  await AppControl.Server?.DeleteUser(employee);
-
-            // ждеем ответ
-
-            return true;
-        }
+        //    return true;
+        //}
 
         [RelayCommand]
         public async void AddNewEmployee()
         {
-            //Employee employee = new Employee();
-            //employee.Appointment = new Appointment();
-
             EmployeeVM.Employee = new Employee();
 
             AddNewStaffWindow userWindow = new AddNewStaffWindow(EmployeeVM);
 
             if (userWindow.ShowDialog() == true)
             {
-                //employee.Updated_At = DateTime.Now; 
-                //employee.Created_At = DateTime.Now; // ЭТО ПОЛЕ НУЖНО, ЕСЛИ ЕСТЬ ApplyingDate ???
-
-                //employee.ObjectId = Employees[0].ObjectId; // при входе в приложение
-
-                //employee.AppointmentId = Employees[0].AppointmentId;
-                //employee.EmployeeStatusId = Employees[0].EmployeeStatusId;
-                //employee.ASetOfRulesId = Employees[0].ASetOfRulesId;
-
-                //employee.AccessToken = "";
-                //employee.Password = "tester";
-
-                //Employees.Add(employee); // тестовая версия
-
                 Employee employee = await AppControl.Server.CreateEmployee(EmployeeVM.Employee);
 
                 CreateEmployeeLists();
-
-                //bool t = await AppControl.Server.CreateEmployee(employee);
-
             }
         }
          
@@ -149,15 +121,15 @@ namespace KTSF.Components.TabComponents.StaffComponent
         {
             EmployeeVM.Employee = ((Employee)sender).Copy();            
              
-            EmployeeVM.Employee.Appointment = Appointments
+            EmployeeVM.Employee.Appointment = EmployeeVM.Appointments
                         .Where(app => app.Name == EmployeeVM.Employee.Appointment.Name)
                         .First();
 
-            EmployeeVM.Employee.EmployeeStatus = EmployeeStatuses
+            EmployeeVM.Employee.EmployeeStatus = EmployeeVM.EmployeeStatuses
                         .Where(empl => empl.Name == EmployeeVM.Employee.EmployeeStatus.Name)
                         .First();
 
-            EmployeeVM.Employee.ASetOfRules = ASetOfRules
+            EmployeeVM.Employee.ASetOfRules = EmployeeVM.ASetOfRules
                         .Where(aset => aset.Name == EmployeeVM.Employee.ASetOfRules.Name)
                         .First();
 

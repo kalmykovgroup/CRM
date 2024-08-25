@@ -7,7 +7,6 @@ using KTSF.Dto.Product_;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -29,14 +28,15 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KTSF.Db
 {
-    public class Server 
+    public class Server
     {
-        AppControl AppControl {  get; }
+        AppControl AppControl { get; }
 
         public static HttpClient httpClient = new()
         {
             BaseAddress = new Uri("https://localhost:7286")
         };
+
 
         public static JsonSerializerOptions options = new JsonSerializerOptions
         {
@@ -45,12 +45,13 @@ namespace KTSF.Db
             WriteIndented = true
         };
 
-        public Server(AppControl appControl) { 
+        public Server(AppControl appControl)
+        {
             AppControl = appControl;
         }
 
         public async Task<bool> Connect()
-        {        
+        {
             await Task.Delay(0);
 
             return true;
@@ -59,8 +60,6 @@ namespace KTSF.Db
         //Делаем запрос при для проверки подключения к сети и получению необходимых данных из сервера
         public async Task<bool> LoadData()
         {
-         
-
             await Task.Delay(0);
 
             return true;
@@ -96,55 +95,55 @@ namespace KTSF.Db
         //Возвращаем список доступным компаний, обьектов и список пользователей на этих обьектах
 
         public async Task<(bool result, string? error, User? user)> Authorization(string Phone, string password)
-            {
-                await Task.Delay(0);
+        {
+            await Task.Delay(0);
 
-                if (Phone == "+79260128187" && password == "tester")
+            if (Phone == "+79260128187" && password == "tester")
+            {
+                return (true, null, new User()
                 {
-                    return (true, null, new User()
-                    {
-                        Email = "kalmykov@mail.ru",
-                        PhoneNumber = "+79260128187",
-                       // Password = "tester",
-                        AccessToken = "test-user-access-token",
-                        Name = "Иван",
-                        Surname = "Калмыков",
-                        Patronymic = "Алексеевич",
-                    });
-                }
-                else
-                {
+                    Email = "kalmykov@mail.ru",
+                    PhoneNumber = "+79260128187",
+                    // Password = "tester",
+                    AccessToken = "test-user-access-token",
+                    Name = "Иван",
+                    Surname = "Калмыков",
+                    Patronymic = "Алексеевич",
+                });
+            }
+            else
+            {
                 return (false, $"Логин или пароль не подходят {Phone}:{password}", null);
-                }
-
             }
-            public async Task<(bool result, string? error, User? user)> Authorization(string token)
+
+        }
+        public async Task<(bool result, string? error, User? user)> Authorization(string token)
+        {
+            await Task.Delay(0);
+
+            bool result = true;
+
+            if (result)
             {
-                await Task.Delay(0);
-
-                bool result = true;
-
-                if (result)
+                return (true, null, new User()
                 {
-                    return (true, null, new User()
-                    {
-                        Email = "kalmykov@mail.ru",
-                        PhoneNumber = "+79260128187",
-                      //  Password = "tester",
-                        AccessToken = "test-user-access-token",
-                        Name = "Иван",
-                        Surname = "Калмыков",
-                        Patronymic = "Алексеевич",
-                    });
-                }
-                else
-                {
-                    return (false, "token не подходит", null);
-                }
-
+                    Email = "kalmykov@mail.ru",
+                    PhoneNumber = "+79260128187",
+                    //  Password = "tester",
+                    AccessToken = "test-user-access-token",
+                    Name = "Иван",
+                    Surname = "Калмыков",
+                    Patronymic = "Алексеевич",
+                });
+            }
+            else
+            {
+                return (false, "token не подходит", null);
             }
 
-           
+        }
+
+
 
 
         public async void Authentication(Action<string> GenerateBarCode, Action<Employee> SetEmployee)
@@ -187,7 +186,7 @@ namespace KTSF.Db
         #region Product
 
         //Поиск товаров
-        public async Task<List<Product>?> SearchProducts (string text) // возвращает максимум 20 товаров
+        public async Task<List<Product>?> SearchProducts(string text) // возвращает максимум 20 товаров
         {
             /*
             using HttpResponseMessage response = await httpClient.GetAsync($"Product/SearchProduct?name={text}");
@@ -200,33 +199,8 @@ namespace KTSF.Db
             }
 
             return null;
-            
-            List<Product>? products = await Request<List<Product>> ($"Product/SearchProduct?name={text}");
-            return products; */
-
-            List<Product> products = new List<Product> {
-                new Product() { Name = "Product 1", Id = 1, SalePrice = 220 },
-                new Product() { Name = "Product 2", Id = 2, SalePrice = 270 },
-                new Product() { Name = "Product 3", Id = 3, SalePrice = 350 },
-                new Product() { Name = "Product 4", Id = 4, SalePrice = 860 },
-                new Product() { Name = "Product 5", Id = 5, SalePrice = 1500 },
-                new Product() { Name = "Product 6", Id = 6, SalePrice = 680 },
-                new Product() { Name = "Product 7", Id = 7, SalePrice = 590 },
-                new Product() { Name = "Product 8", Id = 8, SalePrice = 480 },
-                new Product() { Name = "Product 9", Id = 9, SalePrice = 920 },
-                new Product() { Name = "Product 10", Id = 10, SalePrice = 660 },
-                new Product() { Name = "Product 1", Id = 11, SalePrice = 550 },
-                new Product() { Name = "Product 2", Id = 12, SalePrice = 880 },
-                new Product() { Name = "Product 3", Id = 13, SalePrice = 430 },
-                new Product() { Name = "Product 4", Id = 14, SalePrice = 790 },
-                new Product() { Name = "Product 5", Id = 15, SalePrice = 1110 },
-                new Product() { Name = "Product 6", Id = 16, SalePrice = 1080 },
-                new Product() { Name = "Product 7", Id = 17, SalePrice = 540 },
-                new Product() { Name = "Product 8", Id = 18, SalePrice = 370 },
-                new Product() { Name = "Product 9", Id = 19, SalePrice = 610 },
-                new Product() { Name = "Product 10", Id = 20, SalePrice = 450 },
-            };
-
+            */
+            List<Product>? products = await Request<List<Product>>($"Product/SearchProduct?name={text}");
             return products;
         }
 
@@ -251,9 +225,9 @@ namespace KTSF.Db
             }
             */
 
-            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");     
+            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");
 
-            return products;            
+            return products;
         }
 
         // первая страница продуктов и общее количество продуктов
@@ -334,24 +308,24 @@ namespace KTSF.Db
             }
 
             return (countPage, resultProducts);
-            */        
+            */
 
             FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
-                
-            return firstPage;   
+
+            return firstPage;
         }
 
         // ????? WTF  Откуда их брать?
         //Получить списанные товары 
         public async Task<List<Product>> GetDecommissionedProducts()
-        { 
+        {
             await Task.Delay(1000);
 
             List<Product> result = new List<Product> {
                 new Product() { Name = "Product 11", Id = 11 },
                 new Product() { Name = "Product 12", Id = 12 },
-                new Product() { Name = "Product 13", Id = 13 }, 
-            };             
+                new Product() { Name = "Product 13", Id = 13 },
+            };
 
             return result;
         }
@@ -381,56 +355,10 @@ namespace KTSF.Db
 
         #endregion
 
-        #region Receipt
-
-        public bool SaveReceipt(ReceiptVM receiptVm)
-        {
-            var receipt = ConvertReceipt(receiptVm);
-            
-            return true;
-        }
-
-        private Receipt ConvertReceipt(ReceiptVM receiptVm)
-        {
-            var receipt = new Receipt();
-            receipt.BuyProducts = ConvertBuyProducts(receiptVm.BuyProducts);
-            
-            receipt.ReceiptPaymentInfo = new PaymentInfo();
-            receipt.ReceiptPaymentInfo.TotalSum = receiptVm.ReceiptPaymentInfo.TotalSum;
-            receipt.ReceiptPaymentInfo.CashAmount = receiptVm.ReceiptPaymentInfo.CashAmount;
-            receipt.ReceiptPaymentInfo.CardAmount = receiptVm.ReceiptPaymentInfo.CardAmount;
-            receipt.ReceiptPaymentInfo.AmountPaid = receiptVm.ReceiptPaymentInfo.AmountPaid;
-            receipt.ReceiptPaymentInfo.PaymentMethodId = (int)receiptVm.ReceiptPaymentInfo.PaymentMethod;
-
-            receipt.Discount = receiptVm.Discount;
-            return receipt;
-        }
-
-        private List<BuyProduct> ConvertBuyProducts(ObservableCollection<BuyProductVM> buyProductsVm)
-        {
-            List<BuyProduct> buyProducts = new List<BuyProduct>();
-            foreach (var buyProductVm in buyProductsVm)
-            {
-                BuyProduct newBuyProduct = new BuyProduct();
-                newBuyProduct.Product = buyProductVm.Product;
-                newBuyProduct.ProductId = buyProductVm.Product.Id;
-                newBuyProduct.Price = buyProductVm.Price;
-                newBuyProduct.Count = buyProductVm.Count;
-                newBuyProduct.TotalSumProduct = buyProductVm.TotalSumProduct;
-                newBuyProduct.Discount = buyProductVm.Discount;
-                
-                buyProducts.Add(newBuyProduct);
-            }
-
-            return buyProducts;
-        }
-
         // нужна таблица с чеками ???
         // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
         // сохранение чеков
         // получение полной информации о чеке
-        
-        #endregion
 
         #region Employee
 
@@ -506,16 +434,16 @@ namespace KTSF.Db
 
             List<Employee>? employees = await Request<List<Employee>>("Employee/all");
             return employees;
-        }     
+        }
 
-        
+
         public async Task<(bool result, string? message, Employee copyEmployee)> UpdateEmployee(Employee employee)
-        {   
-            string tmp = JsonSerializer.Serialize(employee, options); 
-            
+        {
+            string tmp = JsonSerializer.Serialize(employee, options);
+
             HttpContent content = new StringContent(tmp);
             content.Headers.Remove("Content-Type");
-            content.Headers.Add("Content-Type", "application/json; charset=utf-8");            
+            content.Headers.Add("Content-Type", "application/json; charset=utf-8");
 
             using var response = await httpClient.PostAsJsonAsync("Employee/update", tmp);
 
@@ -539,14 +467,14 @@ namespace KTSF.Db
 
             response.EnsureSuccessStatusCode();
 
-           Employee person = await response.Content.ReadFromJsonAsync<Employee>();
+            Employee person = await response.Content.ReadFromJsonAsync<Employee>();
 
             return person;
         }
 
 
         //Загрузка статистических данных о пользователи
-        public async Task<bool> GetUserStatistics(Employee user) 
+        public async Task<bool> GetUserStatistics(Employee user)
         {
             await Task.Delay(1000);
 
