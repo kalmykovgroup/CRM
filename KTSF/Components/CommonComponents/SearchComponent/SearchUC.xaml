@@ -88,6 +88,7 @@
                 </Button>
             </Grid>
         </Border>
+
         <Popup
             Grid.Row="1"
             IsOpen="{Binding IsVisibilityList}"
@@ -119,16 +120,13 @@
 
                 <ListView.Style>
                     <Style TargetType="ListView">
-                        <Setter Property="Margin" Value="0" />
-                        <Setter Property="Padding" Value="0" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>
                                     <Border
                                         Background="#fff"
                                         BorderBrush="#21303D"
-                                        BorderThickness="1"
-                                        CornerRadius="5">
+                                        BorderThickness="1">
                                         <ScrollViewer
                                             Focusable="False"
                                             HorizontalScrollBarVisibility="Hidden"
