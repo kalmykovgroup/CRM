@@ -7,6 +7,7 @@ using KTSF.Dto.Product_;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -355,6 +356,51 @@ namespace KTSF.Db
 
         #endregion
 
+        #region Receipt
+
+        public bool SaveReceipt(ReceiptVM receiptVm)
+        {
+            var receipt = ConvertReceipt(receiptVm);
+            
+            return true;
+        }
+
+        private Receipt ConvertReceipt(ReceiptVM receiptVm)
+        {
+            var receipt = new Receipt();
+            receipt.BuyProducts = ConvertBuyProducts(receiptVm.BuyProducts);
+            
+            receipt.ReceiptPaymentInfo = new PaymentInfo();
+            receipt.ReceiptPaymentInfo.TotalSum = receiptVm.ReceiptPaymentInfo.TotalSum;
+            receipt.ReceiptPaymentInfo.CashAmount = receiptVm.ReceiptPaymentInfo.CashAmount;
+            receipt.ReceiptPaymentInfo.CardAmount = receiptVm.ReceiptPaymentInfo.CardAmount;
+            receipt.ReceiptPaymentInfo.AmountPaid = receiptVm.ReceiptPaymentInfo.AmountPaid;
+            receipt.ReceiptPaymentInfo.PaymentMethodId = (int)receiptVm.ReceiptPaymentInfo.PaymentMethod;
+
+            receipt.Discount = receiptVm.Discount;
+            return receipt;
+        }
+
+        private List<BuyProduct> ConvertBuyProducts(ObservableCollection<BuyProductVM> buyProductsVm)
+        {
+            List<BuyProduct> buyProducts = new List<BuyProduct>();
+            foreach (var buyProductVm in buyProductsVm)
+            {
+                BuyProduct newBuyProduct = new BuyProduct();
+                newBuyProduct.Product = buyProductVm.Product;
+                newBuyProduct.ProductId = buyProductVm.Product.Id;
+                newBuyProduct.Price = buyProductVm.Price;
+                newBuyProduct.Count = buyProductVm.Count;
+                newBuyProduct.TotalSumProduct = buyProductVm.TotalSumProduct;
+                newBuyProduct.Discount = buyProductVm.Discount;
+                
+                buyProducts.Add(newBuyProduct);
+            }
+
+            return buyProducts;
+        }
+
+        #endregion
         // нужна таблица с чеками ???
         // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
         // сохранение чеков
