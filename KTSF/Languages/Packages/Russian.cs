@@ -73,6 +73,22 @@ namespace KTSF.Languages.Packages
         private class TranslationStaffComponent : ITranslationStaffComponent
         {
             public string Name => "Персонал";
+            public string Employed => "Трудоустроен";
+            public string Fired => "Уволенные";
+            public string Unemployed => "Не трудоустроен";
+            public string ProbationPeriod => "Испытательный срок";
+            public string Add => "Добавить";
+            public string Edit => "Редактировать";
+            public string MoreDetailed => "Подробнее";
+            public string PhoneNumber => "Телефон";
+            public string Email => "Почта";
+            public string Address => "Адрес :";
+            public string Passport => "Паспорт :";
+            public string INN => "ИНН :";
+            public string SNILS => "СНИЛС";
+            public string DateOfEmployment => "Дата трудоустройства :";
+            public string DateOfEditing => "Дата редактирования :";
+            public string DateOfLayoff => "Дата увольнения :";
         }
 
         public ITranslationStaffComponent ITranslationStaffComponent => new TranslationStaffComponent();
