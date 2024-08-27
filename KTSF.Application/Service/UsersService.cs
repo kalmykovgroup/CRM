@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using CSharpFunctionalExtensions.ValueTasks;
-using KTSF.Application.Interfaces.Auth;
+using CSharpFunctionalExtensions.ValueTasks; 
 using KTSF.Core;
 using KTSF.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +14,6 @@ namespace KTSF.Application.Service
     public class UsersService
     {
       
-        public IPasswordHasher passwordHasher;
 
         private AppDbContext dbContext;
 
@@ -24,17 +22,6 @@ namespace KTSF.Application.Service
             this.dbContext = dbContext;
         }
 
-
-        public void Register(string username, string password)
-        {
-            var hashedPassword = passwordHasher.Generate(password);
-            Result<User> result = new Result<User>();
-          
-        }
-
- 
-
-        // поиск по ID
         public async Task<Result<User>> Find(int id)
         {
             User? user = await dbContext.Users.FindAsync(id);
@@ -74,6 +61,8 @@ namespace KTSF.Application.Service
             }
 
         }
+
+
 
 
         public async Task<Result<User>> Update(User user)

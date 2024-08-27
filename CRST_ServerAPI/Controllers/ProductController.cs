@@ -3,6 +3,7 @@ using KTSF.Application.Service;
 using KTSF.Core;
 using KTSF.Core.Product_;
 using KTSF.Dto.Product_;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -10,7 +11,7 @@ namespace CRST_ServerAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-
+    //[Authorize]
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
@@ -70,6 +71,7 @@ namespace CRST_ServerAPI.Controllers
         }
 
 
+
         [HttpGet("GetProducts")]
         public async Task<IActionResult> GetProducts(int page)
         {
@@ -82,7 +84,13 @@ namespace CRST_ServerAPI.Controllers
         public async Task<IActionResult> GetAll()
         {
             Result<List<Product>> result = await productsService.GetAll();
-            return Ok(result.Value);
+
+            if (result.IsSuccess) {
+                return Ok(result.Value);
+            }
+            
+            return Ok(new Product[0] );
+          
         }
 
 
