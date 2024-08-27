@@ -223,7 +223,7 @@
 
                                         <Setter Property="Content">
                                             <Setter.Value>
-                                                <Border Padding="20 10">
+                                                <Border Padding="10 10">
                                                     <TextBlock Text="..."  VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                 </Border>
                                             </Setter.Value>
@@ -275,7 +275,7 @@
 
                                         <Setter Property="Content">
                                             <Setter.Value>
-                                                <Border Padding="20 10">
+                                                <Border Padding="10 10">
                                                     <TextBlock Text="..."  VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                 </Border>
                                             </Setter.Value>
@@ -392,6 +392,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                  
                     <DataGridTemplateColumn Header="" MaxWidth="20" MinWidth="20">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -406,7 +407,7 @@
                     <DataGridTemplateColumn Header="Розничная цена" MaxWidth="77" MinWidth="77">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Id}" d:Text="1000" Padding="5" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{Binding BuyPrice}" d:Text="1000" Padding="5" HorizontalAlignment="Right"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
