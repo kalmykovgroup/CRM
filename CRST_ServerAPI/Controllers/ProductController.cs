@@ -3,6 +3,7 @@ using KTSF.Application.Service;
 using KTSF.Core;
 using KTSF.Core.Product_;
 using KTSF.Dto.Product_;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -10,6 +11,7 @@ namespace CRST_ServerAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
@@ -69,6 +71,7 @@ namespace CRST_ServerAPI.Controllers
         }
 
 
+
         [HttpGet("GetProducts")]
         public async Task<IActionResult> GetProducts(int page)
         {
@@ -81,14 +84,21 @@ namespace CRST_ServerAPI.Controllers
         public async Task<IActionResult> GetAll()
         {
             Result<List<Product>> result = await productsService.GetAll();
-            return Ok(result.Value);
+
+            if (result.IsSuccess) {
+                return Ok(result.Value);
+            }
+            
+            return Ok(new Product[0] );
+          
         }
 
 
         [HttpPost]
         [Route("insert")]
-        public async Task<IActionResult> Insert(Product product)
+        public async Task<IActionResult> Insert([FromBody] string str)
         {
+            Product product = JsonSerializer.Deserialize <Product>(str);
             Result<Product> result = await productsService.Insert(product);
 
             if (result.IsSuccess)
@@ -103,8 +113,9 @@ namespace CRST_ServerAPI.Controllers
 
         [HttpPost]
         [Route("update")]
-        public async Task<IActionResult> Update(Product product)
+        public async Task<IActionResult> Update([FromBody] string str)
         {
+            Product product = JsonSerializer.Deserialize<Product>(str);
             Result<Product> result = await productsService.Update(product);
 
             if (result.IsSuccess)

@@ -8,12 +8,14 @@
     x:Name="UserControl"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    Background="#FFFFFF"
     mc:Ignorable="d">
 
     <UserControl.Resources>
 
+        <!--  TabItem  -->
         <Style TargetType="{x:Type TabItem}">
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Background" Value="#FFFFFF" />
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -23,7 +25,7 @@
                             Width="150"
                             Margin="10,2"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="LightGray"
+                            BorderBrush="#21303D"
                             BorderThickness="1"
                             CornerRadius="5">
                             <ContentPresenter
@@ -33,10 +35,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="PART_Border" Property="BorderBrush" Value="Black" />
+                                <Setter TargetName="PART_Border" Property="BorderBrush" Value="#21303D" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="#a6c8e5" />
+                                <Setter Property="Background" Value="#A6C8E5" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -44,12 +46,12 @@
             </Setter>
         </Style>
 
-
+        <!--  TabControl  -->
         <Style TargetType="{x:Type TabControl}">
             <Setter Property="TabStripPlacement" Value="Top" />
             <Setter Property="Margin" Value="5" />
             <Setter Property="Padding" Value="5" />
-            <Setter Property="Background" Value="LightBlue" />
+            <Setter Property="Background" Value="#FFFFFF" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TabControl}">
@@ -68,7 +70,7 @@
                             <Border
                                 x:Name="HeaderBorder"
                                 Margin="0,0,0,5"
-                                Background="LightBlue"
+                                Background="#FFFFFF"
                                 BorderBrush="Black"
                                 BorderThickness="0"
                                 CornerRadius="5">
@@ -144,20 +146,37 @@
 
         <!--  Button  -->
         <Style x:Key="buttonStyle" TargetType="Button">
-            <Setter Property="Control.Background" Value="White" />
-            <Setter Property="BorderThickness" Value="0,0,0,1" />
-            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            Background="#759FCB"
+                            BorderBrush="#21303D"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <ContentPresenter
+                                x:Name="contentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="#3671a3" />
+                    <Setter Property="Foreground" Value="#A3D0FF" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
                                 <Border
-                                    Background="White"
-                                    BorderBrush="#3671a3"
-                                    BorderThickness="0,0,0,1">
+                                    Background="#3C4660"
+                                    BorderBrush="#21303D"
+                                    BorderThickness="1"
+                                    CornerRadius="5">
 
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
@@ -171,20 +190,38 @@
 
         <!--  Button добавить  -->
         <Style x:Key="addButtonStyle" TargetType="Button">
-            <Setter Property="Control.Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0,0,0,1" />
-            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="Foreground" Value="#CCE4F8" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            Background="#3C4660"
+                            BorderBrush="#21303D"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <ContentPresenter
+                                x:Name="contentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="#ef8b1c" />
+                    <Setter Property="Foreground" Value="Black" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
                                 <Border
-                                    Background="Transparent"
-                                    BorderBrush="#ef8b1c"
-                                    BorderThickness="0,0,0,1">
+                                    Background="#759FCB"
+                                    BorderBrush="#21303D"
+                                    BorderThickness="1"
+                                    CornerRadius="5">
 
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
@@ -198,16 +235,17 @@
 
         <!--  ToggleButton  -->
         <Style x:Key="toggleButtonStyle" TargetType="ToggleButton">
-            <Setter Property="BorderThickness" Value="0,0,0,1" />
-            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#21303D" />
 
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                         <Border
-                            Background="White"
+                            Background="#759FCB"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5">
 
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
@@ -216,28 +254,54 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderThickness" Value="0,0,0,1" />
-                    <Setter Property="BorderBrush" Value="#3671a3" />
-                    <Setter Property="Background" Value="White" />
-                    <Setter Property="Foreground" Value="#3671a3" />
+                    <Setter Property="Foreground" Value="#A3D0FF" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border
+                                    Background="#3C4660"
+                                    BorderBrush="#21303D"
+                                    BorderThickness="1"
+                                    CornerRadius="5">
+
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="BorderBrush" Value="#3671a3" />
-                    <Setter Property="Background" Value="White" />
-                    <Setter Property="Foreground" Value="#3671a3" />
+                    <Setter Property="Foreground" Value="#A3D0FF" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border
+                                    Background="#3C4660"
+                                    BorderBrush="#21303D"
+                                    BorderThickness="1"
+                                    CornerRadius="5">
+
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
+
     </UserControl.Resources>
 
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <TabControl>
             <!--  ВКЛАДКА  АКТИВНЫЕ  -->
-            <TabItem Header="Активные">
+            <TabItem Header="Трудоустроен">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="40" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
@@ -265,14 +329,14 @@
                                 </Style.Triggers>
                             </Style>
                         </Grid.Style>
-                        
-                        
+
+
                         <!--  USerControl SearchComponent  -->
                         <ContentControl
                             Grid.Column="0"
                             Margin="5,5"
                             Content="{Binding SearchComponent.Build}" />
-                        
+
 
                         <Button
                             Grid.Column="1"
@@ -296,7 +360,7 @@
                                     BorderThickness="1"
                                     CornerRadius="5">
 
-                                    <Grid>
+                                    <Grid Background="#B9CADB">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
                                             <RowDefinition />
@@ -387,12 +451,13 @@
                                         <Grid Grid.Row="0" Grid.Column="4">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
-                                                <RowDefinition />
+                                                <RowDefinition Height="2*" />
+                                                <RowDefinition Height="2*" />
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="0"
+                                                Grid.Row="1"
                                                 Width="90"
                                                 Height="20"
                                                 Margin="0,0,15,0"
@@ -401,15 +466,15 @@
                                                 Content="Редактировать"
                                                 Style="{StaticResource buttonStyle}" />
 
-                                            <Button
+                                            <!--<Button
                                                 Grid.Row="1"
                                                 Width="90"
                                                 Height="20"
                                                 Margin="0,0,15,0"
-                                                Command="{Binding DataContext.DeleteEmployeeCommand, ElementName=UserControl}"
+                                                Command="{Binding DataContext.DeleteUserCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="Уволить"
-                                                Style="{StaticResource buttonStyle}" />
+                                                Style="{StaticResource buttonStyle}" />-->
                                             <ToggleButton
                                                 x:Name="userInfoToggleButton"
                                                 Grid.Row="2"
@@ -547,7 +612,7 @@
             <TabItem Header="Уволеные">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="40" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
@@ -581,7 +646,7 @@
                             Margin="5,5"
                             Content="{Binding SearchComponentFired.Build}" />
 
-                        <!--<Button
+                        <Button
                             Grid.Column="1"
                             Width="90"
                             Height="20"
@@ -590,8 +655,8 @@
                             Background="Transparent"
                             BorderBrush="Black"
                             BorderThickness="0,0,0,1"
-                            Command="{Binding DataContext.AddNewUserCommand, ElementName=UserControl}"
-                            Content="Добавить" />-->
+                            Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
+                            Content="Добавить" />
                     </Grid>
 
                     <ItemsControl Grid.Row="1" ItemsSource="{Binding FiredEmployees}">
@@ -605,7 +670,7 @@
                                     BorderThickness="1"
                                     CornerRadius="5">
 
-                                    <Grid>
+                                    <Grid Background="#B9CADB">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
                                             <RowDefinition />
@@ -696,9 +761,20 @@
                                         <Grid Grid.Row="0" Grid.Column="4">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
-                                                <RowDefinition />
+                                                <RowDefinition Height="2*" />
+                                                <RowDefinition Height="2*" />
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
+
+                                            <Button
+                                                Grid.Row="1"
+                                                Width="90"
+                                                Height="20"
+                                                Margin="0,0,15,0"
+                                                Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
+                                                CommandParameter="{Binding}"
+                                                Content="Редактировать"
+                                                Style="{StaticResource buttonStyle}" />
 
                                             <!--<Button
                                                 Grid.Row="0"
@@ -867,7 +943,616 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Grid>
-            </TabItem>        
+            </TabItem>
+
+            <!--  ВКЛАДКА НА ИСПЫТАТЕЛЬНОМ СРОКЕ  -->
+            <TabItem Header="Испытательный срок">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsLoaded}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+
+
+                        <!--  USerControl SearchComponent  -->
+                        <!--<ContentControl
+                            Grid.Column="0"
+                            Margin="5,5"
+                            Content="{Binding SearchComponent.Build}" />-->
+
+
+                        <Button
+                            Grid.Column="1"
+                            Width="90"
+                            Height="20"
+                            Margin="0,0,20,0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
+                            Content="Добавить"
+                            Style="{StaticResource addButtonStyle}" />
+                    </Grid>
+
+                    <ItemsControl Grid.Row="1" ItemsSource="{Binding QualifyingEmployees}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Margin="5,2"
+                                    Background="White"
+                                    BorderBrush="Black"
+                                    BorderThickness="1"
+                                    CornerRadius="5">
+
+                                    <Grid Background="#B9CADB">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Width="70"
+                                            Height="70"
+                                            Margin="5"
+                                            Source="Img\Qualifying.png"
+                                            Stretch="Fill" />
+
+                                        <Grid Grid.Row="0" Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Text="{Binding Surname}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Text="{Binding Name}" />
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Text="{Binding Patronymic}" />
+                                        </Grid>
+
+                                        <Grid Grid.Row="0" Grid.Column="2">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                HorizontalAlignment="Center"
+                                                FontWeight="DemiBold"
+                                                Text="Телефон" />
+
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                HorizontalAlignment="Center"
+                                                Text="{Binding Phone}" />
+
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                HorizontalAlignment="Center"
+                                                FontWeight="DemiBold"
+                                                Text="Email" />
+                                            <TextBlock
+                                                Grid.Row="3"
+                                                HorizontalAlignment="Center"
+                                                Text="{Binding Email}" />
+                                        </Grid>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="3"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="15"
+                                            FontWeight="DemiBold"
+                                            Text="{Binding Appointment.Name}" />
+
+                                        <Grid Grid.Row="0" Grid.Column="4">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition Height="2*" />
+                                                <RowDefinition Height="2*" />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+
+                                            <Button
+                                                Grid.Row="1"
+                                                Width="90"
+                                                Height="20"
+                                                Margin="0,0,15,0"
+                                                Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
+                                                CommandParameter="{Binding}"
+                                                Content="Редактировать"
+                                                Style="{StaticResource buttonStyle}" />
+
+                                            <!--<Button
+                                                Grid.Row="1"
+                                                Width="90"
+                                                Height="20"
+                                                Margin="0,0,15,0"
+                                                Command="{Binding DataContext.DeleteUserCommand, ElementName=UserControl}"
+                                                CommandParameter="{Binding}"
+                                                Content="Уволить"
+                                                Style="{StaticResource buttonStyle}" />-->
+                                            <ToggleButton
+                                                x:Name="userInfoToggleButton"
+                                                Grid.Row="2"
+                                                Width="90"
+                                                Height="20"
+                                                Margin="0,0,15,0"
+                                                Content="Подробнее"
+                                                Style="{StaticResource toggleButtonStyle}" />
+                                        </Grid>
+
+                                        <!--  Нижняя часть карточки  -->
+                                        <Grid
+                                            x:Name="bottomPart"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Grid.ColumnSpan="2">
+
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=userInfoToggleButton}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="Адрес :"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Text="{Binding Address}"
+                                                TextAlignment="Center" />
+
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="Пастпорт :"
+                                                TextAlignment="Center" />
+                                            <UniformGrid
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Rows="1">
+                                                <TextBlock
+                                                    Margin="0,0,5,0"
+                                                    HorizontalAlignment="Right"
+                                                    Text="{Binding PassportSeries}" />
+                                                <TextBlock HorizontalAlignment="Left" Text="{Binding PassportNumber}" />
+                                            </UniformGrid>
+
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="Инн :"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Text="{Binding Tin}"
+                                                TextAlignment="Center" />
+
+                                            <TextBlock
+                                                Grid.Row="3"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="СНИЛС :"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                Grid.Row="3"
+                                                Grid.Column="1"
+                                                Text="{Binding Snils}"
+                                                TextAlignment="Center" />
+
+                                            <TextBlock
+                                                Grid.Row="4"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="Дата трудоустройства :"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                Grid.Row="4"
+                                                Grid.Column="1"
+                                                Text="{Binding ApplyingDate, StringFormat=dd-MM-yyyy}"
+                                                TextAlignment="Center" />
+
+                                            <TextBlock
+                                                Grid.Row="5"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="Дата редактирования :"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                Grid.Row="5"
+                                                Grid.Column="1"
+                                                Text="{Binding Updated_At, StringFormat=dd-MM-yyyy}"
+                                                TextAlignment="Center" />
+
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </TabItem>
+
+            <!--  ВКЛАДКА НЕ ТРУДОУСТРОЕН  -->
+            <TabItem Header="Не трудоустроен">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsLoaded}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+
+
+                        <!--  USerControl SearchComponent  -->
+                        <!--<ContentControl
+                            Grid.Column="0"
+                            Margin="5,5"
+                            Content="{Binding SearchComponent.Build}" />-->
+
+
+                        <Button
+                            Grid.Column="1"
+                            Width="90"
+                            Height="20"
+                            Margin="0,0,20,0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
+                            Content="Добавить"
+                            Style="{StaticResource addButtonStyle}" />
+                    </Grid>
+
+                    <ItemsControl Grid.Row="1" ItemsSource="{Binding NotEmployedEmployees}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Margin="5,2"
+                                    Background="White"
+                                    BorderBrush="Black"
+                                    BorderThickness="1"
+                                    CornerRadius="5">
+
+                                    <Grid Background="#B9CADB">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Width="70"
+                                            Height="70"
+                                            Margin="5"
+                                            Source="Img\NotEmployed.png"
+                                            Stretch="Fill" />
+
+                                        <Grid Grid.Row="0" Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Text="{Binding Surname}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Text="{Binding Name}" />
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Text="{Binding Patronymic}" />
+                                        </Grid>
+
+                                        <Grid Grid.Row="0" Grid.Column="2">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                HorizontalAlignment="Center"
+                                                FontWeight="DemiBold"
+                                                Text="Телефон" />
+
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                HorizontalAlignment="Center"
+                                                Text="{Binding Phone}" />
+
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                HorizontalAlignment="Center"
+                                                FontWeight="DemiBold"
+                                                Text="Email" />
+                                            <TextBlock
+                                                Grid.Row="3"
+                                                HorizontalAlignment="Center"
+                                                Text="{Binding Email}" />
+                                        </Grid>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="3"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="15"
+                                            FontWeight="DemiBold"
+                                            Text="{Binding Appointment.Name}" />
+
+                                        <Grid Grid.Row="0" Grid.Column="4">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition Height="2*" />
+                                                <RowDefinition Height="2*" />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+
+                                            <Button
+                                                Grid.Row="1"
+                                                Width="90"
+                                                Height="20"
+                                                Margin="0,0,15,0"
+                                                Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
+                                                CommandParameter="{Binding}"
+                                                Content="Редактировать"
+                                                Style="{StaticResource buttonStyle}" />
+
+                                            <!--<Button
+                                                Grid.Row="1"
+                                                Width="90"
+                                                Height="20"
+                                                Margin="0,0,15,0"
+                                                Command="{Binding DataContext.DeleteUserCommand, ElementName=UserControl}"
+                                                CommandParameter="{Binding}"
+                                                Content="Уволить"
+                                                Style="{StaticResource buttonStyle}" />-->
+                                            <ToggleButton
+                                                x:Name="userInfoToggleButton"
+                                                Grid.Row="2"
+                                                Width="90"
+                                                Height="20"
+                                                Margin="0,0,15,0"
+                                                Content="Подробнее"
+                                                Style="{StaticResource toggleButtonStyle}" />
+                                        </Grid>
+
+                                        <!--  Нижняя часть карточки  -->
+                                        <Grid
+                                            x:Name="bottomPart"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Grid.ColumnSpan="2">
+
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsChecked, ElementName=userInfoToggleButton}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="Адрес :"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Text="{Binding Address}"
+                                                TextAlignment="Center" />
+
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="Пастпорт :"
+                                                TextAlignment="Center" />
+                                            <UniformGrid
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Rows="1">
+                                                <TextBlock
+                                                    Margin="0,0,5,0"
+                                                    HorizontalAlignment="Right"
+                                                    Text="{Binding PassportSeries}" />
+                                                <TextBlock HorizontalAlignment="Left" Text="{Binding PassportNumber}" />
+                                            </UniformGrid>
+
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="Инн :"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Text="{Binding Tin}"
+                                                TextAlignment="Center" />
+
+                                            <TextBlock
+                                                Grid.Row="3"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="СНИЛС :"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                Grid.Row="3"
+                                                Grid.Column="1"
+                                                Text="{Binding Snils}"
+                                                TextAlignment="Center" />
+
+                                            <TextBlock
+                                                Grid.Row="4"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="Дата трудоустройства :"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                Grid.Row="4"
+                                                Grid.Column="1"
+                                                Text="{Binding ApplyingDate, StringFormat=dd-MM-yyyy}"
+                                                TextAlignment="Center" />
+
+                                            <TextBlock
+                                                Grid.Row="5"
+                                                Grid.Column="0"
+                                                Margin="0,5"
+                                                FontWeight="DemiBold"
+                                                Text="Дата редактирования :"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                Grid.Row="5"
+                                                Grid.Column="1"
+                                                Text="{Binding Updated_At, StringFormat=dd-MM-yyyy}"
+                                                TextAlignment="Center" />
+
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </TabItem>
+
         </TabControl>
     </ScrollViewer>
 </UserControl>

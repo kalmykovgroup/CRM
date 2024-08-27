@@ -11,7 +11,7 @@ namespace KTSF.Components.TabComponents.MoneyComponent
 {
     public class MoneyComponent : TabComponent //Деньги
     {
-        public MoneyComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
+        public MoneyComponent(UserControlVM binding, AppControl appControl, string iconPath) : base (binding, appControl, iconPath)
         {
         }
 

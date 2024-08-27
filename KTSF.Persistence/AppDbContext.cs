@@ -3,13 +3,9 @@ using KTSF.Core;
 using KTSF.Core.ABAC;
 using KTSF.Core.PackingList_;
 using KTSF.Core.Product_;
+using KTSF.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders; 
-using System.Configuration;
-using System.Diagnostics.Metrics;
-using System.Reflection.Metadata;
-
-using Object = KTSF.Core.Object;
+using Object = KTSF.Core.Object; 
 
 namespace KTSF.Persistence
 {
@@ -17,7 +13,7 @@ namespace KTSF.Persistence
     {
 
         public static string ConnectionString { get; set; } = String.Empty;
-    
+
         public DbSet<KTSF.Core.Object> Objects { get; set; }
         public DbSet<User> MainUsers { get; set; }
         public DbSet<Company> Companies { get; set; }
@@ -25,8 +21,8 @@ namespace KTSF.Persistence
 
         #region Employee
 
-        public DbSet<Employee> Employees { get; set; } 
-        public DbSet<EmployeeStatus> EmployeeStatuses { get; set; } 
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeStatus> EmployeeStatuses { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
 
         #endregion
@@ -39,8 +35,8 @@ namespace KTSF.Persistence
 
         public DbSet<ComponentAccessAttribute> ComponentAccessAttributes { get; set; }
 
-         public DbSet<EmployeeAction> EmployeeActions { get; set; }
-         public DbSet<ASetOfRules> ASetOfRules { get; set; }
+        public DbSet<EmployeeAction> EmployeeActions { get; set; }
+        public DbSet<ASetOfRules> ASetOfRules { get; set; }
 
         #endregion
 
@@ -48,20 +44,20 @@ namespace KTSF.Persistence
 
         //Товарная накладная
         public DbSet<PackingList> PackingLists { get; set; }
-             public DbSet<PackingListToProductJoinTable> PackingListProducts { get; set; }
+        public DbSet<PackingListToProductJoinTable> PackingListProducts { get; set; }
 
         #endregion
 
         #region Product
 
-              public DbSet<Article> Articles { get; set; }
-              public DbSet<Barcode> Barcodes { get; set; }
-              public DbSet<Category> Categories { get; set; }
-              public DbSet<ProductToCategoryJoinTable> ProductToCategoryJoinTables { get; set; }
-              public DbSet<Price> Prices { get; set; }
-              public DbSet<Product> Products { get; set; }
-              public DbSet<ProductInformation> ProductInformations { get; set; }
-              public DbSet<Unit> Units { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<Barcode> Barcodes { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductToCategoryJoinTable> ProductToCategoryJoinTables { get; set; }
+        public DbSet<Price> Prices { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductInformation> ProductInformations { get; set; }
+        public DbSet<Unit> Units { get; set; }
 
         #endregion
 
@@ -72,7 +68,7 @@ namespace KTSF.Persistence
         //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        { 
+        {
             optionsBuilder.UseMySQL("Server=127.0.0.1;Database=crm;Uid=root;Pwd=;");
         }
 
@@ -84,7 +80,7 @@ namespace KTSF.Persistence
                 .WithMany(category => category.Products)
                 .UsingEntity<ProductToCategoryJoinTable>();
 
-             
+
 
 
             modelBuilder.Entity<PackingList>()
@@ -92,10 +88,10 @@ namespace KTSF.Persistence
               .WithMany(product => product.PackingLists)
               .UsingEntity<PackingListToProductJoinTable>();
 
-       
-            modelBuilder.Entity<ProductToCategoryJoinTable>().HasIndex(x => new { x.ProductId, x.CategoryId }).IsUnique(); 
+
+            modelBuilder.Entity<ProductToCategoryJoinTable>().HasIndex(x => new { x.ProductId, x.CategoryId }).IsUnique();
             modelBuilder.Entity<PackingListToProductJoinTable>().HasIndex(x => new { x.ProductId, x.PackingListId }).IsUnique();
-             
+
             modelBuilder.Entity<User>().HasData(GetUsersDefault());
             modelBuilder.Entity<Company>().HasData(GetCompaniesDefault());
             modelBuilder.Entity<Object>().HasData(GetObjectsDefault());
@@ -112,123 +108,121 @@ namespace KTSF.Persistence
             modelBuilder.Entity<Article>().HasData(GetArticlesDefault());
             modelBuilder.Entity<ProductToCategoryJoinTable>().HasData(GetProductToCategoryJoinTableDefault());
 
-            
+
 
         }
 
-
-
-
+         
 
         private User[] GetUsersDefault()
         {
             return [
-                        new User()
-                        {
-                            Id = 1,
-                            Email = "tester@mail.ru",
-                            Phone = "+7111111111",
-                            PasswordHash = "tester",
-                            AccessToken = "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ",
-                            Name = "tester",
-                            Surname = "testerov",
-                            Patronymic = "testerovich",
-                        }
-                ];
+                new User()
+            {
+                Id = 1,
+                Email = "tester@mail.ru",
+                PhoneNumber = "+7111111111",
+                PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("tester"),
+                Name = "tester",
+                Surname = "testerov",
+                Patronymic = "testerovich",
+            }];
         }
         private Company[] GetCompaniesDefault()
-        { 
+        {
             return [
-                new Company() {
+                new Company()
+                {
                     Id = 1,
                     UserId = 1,
                     Name = "My company name",
-                    
-                }, 
+
+                },
             ];
         }
 
         private Object[] GetObjectsDefault()
-        { 
+        {
             return [
-                new Object() {
+                new Object()
+                {
                     Id = 1,
                     CompanyId = 1,
-                    Name = "Продуктовый на Арбате", 
+                    Name = "Продуктовый на Арбате",
                     Address = "ул. Новый Арбат, 15",
                 }
             ];
         }
 
         private Appointment[] GetAppointmentsDefault()
-        { 
+        {
             return [
              new Appointment() { Id = 1, Name = "Администратор", Description = "" },
-             new Appointment() { Id = 2, Name = "Менеджер по закупкам", Description = "" },
-             new Appointment() { Id = 3, Name = "Старший кассир", Description = "" },
-             new Appointment() { Id = 4, Name = "Кассир", Description = "" },
-             new Appointment() { Id = 5, Name = "Бугалтер", Description = "" },
-             new Appointment() { Id = 6, Name = "Охранник", Description = "" },
-             new Appointment() { Id = 7, Name = "Уборщик", Description = "" },
-             new Appointment() { Id = 8, Name = "Водитель", Description = "" },
-             new Appointment() { Id = 9, Name = "Грущик", Description = "" },
-             new Appointment() { Id = 10, Name = "Слесарь", Description = "" },
+                new Appointment() { Id = 2, Name = "Менеджер по закупкам", Description = "" },
+                new Appointment() { Id = 3, Name = "Старший кассир", Description = "" },
+                new Appointment() { Id = 4, Name = "Кассир", Description = "" },
+                new Appointment() { Id = 5, Name = "Бугалтер", Description = "" },
+                new Appointment() { Id = 6, Name = "Охранник", Description = "" },
+                new Appointment() { Id = 7, Name = "Уборщик", Description = "" },
+                new Appointment() { Id = 8, Name = "Водитель", Description = "" },
+                new Appointment() { Id = 9, Name = "Грущик", Description = "" },
+                new Appointment() { Id = 10, Name = "Слесарь", Description = "" },
             ];
         }
         private ASetOfRules[] GetASetOfRulesDefault()
-        { 
+        {
             return [
-             new ASetOfRules() {Id = 1, Name = "Администратор", Description = "" },
-             new ASetOfRules() {Id = 2, Name = "Старший кассир", Description = "" },
-             new ASetOfRules() {Id = 3, Name = "Менеджер по закупкам", Description = "" },
-             new ASetOfRules() {Id = 4, Name = "Кассир", Description = "" },
-             new ASetOfRules() {Id = 5, Name = "Кассир Евгений", Description = "Установленные дополнительные права доступа на изменение цены для товаров" },
-             new ASetOfRules() {Id = 6, Name = "Бухгалтер", Description = "" },
+             new ASetOfRules() { Id = 1, Name = "Администратор", Description = "" },
+                new ASetOfRules() { Id = 2, Name = "Старший кассир", Description = "" },
+                new ASetOfRules() { Id = 3, Name = "Менеджер по закупкам", Description = "" },
+                new ASetOfRules() { Id = 4, Name = "Кассир", Description = "" },
+                new ASetOfRules() { Id = 5, Name = "Кассир Евгений", Description = "Установленные дополнительные права доступа на изменение цены для товаров" },
+                new ASetOfRules() { Id = 6, Name = "Бухгалтер", Description = "" },
             ];
         }
         private EmployeeStatus[] GetEmployeeStatusesDefault()
-        { 
+        {
             return [
              new EmployeeStatus() { Id = 1, Name = "Не трудоустроен" },
-             new EmployeeStatus() { Id = 2, Name = "На испытательном сроке" },
-             new EmployeeStatus() { Id = 3, Name = "Трудоустроен" },
-             new EmployeeStatus() { Id = 4, Name = "Уволен" }, 
+                new EmployeeStatus() { Id = 2, Name = "На испытательном сроке" },
+                new EmployeeStatus() { Id = 3, Name = "Трудоустроен" },
+                new EmployeeStatus() { Id = 4, Name = "Уволен" },
             ];
         }
 
         private Employee[] GetEmployeesDefault()
-        { 
+        {
 
             return [new Employee()
-                {
-                    Id = 1,
-                    ObjectId = 1,
-                    AppointmentId = 1,
-                    ASetOfRulesId = 1,
-                    EmployeeStatusId = 1,
-                    AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEifQ.GQm1j57RyZMHdwsolLnzhoB9A49mC0KusQBpHS9_-kQ",
-                    Name = "Иван",
-                    Surname = "Калмыков",
-                    Patronymic = "Алексеевич",
-                    PassportSeries = "1234",
-                    PassportNumber = "123456",
-                    Tin = "12345678901",
-                    Snils = "123456789012",
-                    Address = "Красная прощать 4",
-                    Phone = "+79260128187",
-                    Email = "admin@mail.ru",
-                    Password = "tester",
-                    ApplyingDate = DateTime.Now,
-                    Created_At = DateTime.Now,
-                    Updated_At = DateTime.Now,
-                },
+            {
+                Id = 1,
+                ObjectId = 1,
+                AppointmentId = 1,
+                ASetOfRulesId = 1,
+                EmployeeStatusId = 3,
+                AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEifQ.GQm1j57RyZMHdwsolLnzhoB9A49mC0KusQBpHS9_-kQ",
+                Name = "Иван",
+                Surname = "Калмыков",
+                Patronymic = "Алексеевич",
+                PassportSeries = "1234",
+                PassportNumber = "123456",
+                Tin = "12345678901",
+                Snils = "123456789012",
+                Address = "Красная площадь 4",
+                Phone = "+79260128187",
+                Email = "admin@mail.ru",
+                Password = "tester",
+                ApplyingDate = DateTime.Now,
+                Created_At = DateTime.Now,
+                Updated_At = DateTime.Now,
+            },
                 new Employee()
                 {
                     Id = 2,
                     ObjectId = 1,
-                    AppointmentId = 1,
+                    AppointmentId = 2,
                     ASetOfRulesId = 2,
-                    EmployeeStatusId = 1,
+                    EmployeeStatusId = 3,
                     AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIifQ.cbpuaPB0oVEkmkgFvfQUcaRb58xRn5zlClDroWd75JA",
                     Name = "Артур",
                     Surname = "Соколов",
@@ -248,10 +242,10 @@ namespace KTSF.Persistence
                 new Employee()
                 {
                     Id = 3,
-                   ObjectId = 1,
-                    AppointmentId = 1,
+                    ObjectId = 1,
+                    AppointmentId = 6,
                     ASetOfRulesId = 3,
-                    EmployeeStatusId = 1,
+                    EmployeeStatusId = 3,
                     AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMifQ.n0AxopvGMqJUdvyuXVuBZOurMD2Tiah-EqFi-a-lR6E",
                     Name = "Александр",
                     Surname = "Трунин",
@@ -272,9 +266,9 @@ namespace KTSF.Persistence
                 {
                     Id = 4,
                     ObjectId = 1,
-                    AppointmentId = 1,
+                    AppointmentId = 3,
                     ASetOfRulesId = 4,
-                    EmployeeStatusId = 1,
+                    EmployeeStatusId = 3,
                     AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQifQ.NiQnkH09RTP1QMiS9rbWLQ3iDJbZ2CV3RsBflk5QjXs",
                     Name = "Алексей",
                     Surname = "Федосов",
@@ -295,9 +289,9 @@ namespace KTSF.Persistence
                 {
                     Id = 5,
                     ObjectId = 1,
-                    AppointmentId = 1,
+                    AppointmentId = 4,
                     ASetOfRulesId = 5,
-                    EmployeeStatusId = 1,
+                    EmployeeStatusId = 2,
                     AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM",
                     Name = "Ансар",
                     Surname = "Агадуллин",
@@ -318,9 +312,9 @@ namespace KTSF.Persistence
                 {
                     Id = 6,
                     ObjectId = 1,
-                    AppointmentId = 4,
+                    AppointmentId = 5,
                     ASetOfRulesId = 4,
-                    EmployeeStatusId = 3,
+                    EmployeeStatusId = 4,
                     AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM",
                     Name = "Мерлин",
                     Surname = "Мэнсон",
@@ -341,9 +335,9 @@ namespace KTSF.Persistence
                 {
                     Id = 7,
                     ObjectId = 1,
-                    AppointmentId = 4,
+                    AppointmentId = 6,
                     ASetOfRulesId = 4,
-                    EmployeeStatusId = 3,
+                    EmployeeStatusId = 1,
                     AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM",
                     Name = "Прохор",
                     Surname = "Шаляпин",
@@ -368,8 +362,8 @@ namespace KTSF.Persistence
         {
             return [
              new Unit() { Id = 1, Name = "Шт." },
-             new Unit() { Id = 2, Name = "Кг." },
-             new Unit() { Id = 3, Name = "М." },
+                new Unit() { Id = 2, Name = "Кг." },
+                new Unit() { Id = 3, Name = "М." },
             ];
         }
 
@@ -640,21 +634,21 @@ namespace KTSF.Persistence
                     UpdatedAt = DateTime.Now
                 },
 
-                    new ProductInformation()
-                    {
-                        Id = 2,
-                        ProductId = products[1].Id,
-                        NameToPrint = "Набор проф. отверток DEKO SS100",
-                        Description = "Набор профессиональных отверток и бит DEKO SS100 с удобной подставкой (100 предметов).",
+                new ProductInformation()
+                {
+                    Id = 2,
+                    ProductId = products[1].Id,
+                    NameToPrint = "Набор проф. отверток DEKO SS100",
+                    Description = "Набор профессиональных отверток и бит DEKO SS100 с удобной подставкой (100 предметов).",
 
-                        Width = 275,
-                        Height = 315,
-                        Length = 143,
-                        Weight = 2.75,
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now
-                    },
-                    new ProductInformation()
+                    Width = 275,
+                    Height = 315,
+                    Length = 143,
+                    Weight = 2.75,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                },
+                new ProductInformation()
                 {
                     Id = 3,
                     ProductId = products[2].Id,
@@ -758,7 +752,7 @@ namespace KTSF.Persistence
                     Weight = 2.9,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
-                },                
+                },
                 new ProductInformation()
                 {
                     Id = 11,
@@ -949,64 +943,64 @@ namespace KTSF.Persistence
 
             return [
                    new Barcode()
-                {
+                   {
                        Id = 1,
-                    ProductId = 1,
-                    Code = "barcode_1",
-                    Type = KTSF.Core.Product_.Type.Code128,
+                       ProductId = 1,
+                       Code = "barcode_1",
+                       Type = KTSF.Core.Product_.Type.Code128,
 
-                },
-                   new Barcode()
+                   },
+                new Barcode()
                 {
-                        Id = 2,
+                    Id = 2,
                     ProductId = 2,
                     Code = "barcode_2",
                     Type = KTSF.Core.Product_.Type.Code128,
 
                 },
-                   new Barcode()
+                new Barcode()
                 {
-                        Id = 3,
+                    Id = 3,
                     ProductId = 3,
                     Code = "barcode_3",
                     Type = KTSF.Core.Product_.Type.Code128,
 
                 },
-                   new Barcode()
+                new Barcode()
                 {
-                        Id = 4,
+                    Id = 4,
                     ProductId = 4,
                     Code = "barcode_4",
                     Type = KTSF.Core.Product_.Type.Code128,
 
                 },
-                   new Barcode()
+                new Barcode()
                 {
-                        Id = 5,
+                    Id = 5,
                     ProductId = 5,
                     Code = "barcode_5",
                     Type = KTSF.Core.Product_.Type.Code128,
 
                 },
-                   new Barcode()
+                new Barcode()
                 {
-                        Id = 6,
+                    Id = 6,
                     ProductId = 6,
                     Code = "barcode_6",
                     Type = KTSF.Core.Product_.Type.Code128,
 
                 },
-                   new Barcode()
+                new Barcode()
                 {
-                        Id = 7,
+                    Id = 7,
                     ProductId = 7,
                     Code = "barcode_7",
                     Type = KTSF.Core.Product_.Type.Code128,
 
                 },
-                   new Barcode()
+                new Barcode()
                 {
-                        Id = 8,
+                    Id = 8,
                     ProductId = 7,
                     Code = "barcode_7.1",
                     Type = KTSF.Core.Product_.Type.Code128,
@@ -1155,68 +1149,68 @@ namespace KTSF.Persistence
 
             return [
                    new Article()
-                {
-                    Id = 1,
-                    ProductId = 1,
-                    Name = "article_1",
-                },
+                   {
+                       Id = 1,
+                       ProductId = 1,
+                       Name = "article_1",
+                   },
 
-                   new Article()
+                new Article()
                 {
-                       Id = 2,
+                    Id = 2,
                     ProductId = 2,
                     Name = "article_2",
                 },
-                   new Article()
+                new Article()
                 {
-                       Id = 3,
+                    Id = 3,
                     ProductId = 2,
                     Name = "article_2.1",
                 },
 
-                   new Article()
+                new Article()
                 {
-                       Id = 4,
+                    Id = 4,
                     ProductId = 3,
                     Name = "article_3",
                 },
 
-                   new Article()
+                new Article()
                 {
-                       Id = 5,
+                    Id = 5,
                     ProductId = 4,
                     Name = "article_4",
                 },
-                   new Article()
+                new Article()
                 {
-                       Id = 6,
+                    Id = 6,
                     ProductId = 4,
                     Name = "article_4.1",
                 },
-                   new Article()
+                new Article()
                 {
-                       Id = 7,
+                    Id = 7,
                     ProductId = 4,
                     Name = "article_4.2",
                 },
 
-                   new Article()
+                new Article()
                 {
-                       Id = 8,
+                    Id = 8,
                     ProductId = 5,
                     Name = "article_5",
                 },
 
-                   new Article()
+                new Article()
                 {
-                       Id = 9,
+                    Id = 9,
                     ProductId = 6,
                     Name = "article_6",
                 },
 
-                   new Article()
+                new Article()
                 {
-                       Id = 10,
+                    Id = 10,
                     ProductId = 7,
                     Name = "article_7",
                 },
@@ -1329,17 +1323,17 @@ namespace KTSF.Persistence
         {
             return [
               new Category() { Id = 1, Name = "Одежда", ParentId = null },
-              new Category() { Id = 2, Name = "Дом", ParentId = null },
-              new Category() { Id = 3, Name = "Детям", ParentId = null },
-              new Category() { Id = 4, Name = "Красота", ParentId = null },
-              new Category() { Id = 5, Name = "Электроника", ParentId = null },
-              new Category() { Id = 6, Name = "Продукты", ParentId = null },
-              new Category() { Id = 7, Name = "Инструмент", ParentId = null },
+                new Category() { Id = 2, Name = "Дом", ParentId = null },
+                new Category() { Id = 3, Name = "Детям", ParentId = null },
+                new Category() { Id = 4, Name = "Красота", ParentId = null },
+                new Category() { Id = 5, Name = "Электроника", ParentId = null },
+                new Category() { Id = 6, Name = "Продукты", ParentId = null },
+                new Category() { Id = 7, Name = "Инструмент", ParentId = null },
 
-              new Category() { Id = 8, Name = "Электроинструмент", ParentId = 7 },
-              new Category() { Id = 9, Name = "Перфораторы", ParentId = 7 },
+                new Category() { Id = 8, Name = "Электроинструмент", ParentId = 7 },
+                new Category() { Id = 9, Name = "Перфораторы", ParentId = 7 },
 
-              new Category() { Id = 10, Name = "Makita", ParentId = 9 },
+                new Category() { Id = 10, Name = "Makita", ParentId = 9 },
             ];
         }
 
@@ -1349,40 +1343,40 @@ namespace KTSF.Persistence
                  new ProductToCategoryJoinTable()
                  {
                      Id = 1,
-                    ProductId = 1,
-                    CategoryId = 7,
+                     ProductId = 1,
+                     CategoryId = 7,
                  },
-                 new ProductToCategoryJoinTable()
-                 {
-                     Id = 2,
+                new ProductToCategoryJoinTable()
+                {
+                    Id = 2,
                     ProductId = 2,
                     CategoryId = 7,
-                 },
-                 new ProductToCategoryJoinTable()
-                 {
-                     Id = 3,
+                },
+                new ProductToCategoryJoinTable()
+                {
+                    Id = 3,
                     ProductId = 3,
                     CategoryId = 7,
-                 },
-                 new ProductToCategoryJoinTable()
-                 {
+                },
+                new ProductToCategoryJoinTable()
+                {
                     Id = 4,
                     ProductId = 4,
                     CategoryId = 7,
-                 },
-                 new ProductToCategoryJoinTable()
-                 {
-                     Id = 5,
+                },
+                new ProductToCategoryJoinTable()
+                {
+                    Id = 5,
                     ProductId = 5,
                     CategoryId = 7,
-                 },
-                 new ProductToCategoryJoinTable()
-                 {
-                     Id = 6,
+                },
+                new ProductToCategoryJoinTable()
+                {
+                    Id = 6,
                     ProductId = 7,
                     CategoryId = 7,
-                 },
-                ];
+                },
+            ];
         }
     }
 }

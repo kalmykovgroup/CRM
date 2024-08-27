@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; 
 
 namespace KTSF.Core.ABAC
 {
@@ -23,5 +18,6 @@ namespace KTSF.Core.ABAC
         public List<DataBaseAccessAttribute> AccessAttributes { get; } = [];
         public List<ComponentAccessAttribute> ComponentAccessAttributes { get; } = [];
 
+        public override string ToString() => Name;
     }
 }

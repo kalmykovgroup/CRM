@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using CSharpFunctionalExtensions.ValueTasks;
-using KTSF.Application.Interfaces.Auth;
+using CSharpFunctionalExtensions.ValueTasks; 
 using KTSF.Core;
 using KTSF.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -14,27 +13,15 @@ namespace KTSF.Application.Service
 {
     public class UsersService
     {
-        public IPasswordHasher passwordHasher;
+      
 
         private AppDbContext dbContext;
 
-        public UsersService(AppDbContext dbContext, IPasswordHasher passwordHasher)
+        public UsersService(AppDbContext dbContext)
         {
-            this.passwordHasher = passwordHasher;
             this.dbContext = dbContext;
         }
 
-
-        public void Register(string username, string password)
-        {
-            var hashedPassword = passwordHasher.Generate(password);
-            Result<User> result = new Result<User>();
-          
-        }
-
- 
-
-        // поиск по ID
         public async Task<Result<User>> Find(int id)
         {
             User? user = await dbContext.Users.FindAsync(id);
@@ -51,7 +38,7 @@ namespace KTSF.Application.Service
             return user != null ? Result.Success(user) : Result.Failure<User>("Not found");
         }
 
-
+        
         // получить всех USER
         public async Task<Result<User[]>> GetAll()
         {     
@@ -61,18 +48,28 @@ namespace KTSF.Application.Service
 
         public async Task<Result<User>> Create(User user)
         {
-            dbContext.Users.Add(user);
+            User us = new User();
+
+            us.Id = user.Id;
+            us.Email = user.Email;
+            us.PhoneNumber = user.PhoneNumber;
+            us.PasswordHash = user.PasswordHash;
+            us.AccessToken = user.AccessToken;
+            us.Name = user.Name;
+            us.Surname = user.Surname;
+            us.Patronymic = user.Patronymic;
+
+            dbContext.Users.Add(us);
             try
             {
                 await dbContext.SaveChangesAsync();
-                return Result.Success(user);
+                return Result.Success(us);
 
             }
             catch (Exception ex)
             {
                 return Result.Failure<User>(ex.ToString());
             }
-
         }
 
 
@@ -80,7 +77,19 @@ namespace KTSF.Application.Service
         {
             try
             {
-                dbContext.Attach(user);
+                User? us = await dbContext.Users.Where(u => u.Id == user.Id).FirstOrDefaultAsync();
+
+                if (us == null) return Result.Failure<User>("Not found");
+
+                us.Id = user.Id;
+                us.Email = user.Email;
+                us.PhoneNumber = user.PhoneNumber;
+                us.PasswordHash = user.PasswordHash;
+                us.AccessToken = user.AccessToken;
+                us.Name = user.Name;
+                us.Surname = user.Surname;
+                us.Patronymic = user.Patronymic;
+
                 await dbContext.SaveChangesAsync();
 
                 return Result.Success(user);

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel; 
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent; 
 using KTSF.Components.TabComponents.CashiersWorkplaceComponent;
 using KTSF.Components.TabComponents.CompanyComponent;
@@ -19,47 +20,61 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media.Animation;
 
-namespace KTSF.Components.Window.MainMenuComponent
-{
-    public partial class MainMenuWinComponent : Component
-    {
-        [ObservableProperty] UserControlVM currentFrame;
+namespace KTSF.Components.Window.MainMenuComponent;
 
-        #region Navigate
-
-        public ObservableCollection<TabComponent> TopNavigationBar { get; } = new();
-        public ObservableCollection<TabComponent> LeftNavigationBar { get; } = new();
-
-        #endregion
-
-        public MainMenuWinComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
-        {
-            CurrentFrame = new UserControlVM();
-
-            WarehouseComponent warehouse = new WarehouseComponent(CurrentFrame, appControl);
+public partial class MainMenuWinComponent : Component {
+    [ObservableProperty] UserControlVM currentFrame;
 
 
-            LeftNavigationBar.Add(new CashiersWorkplaceComponent(CurrentFrame, appControl)); 
-            LeftNavigationBar.Add(new SalesComponent(CurrentFrame, appControl)); 
-            LeftNavigationBar.Add(new PurchasesComponent(CurrentFrame, appControl)); 
-            LeftNavigationBar.Add(warehouse); 
-            LeftNavigationBar.Add(new MoneyComponent(CurrentFrame, appControl)); 
-            LeftNavigationBar.Add(new StaffComponent(CurrentFrame, appControl));
-            LeftNavigationBar.Add(new CompanyComponent(CurrentFrame, appControl));
-            LeftNavigationBar.Add(new SettingsComponent(CurrentFrame, appControl));
+    public event Action RequestClosePane;
+    public event Action RequestOpenPane;
 
-            warehouse.Show();
-        }
+    private bool IsPaneOpen { get; set; } = true;
 
-     
+    #region Navigate
 
-        public override void Show(object? parametr = null)
-        {
-            base.Show(); 
-            History.Clear();
-        } 
+    public ObservableCollection<TabComponent> TopNavigationBar { get; } = new ();
+    public ObservableCollection<TabComponent> LeftNavigationBar { get; } = new ();
 
-        public override UserControl Initial() => new MainMenuWinUC(this);
+    #endregion
+
+    public MainMenuWinComponent (UserControlVM binding, AppControl appControl) : base (binding, appControl) {
+        CurrentFrame = new UserControlVM ();
+
+        WarehouseComponent warehouse = new WarehouseComponent (CurrentFrame, appControl, "/Img/TabComponents/Warehouse.svg");
+
+
+        LeftNavigationBar.Add (new CashiersWorkplaceComponent (CurrentFrame, appControl, "/Img/TabComponents/cashiersWorkplaceIcon.svg"));
+        LeftNavigationBar.Add (new SalesComponent (CurrentFrame, appControl, "/Img/TabComponents/SalesIcon.svg"));
+        LeftNavigationBar.Add (new PurchasesComponent (CurrentFrame, appControl, "/Img/TabComponents/Purchases.svg"));
+        LeftNavigationBar.Add (warehouse);
+        LeftNavigationBar.Add (new MoneyComponent (CurrentFrame, appControl, "/Img/TabComponents/Money.svg"));
+        LeftNavigationBar.Add (new StaffComponent (CurrentFrame, appControl, "/Img/TabComponents/Staff.svg"));
+        LeftNavigationBar.Add (new CompanyComponent (CurrentFrame, appControl, "/Img/TabComponents/Company.svg"));
+        LeftNavigationBar.Add (new SettingsComponent (CurrentFrame, appControl, "/Img/TabComponents/Settings.svg"));
+
+        warehouse.Show ();
+    }
+
+
+
+    public override void Show (object? parametr = null) {
+        base.Show ();
+        History.Clear ();
+    }
+
+    public override UserControl Initial () => new MainMenuWinUC (this);
+
+    [RelayCommand]
+    public void OpenClosePane () {
+        //if (IsPaneOpen) {
+        //    RequestClosePane?.Invoke ();
+        //    IsPaneOpen = false;
+        //} else {
+        //    RequestOpenPane?.Invoke ();
+        //    IsPaneOpen = true;
+        //}
     }
 }

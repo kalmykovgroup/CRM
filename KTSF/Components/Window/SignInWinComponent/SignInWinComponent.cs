@@ -102,7 +102,7 @@ namespace KTSF.Components.Window.SignInPageComponent
             IsLoad = "Авторизация...";
 
             //Сделали запрос на вход 
-            (bool result, string? error, User? user) = await AppControl.Server.Authorization(AppControl.User.Phone, AppControl.User.PasswordHash);
+            (bool result, string? error, User? user) = await AppControl.Server.Authorization(AppControl.User.PhoneNumber, AppControl.User.PasswordHash);
 
             IsLoad = null;
 

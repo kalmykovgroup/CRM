@@ -126,8 +126,10 @@ namespace KTSF.Application.Service
                 .Take(countProduct)
                 .ToArrayAsync();
 
-            return result;
+            return result != null ? Result.Success(result) : Result.Failure<FirstPage>("Not found");
         }
+
+
 
 
         // получить определенную страницу с продуктами
@@ -152,10 +154,12 @@ namespace KTSF.Application.Service
         // получение всех продуктов
         public async Task<Result<List<Product>>> GetAll()
         {
-            return Result.Success(dbContext.Products.ToList());
+            return Result.Success(await dbContext.Products.ToListAsync());
         }
 
+        
 
+        // !!!!! ИСПРАВИТЬ !!!!
         // создание 
         public async Task<Result<Product>> Insert(Product product)
         {
@@ -164,7 +168,6 @@ namespace KTSF.Application.Service
             {
                 await dbContext.SaveChangesAsync();
                 return Result.Success(product);
-
             }
             catch (Exception ex)
             {
@@ -178,10 +181,21 @@ namespace KTSF.Application.Service
         {
             try
             {
-                dbContext.Attach(product);
+                Product? prod = dbContext.Products.Where(pr => pr.Id == product.Id).FirstOrDefault();
+
+                if (prod == null) return Result.Failure<Product>("Not found");
+
+                prod.Id = product.Id;
+                prod.Name = product.Name;
+                prod.BuyPrice = product.BuyPrice;
+                prod.SalePrice = product.SalePrice;
+                prod.OldPrice = product.OldPrice;
+                prod.UpdatedAt = product.UpdatedAt;
+                prod.UnitId = product.UnitId;
+
                 await dbContext.SaveChangesAsync();
 
-                return Result.Success(product);
+                return Result.Success(prod);
             }
             catch (Exception ex)
             {

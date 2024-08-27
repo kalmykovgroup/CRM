@@ -3,17 +3,20 @@ using KTSF.Core;
 using KTSF.Core.Product_;
 using KTSF.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Object = KTSF.Core.Object;
 
 namespace KTSF.Application.Service
 {
     public class EmployeesService
     {
-        public AppDbContext dbContext;
+        public AppDbContext dbContext;        
 
         public EmployeesService(AppDbContext appDbContext)
         {
@@ -38,6 +41,8 @@ namespace KTSF.Application.Service
         }
 
 
+
+
         // поиск по EMAIL
         public async Task<Result<Employee>> GetByEmail(string email)
         {
@@ -52,6 +57,39 @@ namespace KTSF.Application.Service
                 .FirstOrDefaultAsync();
 
             return employee != null ? Result.Success(employee) : Result.Failure<Employee>("Not found");
+        }
+
+
+        // поиск по ФАМИЛИИ или ИМЕНИ
+        public async Task<Result<List<Employee>>> GetBySurname(string name)
+        {
+            List<Employee> employees = await dbContext.Employees.ToListAsync();
+
+            List<Employee> resultSurname = [];
+            List<Employee> resultName = [];
+
+            foreach (Employee employee in employees)
+            {
+                if (employee.Surname.ToLower().Contains(name.ToLower()))
+                {
+                    resultSurname.Add(employee);
+                }
+
+                if (employee.Name.ToLower().Contains(name.ToLower()))
+                {
+                    resultName.Add(employee);
+                }
+            }
+
+            if (resultSurname.Count > 0)
+            {
+                return Result.Success(resultSurname);
+            }
+            else if (resultName.Count > 0)
+            {
+                return Result.Success(resultName);
+            }
+            else return Result.Failure<List<Employee>>("Not found");
         }
 
 
@@ -70,12 +108,36 @@ namespace KTSF.Application.Service
 
         public async Task<Result<Employee>> Create(Employee employee)
         {
-            dbContext.Employees.Add(employee);
+            Employee empl = new Employee();
+
+            empl.Id = employee.Id;
+            empl.ObjectId = employee.ObjectId;
+            empl.AccessToken = employee.AccessToken;
+            empl.AppointmentId = employee.AppointmentId;
+            empl.Name = employee.Name;
+            empl.Surname = employee.Surname;
+            empl.Patronymic = employee.Patronymic;
+            empl.PassportSeries = employee.PassportSeries;
+            empl.PassportNumber = employee.PassportNumber;
+            empl.Tin = employee.Tin;
+            empl.Snils = employee.Snils;
+            empl.Address = employee.Address;
+            empl.Phone = employee.Phone;
+            empl.Email = employee.Email;
+            empl.ApplyingDate = employee.ApplyingDate;
+            empl.LayoffDate = employee.LayoffDate;
+            empl.Created_At = employee.Created_At;
+            empl.Updated_At = employee.Updated_At;
+            empl.Password = employee.Password;
+            empl.EmployeeStatusId = employee.EmployeeStatusId;
+            empl.ASetOfRulesId = employee.ASetOfRulesId;
+
+            dbContext.Employees.Add(empl);
+
             try
             {
-                await dbContext.SaveChangesAsync();
-                return Result.Success(employee);
-
+                await dbContext.SaveChangesAsync();                
+                return Result.Success(empl);
             }
             catch (Exception ex)
             {
@@ -86,12 +148,40 @@ namespace KTSF.Application.Service
 
         public async Task<Result<Employee>> Update(Employee employee)
         {
+
+            await Console.Out.WriteLineAsync(employee.LayoffDate.ToString());
             try
             {
-                dbContext.Attach(employee);
-                await dbContext.SaveChangesAsync();
+                Employee? empl = dbContext.Employees.Where(emp => emp.Id == employee.Id).FirstOrDefault();
 
-                return Result.Success(employee);
+                if (empl == null) return Result.Failure<Employee>("Not found");              
+
+                empl.Id = employee.Id;
+                empl.ObjectId = employee.ObjectId;              
+                empl.AccessToken = employee.AccessToken;
+                empl.AppointmentId = employee.AppointmentId;   
+                empl.Name = employee.Name;
+                empl.Surname = employee.Surname;
+                empl.Patronymic = employee.Patronymic;
+                empl.PassportSeries = employee.PassportSeries;
+                empl.PassportNumber = employee.PassportNumber;
+                empl.Tin = employee.Tin;
+                empl.Snils = employee.Snils;
+                empl.Address = employee.Address;
+                empl.Phone = employee.Phone;
+                empl.Email = employee.Email;
+                empl.ApplyingDate = employee.ApplyingDate;
+                empl.LayoffDate = employee.LayoffDate;
+                empl.Created_At = employee.Created_At;
+                empl.Updated_At = employee.Updated_At;
+                empl.Password = employee.Password;
+                empl.EmployeeStatusId = employee.EmployeeStatusId;
+
+                await Console.Out.WriteLineAsync(empl.LayoffDate.ToString());
+
+                await dbContext.SaveChangesAsync();               
+
+                return Result.Success(empl);
             }
             catch (Exception ex)
             {

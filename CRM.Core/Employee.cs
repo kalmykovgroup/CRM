@@ -1,15 +1,15 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿
 using KTSF.Core.ABAC;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace KTSF.Core
 {
 
     [Table("employees")]
     public partial class Employee
-    { 
-         
+    {          
         public int Id { get; set; }
 
         [ForeignKey(nameof(Object))]
@@ -17,11 +17,11 @@ namespace KTSF.Core
         public Object Object { get; set; } = null!;
 
         [ForeignKey(nameof(Appointment))]
-        public int AppointmentId { get; set; } //Должность
+        public int AppointmentId { get; set; } //Должность      
         public Appointment Appointment { get; set; } = null!; //Должность
 
         [ForeignKey(nameof(ASetOfRules))]
-        public int ASetOfRulesId { get; set; } //Набор правил доступа
+        public int ASetOfRulesId { get; set; } //Набор правил доступа       
         public ASetOfRules ASetOfRules { get; set; } = null!; //Набор правил доступа
 
         [MaxLength(512)]
@@ -73,19 +73,17 @@ namespace KTSF.Core
         [MaxLength(255)]
         public string Password { get; set; } = null!; // генерируется и приходит на почту
 
-
-
-
         [ForeignKey(nameof(EmployeeStatus))]
-        public int EmployeeStatusId { get; set; }
+        public int EmployeeStatusId { get; set; }        
         public EmployeeStatus EmployeeStatus { get; set; } = null!;
+
 
         public Employee Copy()
         {
             return new Employee()
             {
                 Id = this.Id,
-                ObjectId = this.ObjectId, 
+                ObjectId = this.ObjectId,
                 Object = new Object()
                 {
                     Id = this.Object.Id,
@@ -95,7 +93,7 @@ namespace KTSF.Core
                     Company = new Company()
                     {
                         Id = this.Object.Company.Id,
-                        Name = this.Object.Company.Name,    
+                        Name = this.Object.Company.Name,
                     }
                 },
                 AccessToken = this.AccessToken,
@@ -105,7 +103,7 @@ namespace KTSF.Core
                     Id = this.Appointment.Id,
                     Name = this.Appointment.Name,
                     Description = this.Appointment.Description,
-                },                
+                },
                 Name = this.Name,
                 Surname = this.Surname,
                 Patronymic = this.Patronymic,
@@ -119,13 +117,20 @@ namespace KTSF.Core
                 ApplyingDate = this.ApplyingDate,
                 LayoffDate = this.LayoffDate,
                 Created_At = this.Created_At,
-                Updated_At = this.Updated_At, 
+                Updated_At = this.Updated_At,
                 Password = this.Password,
                 EmployeeStatusId = this.EmployeeStatusId,
                 EmployeeStatus = new EmployeeStatus()
                 {
                     Id = this.EmployeeStatusId,
                     Name = this.EmployeeStatus.Name,
+                },
+                ASetOfRulesId = this.ASetOfRulesId,
+                ASetOfRules = new ASetOfRules()
+                {
+                    Id = this.ASetOfRules.Id,
+                    Name = this.ASetOfRules.Name,
+                    Description = this.ASetOfRules.Description,
                 }
             };
         }

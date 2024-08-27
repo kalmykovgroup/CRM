@@ -57,7 +57,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
 
         public int[] arrNumbersPage =  [];
 
-        public WarehouseComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
+        public WarehouseComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
         {
 
         }
@@ -65,10 +65,15 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         public override async void ComponentLoaded()
         {                        
             IsLoad = "Загрузка";
-        
+            
             FirstPage? firstPage = await AppControl.Server.GetFirstPage();
 
-            CountPages = firstPage.pageCount; 
+            if(firstPage is null)
+            {               
+                return;
+            }
+
+            CountPages = firstPage.pageCount;
 
             foreach (Product product in firstPage.Products)
             {
@@ -89,7 +94,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                     PaginationButtons.Add(new PaginateBtn(i));
                 }
             }
-       
+
             CurrentPage = BeginBtn;
 
             if (countPages > CountCenterButtons + 4)

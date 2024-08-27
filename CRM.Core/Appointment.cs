@@ -19,6 +19,6 @@ namespace KTSF.Core
         [MaxLength(1000)]
         public string Description { get; set; } = String.Empty;
 
-
+        public override string ToString() => Name;
     }
 }

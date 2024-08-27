@@ -10,7 +10,7 @@ namespace KTSF.Components.TabComponents.SalesComponent
 {
     public class SalesComponent : TabComponent
     {
-        public SalesComponent(UserControlVM binding, AppControl appControl) : base(binding, appControl)
+        public SalesComponent(UserControlVM binding, AppControl appControl, string iconPath) : base (binding, appControl, iconPath)
         {
         }
 
