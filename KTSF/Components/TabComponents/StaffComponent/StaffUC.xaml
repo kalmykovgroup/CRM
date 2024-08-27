@@ -231,7 +231,7 @@
     </UserControl.Resources>
 
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Tag="Employed">
         <TabControl>
             <!--  ВКЛАДКА  АКТИВНЫЕ  -->
             <TabItem Header="Трудоустроен">
@@ -246,6 +246,7 @@
                         Grid.Row="0"
                         Grid.RowSpan="2"
                         Foreground="Black"
+                        ParentTag="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}}"
                         Template="{StaticResource ContentControlLoad}" />
 
 

@@ -17,6 +17,11 @@
     <None Remove="Components\MainComponent\**" />
     <Page Remove="Components\CommonComponent\**" />
     <Page Remove="Components\MainComponent\**" />
+    <Page Update="Components\CommonComponents\EmployeeSearchComponent\EmployeeSearchUC.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
