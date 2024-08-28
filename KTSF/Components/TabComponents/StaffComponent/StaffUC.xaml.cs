@@ -15,18 +15,12 @@ using System.Windows.Shapes;
 
 namespace KTSF.Components.TabComponents.StaffComponent
 {
-    /// <summary>
-    /// Логика взаимодействия для StaffUC.xaml
-    /// </summary>
     public partial class StaffUC : UserControl
-    {        
-
+    {    
         public StaffUC(StaffComponent StaffComponent)
         {
             InitializeComponent();
-            DataContext = StaffComponent;
-           
-        }
-       
+            DataContext = StaffComponent;           
+        }       
     }
 }

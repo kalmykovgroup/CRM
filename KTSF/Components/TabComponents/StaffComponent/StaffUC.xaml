@@ -632,10 +632,17 @@
                         </Grid.Style>
 
                         <!--  USerControl SearchComponent  -->
+                        <!--
                         <ContentControl
                             Grid.Column="0"
                             Margin="5,5"
-                            Content="{Binding SearchComponentFired.Build}" />
+                            Content="{Binding SearchComponentFired.Build}" />-->
+
+                        <!--  USerControl SearchComponent  -->
+                        <ContentControl
+                            Grid.Column="0"
+                            Margin="5,5"
+                            Content="{Binding SearchComponent.Build}" />
 
                         <Button
                             Grid.Column="1"
@@ -766,7 +773,7 @@
                                                 CommandParameter="{Binding}"
                                                 Content="{Binding DataContext.Property.Edit, ElementName=UserControl}"
                                                 Style="{StaticResource buttonStyle}" />
-                                    
+
                                             <ToggleButton
                                                 x:Name="userInfoToggleButton"
                                                 Grid.Row="2"
@@ -947,6 +954,12 @@
                             Margin="5,5"
                             Content="{Binding SearchComponent.Build}" />-->
 
+                        <!--  USerControl SearchComponent  -->
+                        <ContentControl
+                            Grid.Column="0"
+                            Margin="5,5"
+                            Content="{Binding SearchComponent.Build}" />
+
 
                         <Button
                             Grid.Column="1"
@@ -1075,7 +1088,7 @@
                                                 CommandParameter="{Binding}"
                                                 Content="{Binding DataContext.Property.Edit, ElementName=UserControl}"
                                                 Style="{StaticResource buttonStyle}" />
-                                          
+
                                             <ToggleButton
                                                 x:Name="userInfoToggleButton"
                                                 Grid.Row="2"
@@ -1337,7 +1350,7 @@
                                                 Grid.Row="2"
                                                 HorizontalAlignment="Center"
                                                 FontWeight="DemiBold"
-                                                Text="{Binding DataContext.Property.Email, ElementName=UserControl}"/>
+                                                Text="{Binding DataContext.Property.Email, ElementName=UserControl}" />
                                             <TextBlock
                                                 Grid.Row="3"
                                                 HorizontalAlignment="Center"

@@ -57,6 +57,9 @@ namespace KTSF.Components.TabComponents.StaffComponent
             CreateEmployeeLists();
 
             List<Appointment>? appointments = await AppControl.Server.GetAllAppointment();
+
+            if(appointments is null) { return; }
+
             foreach(Appointment appointment in appointments)
             {
                 EmployeeVM.Appointments.Add(appointment);
@@ -64,6 +67,9 @@ namespace KTSF.Components.TabComponents.StaffComponent
             }
 
             List<EmployeeStatus> employeeStatuses = await AppControl.Server.GetAllEmployeeStatus();
+
+            if(employeeStatuses is null) { return; }
+
             foreach (EmployeeStatus employeeStatus in employeeStatuses)
             {
                 EmployeeVM.EmployeeStatuses.Add(employeeStatus);
@@ -71,6 +77,9 @@ namespace KTSF.Components.TabComponents.StaffComponent
             }
 
             List<ASetOfRules> aSetOfRules = await AppControl.Server.GetAllASetOfRules();
+
+            if(aSetOfRules is null) { return; }
+
             foreach (ASetOfRules aSetOfRule in aSetOfRules)
             {
                 EmployeeVM.ASetOfRules.Add(aSetOfRule);
@@ -112,8 +121,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
                         .Where(aset => aset.Name == EmployeeVM.Employee.ASetOfRules.Name)
                         .First();
 
-            EditStaffWindow editStaffWindow = new EditStaffWindow(EmployeeVM,             
-                EditStaffWindowSaveClick); // передавать копию??
+            EditStaffWindow editStaffWindow = new EditStaffWindow(EmployeeVM,EditStaffWindowSaveClick); // передавать копию??
 
             editStaffWindow.ShowDialog();
         

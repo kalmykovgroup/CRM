@@ -100,6 +100,14 @@ namespace KTSF.Languages.Packages
 
         public ITranslationWarehouseComponent ITranslationWarehouseComponent => new TranslationWarehouseComponent();
 
-      
+
+
+        private class TranslationStaffWindow : ITranslationStaffWindow
+        {
+            public string Name => "ТЕСТИРУЕМ";
+        }
+
+        public ITranslationStaffWindow ITranslationStaffWindow => new TranslationStaffWindow();
+
     }
 }

@@ -103,6 +103,15 @@ namespace KTSF.Languages.Packages
 
         public ITranslationSearchComponent ITranslationSearchComponent => new TranslationSearchComponent();
 
-      
+
+
+
+        private class TranslationStaffWindow : ITranslationStaffWindow
+        {
+            public string Name => "TESTING";
+        }
+
+        public ITranslationStaffWindow ITranslationStaffWindow => new TranslationStaffWindow();
+
     }
 }
