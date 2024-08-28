@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KTSF.Components.CommonComponents.SearchComponent
+namespace KTSF.Components.CommonComponents.EmployeeSearchComponent
 {
-    public interface ITranslationSearchComponent
+    public interface ITranslationEmployeeSearchComponent
     {
         public string Placeholder { get; }    
     }

@@ -22,6 +22,7 @@
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Remove="Components\CommonComponents\EmployeeSearchComponent\Converters\LengthToBoolConverter.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -153,6 +154,10 @@
     <Resource Include="Components\TabComponents\StaffComponent\Img\Qualifying.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\CommonComponents\EmployeeSearchComponent\Converters\" />
   </ItemGroup>
 
 </Project>

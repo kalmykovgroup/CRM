@@ -13,23 +13,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KTSF.Components.CommonComponents.SearchComponent
+namespace KTSF.Components.CommonComponents.EmployeeSearchComponent
 {
     /// <summary>
     /// Логика взаимодействия для SearchUC.xaml
     /// </summary>
-    public partial class SearchUC : UserControl
+    public partial class EmployeeSearchUC : UserControl
     {
-        public SearchComponent SearchComponent { get; }
-        public SearchUC(SearchComponent searchComponent)
+        public EmployeeSearchComponent EmployeeSearchComponent { get; }
+        public EmployeeSearchUC(EmployeeSearchComponent employeeSearchComponent)
         {
             InitializeComponent();
-            SearchComponent = searchComponent;
-            DataContext = SearchComponent;
-
+            EmployeeSearchComponent = employeeSearchComponent;
+            DataContext = EmployeeSearchComponent;
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e) => SearchComponent.TextBox_TextChanged(sender, e);
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e) => EmployeeSearchComponent.TextBox_TextChanged(sender, e);
 
     }
 }

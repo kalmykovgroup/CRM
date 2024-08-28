@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace KTSF.Components.CommonComponents.SearchComponent.Converters
+namespace KTSF.Components.CommonComponents.Converters
 {
     public class LengthToBoolConverter : IValueConverter
     {

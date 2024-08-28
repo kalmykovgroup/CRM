@@ -537,6 +537,12 @@ namespace KTSF.Db
             return employees;
         }
 
+        public async Task<List<Employee>?> SearchEmployee(string searchElement, string status)
+        {
+            List<Employee>? employees = new List<Employee>();
+            return employees;
+        }
+
         #endregion
 
         #region Appointment
