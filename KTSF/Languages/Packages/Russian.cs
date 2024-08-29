@@ -102,12 +102,50 @@ namespace KTSF.Languages.Packages
 
 
 
-        private class TranslationStaffWindow : ITranslationStaffWindow
+        private class TranslationEditStaffWindow : ITranslationEditStaffWindow
         {
-            public string Name => "ТЕСТИРУЕМ";
+            public string Name => "Имя :";
+            public string Surname => "Фамилия :";
+            public string Patronymic => "Отчество :";
+            public string Passport => "Паспорт :";
+            public string INN => "ИНН :";
+            public string SNILS => "СНИЛС :";
+            public string Position => "Должность :";
+            public string PhoneNumber => "Телефон :";
+            public string Email => "Почта :";
+            public string Address => "Адрес :";
+            public string EmployeeStatus => "Статус сотрудника :";
+            public string EmployeePermissions => "Разрешения сотрудника :";
+            public string ApplyingDate => "Дата оформления :";
+            public string Editing => "Редактирование";
+            public string Attributes => "Атрибуты";
+            public string Save => "Сохранить";
+            public string Cancel => "Отмена";
         }
 
-        public ITranslationStaffWindow ITranslationStaffWindow => new TranslationStaffWindow();
+        public ITranslationEditStaffWindow ITranslationEditStaffWindow => new TranslationEditStaffWindow();
+
+
+        private class TranslationAddNewStaffWindow : ITranslationAddNewStaffWindow
+        {
+            public string Name => "Имя :";
+            public string Surname => "Фамилия :";
+            public string Patronymic => "Отчество :";
+            public string Passport => "Паспорт :";
+            public string INN => "ИНН :";
+            public string SNILS => "СНИЛС :";
+            public string Position => "Должность :";
+            public string PhoneNumber => "Телефон :";
+            public string Email => "Почта :";
+            public string Address => "Адрес :";
+            public string EmployeeStatus => "Статус сотрудника :";
+            public string EmployeePermissions => "Разрешения сотрудника :";
+            public string ApplyingDate => "Дата оформления :";           
+            public string Save => "Сохранить";
+            public string Cancel => "Отмена";
+        }
+
+        public ITranslationAddNewStaffWindow ITranslationAddNewStaffWindow => new TranslationAddNewStaffWindow();
 
     }
 }

@@ -17,7 +17,6 @@ namespace KTSF.Languages.Packages
 {
     public class English : ILanguage
     {
-
         private class TranslationCashiersWorkplaceComponent : ITranslationCashiersWorkplaceComponent
         {
             public string Name => "Cashiers workplace";
@@ -103,15 +102,49 @@ namespace KTSF.Languages.Packages
 
         public ITranslationSearchComponent ITranslationSearchComponent => new TranslationSearchComponent();
 
-
-
-
-        private class TranslationStaffWindow : ITranslationStaffWindow
+        private class TranslationEditStaffWindow : ITranslationEditStaffWindow
         {
-            public string Name => "TESTING";
+            public string Name => "Name :";
+            public string Surname => "Surname :";
+            public string Patronymic => "Patronymic :";
+            public string Passport => "Passport :";
+            public string INN => "INN :";
+            public string SNILS => "SNILS :";
+            public string Position => "Position :";
+            public string PhoneNumber => "PhoneNumber :";
+            public string Email => "Email :";
+            public string Address => "Address :";
+            public string EmployeeStatus => "Employee status :";
+            public string EmployeePermissions => "Employee permissions :";
+            public string ApplyingDate => "Applying date :";
+            public string Editing => "Editing";
+            public string Attributes => "Attributes";
+            public string Save => "Save";
+            public string Cancel => "Cancel";
         }
 
-        public ITranslationStaffWindow ITranslationStaffWindow => new TranslationStaffWindow();
+        public ITranslationEditStaffWindow ITranslationEditStaffWindow => new TranslationEditStaffWindow();
 
+
+        private class TranslationAddNewStaffWindow : ITranslationAddNewStaffWindow
+        {
+            public string Name => "Name :";
+            public string Surname => "Surname :";
+            public string Patronymic => "Patronymic :";
+            public string Passport => "Passport :";
+            public string INN => "INN :";
+            public string SNILS => "SNILS :";
+            public string Position => "Position :";
+            public string PhoneNumber => "PhoneNumber :";
+            public string Email => "Email :";
+            public string Address => "Address :";
+            public string EmployeeStatus => "Employee status :";
+            public string EmployeePermissions => "Employee permissions :";
+            public string ApplyingDate => "Applying date :";            
+            public string Save => "Save";
+            public string Cancel => "Cancel";
+        }
+
+        public ITranslationAddNewStaffWindow ITranslationAddNewStaffWindow => new TranslationAddNewStaffWindow();
     }
 }

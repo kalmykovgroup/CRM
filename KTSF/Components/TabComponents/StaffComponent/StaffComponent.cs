@@ -93,7 +93,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
         {
             EmployeeVM.Employee = new Employee();
 
-            AddNewStaffWindow userWindow = new AddNewStaffWindow(EmployeeVM);
+            AddNewStaffWindow userWindow = new AddNewStaffWindow(EmployeeVM, AppControl);
 
             if (userWindow.ShowDialog() == true)
             {
@@ -121,7 +121,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
                         .Where(aset => aset.Name == EmployeeVM.Employee.ASetOfRules.Name)
                         .First();
 
-            EditStaffWindow editStaffWindow = new EditStaffWindow(EmployeeVM,EditStaffWindowSaveClick); // передавать копию??
+            EditStaffWindow editStaffWindow = new EditStaffWindow(EmployeeVM,EditStaffWindowSaveClick, AppControl); // передавать копию??
 
             editStaffWindow.ShowDialog();
         

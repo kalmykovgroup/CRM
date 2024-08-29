@@ -12,11 +12,11 @@
     <Application.Resources>
 
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
+            <!--<ResourceDictionary.MergedDictionaries>
 
                 <ResourceDictionary Source="\Components\Window\MainMenuWinComponent\ScrollBar.xaml" />
 
-            </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>-->
 
             <SolidColorBrush x:Key="ColorGreen" Color="#3A7F25" />
             <SolidColorBrush x:Key="ColorCompanyNameYellow" Color="Yellow" />

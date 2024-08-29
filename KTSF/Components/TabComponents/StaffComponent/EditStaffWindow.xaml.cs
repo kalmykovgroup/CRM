@@ -1,9 +1,11 @@
 ﻿using KTSF.Core;
 using KTSF.Core.ABAC;
 using KTSF.Dto.Employee_;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Drawing2D;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
@@ -18,59 +20,33 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Component = KTSF.Components.Component;
 
 namespace KTSF
 {
-    public partial class EditStaffWindow : Window 
+    public partial class EditStaffWindow : Window, INotifyPropertyChanged
     {
-        //public event PropertyChangedEventHandler? PropertyChanged;
-
-        //private dynamic? property;
-
-        //public dynamic? Property
-        //{
-        //    get => property;
-        //    set
-        //    {
-        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(property)));
-        //        //SetProperty(ref property, value);
-        //    }
-        //}
-
-        //public AppControl AppControl { get; }
-
-        //private void LoadLanguage()
-        //{
-        //    string? name = this.GetType().Name;
-
-        //    PropertyInfo? propertyInfo = AppControl.LanguageControl.Language.Pack.GetType().GetProperty($"ITranslation{name}");
-
-        //    object? obj = propertyInfo?.GetValue(AppControl.LanguageControl.Language.Pack);
-
-        //    if (obj is null) return;
 
 
-        //    dynamic dynamicObject = new ExpandoObject();
+        public event PropertyChangedEventHandler? PropertyChanged;
 
+        private dynamic? property;
 
-        //    var propertyList = obj.GetType().GetProperties();
+        public dynamic? Property
+        {
+            get => property;
+            set
+            {
+                property = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Property)));
+                //SetProperty(ref property, value);
+            }
+        }
 
-        //    foreach (var property in propertyList)
-        //    {
-        //        object text = property.GetValue(obj) ?? "No name";
+        
 
-        //        ((IDictionary<string, object>)dynamicObject)[property.Name] = text;
-        //    }
-
-        //    Property = dynamicObject;
-
-        //}
-
-
-
-
-
-
+      
+        
 
 
         public EmployeeVM EmployeeVM { get; }
@@ -85,22 +61,20 @@ namespace KTSF
         private Regex phoneNumberRegex = new(@"(\+7|8)[\(\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[)\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)");
         private Regex emailRegex = new(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.\w{2,3}$");
 
-   
 
 
+     
 
-        public EditStaffWindow(EmployeeVM employeeVM,Action<EditStaffWindow> action)
+        public EditStaffWindow(EmployeeVM employeeVM,Action<EditStaffWindow> action, AppControl appControl)
         {
             InitializeComponent();
 
             this.EmployeeVM = employeeVM;       
-            this.Action = action;
+            this.Action = action;      
 
-            //AppControl = appControl;
-            //LoadLanguage();
-            //AppControl.LanguageControl.LanguageChange += LoadLanguage;
-
-            this.DataContext = EmployeeVM;            
+            Component.LoadLanguage(this.GetType(), appControl, (_property) => { Property = _property; });    
+          
+            this.DataContext = this;            
         }
 
 
