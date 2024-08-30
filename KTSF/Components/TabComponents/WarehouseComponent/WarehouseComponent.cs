@@ -65,13 +65,15 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         public override async void ComponentLoaded()
         {                        
             IsLoad = "Загрузка";
-        
+            
             FirstPage? firstPage = await AppControl.Server.GetFirstPage();
 
-            if (firstPage == null)
+            if(firstPage is null)
+            {               
                 return;
+            }
 
-            CountPages = firstPage.pageCount; 
+            CountPages = firstPage.pageCount;
 
             foreach (Product product in firstPage.Products)
             {
@@ -83,16 +85,16 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             PenultimateBtn = countPages > 2 ? new PaginateBtn(countPages - 1 > 3 ? countPages - 1 : 3) : null;
             BeforeLast = countPages > 1 ? new PaginateBtn(CountPages - 1) : null;
             EndBtn = countPages > 3 ? new PaginateBtn(countPages) : null;
-            
- 
-            if(countPages > 4)
-            { 
+
+
+            if (countPages > 4)
+            {
                 for (int i = 3, j = 0; i < countPages - 1 && j < CountCenterButtons; i++, j++)
                 {
                     PaginationButtons.Add(new PaginateBtn(i));
                 }
             }
-       
+
             CurrentPage = BeginBtn;
 
             if (countPages > CountCenterButtons + 4)

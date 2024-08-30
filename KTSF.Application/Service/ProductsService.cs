@@ -125,7 +125,7 @@ namespace KTSF.Application.Service
                 .Take(20)
                 .ToArrayAsync();
 
-            return result;
+            return result != null ? Result.Success(result) : Result.Failure<FirstPage>("Not found");
         }
 
 
@@ -153,11 +153,12 @@ namespace KTSF.Application.Service
         // получение всех продуктов
         public async Task<Result<List<Product>>> GetAll()
         {
-            return Result.Success(dbContext.Products.ToList());
+            return Result.Success(await dbContext.Products.ToListAsync());
         }
 
         
 
+        // !!!!! ИСПРАВИТЬ !!!!
         // создание 
         public async Task<Result<Product>> Insert(Product product)
         {
