@@ -246,7 +246,6 @@
                         Grid.Row="0"
                         Grid.RowSpan="2"
                         Foreground="Black"
-                        ParentTag="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}}"
                         Template="{StaticResource ContentControlLoad}" />
 
 
