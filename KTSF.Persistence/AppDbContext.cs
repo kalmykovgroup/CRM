@@ -61,11 +61,11 @@ namespace KTSF.Persistence
 
         #endregion
 
-        //public AppDbContext()
-        //{
-        //    Database.EnsureDeleted();
-        //    Database.EnsureCreated();
-        //}
+        // public AppDbContext()
+        // {
+        //     Database.EnsureDeleted();
+        //     Database.EnsureCreated();
+        // }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -261,6 +261,7 @@ namespace KTSF.Persistence
                     ApplyingDate = DateTime.Now,
                     Created_At = DateTime.Now,
                     Updated_At = DateTime.Now,
+
                 },
                 new Employee()
                 {

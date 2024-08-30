@@ -330,18 +330,18 @@
                             </Style>
                         </Grid.Style>
 
-
                         <!--  USerControl SearchComponent  -->
                         <ContentControl
+                            Content="{Binding EmployeeSearchComponent.Build}"
                             Grid.Column="0"
-                            Margin="5,5"
-                            Content="{Binding SearchComponent.Build}" />
-
+                            Margin="5,5" />
 
                         <Button
+                            Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
+                            Content="Добавить"
                             Grid.Column="1"
-                            Width="90"
                             Height="20"
+                            HorizontalAlignment="Right"
                             Margin="0,0,20,0"
                             HorizontalAlignment="Right"
                             Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
@@ -349,16 +349,19 @@
                             Style="{StaticResource addButtonStyle}" />
                     </Grid>
 
-                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Employees}">
+                    <ItemsControl
+                        Grid.Row="1"
+                        ItemsSource="{Binding Employees}"
+                        x:Name="EmployeesItemsControl">
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border
-                                    Margin="5,2"
                                     Background="White"
                                     BorderBrush="Black"
                                     BorderThickness="1"
-                                    CornerRadius="5">
+                                    CornerRadius="5"
+                                    Margin="5,2">
 
                                     <Grid Background="#B9CADB">
                                         <Grid.RowDefinitions>

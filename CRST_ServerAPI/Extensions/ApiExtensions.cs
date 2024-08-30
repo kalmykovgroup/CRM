@@ -1,4 +1,4 @@
-﻿using KTSF.Persistence.Configurations;
+using KTSF.Persistence.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;

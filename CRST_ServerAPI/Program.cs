@@ -30,7 +30,7 @@ namespace CRST_ServerAPI
             builder.Services.AddControllers()
             .ConfigureApiBehaviorOptions(options =>
             {
-               // options.SuppressMapClientErrors = true; //Отключение ответа ProblemDetails
+               // options.SuppressMapClientErrors = true; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ProblemDetails
             });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,7 +42,7 @@ namespace CRST_ServerAPI
          /*   builder.Services.AddAuthentication("BasicAuthentication")
          .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null); */
  
-         /*   //Требовать прошедших проверку подлинности пользователей
+         /*   //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
               builder.Services.AddAuthorization(options =>
               {
                   options.FallbackPolicy = new AuthorizationPolicyBuilder()
@@ -84,18 +84,18 @@ namespace CRST_ServerAPI
             }
 
 
-            // // Настройте конвейер HTTP-запросов.
+            // // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ HTTP-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
             app.UseHttpsRedirection();
 
 
 
 
-            //app.UseAuthentication();   // добавление middleware аутентификации
+            //app.UseAuthentication();   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ middleware пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
             app.UseAuthorization(); 
             
 
-            // устанавливаем сопоставление маршрутов с контроллерами
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             app.MapControllerRoute(
              name: "default",
              pattern: "{controller=Home}/{action=Index}/{id?}"

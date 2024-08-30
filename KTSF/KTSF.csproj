@@ -148,6 +148,16 @@
     <Resource Include="Img\TabComponents\Settings.svg" />
     <Resource Include="Img\TabComponents\Staff.svg" />
     <Resource Include="Img\TabComponents\Warehouse.svg" />
+    <Resource Include="Components\TabComponents\StaffComponent\Img\NotEmployed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Components\TabComponents\StaffComponent\Img\Qualifying.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\CommonComponents\EmployeeSearchComponent\Converters\" />
   </ItemGroup>
 
 </Project>
