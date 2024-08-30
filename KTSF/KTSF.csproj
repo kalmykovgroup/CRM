@@ -150,4 +150,8 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\CommonComponents\EmployeeSearchComponent\Converters\" />
+  </ItemGroup>
+
 </Project>
