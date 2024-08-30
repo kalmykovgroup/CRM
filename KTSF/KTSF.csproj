@@ -9,12 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\CommonComponents\EmployeeSearchComponent\Converters\**" />
     <Compile Remove="Components\CommonComponent\**" />
     <Compile Remove="Components\MainComponent\**" />
+    <EmbeddedResource Remove="Components\CommonComponents\EmployeeSearchComponent\Converters\**" />
     <EmbeddedResource Remove="Components\CommonComponent\**" />
     <EmbeddedResource Remove="Components\MainComponent\**" />
+    <None Remove="Components\CommonComponents\EmployeeSearchComponent\Converters\**" />
     <None Remove="Components\CommonComponent\**" />
     <None Remove="Components\MainComponent\**" />
+    <Page Remove="Components\CommonComponents\EmployeeSearchComponent\Converters\**" />
     <Page Remove="Components\CommonComponent\**" />
     <Page Remove="Components\MainComponent\**" />
   </ItemGroup>
@@ -157,7 +161,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\CommonComponents\EmployeeSearchComponent\Converters\" />
+    <Folder Include="Components\CommonComponents\EmployeeSearchComponent\" />
+    <Folder Include="Components\CommonComponents\SearchComponent\Converters\" />
   </ItemGroup>
 
 </Project>

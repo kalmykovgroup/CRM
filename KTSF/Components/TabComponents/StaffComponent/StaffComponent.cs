@@ -86,8 +86,8 @@ namespace KTSF.Components.TabComponents.StaffComponent
                 //ASetOfRules.Add(aSetOfRule);
             }
         }
-
      
+
         [RelayCommand]
         public async void AddNewEmployee()
         {

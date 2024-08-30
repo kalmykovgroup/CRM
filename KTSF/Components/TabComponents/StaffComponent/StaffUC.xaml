@@ -142,10 +142,13 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>   
 
         <!--  Button  -->
         <Style x:Key="buttonStyle" TargetType="Button">
+            <Setter Property="Width" Value="90" />
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Margin" Value="0,0,15,0" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -190,6 +193,10 @@
 
         <!--  Button добавить  -->
         <Style x:Key="addButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="90" />
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Margin" Value="0,0,20,0" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="Foreground" Value="#CCE4F8" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -331,37 +338,31 @@
                         </Grid.Style>
 
                         <!--  USerControl SearchComponent  -->
-                        <ContentControl
-                            Content="{Binding EmployeeSearchComponent.Build}"
+                        <!--<ContentControl
                             Grid.Column="0"
-                            Margin="5,5" />
+                            Margin="5,5"
+                            Content="{Binding EmployeeSearchComponent.Build}" />-->
 
                         <Button
-                            Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
-                            Content="Добавить"
                             Grid.Column="1"
-                            Height="20"
-                            HorizontalAlignment="Right"
-                            Margin="0,0,20,0"
-                            HorizontalAlignment="Right"
                             Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
                             Content="{Binding Property.Add}"
                             Style="{StaticResource addButtonStyle}" />
                     </Grid>
 
                     <ItemsControl
+                        x:Name="EmployeesItemsControl"
                         Grid.Row="1"
-                        ItemsSource="{Binding Employees}"
-                        x:Name="EmployeesItemsControl">
+                        ItemsSource="{Binding Employees}">
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border
+                                    Margin="5,2"
                                     Background="White"
                                     BorderBrush="Black"
                                     BorderThickness="1"
-                                    CornerRadius="5"
-                                    Margin="5,2">
+                                    CornerRadius="5">
 
                                     <Grid Background="#B9CADB">
                                         <Grid.RowDefinitions>
@@ -460,10 +461,7 @@
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="1"
-                                                Width="90"
-                                                Height="20"
-                                                Margin="0,0,15,0"
+                                                Grid.Row="1"                                            
                                                 Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="{Binding DataContext.Property.Edit, ElementName=UserControl}"
@@ -648,16 +646,10 @@
                             Content="{Binding SearchComponent.Build}" />
 
                         <Button
-                            Grid.Column="1"
-                            Width="90"
-                            Height="20"
-                            Margin="0,0,20,0"
-                            HorizontalAlignment="Right"
-                            Background="Transparent"
-                            BorderBrush="Black"
-                            BorderThickness="0,0,0,1"
+                            Grid.Column="1"                       
                             Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
-                            Content="{Binding Property.Add}" />
+                            Content="{Binding Property.Add}"
+                            Style="{StaticResource addButtonStyle}" />
                     </Grid>
 
                     <ItemsControl Grid.Row="1" ItemsSource="{Binding FiredEmployees}">
@@ -768,10 +760,7 @@
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="1"
-                                                Width="90"
-                                                Height="20"
-                                                Margin="0,0,15,0"
+                                                Grid.Row="1"                                            
                                                 Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="{Binding DataContext.Property.Edit, ElementName=UserControl}"
@@ -965,11 +954,7 @@
 
 
                         <Button
-                            Grid.Column="1"
-                            Width="90"
-                            Height="20"
-                            Margin="0,0,20,0"
-                            HorizontalAlignment="Right"
+                            Grid.Column="1"                    
                             Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
                             Content="{Binding Property.Add}"
                             Style="{StaticResource addButtonStyle}" />
@@ -1083,10 +1068,7 @@
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="1"
-                                                Width="90"
-                                                Height="20"
-                                                Margin="0,0,15,0"
+                                                Grid.Row="1"                                         
                                                 Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="{Binding DataContext.Property.Edit, ElementName=UserControl}"
@@ -1260,11 +1242,7 @@
 
 
                         <Button
-                            Grid.Column="1"
-                            Width="90"
-                            Height="20"
-                            Margin="0,0,20,0"
-                            HorizontalAlignment="Right"
+                            Grid.Column="1"                   
                             Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
                             Content="{Binding Property.Add}"
                             Style="{StaticResource addButtonStyle}" />
@@ -1378,10 +1356,7 @@
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="1"
-                                                Width="90"
-                                                Height="20"
-                                                Margin="0,0,15,0"
+                                                Grid.Row="1"                                       
                                                 Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="{Binding DataContext.Property.Edit, ElementName=UserControl}"
