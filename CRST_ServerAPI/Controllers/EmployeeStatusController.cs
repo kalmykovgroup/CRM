@@ -17,6 +17,7 @@ namespace KTSF.Api.Controllers
             this.employeeStatusService = employeeStatusService;
         }
 
+
         [HttpPost]
         [Route("insert")]
         public async Task<IActionResult> Insert([FromBody] string str)

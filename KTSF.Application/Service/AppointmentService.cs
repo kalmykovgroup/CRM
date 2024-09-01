@@ -25,11 +25,18 @@ namespace KTSF.Application.Service
         // создание 
         public async Task<Result<Appointment>> Insert(Appointment appointment)
         {
-            dbContext.Appointments.Add(appointment);
+            Appointment app = new Appointment();
+
+            app.Id = appointment.Id;
+            app.Name = appointment.Name;
+            app.Description = appointment.Description;
+
+            dbContext.Appointments.Add(app);
+
             try
             {
                 await dbContext.SaveChangesAsync();
-                return Result.Success(appointment);
+                return Result.Success(app);
             }
             catch (Exception ex)
             {
@@ -79,6 +86,8 @@ namespace KTSF.Application.Service
 
             return appointment != null ? Result.Success(appointment) : Result.Failure<Appointment>("Not found");    
         }
+
+
 
 
     }

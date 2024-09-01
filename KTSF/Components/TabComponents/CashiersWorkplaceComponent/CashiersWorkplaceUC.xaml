@@ -20,13 +20,14 @@
     </UserControl.Resources>
 
     <Grid>
+        <!--  Заставка перед покупкой  -->
         <Image
             Height="150"
             HorizontalAlignment="Center"
             Source="ImageSource\add-product.png"
             VerticalAlignment="Center"
             Width="150"
-            d:IsHidden="True">
+            d:Visibility="Hidden">
             <Image.Style>
                 <Style TargetType="Image">
                     <Setter Property="Visibility" Value="Visible" />
@@ -48,6 +49,7 @@
                 <ContentControl Content="{Binding SearchComponent.Build}" Height="30" />
             </Grid>
 
+            <!--  Правая панель  -->
             <Border
                 Background="#fff"
                 BorderBrush="#21303D"
@@ -57,7 +59,7 @@
                 Margin="5,5,5,5"
                 Width="300"
                 d:Visibility="Visible">
-                <Grid d:IsHidden="False">
+                <Grid d:Visibility="Visible">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed" />
@@ -96,7 +98,7 @@
                             FontSize="18"
                             Grid.Column="1"
                             HorizontalAlignment="Right"
-                            Text="{Binding CheckList.TotalSum}"
+                            Text="{Binding CheckList.ReceiptPaymentInfo.TotalSum}"
                             d:Text="800" />
                     </Grid>
 
@@ -116,7 +118,7 @@
                             FontSize="24"
                             Grid.Column="1"
                             HorizontalAlignment="Right"
-                            Text="{Binding CheckList.TotalSum}"
+                            Text="{Binding CheckList.ReceiptPaymentInfo.TotalSum}"
                             d:Text="800" />
                     </Grid>
 
@@ -134,8 +136,15 @@
                         <TextBlock
                             FontSize="24"
                             Grid.Column="1"
-                            HorizontalAlignment="Right"
-                            Text="{Binding CheckList.ReceiptPaymentInfo, Converter={StaticResource amountPaidConverter}}" />
+                            HorizontalAlignment="Right">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource amountPaidConverter}">
+                                    <Binding Path="CheckList.ReceiptPaymentInfo.CardAmount" />
+                                    <Binding Path="CheckList.ReceiptPaymentInfo.CashAmount" />
+                                    <Binding Path="CheckList.ReceiptPaymentInfo.TotalSum" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </Grid>
 
                     <Grid
@@ -168,7 +177,7 @@
                                                 <Setter Property="Opacity" Value="0.5" />
                                                 <Setter Property="Height" Value="30" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Cash}">
+                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Cash}">
                                                         <Setter Property="Background" Value="White" />
                                                         <Setter Property="Opacity" Value="1" />
                                                     </DataTrigger>
@@ -185,15 +194,20 @@
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Right"
+                            InputScope="Number"
+                            KeyDown="textBox_KeyDown"
                             Margin="2,0,0,0"
-                            Text="{Binding CheckList.ReceiptPaymentInfo.CashAmount}">
+                            PreviewTextInput="UIElement_OnPreviewTextInput"
+                            Tag="Cash"
+                            Text="{Binding CheckList.ReceiptPaymentInfo.CashAmount}"
+                            TextChanged="TextBoxCashOrCard_TextChanged">
                             <TextBox.Style>
                                 <Style TargetType="TextBox">
                                     <Setter Property="IsEnabled" Value="False" />
                                     <Setter Property="Visibility" Value="Hidden" />
 
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Cash}">
+                                        <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Cash}">
                                             <Setter Property="IsEnabled" Value="True" />
                                             <Setter Property="Visibility" Value="Visible" />
                                         </DataTrigger>
@@ -224,13 +238,6 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <!--<Button
-                            Grid.Column="0"
-                            Margin="0,0,2,0"
-                            HorizontalAlignment="Stretch"
-                            Content="Карта"
-                            FontSize="18" />-->
-
                         <Button Command="{Binding PayCardClickCommand}" Margin="0,0,2,0">
                             <Button.Template>
                                 <ControlTemplate>
@@ -249,7 +256,7 @@
                                                 <Setter Property="Opacity" Value="0.5" />
                                                 <Setter Property="Height" Value="30" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Card}">
+                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Card}">
                                                         <Setter Property="Background" Value="White" />
                                                         <Setter Property="Opacity" Value="1" />
                                                     </DataTrigger>
@@ -267,15 +274,19 @@
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Right"
+                            KeyDown="textBox_KeyDown"
                             Margin="2,0,0,0"
-                            Text="{Binding CheckList.ReceiptPaymentInfo.CardAmount}">
+                            PreviewTextInput="UIElement_OnPreviewTextInput"
+                            Tag="Card"
+                            Text="{Binding CheckList.ReceiptPaymentInfo.CardAmount}"
+                            TextChanged="TextBoxCashOrCard_TextChanged">
                             <TextBox.Style>
                                 <Style TargetType="TextBox">
                                     <Setter Property="IsEnabled" Value="False" />
                                     <Setter Property="Visibility" Value="Hidden" />
 
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Card}">
+                                        <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Card}">
                                             <Setter Property="IsEnabled" Value="True" />
                                             <Setter Property="Visibility" Value="Visible" />
                                         </DataTrigger>
@@ -298,6 +309,7 @@
                     </Grid>
 
                     <Button
+                        Command="{Binding ProcessPaymentCommand}"
                         Content="Вернуться к подбору"
                         FontSize="18"
                         Grid.Row="7"
@@ -316,6 +328,7 @@
                         </Button.Style>
                     </Button>
                     <Button
+                        Command="{Binding}"
                         Content="Пробить чек"
                         FontSize="18"
                         Grid.Row="8"
@@ -358,7 +371,7 @@
                                                 <Setter Property="Opacity" Value="0.5" />
                                                 <Setter Property="Height" Value="30" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Card}">
+                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Card}">
                                                         <Setter Property="Background" Value="White" />
                                                         <Setter Property="Opacity" Value="1" />
                                                     </DataTrigger>
@@ -391,7 +404,7 @@
                                                 <Setter Property="Opacity" Value="0.5" />
                                                 <Setter Property="Height" Value="30" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethod.Cash}">
+                                                    <DataTrigger Binding="{Binding CheckList.ReceiptPaymentInfo.PaymentMethod}" Value="{x:Static contracts:PaymentMethodVM.Cash}">
                                                         <Setter Property="Background" Value="White" />
                                                         <Setter Property="Opacity" Value="1" />
                                                     </DataTrigger>
@@ -455,6 +468,7 @@
                 </Border.Style>
             </Border>
 
+            <!--  Панель текущего выбранного продукта  -->
             <Border
                 Background="#fff"
                 BorderBrush="#21303D"
@@ -464,7 +478,7 @@
                 Height="100"
                 Margin="0,5,0,0"
                 d:Visibility="Visible">
-                <Grid d:IsHidden="False">
+                <Grid d:Visibility="Visible">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed" />
@@ -532,7 +546,8 @@
                                 BorderThickness="0"
                                 FontSize="16"
                                 Height="25"
-                                KeyDown="textBoxCountProduct_KeyDown"
+                                KeyDown="textBox_KeyDown"
+                                PreviewTextInput="UIElement_OnPreviewTextInput"
                                 Text="{Binding SelectedProduct.Price}"
                                 TextChanged="TextBoxPrice_TextChanged"
                                 VerticalAlignment="Center"
@@ -590,7 +605,8 @@
                             <TextBox
                                 BorderThickness="0"
                                 FontSize="16"
-                                KeyDown="textBoxCountProduct_KeyDown"
+                                KeyDown="textBox_KeyDown"
+                                PreviewTextInput="UIElement_OnPreviewTextInput"
                                 Text="{Binding SelectedProduct.Count}"
                                 TextChanged="TextBoxCount_TextChanged"
                                 VerticalAlignment="Center"
@@ -633,8 +649,8 @@
 
                 </Border.Style>
             </Border>
-            <!--  Текущий выбранный продукт  -->
 
+            <!--  Список всех продуктов в чеке  -->
             <Border
                 Background="#fff"
                 BorderBrush="#21303D"
@@ -642,7 +658,7 @@
                 CornerRadius="5"
                 DockPanel.Dock="Top"
                 Margin="0,5,0,5"
-                d:IsHidden="False">
+                d:Visibility="Visible">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -754,7 +770,6 @@
 
                 </Border.Style>
             </Border>
-            <!--  Список выбранных продуктов  -->
         </DockPanel>
     </Grid>
 

@@ -1,4 +1,4 @@
-﻿namespace KTSF.Api.Extensions
+namespace CRST_ServerAPI.Extensions
 {
     public static class ApiExtensions
     {

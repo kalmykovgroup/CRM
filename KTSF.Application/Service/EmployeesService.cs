@@ -41,6 +41,8 @@ namespace KTSF.Application.Service
         }
 
 
+
+
         // поиск по EMAIL
         public async Task<Result<Employee>> GetByEmail(string email)
         {
@@ -107,6 +109,7 @@ namespace KTSF.Application.Service
         public async Task<Result<Employee>> Create(Employee employee)
         {
             Employee empl = new Employee();
+
             empl.Id = employee.Id;
             empl.ObjectId = employee.ObjectId;
             empl.AccessToken = employee.AccessToken;
@@ -129,8 +132,8 @@ namespace KTSF.Application.Service
             empl.EmployeeStatusId = employee.EmployeeStatusId;
             empl.ASetOfRulesId = employee.ASetOfRulesId;
 
-
             dbContext.Employees.Add(empl);
+
             try
             {
                 await dbContext.SaveChangesAsync();                
@@ -144,7 +147,9 @@ namespace KTSF.Application.Service
 
 
         public async Task<Result<Employee>> Update(Employee employee)
-        {            
+        {
+
+            await Console.Out.WriteLineAsync(employee.LayoffDate.ToString());
             try
             {
                 Employee? empl = dbContext.Employees.Where(emp => emp.Id == employee.Id).FirstOrDefault();
@@ -170,8 +175,9 @@ namespace KTSF.Application.Service
                 empl.Created_At = employee.Created_At;
                 empl.Updated_At = employee.Updated_At;
                 empl.Password = employee.Password;
-                empl.EmployeeStatusId = employee.EmployeeStatusId;   
-               
+                empl.EmployeeStatusId = employee.EmployeeStatusId;
+
+                await Console.Out.WriteLineAsync(empl.LayoffDate.ToString());
 
                 await dbContext.SaveChangesAsync();               
 

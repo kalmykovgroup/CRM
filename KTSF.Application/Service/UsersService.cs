@@ -24,17 +24,6 @@ namespace KTSF.Application.Service
             this.dbContext = dbContext;
         }
 
-
-        public void Register(string username, string password)
-        {
-            var hashedPassword = passwordHasher.Generate(password);
-            Result<User> result = new Result<User>();
-          
-        }
-
- 
-
-        // поиск по ID
         public async Task<Result<User>> Find(int id)
         {
             User? user = await dbContext.Users.FindAsync(id);
@@ -61,18 +50,28 @@ namespace KTSF.Application.Service
 
         public async Task<Result<User>> Create(User user)
         {
-            dbContext.Users.Add(user);
+            User us = new User();
+
+            us.Id = user.Id;
+            us.Email = user.Email;
+            us.PhoneNumber = user.PhoneNumber;
+            us.PasswordHash = user.PasswordHash;
+            us.AccessToken = user.AccessToken;
+            us.Name = user.Name;
+            us.Surname = user.Surname;
+            us.Patronymic = user.Patronymic;
+
+            dbContext.Users.Add(us);
             try
             {
                 await dbContext.SaveChangesAsync();
-                return Result.Success(user);
+                return Result.Success(us);
 
             }
             catch (Exception ex)
             {
                 return Result.Failure<User>(ex.ToString());
             }
-
         }
 
 
