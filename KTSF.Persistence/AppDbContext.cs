@@ -3,14 +3,16 @@ using KTSF.Core;
 using KTSF.Core.ABAC;
 using KTSF.Core.PackingList_;
 using KTSF.Core.Product_;
-using KTSF.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Object = KTSF.Core.Object; 
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Configuration;
+using System.Diagnostics.Metrics;
+using System.Reflection.Metadata;
 
-namespace KTSF.Persistence
-{
-    public class AppDbContext : DbContext
-    {
+using Object = KTSF.Core.Object;
+
+namespace KTSF.Persistence {
+    public class AppDbContext : DbContext {
 
         public static string ConnectionString { get; set; } = String.Empty;
 
@@ -61,32 +63,31 @@ namespace KTSF.Persistence
 
         #endregion
 
-        // public AppDbContext()
-        // {
-        //     Database.EnsureDeleted();
-        //     Database.EnsureCreated();
-        // }
+        //public AppDbContext()
+        //{
+        //    Database.EnsureDeleted();
+        //    Database.EnsureCreated();
+        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySQL("Server=127.0.0.1;Database=crm;Uid=root;Pwd=;");
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        protected override void OnModelCreating (ModelBuilder modelBuilder) {
 
-            modelBuilder.Entity<Product>()
-                .HasMany(product => product.Categories)
-                .WithMany(category => category.Products)
-                .UsingEntity<ProductToCategoryJoinTable>();
-
+            modelBuilder.Entity<Product> ()
+                .HasMany (product => product.Categories)
+                .WithMany (category => category.Products)
+                .UsingEntity<ProductToCategoryJoinTable> ();
 
 
 
-            modelBuilder.Entity<PackingList>()
-              .HasMany(packingList => packingList.Products)
-              .WithMany(product => product.PackingLists)
-              .UsingEntity<PackingListToProductJoinTable>();
+
+            modelBuilder.Entity<PackingList> ()
+              .HasMany (packingList => packingList.Products)
+              .WithMany (product => product.PackingLists)
+              .UsingEntity<PackingListToProductJoinTable> ();
 
 
             modelBuilder.Entity<ProductToCategoryJoinTable>().HasIndex(x => new { x.ProductId, x.CategoryId }).IsUnique();
@@ -100,33 +101,36 @@ namespace KTSF.Persistence
             modelBuilder.Entity<EmployeeStatus>().HasData(GetEmployeeStatusesDefault());
             modelBuilder.Entity<Employee>().HasData(GetEmployeesDefault());
 
-            modelBuilder.Entity<Unit>().HasData(GetUnitsDefault());
-            modelBuilder.Entity<Category>().HasData(GetCategoriesDefault());
-            modelBuilder.Entity<Product>().HasData(GetProductsDefault());
-            modelBuilder.Entity<ProductInformation>().HasData(GetProductInformationsDefault());
-            modelBuilder.Entity<Barcode>().HasData(GetBarcodesDefault());
-            modelBuilder.Entity<Article>().HasData(GetArticlesDefault());
-            modelBuilder.Entity<ProductToCategoryJoinTable>().HasData(GetProductToCategoryJoinTableDefault());
+            modelBuilder.Entity<Unit> ().HasData (GetUnitsDefault ());
+            modelBuilder.Entity<Category> ().HasData (GetCategoriesDefault ());
+            modelBuilder.Entity<Product> ().HasData (GetProductsDefault ());
+            modelBuilder.Entity<ProductInformation> ().HasData (GetProductInformationsDefault ());
+            modelBuilder.Entity<Barcode> ().HasData (GetBarcodesDefault ());
+            modelBuilder.Entity<Article> ().HasData (GetArticlesDefault ());
+            modelBuilder.Entity<ProductToCategoryJoinTable> ().HasData (GetProductToCategoryJoinTableDefault ());
 
 
 
         }
 
-         
 
-        private User[] GetUsersDefault()
-        {
+
+
+
+        private User[] GetUsersDefault () {
             return [
-                new User()
-            {
-                Id = 1,
-                Email = "tester@mail.ru",
-                PhoneNumber = "+7111111111",
-                PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("tester"),
-                Name = "tester",
-                Surname = "testerov",
-                Patronymic = "testerovich",
-            }];
+                        new User()
+                        {
+                            Id = 1,
+                            Email = "tester@mail.ru",
+                            PhoneNumber = "+7111111111",
+                            PasswordHash = "tester",
+                            AccessToken = "bgUYGBvkuybjkyGJGVjhyvbjyuBKYJ",
+                            Name = "tester",
+                            Surname = "testerov",
+                            Patronymic = "testerovich",
+                        }
+                ];
         }
         private Company[] GetCompaniesDefault()
         {
@@ -261,7 +265,6 @@ namespace KTSF.Persistence
                     ApplyingDate = DateTime.Now,
                     Created_At = DateTime.Now,
                     Updated_At = DateTime.Now,
-
                 },
                 new Employee()
                 {
@@ -359,8 +362,7 @@ namespace KTSF.Persistence
         }
 
 
-        private Unit[] GetUnitsDefault()
-        {
+        private Unit[] GetUnitsDefault () {
             return [
              new Unit() { Id = 1, Name = "Шт." },
                 new Unit() { Id = 2, Name = "Кг." },
@@ -368,9 +370,8 @@ namespace KTSF.Persistence
             ];
         }
 
-        private Product[] GetProductsDefault()
-        {
-            Unit[] Units = GetUnitsDefault();
+        private Product[] GetProductsDefault () {
+            Unit[] Units = GetUnitsDefault ();
 
             return [
                 new Product()
@@ -616,9 +617,8 @@ namespace KTSF.Persistence
             ];
         }
 
-        private ProductInformation[] GetProductInformationsDefault()
-        {
-            Product[] products = GetProductsDefault();
+        private ProductInformation[] GetProductInformationsDefault () {
+            Product[] products = GetProductsDefault ();
             return [
                 new ProductInformation()
                 {
@@ -939,8 +939,7 @@ namespace KTSF.Persistence
             ];
         }
 
-        private Barcode[] GetBarcodesDefault()
-        {
+        private Barcode[] GetBarcodesDefault () {
 
             return [
                    new Barcode()
@@ -1145,8 +1144,7 @@ namespace KTSF.Persistence
                 },
             ];
         }
-        private Article[] GetArticlesDefault()
-        {
+        private Article[] GetArticlesDefault () {
 
             return [
                    new Article()
@@ -1320,8 +1318,7 @@ namespace KTSF.Persistence
             ];
         }
 
-        private Category[] GetCategoriesDefault()
-        {
+        private Category[] GetCategoriesDefault () {
             return [
               new Category() { Id = 1, Name = "Одежда", ParentId = null },
                 new Category() { Id = 2, Name = "Дом", ParentId = null },
@@ -1338,8 +1335,7 @@ namespace KTSF.Persistence
             ];
         }
 
-        private ProductToCategoryJoinTable[] GetProductToCategoryJoinTableDefault()
-        {
+        private ProductToCategoryJoinTable[] GetProductToCategoryJoinTableDefault () {
             return [
                  new ProductToCategoryJoinTable()
                  {

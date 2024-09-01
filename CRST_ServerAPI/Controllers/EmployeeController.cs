@@ -1,7 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using KTSF.Application.Service;
 using KTSF.Core;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -9,7 +8,7 @@ namespace CRST_ServerAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    
+
     public class EmployeeController : ControllerBase
     {
 
@@ -19,7 +18,6 @@ namespace CRST_ServerAPI.Controllers
         {
             this.employeesService = EmployeesService;
         }
-
 
 
         [HttpGet("{id}")]
