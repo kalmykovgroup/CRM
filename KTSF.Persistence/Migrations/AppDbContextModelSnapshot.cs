@@ -394,9 +394,9 @@ namespace KTSF.Persistence.Migrations
                             ASetOfRulesId = 1,
                             AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEifQ.GQm1j57RyZMHdwsolLnzhoB9A49mC0KusQBpHS9_-kQ",
                             Address = "Красная площадь 4",
-                            ApplyingDate = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8929),
+                            ApplyingDate = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2791),
                             AppointmentId = 1,
-                            Created_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8947),
+                            Created_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2807),
                             Email = "admin@mail.ru",
                             EmployeeStatusId = 3,
                             Name = "Иван",
@@ -409,7 +409,7 @@ namespace KTSF.Persistence.Migrations
                             Snils = "123456789012",
                             Surname = "Калмыков",
                             Tin = "12345678901",
-                            Updated_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8948)
+                            Updated_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2808)
                         },
                         new
                         {
@@ -417,9 +417,9 @@ namespace KTSF.Persistence.Migrations
                             ASetOfRulesId = 2,
                             AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIifQ.cbpuaPB0oVEkmkgFvfQUcaRb58xRn5zlClDroWd75JA",
                             Address = "Арбатская 6",
-                            ApplyingDate = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8952),
+                            ApplyingDate = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2810),
                             AppointmentId = 2,
-                            Created_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8952),
+                            Created_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2811),
                             Email = "admin2@mail.ru",
                             EmployeeStatusId = 3,
                             Name = "Артур",
@@ -432,7 +432,7 @@ namespace KTSF.Persistence.Migrations
                             Snils = "123456789012",
                             Surname = "Соколов",
                             Tin = "12345678901",
-                            Updated_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8953)
+                            Updated_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2811)
                         },
                         new
                         {
@@ -440,9 +440,9 @@ namespace KTSF.Persistence.Migrations
                             ASetOfRulesId = 3,
                             AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMifQ.n0AxopvGMqJUdvyuXVuBZOurMD2Tiah-EqFi-a-lR6E",
                             Address = "Шевченко 4",
-                            ApplyingDate = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8955),
+                            ApplyingDate = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2813),
                             AppointmentId = 6,
-                            Created_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8956),
+                            Created_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2814),
                             Email = "admin3@mail.ru",
                             EmployeeStatusId = 3,
                             Name = "Александр",
@@ -455,7 +455,7 @@ namespace KTSF.Persistence.Migrations
                             Snils = "123456789012",
                             Surname = "Трунин",
                             Tin = "12345678901",
-                            Updated_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8956)
+                            Updated_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2814)
                         },
                         new
                         {
@@ -463,9 +463,9 @@ namespace KTSF.Persistence.Migrations
                             ASetOfRulesId = 4,
                             AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQifQ.NiQnkH09RTP1QMiS9rbWLQ3iDJbZ2CV3RsBflk5QjXs",
                             Address = "Ново Павловка 16/3",
-                            ApplyingDate = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8958),
+                            ApplyingDate = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2816),
                             AppointmentId = 3,
-                            Created_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8958),
+                            Created_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2817),
                             Email = "admin4@mail.ru",
                             EmployeeStatusId = 3,
                             Name = "Алексей",
@@ -478,7 +478,7 @@ namespace KTSF.Persistence.Migrations
                             Snils = "123456789012",
                             Surname = "Федосов",
                             Tin = "12345678901",
-                            Updated_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8959)
+                            Updated_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2817)
                         },
                         new
                         {
@@ -486,9 +486,9 @@ namespace KTSF.Persistence.Migrations
                             ASetOfRulesId = 5,
                             AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM",
                             Address = "Дальний восток 13/3",
-                            ApplyingDate = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8961),
+                            ApplyingDate = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2819),
                             AppointmentId = 4,
-                            Created_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8961),
+                            Created_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2819),
                             Email = "admin5@mail.ru",
                             EmployeeStatusId = 2,
                             Name = "Ансар",
@@ -501,7 +501,7 @@ namespace KTSF.Persistence.Migrations
                             Snils = "123456789012",
                             Surname = "Агадуллин",
                             Tin = "12345678901",
-                            Updated_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8962)
+                            Updated_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2820)
                         },
                         new
                         {
@@ -509,9 +509,9 @@ namespace KTSF.Persistence.Migrations
                             ASetOfRulesId = 4,
                             AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM",
                             Address = "Hell street 66/6",
-                            ApplyingDate = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8964),
+                            ApplyingDate = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2822),
                             AppointmentId = 5,
-                            Created_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8964),
+                            Created_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2822),
                             Email = "merlin@mail.ru",
                             EmployeeStatusId = 4,
                             Name = "Мерлин",
@@ -524,7 +524,7 @@ namespace KTSF.Persistence.Migrations
                             Snils = "123456789012",
                             Surname = "Мэнсон",
                             Tin = "12345678901",
-                            Updated_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8964)
+                            Updated_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2823)
                         },
                         new
                         {
@@ -532,9 +532,9 @@ namespace KTSF.Persistence.Migrations
                             ASetOfRulesId = 4,
                             AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUifQ.t9QlQfK-k6WS2yA2KlKgn0JRCQhDaz5Ujo8UBVTJWCM",
                             Address = "Hell street 66/6",
-                            ApplyingDate = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8966),
+                            ApplyingDate = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2825),
                             AppointmentId = 6,
-                            Created_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8967),
+                            Created_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2825),
                             Email = "prohor@mail.ru",
                             EmployeeStatusId = 1,
                             Name = "Прохор",
@@ -547,7 +547,7 @@ namespace KTSF.Persistence.Migrations
                             Snils = "123456789012",
                             Surname = "Шаляпин",
                             Tin = "12345678901",
-                            Updated_At = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(8967)
+                            Updated_At = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2826)
                         });
                 });
 
@@ -1189,7 +1189,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 560ul,
                             SalePrice = 450ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9068)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2923)
                         },
                         new
                         {
@@ -1199,7 +1199,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 2750ul,
                             SalePrice = 2409ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9070)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2926)
                         },
                         new
                         {
@@ -1209,7 +1209,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 6700ul,
                             SalePrice = 4932ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9073)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2927)
                         },
                         new
                         {
@@ -1219,7 +1219,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 6700ul,
                             SalePrice = 4932ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9074)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2929)
                         },
                         new
                         {
@@ -1229,7 +1229,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 2200ul,
                             SalePrice = 1883ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9076)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2931)
                         },
                         new
                         {
@@ -1239,7 +1239,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 220268ul,
                             SalePrice = 176268ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9078)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2932)
                         },
                         new
                         {
@@ -1249,7 +1249,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 18900ul,
                             SalePrice = 16460ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9084)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2934)
                         },
                         new
                         {
@@ -1259,7 +1259,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 590ul,
                             SalePrice = 480ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9086)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2936)
                         },
                         new
                         {
@@ -1269,7 +1269,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 730ul,
                             SalePrice = 650ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9091)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2937)
                         },
                         new
                         {
@@ -1279,7 +1279,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 420ul,
                             SalePrice = 350ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9099)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2939)
                         },
                         new
                         {
@@ -1289,7 +1289,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 910ul,
                             SalePrice = 900ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9100)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2941)
                         },
                         new
                         {
@@ -1299,7 +1299,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 2050ul,
                             SalePrice = 2100ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9102)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2942)
                         },
                         new
                         {
@@ -1309,7 +1309,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 25300ul,
                             SalePrice = 26500ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9104)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2944)
                         },
                         new
                         {
@@ -1319,7 +1319,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 6200ul,
                             SalePrice = 6950ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9105)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2946)
                         },
                         new
                         {
@@ -1329,7 +1329,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 72630ul,
                             SalePrice = 75550ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9107)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2947)
                         },
                         new
                         {
@@ -1339,7 +1339,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 24200ul,
                             SalePrice = 25800ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9108)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2949)
                         },
                         new
                         {
@@ -1349,7 +1349,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 10800ul,
                             SalePrice = 10700ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9110)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2951)
                         },
                         new
                         {
@@ -1359,7 +1359,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 15650ul,
                             SalePrice = 16200ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9112)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2952)
                         },
                         new
                         {
@@ -1369,7 +1369,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 30120ul,
                             SalePrice = 29900ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9113)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2954)
                         },
                         new
                         {
@@ -1379,7 +1379,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 10800ul,
                             SalePrice = 10900ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9115)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2955)
                         },
                         new
                         {
@@ -1389,7 +1389,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 21700ul,
                             SalePrice = 22490ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9116)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2957)
                         },
                         new
                         {
@@ -1399,7 +1399,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 6500ul,
                             SalePrice = 6490ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9118)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2958)
                         },
                         new
                         {
@@ -1409,7 +1409,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 16240ul,
                             SalePrice = 17240ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9120)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2960)
                         },
                         new
                         {
@@ -1419,7 +1419,7 @@ namespace KTSF.Persistence.Migrations
                             OldPrice = 28750ul,
                             SalePrice = 29990ul,
                             UnitId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9121)
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(2962)
                         });
                 });
 
@@ -1469,312 +1469,312 @@ namespace KTSF.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9190),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3020),
                             Description = "Пассатижи эконом класса",
                             Height = 25,
                             Length = 50,
                             NameToPrint = "Пассатижи",
                             ProductId = 1,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9191),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3021),
                             Weight = 0.10000000000000001,
                             Width = 150
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9193),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3023),
                             Description = "Набор профессиональных отверток и бит DEKO SS100 с удобной подставкой (100 предметов).",
                             Height = 315,
                             Length = 143,
                             NameToPrint = "Набор проф. отверток DEKO SS100",
                             ProductId = 2,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9194),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3023),
                             Weight = 2.75,
                             Width = 275
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9196),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3025),
                             Description = "Набор инструментов 1/4\", 1/2\" 6 граней 72 предмета волат (18530-72) - многофункциональный набор предназначен для ремонта и обслуживания автомобиля, а также для выполнения других слесарных работ. Рабочие части изготовлены из инструментальной стали. Покрытие сатинированное. Профиль головок шестигранный. Кейс из прочного противоударного пластика, с металлическими замками.",
                             Height = 300,
                             Length = 70,
                             NameToPrint = "Набор слесарного инстр-та 72пр.",
                             ProductId = 3,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9196),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3025),
                             Weight = 7.3799999999999999,
                             Width = 300
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9198),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3027),
                             Description = "Комплектация набора подобрана так, что домашний мастер закроет все бытовые вопросы, связанные с ремонтом и благоустройством, сборкой/разборкой мебели, монтажа/демонтажа",
                             Height = 300,
                             Length = 70,
                             NameToPrint = "Дрель-шуруповерт (с 1-им АКБ, кейс, 128 предметов)",
                             ProductId = 4,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9199),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3027),
                             Weight = 1.3,
                             Width = 300
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9200),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3029),
                             Description = "Пресс-клещи Gross 17724 используются для обжима наконечников электропроводов с сечением 0,25-8 м2. Позволяют добиться качественного соединения проводов при подключении бытовых приборов и электрооборудования. Клещи с автозажимом значительно повышают скорость работы, пригодятся в быту и профессиональной сфере. Преимущества 6-ступенчатая регулировка усилия сжатия позволяет выбрать оптимальный режим для работы с различными проводами. Двухкомпонентные рельефные рукоятки повышают удобство работы, обеспечивая надежный хват без риска проскальзывания инструмента. За счет функции авторазжима не нужно прикладывать усилия для раскрытия рабочих частей. Клещи упакованы в слайд карту для практичного хранения и транспортировк",
                             Height = 180,
                             Length = 3,
                             NameToPrint = "Клещи Gross",
                             ProductId = 5,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9201),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3030),
                             Weight = 0.29999999999999999,
                             Width = 100
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9203),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3031),
                             Description = "Сверхлегкий, тонкий дизайн\r\nТоньше и легче, идеально ложится в карман, и с еще более ярким раскрывающимся экраном, от которого захватывает дух.\r\nСамый простой способ составить сводку в заметках на складных Galaxy\r\nЗаметки со встреч и лекций всего в несколько касаний, даже в условиях многозадачности. Ассистент для заметок превращает записи в текст и организует их в заметки, создавая удобные сводки. Для всего остального пользуйтесь электронным пером пером S Pen, которое на большом экране способно творить чудеса.",
                             Height = 135,
                             Length = 10,
                             NameToPrint = "Смартфон Samsung Galaxy Z Fold6 12/256 ГБ, Dual: nano SIM + eSIM, серебристый",
                             ProductId = 6,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9204),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3032),
                             Weight = 0.17999999999999999,
                             Width = 150
                         },
                         new
                         {
                             Id = 7,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9206),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3034),
                             Description = "Три режима работы (сверление, сверление с ударом, долбление). Расцепляющая муфта для защиты инструмента и оператора при заклинивании. 40 осевых положений зубила для удобства эксплуатации. Спусковая кнопка с переменной скоростью.",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Перфоратор Makita HR2470",
                             ProductId = 7,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9206),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3034),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 8,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9208),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3036),
                             Description = "Комбинированные плоскогубцы Gigant 180 мм GCP 180",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Комб. плоскогубцы Gigant 180 мм",
                             ProductId = 8,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9208),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3036),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 9,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9210),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3038),
                             Description = "Диэлектрические пассатижи SHTOK 1000В 180 мм",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Диэлект. пассатижи SHTOK 1000В 180 мм",
                             ProductId = 9,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9210),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3038),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 10,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9212),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3041),
                             Description = "Мини пассатижи SHTOK 120 мм",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Мини пассатижи SHTOK 120 мм",
                             ProductId = 10,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9212),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3041),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 11,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9218),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3043),
                             Description = "Никелированные пассатижи Inforce 200мм",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Никелиров. пассатижи Inforce 200мм",
                             ProductId = 11,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9218),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3043),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 12,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9220),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3045),
                             Description = "Комплект насадок с ключом-трещоткой (26 предметов) Bosch",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Комп. насадок с кл.трещоткой Bosch",
                             ProductId = 12,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9220),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3045),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 13,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9222),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3047),
                             Description = "Набор торцевых головок SAE 3/4",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Набор торц. головок SAE 3/4",
                             ProductId = 13,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9223),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3047),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 14,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9224),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3049),
                             Description = "Набор инструментов STARTUL 1/4 , 1/2 6 граней 108 предметов PRO Stuttgart PRO-108S",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Наб. инстр. STARTUL 108 пред.",
                             ProductId = 14,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9225),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3049),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 15,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9226),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3051),
                             Description = "Набор трещоток 8100 SC 2 Zyklop 1/2 Wera WE-003645",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Наб. трещоток Zyklop",
                             ProductId = 15,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9227),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3051),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 16,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9229),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3053),
                             Description = "Раскладной ящик с инструментами для механиков IZELTAS металлический, 63 предмета, 190х420х200",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Раскл. ящик с инстр. IZELTAS метал.",
                             ProductId = 16,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9229),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3053),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 17,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9231),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3055),
                             Description = "Перфоратор Ресанта П-32-1400КВ 75/3/6",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Перфоратор Ресанта П-32",
                             ProductId = 17,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9231),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3055),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 18,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9233),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3057),
                             Description = "Набор двенадцатигранных торцевых головок IZELTAS 24 предмета 1114006024",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Наб. головок IZELTAS",
                             ProductId = 18,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9233),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3057),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 19,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9235),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3059),
                             Description = "Бесщеточная дрель-шуруповерт Dewalt 18.0 В XR DCD7771D2",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Бесщет. дрель-шуруповерт Dewalt",
                             ProductId = 19,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9235),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3059),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 20,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9238),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3061),
                             Description = "Аккумуляторная дрель-шуруповерт Makita DF333DWYE",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Аккум. дрель-шуруповерт Makita DF333DWYE",
                             ProductId = 20,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9238),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3061),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 21,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9240),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3063),
                             Description = "Аккумуляторная дрель-шуруповерт Makita LXT DDF453RFE",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Аккум. дрель-шуруповерт Makita LXT DDF453RFE",
                             ProductId = 21,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9240),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3063),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 22,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9242),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3065),
                             Description = "Дрель Makita DF0300",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Дрель Makita DF0300",
                             ProductId = 22,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9242),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3065),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 23,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9244),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3067),
                             Description = "Аккумуляторная бесщеточная ударная дрель-шуруповерт Bosch GSB 12V-30 06019G9120",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Аккум. бесщет. ударная дрель-шуруповерт Bosch",
                             ProductId = 23,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9244),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3067),
                             Weight = 2.8999999999999999,
                             Width = 84
                         },
                         new
                         {
                             Id = 24,
-                            CreatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9246),
+                            CreatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3069),
                             Description = "Перфоратор Makita HR 2810",
                             Height = 214,
                             Length = 370,
                             NameToPrint = "Перфоратор Makita HR 2810",
                             ProductId = 24,
-                            UpdatedAt = new DateTime(2024, 8, 22, 20, 4, 22, 678, DateTimeKind.Local).AddTicks(9247),
+                            UpdatedAt = new DateTime(2024, 9, 1, 15, 38, 58, 162, DateTimeKind.Local).AddTicks(3069),
                             Weight = 2.8999999999999999,
                             Width = 84
                         });
@@ -1873,6 +1873,104 @@ namespace KTSF.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("KTSF.Core.Receipt_.BuyProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("Discount")
+                        .HasColumnType("double");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReceiptId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("TotalSumProduct")
+                        .HasColumnType("double");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ReceiptId");
+
+                    b.ToTable("buy_product");
+                });
+
+            modelBuilder.Entity("KTSF.Core.Receipt_.PaymentInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<double>("AmountPaid")
+                        .HasColumnType("double");
+
+                    b.Property<double>("CardAmount")
+                        .HasColumnType("double");
+
+                    b.Property<double>("CashAmount")
+                        .HasColumnType("double");
+
+                    b.Property<int>("PaymentMethodId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("TotalSum")
+                        .HasColumnType("double");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.ToTable("payment_infos");
+                });
+
+            modelBuilder.Entity("KTSF.Core.Receipt_.PaymentMethod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("payment_methods");
+                });
+
+            modelBuilder.Entity("KTSF.Core.Receipt_.Receipt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<double?>("Discount")
+                        .HasColumnType("double");
+
+                    b.Property<int>("PaymentInfoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentInfoId");
+
+                    b.ToTable("receipts");
+                });
+
             modelBuilder.Entity("KTSF.Core.User", b =>
                 {
                     b.Property<int>("Id")
@@ -1932,7 +2030,7 @@ namespace KTSF.Persistence.Migrations
                             Email = "tester@mail.ru",
                             EmailConfirmed = false,
                             Name = "tester",
-                            PasswordHash = "$2a$11$fDnrWaI/aPl8oIic6Pq4ZuSUNI1AkSJLjPa4gbPmkfjj6/pvtKKdS",
+                            PasswordHash = "$2a$11$2aqUw79oY8LEgBBSgbGBWOawq.sT9GAWkx/w1z0mq3CcgOYm0SZha",
                             Patronymic = "testerovich",
                             PhoneNumber = "+7111111111",
                             PhoneNumberConfirmed = false,
@@ -2147,6 +2245,47 @@ namespace KTSF.Persistence.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("KTSF.Core.Receipt_.BuyProduct", b =>
+                {
+                    b.HasOne("KTSF.Core.Product_.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KTSF.Core.Receipt_.Receipt", "Receipt")
+                        .WithMany("BuyProducts")
+                        .HasForeignKey("ReceiptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Receipt");
+                });
+
+            modelBuilder.Entity("KTSF.Core.Receipt_.PaymentInfo", b =>
+                {
+                    b.HasOne("KTSF.Core.Receipt_.PaymentMethod", "PaymentMethod")
+                        .WithMany()
+                        .HasForeignKey("PaymentMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PaymentMethod");
+                });
+
+            modelBuilder.Entity("KTSF.Core.Receipt_.Receipt", b =>
+                {
+                    b.HasOne("KTSF.Core.Receipt_.PaymentInfo", "ReceiptPaymentInfo")
+                        .WithMany()
+                        .HasForeignKey("PaymentInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ReceiptPaymentInfo");
+                });
+
             modelBuilder.Entity("KTSF.Core.ABAC.ASetOfRules", b =>
                 {
                     b.Navigation("AccessAttributes");
@@ -2180,6 +2319,11 @@ namespace KTSF.Persistence.Migrations
             modelBuilder.Entity("KTSF.Core.Product_.ProductInformation", b =>
                 {
                     b.Navigation("PriceHistory");
+                });
+
+            modelBuilder.Entity("KTSF.Core.Receipt_.Receipt", b =>
+                {
+                    b.Navigation("BuyProducts");
                 });
 #pragma warning restore 612, 618
         }

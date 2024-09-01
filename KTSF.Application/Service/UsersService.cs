@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using CSharpFunctionalExtensions.ValueTasks; 
 using KTSF.Core;
+using KTSF.Core.Receipt_;
 using KTSF.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,7 +24,7 @@ namespace KTSF.Application.Service
         }
 
         public async Task<Result<User>> Find(int id)
-        {
+        {    
             User? user = await dbContext.Users.FindAsync(id);
 
             return user != null ? Result.Success(user) : Result.Failure<User>("Not found");
@@ -33,6 +34,7 @@ namespace KTSF.Application.Service
         // поиск по EMAIL
         public async Task<Result<User>> GetByEmail(string email)
         {
+            
             User? user = await dbContext.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
 
             return user != null ? Result.Success(user) : Result.Failure<User>("Not found");

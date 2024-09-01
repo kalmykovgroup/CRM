@@ -1,10 +1,13 @@
 ﻿
+using Google.Protobuf.WellKnownTypes;
 using KTSF.Core;
 using KTSF.Core.ABAC;
 using KTSF.Core.PackingList_;
 using KTSF.Core.Product_;
+using KTSF.Core.Receipt_;
 using KTSF.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Policy;
 using Object = KTSF.Core.Object; 
 
 namespace KTSF.Persistence
@@ -61,11 +64,20 @@ namespace KTSF.Persistence
 
         #endregion
 
-        // public AppDbContext()
-        // {
-        //     Database.EnsureDeleted();
-        //     Database.EnsureCreated();
-        // }
+        #region Receipt
+
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<PaymentInfo> PaymentInfos { get; set; }        
+        public DbSet<BuyProduct> BuyProducts { get; set; }
+        public DbSet<Receipt> Receipts { get; set; }
+
+        #endregion
+
+        //public AppDbContext()
+        //{
+        //    Database.EnsureDeleted();
+        //    Database.EnsureCreated();
+        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -108,6 +120,11 @@ namespace KTSF.Persistence
             modelBuilder.Entity<Article>().HasData(GetArticlesDefault());
             modelBuilder.Entity<ProductToCategoryJoinTable>().HasData(GetProductToCategoryJoinTableDefault());
 
+            modelBuilder.Entity<PaymentMethod>().HasData(GetPaymentMethodsDefault());
+            modelBuilder.Entity<PaymentInfo>().HasData(GetPaymentInfosDefault());
+            modelBuilder.Entity<Receipt>().HasData(GetReceiptsDefault());
+            modelBuilder.Entity<BuyProduct>().HasData(GetBuyProductsDefault());
+
 
 
         }
@@ -118,7 +135,7 @@ namespace KTSF.Persistence
         {
             return [
                 new User()
-            {
+                {
                 Id = 1,
                 Email = "tester@mail.ru",
                 PhoneNumber = "+7111111111",
@@ -126,8 +143,9 @@ namespace KTSF.Persistence
                 Name = "tester",
                 Surname = "testerov",
                 Patronymic = "testerovich",
-            }];
+                }];
         }
+
         private Company[] GetCompaniesDefault()
         {
             return [
@@ -169,6 +187,7 @@ namespace KTSF.Persistence
                 new Appointment() { Id = 10, Name = "Слесарь", Description = "" },
             ];
         }
+
         private ASetOfRules[] GetASetOfRulesDefault()
         {
             return [
@@ -180,6 +199,7 @@ namespace KTSF.Persistence
                 new ASetOfRules() { Id = 6, Name = "Бухгалтер", Description = "" },
             ];
         }
+
         private EmployeeStatus[] GetEmployeeStatusesDefault()
         {
             return [
@@ -1145,6 +1165,7 @@ namespace KTSF.Persistence
                 },
             ];
         }
+
         private Article[] GetArticlesDefault()
         {
 
@@ -1379,5 +1400,158 @@ namespace KTSF.Persistence
                 },
             ];
         }
+
+        private PaymentMethod[] GetPaymentMethodsDefault()
+        {
+            return [
+                new PaymentMethod() { Id = 1, Name = "Нет", },
+                new PaymentMethod() { Id = 2, Name = "Наличные", },
+                new PaymentMethod() { Id = 3, Name = "Карта", },
+                new PaymentMethod() { Id = 4, Name = "Смешанный", },
+            ];
+        }
+
+        private PaymentInfo[] GetPaymentInfosDefault()
+        {
+            PaymentMethod[] PaymentMethods = GetPaymentMethodsDefault();
+            return [
+                new PaymentInfo()
+                {
+                    Id = 1,
+                    TotalSum = 2859.0,
+                    CashAmount = 0,
+                    CardAmount = 2859.0,
+                    AmountPaid = 2859.0,
+                    PaymentMethodId = 3
+                },
+                new PaymentInfo()
+                {
+                    Id = 2,
+                    TotalSum = 176268.0,
+                    CashAmount = 100000,
+                    CardAmount = 76268,
+                    AmountPaid = 176268.0,
+                    PaymentMethodId = 4
+                },
+                new PaymentInfo()
+                {
+                    Id = 3,
+                    TotalSum = 36500,
+                    CashAmount = 36500,
+                    CardAmount = 0,
+                    AmountPaid = 36500,
+                    PaymentMethodId = 2
+                },
+                new PaymentInfo()
+                {
+                    Id = 4,
+                    TotalSum = 6490.0,
+                    CashAmount = 0,
+                    CardAmount = 6490.0,
+                    AmountPaid = 6490.0,
+                    PaymentMethodId = 3
+                }];
+        }
+
+        private Receipt[] GetReceiptsDefault()
+        {
+            PaymentInfo[] PaymentInfos = GetPaymentInfosDefault();
+            return [
+                new Receipt()
+                {
+                    Id = 1,
+                    Discount = 0,
+                    CreatedDate = DateTime.Now,
+                    PaymentInfoId = 1,
+                },
+                new Receipt()
+                {
+                    Id = 2,
+                    Discount = 0,
+                    CreatedDate = DateTime.Now,
+                    PaymentInfoId = 2,
+                },
+                new Receipt()
+                {
+                    Id = 3,
+                    Discount = 0,
+                    CreatedDate = DateTime.Now,
+                    PaymentInfoId = 3,
+                },
+                new Receipt()
+                {
+                    Id = 4,
+                    Discount = 0,
+                    CreatedDate = DateTime.Now,
+                    PaymentInfoId = 4,
+                }];
+        }
+
+        private BuyProduct[] GetBuyProductsDefault()
+        {
+
+            return [
+                new BuyProduct()
+                {
+                    Id = 1,
+                    Price = 450.0,
+                    Count = 1,
+                    TotalSumProduct = 450.0,
+                    Discount = 0,
+                    ProductId = 1,
+                    ReceiptId = 1
+                },
+                new BuyProduct()
+                {
+                    Id = 2,
+                    Price = 2409.0,
+                    Count = 1,
+                    TotalSumProduct = 2409.0,
+                    Discount = 0,
+                    ProductId = 2,
+                    ReceiptId = 1
+                },
+                new BuyProduct()
+                {
+                    Id = 3,
+                    Price = 176268.0,
+                    Count = 1,
+                    TotalSumProduct = 176268.0,
+                    Discount = 0,
+                    ProductId = 6,
+                    ReceiptId = 2
+                },
+                new BuyProduct()
+                {
+                    Id = 4,
+                    Price = 25800.0,
+                    Count = 1,
+                    TotalSumProduct = 25800.0,
+                    Discount = 0,
+                    ProductId = 16,
+                    ReceiptId = 3
+                },
+                new BuyProduct()
+                {
+                    Id = 5,
+                    Price = 10700.0,
+                    Count = 1,
+                    TotalSumProduct = 10700.0,
+                    Discount = 0,
+                    ProductId = 17,
+                    ReceiptId = 3
+                },
+                new BuyProduct()
+                {
+                    Id = 6,
+                    Price = 6490.0,
+                    Count = 1,
+                    TotalSumProduct = 6490.0,
+                    Discount = 0,
+                    ProductId = 22,
+                    ReceiptId = 4
+                }];
+        }
+
     }
 }

@@ -142,7 +142,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>   
+        </Style>
 
         <!--  Button  -->
         <Style x:Key="buttonStyle" TargetType="Button">
@@ -461,7 +461,7 @@
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="1"                                            
+                                                Grid.Row="1"
                                                 Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="{Binding DataContext.Property.Edit, ElementName=UserControl}"
@@ -646,7 +646,7 @@
                             Content="{Binding SearchComponent.Build}" />
 
                         <Button
-                            Grid.Column="1"                       
+                            Grid.Column="1"
                             Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
                             Content="{Binding Property.Add}"
                             Style="{StaticResource addButtonStyle}" />
@@ -760,7 +760,7 @@
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="1"                                            
+                                                Grid.Row="1"
                                                 Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="{Binding DataContext.Property.Edit, ElementName=UserControl}"
@@ -947,14 +947,14 @@
                             Content="{Binding SearchComponent.Build}" />-->
 
                         <!--  USerControl SearchComponent  -->
-                        <ContentControl
+                        <!--<ContentControl
                             Grid.Column="0"
                             Margin="5,5"
-                            Content="{Binding SearchComponent.Build}" />
+                            Content="{Binding SearchComponent.Build}" />-->
 
 
                         <Button
-                            Grid.Column="1"                    
+                            Grid.Column="1"
                             Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
                             Content="{Binding Property.Add}"
                             Style="{StaticResource addButtonStyle}" />
@@ -1068,7 +1068,7 @@
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="1"                                         
+                                                Grid.Row="1"
                                                 Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="{Binding DataContext.Property.Edit, ElementName=UserControl}"
@@ -1242,7 +1242,7 @@
 
 
                         <Button
-                            Grid.Column="1"                   
+                            Grid.Column="1"
                             Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
                             Content="{Binding Property.Add}"
                             Style="{StaticResource addButtonStyle}" />
@@ -1356,7 +1356,7 @@
                                             </Grid.RowDefinitions>
 
                                             <Button
-                                                Grid.Row="1"                                       
+                                                Grid.Row="1"
                                                 Command="{Binding DataContext.EditEmployeeCommand, ElementName=UserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="{Binding DataContext.Property.Edit, ElementName=UserControl}"

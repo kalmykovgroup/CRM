@@ -4,14 +4,18 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace KTSF.Core.Receipt_;
 
-public partial class Receipt : ObservableObject {
-    public int Id { get; set; }
-    
-    public double? Discount; // Процент скидки
+[Table("receipts")]
+public class Receipt : ObservableObject {
 
-    [ForeignKey(nameof(ReceiptPaymentInfo))]
-    public int PaymentInfoId;
-    public PaymentInfo ReceiptPaymentInfo { get; set; } // Класс отвечающий за информацию об оплате
-    
+    public int Id { get; set; }
+
+    public double? Discount { get; set; } // Процент скидки
+
+    public DateTime CreatedDate { get; set; }
+
+
+    public int PaymentInfoId { get; set; }
+    public PaymentInfo ReceiptPaymentInfo { get; set; } = null!; // Класс отвечающий за информацию об оплате
+
     public List<BuyProduct> BuyProducts { get; set; } = []; // Список купленных продуктов
 }

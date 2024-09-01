@@ -4,19 +4,23 @@ using KTSF.Core.Product_;
 
 namespace KTSF.Core.Receipt_;
 
-public partial class BuyProduct : ObservableObject
+[Table("buy_product")]
+public class BuyProduct : ObservableObject
 {
     public int Id { get; set; }
-    
-    [ForeignKey(nameof(Product))]
+
+    public double Price { get; set; } // Цена данного товара в чеке
+
+    public int Count { get; set; } // Количество данного товара в чеке
+
+    public double TotalSumProduct { get; set; } // Общая стомость данного продукта в чеке
+
+    public double? Discount { get; set; } // Процент скидки
+
+
     public int ProductId { get; set; }
     public Product Product { get; set; } = null!; // Товар 
-    
-    public double Price { get; set; } // Цена данного товара в чеке
-    
-    public int Count { get; set; } // Количество данного товара в чеке
-    
-    public double TotalSumProduct { get; set; } // Общая стомость данного продукта в чеке
-    
-    public double? Discount { get; set; } // Процент скидки
+
+    public int ReceiptId { get; set; }
+    public Receipt Receipt { get; set; } = null!; // Чек
 }

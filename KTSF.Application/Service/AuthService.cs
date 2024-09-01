@@ -68,8 +68,8 @@ namespace KTSF.Application.Service
 
 
             user.PasswordHash = _passwordHasher.Generate(registerUserDto.Password);
-       
 
+         
             using (var transaction = _appDbContext.Database.BeginTransaction())
             {
                 try
