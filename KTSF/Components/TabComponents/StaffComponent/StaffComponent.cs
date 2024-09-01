@@ -1,18 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent;
-using KTSF.ViewModel;
-using KTSF.Core;
-using KTSF.Core.ABAC;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KTSF.ViewModel;  
+using System.Collections.ObjectModel; 
 using System.Windows;
 using System.Windows.Controls;
 using KTSF.Dto.Employee_;
+using KTSF.Core.Object;
+using KTSF.Core.Object.ABAC;
+using CSharpFunctionalExtensions;
+using System.Net;
+
 
 namespace KTSF.Components.TabComponents.StaffComponent
 {    
@@ -61,22 +59,45 @@ namespace KTSF.Components.TabComponents.StaffComponent
         {
             CreateEmployeeLists();
 
-            List<Appointment>? appointments = await AppControl.Server.GetAllAppointment();
-            foreach(Appointment appointment in appointments)
+            Result< List<Appointment>, (string? Message, HttpStatusCode)> resultAppointment = await AppControl.Server.GetAllAppointment();
+
+
+            if (resultAppointment.IsFailure)
+            {
+                MessageBox.Show(resultAppointment.Error.Message);
+                return;
+            }
+
+            foreach(Appointment appointment in resultAppointment.Value)
             {
                 EmployeeVM.Appointments.Add(appointment);
                 //Appointments.Add(appointment);
             }
 
-            List<EmployeeStatus> employeeStatuses = await AppControl.Server.GetAllEmployeeStatus();
-            foreach (EmployeeStatus employeeStatus in employeeStatuses)
+            Result<List<EmployeeStatus>, (string? Message, HttpStatusCode)> resultEmployeeStatus = await AppControl.Server.GetAllEmployeeStatus();
+
+            if (resultEmployeeStatus.IsFailure)
+            {
+                MessageBox.Show(resultEmployeeStatus.Error.Message);
+                return;
+            }
+
+            foreach (EmployeeStatus employeeStatus in resultEmployeeStatus.Value)
             {
                 EmployeeVM.EmployeeStatuses.Add(employeeStatus);
                 //EmployeeStatuses.Add(employeeStatus);
             }
 
-            List<ASetOfRules> aSetOfRules = await AppControl.Server.GetAllASetOfRules();
-            foreach (ASetOfRules aSetOfRule in aSetOfRules)
+
+            Result<List<ASetOfRules>, (string? Message, HttpStatusCode)> resultASetOfRules = await AppControl.Server.GetAllASetOfRules();
+
+            if (resultASetOfRules.IsFailure)
+            {
+                MessageBox.Show(resultASetOfRules.Error.Message);
+                return;
+            }
+
+            foreach (ASetOfRules aSetOfRule in resultASetOfRules.Value)
             {
                 EmployeeVM.ASetOfRules.Add(aSetOfRule);
                 //ASetOfRules.Add(aSetOfRule);
@@ -129,7 +150,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
                         .Where(aset => aset.Name == EmployeeVM.Employee.ASetOfRules.Name)
                         .First();
 
-            EditStaffWindow editStaffWindow = new EditStaffWindow(EmployeeVM,             
+            EditStaffWindow editStaffWindow = new EditStaffWindow(AppControl, EmployeeVM,             
                 EditStaffWindowSaveClick); // передавать копию??
 
             editStaffWindow.ShowDialog();
@@ -157,14 +178,21 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
         private async void CreateEmployeeLists()
         {
-            List<Employee>? employees = await AppControl.Server.GetEmployees();
+            Result<List<Employee>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetEmployees();
+
+            if (result.IsFailure)
+            {
+                MessageBox.Show(result.Error.Message);
+                return;
+            }
+
 
             Employees.Clear();
             FiredEmployees.Clear();
             QualifyingEmployees.Clear();
             NotEmployedEmployees.Clear();
 
-            foreach (Employee employee in employees)
+            foreach (Employee employee in result.Value)
             {
 
                 if (employee.EmployeeStatus.Name == "Трудоустроен") // работает

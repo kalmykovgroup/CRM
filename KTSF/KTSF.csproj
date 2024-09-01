@@ -34,7 +34,10 @@
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\next.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\Search.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\search_269128.png" />
-    <None Remove="Components\Window\LoadWinComponent\Img\hacking-hack.gif" />
+    <None Remove="Components\Windows\CompanyWinComponent\Img\del.png" />
+    <None Remove="Components\Windows\CompanyWinComponent\Img\settings.png" />
+    <None Remove="Components\Windows\SignInEmployeeWinComponent\Img\copy.png" />
+    <None Remove="Components\Windows\SignInEmployeeWinComponent\Img\error.png" />
     <None Remove="Img\app_store_logo.png" />
     <None Remove="Img\google_play_logo.png" />
     <None Remove="Img\loading.gif" />
@@ -72,8 +75,17 @@
     <Content Include="Components\TabComponents\WarehouseComponent\ImageSource\Search.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Components\Window\LoadWinComponent\Img\hacking-hack.gif">
+    <Content Include="Components\Windows\CompanyWinComponent\Img\del.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Components\Windows\CompanyWinComponent\Img\settings.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Components\Windows\SignInEmployeeWinComponent\Img\copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Components\Windows\SignInEmployeeWinComponent\Img\error.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Img\app_store_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -108,7 +120,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CRM.Core\KTSF.Core.csproj" /> 
+    <ProjectReference Include="..\CRM.Core\KTSF.Core.csproj" />
+    <ProjectReference Include="..\KTSF.Core.App\KTSF.Core.App.csproj" />
+    <ProjectReference Include="..\KTSF.Core.Object\KTSF.Core.Object.csproj" /> 
     <ProjectReference Include="..\KTSF.Dto\KTSF.Dto.csproj" />
   </ItemGroup>
 

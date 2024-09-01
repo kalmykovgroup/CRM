@@ -1,39 +1,31 @@
-﻿using KTSF.Core;
+﻿ 
 using CommunityToolkit.Mvvm.ComponentModel;
-using KTSF.Db;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
-using KTSF.ViewModel;
-using System.IO;
-using KTSF.Components;
-using KTSF.Components.Window.LoadComponent;
-using KTSF.Components.SignInPageComponent;  
+using KTSF.Db; 
+using KTSF.ViewModel; 
+using KTSF.Components;  
 using System.Configuration;
-using System.Windows;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using KTSF.Core.Language;
-using Microsoft.Win32;
-using KTSF.Components.Window.SignInPageComponent;
-using KTSF.Components.Window.MainMenuComponent;
+using System.Windows; 
+using KTSF.Core.Language; 
+using KTSF.Components.Windows.SignInUserWinComponent;
+using KTSF.Components.Windows.MainMenuComponent;
+using KTSF.Components.Windows.CompanyWinComponent;
 
+using Object = KTSF.Core.App.Object;
+using KTSF.Core.Object;
+using KTSF.Core.App;
+using KTSF.Components.Windows.SignInEmployeeWinComponent;
 namespace KTSF
 {
 
     public partial class AppControl : ObservableObject
     {
+
         public static string CompanyName { get; } = String.Empty;
-        public static string ProgramName { get; } = String.Empty; 
+        public static string ProgramName { get; } = String.Empty;
  
         static AppControl()
         {
-                   
+          
             try 
             {
 
@@ -45,9 +37,9 @@ namespace KTSF
                 }
 
                 CompanyName = appSettings.Get("company_name")!;
-                ProgramName = appSettings.Get("program_name")!; 
-  
- 
+                ProgramName = appSettings.Get("program_name")!;
+                 
+                 
             }
             catch (ConfigurationErrorsException)
             {
@@ -55,7 +47,12 @@ namespace KTSF
                 MessageBox.Show(message);
                 throw new ArgumentNullException(message);
             }
-        } 
+        }
+
+        [ObservableProperty] private string? isLoad;
+
+        public Company? SelectedCompany { get; set; }
+        public Object? SelectedObject { get; set; } 
 
         public LanguageControl LanguageControl { get; } = new();
 
@@ -65,11 +62,32 @@ namespace KTSF
         //Текущее отображаемое окно
         public UserControlVM CurrentFrame { get; }
 
-        public User User { get; set; } = new User();
-        public Employee Employee { get; set; } = null!;
+        private User? user;
+        public User? User { get => user; set {
 
-        public Component LoadComponent { get; private set; }
-        public Component SignInComponent { get; private set; }
+                Server.SetUserJwtToken(value?.JwtToken);
+
+                user = value;
+
+            }
+        }
+
+        private Employee? employee;
+        public Employee? Employee
+        {
+            get => employee; set
+            {
+
+                Server.SetUserJwtToken(value?.JwtToken);
+
+                employee = value;
+
+            }
+        }
+
+        public Component SignInUserWinComponent { get; private set; }
+        public Component SignInEmployeeWinComponent { get; private set; }
+        public CompanyComponent CompanyComponent { get; private set; }
         public Component MainMenuComponent { get; private set; }
         
         public Server Server { get; }
@@ -81,15 +99,16 @@ namespace KTSF
             Server = new Server(this);
 
             CurrentFrame = new UserControlVM();
-
-            LoadComponent = new LoadWinComponent(CurrentFrame, this);
-            SignInComponent = new SignInWinComponent(CurrentFrame, this);
+             
+            SignInUserWinComponent = new SignInUserWinComponent(CurrentFrame, this);
+            SignInEmployeeWinComponent = new SignInEmployeeWinComponent(CurrentFrame, this);
             MainMenuComponent = new MainMenuWinComponent(CurrentFrame, this);
+            CompanyComponent = new CompanyComponent(CurrentFrame, this);
 
-            LoadComponent.Show();
-
-
+            SignInUserWinComponent.Show();
         }
+
+    
 
 
 

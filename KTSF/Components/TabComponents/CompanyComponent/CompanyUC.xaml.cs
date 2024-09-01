@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace KTSF.Components.TabComponents.CompanyComponent
 {
     /// <summary>
-    /// Логика взаимодействия для CompanyUC.xaml
+    /// Логика взаимодействия для CompanyComponentUC.xaml
     /// </summary>
     public partial class CompanyUC : UserControl
     {

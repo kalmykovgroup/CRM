@@ -85,6 +85,12 @@ namespace KTSF.Languages.Packages
 
         public ITranslationSearchComponent ITranslationSearchComponent => new TranslationSearchComponent();
 
-      
+
+        private class TranslationEditNewStaffWindows : ITranslationEditNewStaffWindows
+        {
+            public string Name => "TestName";
+        }
+
+        public ITranslationEditNewStaffWindows ITranslationEditNewStaffWindows => new TranslationEditNewStaffWindows();
     }
 }

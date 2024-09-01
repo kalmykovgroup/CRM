@@ -1,13 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
-using CSharpFunctionalExtensions.ValueTasks; 
-using KTSF.Core;
+using CSharpFunctionalExtensions.ValueTasks;  
+using KTSF.Core.App;
 using KTSF.Persistence;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore; 
 
 namespace KTSF.Application.Service
 {
@@ -15,9 +10,9 @@ namespace KTSF.Application.Service
     {
       
 
-        private AppDbContext dbContext;
+        private ObjectDbContext dbContext;
 
-        public UsersService(AppDbContext dbContext)
+        public UsersService(ObjectDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -77,7 +72,7 @@ namespace KTSF.Application.Service
                 us.Email = user.Email;
                 us.PhoneNumber = user.PhoneNumber;
                 us.PasswordHash = user.PasswordHash;
-                us.AccessToken = user.AccessToken;
+                us.JwtToken = user.JwtToken;
                 us.Name = user.Name;
                 us.Surname = user.Surname;
                 us.Patronymic = user.Patronymic;

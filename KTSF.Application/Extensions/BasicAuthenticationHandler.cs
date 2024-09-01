@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using KTSF.Application.Service;
-using KTSF.Core;
+ 
+using KTSF.Core.App;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -53,7 +54,7 @@ namespace KTSF.Application.Extensions
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
                 var username = credentials[0];
                 var password = credentials[1];
-                result = await _authService.Login(username, password);
+                result = await _authService.Login(new Dto.Auth.LoginUserRequest(username, password));
             }
             catch
             {

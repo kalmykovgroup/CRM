@@ -1,10 +1,13 @@
 ﻿using KTSF.Persistence.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace CRST_ServerAPI.Extensions
+namespace KTSF.Api.Extensions
 {
     public static class ApiExtensions
     {
@@ -15,7 +18,7 @@ namespace CRST_ServerAPI.Extensions
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                   .AddJwtBearer(options =>
                   {
-                    //  options.RequireHttpsMetadata = false;
+                      //  options.RequireHttpsMetadata = false; //если равно false, то SSL при отправке токена не используется.
                       options.TokenValidationParameters = new TokenValidationParameters
                       {
                           // укзывает, будет ли валидироваться издатель при валидации токена

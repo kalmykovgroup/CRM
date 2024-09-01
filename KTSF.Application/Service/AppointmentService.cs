@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
-using KTSF.Core;
-using KTSF.Core.Product_;
+ 
+using KTSF.Core.Object; 
 using KTSF.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,9 +13,9 @@ namespace KTSF.Application.Service
 {
     public class AppointmentService
     {
-        private AppDbContext dbContext;
+        private ObjectDbContext dbContext;
 
-        public AppointmentService(AppDbContext dbContext)
+        public AppointmentService(ObjectDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

@@ -28,6 +28,7 @@ namespace KTSF.Languages
         public ITranslationSettingsComponent ITranslationSettingsComponent { get; }
         public ITranslationStaffComponent ITranslationStaffComponent { get; }
         public ITranslationWarehouseComponent ITranslationWarehouseComponent { get; }
+        public ITranslationEditNewStaffWindows ITranslationEditNewStaffWindows { get; }
 
     }
 }

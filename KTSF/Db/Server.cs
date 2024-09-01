@@ -1,38 +1,66 @@
 ﻿
-using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
-using KTSF.Core;
-using KTSF.Core.ABAC;
-using KTSF.Core.Product_;
+using CSharpFunctionalExtensions;
+using CSharpFunctionalExtensions.ValueTasks;
+using KTSF.Configurations_;
+using KTSF.Core.App;
+using KTSF.Core.Object;
+using KTSF.Core.Object.ABAC;
+using KTSF.Core.Object.Product_;
+using KTSF.Dto.Auth;
+using KTSF.Dto.Company_; 
+using KTSF.Dto.Employee_;
+using KTSF.Dto.Object_;
 using KTSF.Dto.Product_;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using KTSF.ViewModel;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Numerics;
-using System.Runtime.InteropServices;
+using System.Net.WebSockets;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Unicode;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KTSF.Db
 {
     public class Server
     {
+        public string EmptyDataMessage { get; set; } = "The data returned is empty";
+        public string UnauthorizedMessage { get; set; } = "401 unauthorized";
+        public string InternetConnectionMessage { get; set; } = "Internet connection...";
+        public string TokenNotFoundMessage { get; set; } = "There is no authorization token, re-login is required.";
+        public string ServerErrorMessage { get; set; } = "Error on the server! Code {0}. We are already solving this problem.";
+         
+
+        public static string DomainName { get; set; } = "localhost:7286";
+
+        public Uri BaseUri { get; set; } = new Uri($"https://{DomainName}");
+        public Uri WebSockerUrl { get; set; } = new Uri($"wss://{DomainName}/Employee-SignIn");
+
         AppControl AppControl { get; }
 
-        public static HttpClient httpClient = new()
+        public HttpClient httpClient { get; }
+
+        public void SetUserJwtToken(string? token)
         {
-            BaseAddress = new Uri("https://localhost:7286")
-        };
+            AuthUserJwtToken = token != null ? new(Configurations.AuthSchemeName, token) : null;
+        }
+        
+        public void SetEmployeeJwtToken(string? token)
+        {
+            AuthEmployeeJwtToken = token != null ? new(Configurations.AuthSchemeName, token) : null;
+        }
+
+        public void SetAnonymJwtToken(string? token)
+        {
+            AnonymJwtToken = token != null ? new(Configurations.AuthSchemeName, token) : null;
+        }
+
+        private AuthenticationHeaderValue? AuthUserJwtToken { get; set; }
+
+        private AuthenticationHeaderValue? AuthEmployeeJwtToken { get; set; }
+
+        public AuthenticationHeaderValue? AnonymJwtToken { get; private set; }
 
 
         public static JsonSerializerOptions options = new JsonSerializerOptions
@@ -44,7 +72,29 @@ namespace KTSF.Db
 
         public Server(AppControl appControl)
         {
+
+            string? token = Regedit.GetValue(Configurations.AnonymJwtToken);
+
+
+            if (token is not null)
+            {
+
+               AnonymJwtToken = new AuthenticationHeaderValue(Configurations.AuthSchemeName, token);
+               
+            }
+
             AppControl = appControl;
+            httpClient = new()
+            {
+                BaseAddress = BaseUri
+            };
+
+            httpClient.DefaultRequestHeaders
+              .Accept
+              .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+
         }
 
         public async Task<bool> Connect()
@@ -54,262 +104,274 @@ namespace KTSF.Db
             return true;
         }
 
-        //Делаем запрос при для проверки подключения к сети и получению необходимых данных из сервера
-        public async Task<bool> LoadData()
-        {
-            await Task.Delay(0);
 
-            return true;
+        private async Task<Result<T2, (string? Message, HttpStatusCode)>> Post<T1, T2>(string url, T1 data, AuthenticationHeaderValue? authClient = null)
+        {
+            return await Request<T1, T2>(HttpMethod.Post, url, data, authClient ?? AuthEmployeeJwtToken);
+        }
+
+        private async Task<Result<T2, (string? Message, HttpStatusCode)>> Get<T1, T2>(string url, T1 data, AuthenticationHeaderValue? authClient = null)
+        {
+            return await Request<T1, T2>(HttpMethod.Get, url, data, authClient ?? AuthEmployeeJwtToken);  
+        }
+
+        private async Task<Result<T1, (string? Message, HttpStatusCode)>> Get<T1>(string url, AuthenticationHeaderValue? authClient = null)
+        {
+            return await Request<T1, T1>(HttpMethod.Get, url, default, authClient ?? AuthEmployeeJwtToken); //По умолчанию пытаемся входить как employee
+        }
+        
+
+        private async Task<Result<T2, (string? Message, HttpStatusCode)>> Request<T1, T2>(HttpMethod method, string url, T1? data, AuthenticationHeaderValue? authClient)
+        { 
+
+            if (authClient is null)
+            {
+                Result.Failure<T2>(TokenNotFoundMessage);
+            }
+
+            HttpContent? content = null;
+
+            if (data != null)
+            {
+                content = JsonContent.Create<T1>(data);
+            }
+
+            do
+            {
+                try
+                {
+                    HttpRequestMessage httpRequestMessage = new HttpRequestMessage(method, url);
+
+                    httpRequestMessage.Content = content;
+
+                    httpRequestMessage.Headers.Authorization = authClient;
+                    httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    HttpResponseMessage response = await httpClient.SendAsync(httpRequestMessage);
+                     
+
+                    AppControl.IsLoad = null;
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+
+                        T2? result = await response.Content.ReadFromJsonAsync<T2>();
+
+                        if (result != null)
+                        {
+                            return Result.Success<T2, (string? Message, HttpStatusCode)>(result);
+                        }
+                        else
+                        {
+                            return Result.Failure<T2, (string? Message, HttpStatusCode)>((EmptyDataMessage, response.StatusCode));
+                            // обработка ошибки получения данных
+                        }
+                    }
+                    else if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        Result.Failure<T2, (string? Message, HttpStatusCode)>((UnauthorizedMessage, response.StatusCode));
+
+                        return Result.Failure<T2, (string? Message, HttpStatusCode)>((UnauthorizedMessage, response.StatusCode));
+                        // обработка не авторизованных 
+                    }
+                    else
+                    {
+                        return Result.Failure<T2, (string? Message, HttpStatusCode)>((System.String.Format(ServerErrorMessage, response.StatusCode), response.StatusCode));
+                        // обработка серверных ошибок
+                    }
+
+                }
+                catch (HttpRequestException)
+                {
+                    AppControl.IsLoad = InternetConnectionMessage;
+                    continue;
+                }
+                 
+            } while (true);
         }
 
 
-
-        private async Task<T?> Request<T>(string url) where T : class
-        {
-            try
-            {
-                T? products = await httpClient.GetFromJsonAsync<T>(url);
-                return products;
-            }
-            catch (HttpRequestException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    // обработка не авторизованных 
-                }
-                else
-                {
-                    // обработка серверных ошибок
-                }
-            }
-            return null;
-        }
-
+         
 
         #region Авторизация
 
         //Делаем запрос на авторизацию владельца
-        //Возвращаем список доступным компаний, обьектов и список пользователей на этих обьектах
+        //Возвращаем список доступным компаний, объектов и список пользователей на этих объектах
 
-        public async Task<(bool result, string? error, User? user)> Authorization(string Phone, string password)
+        public async Task<Result<User, (string? Message, HttpStatusCode)>> Authorization(LoginUserRequest loginUserRequest)
         {
-            await Task.Delay(0);
+            //Здесь мы передаем объект заглушку для того что-бы метод не ругался что нет jwt токена
+            //Сервере этот токен просить не будет.
+            Result<LoginUserResponse, (string? Message, HttpStatusCode)> result =  
+                await Post<LoginUserRequest, LoginUserResponse>($"auth/login", loginUserRequest, new(Configurations.AuthSchemeName, ""));
 
-            if (Phone == "+79260128187" && password == "tester")
+            if (result.IsSuccess)
             {
-                return (true, null, new User()
+                if (result.Value.IsSuccess)
                 {
-                    Email = "kalmykov@mail.ru",
-                    PhoneNumber = "+79260128187",
-                    // Password = "tester",
-                    AccessToken = "test-user-access-token",
-                    Name = "Иван",
-                    Surname = "Калмыков",
-                    Patronymic = "Алексеевич",
-                });
-            }
-            else
-            {
-                return (false, $"Логин или пароль не подходят {Phone}:{password}", null);
-            }
+                    if (result.Value.User is not null)
+                    {
+                        return Result.Success<User, (string? Message, HttpStatusCode)>(result.Value.User);
+                    } 
+                 
+                }
 
-        }
-        public async Task<(bool result, string? error, User? user)> Authorization(string token)
-        {
-            await Task.Delay(0);
-
-            bool result = true;
-
-            if (result)
-            {
-                return (true, null, new User()
-                {
-                    Email = "kalmykov@mail.ru",
-                    PhoneNumber = "+79260128187",
-                    //  Password = "tester",
-                    AccessToken = "test-user-access-token",
-                    Name = "Иван",
-                    Surname = "Калмыков",
-                    Patronymic = "Алексеевич",
-                });
+                return Result.Failure<User, (string? Message, HttpStatusCode)>((result.Value.Error, HttpStatusCode.OK));
             }
-            else
-            {
-                return (false, "token не подходит", null);
-            }
-
+            
+            return Result.Failure<User, (string? Message, HttpStatusCode)>(result.Error);
+            
         }
 
-
-
-
-        public async void Authentication(Action<string> GenerateBarCode, Action<Employee> SetEmployee)
+        public async Task<Result<List<Company>, (string? Message, HttpStatusCode)>> LoadCompanies()
         {
-            await Task.Delay(0);
+            Result<CompanyAllResponse, (string? Message , HttpStatusCode)> result = await Get<CompanyAllResponse>($"Company/all", AuthUserJwtToken);
 
-
-            GenerateBarCode?.Invoke("451VvcKdxp2DIUWArkaP5bPzlj6ZqmwE");
-
-            await Task.Delay(0);
-
-            Employee employee = new Employee()
+            if (result.IsSuccess)
             {
-                ObjectId = 1,
-                AppointmentId = 3,
-                AccessToken = "test-employee-access-token",
-                Name = "Александр",
-                Surname = "Трунин",
-                Patronymic = "Владимирович",
-                PassportSeries = "1234",
-                PassportNumber = "123456",
-                Tin = "12345678901",
-                Snils = "123456789012",
-                Address = "Шевченко 4",
-                Phone = "+79267654356",
-                Email = "admin3@mail.ru",
-                ApplyingDate = DateTime.Now,
-                Created_At = DateTime.Now,
-                Updated_At = DateTime.Now,
+                if(result.Value is not null)
+                {
+                    if(result.Value.Companies != null)
+                    {
+                        return Result.Success<List<Company>, (string? Message, HttpStatusCode)> (result.Value.Companies);
+                    }
+                    else
+                    {
+                        return Result.Failure<List<Company>, (string? Message, HttpStatusCode)>((result.Value.Error, HttpStatusCode.OK));
+                    }
+                   
+                }
+                else
+                {
+                    return Result.Failure<List<Company>, (string? Message, HttpStatusCode)>((EmptyDataMessage, HttpStatusCode.OK));
+                }
+   
+            }
 
-            };
+            return Result.Failure<List<Company>, (string? Message, HttpStatusCode)>(result.Error);
+        }
+   
 
-            SetEmployee.Invoke(employee);
+        public async Task RunWebSocketClientAuthEmployee(
+            Action<string> SuccessGenerateBarCode,
+            Action<string?, HttpStatusCode> FailureGenerateBarCode,
+            Action<Employee> SuccessAuthEmployee,
+            Action<string?, HttpStatusCode> FailureAuthEmployee)
+        {
+
+        #if DEBUG
+            Result<Employee, (string? Message, HttpStatusCode)> result = await Get<Employee>($"auth/debug-get-employee");
+
+            SuccessAuthEmployee.Invoke(result.Value);
+            return;
+        #endif
+
+
+            if (AnonymJwtToken is null)
+            {
+                FailureGenerateBarCode.Invoke("AnonymJwtToken is null", HttpStatusCode.OK);
+                return;
+            }
+
+          
+
+            byte[] buffer = new byte[4 * 1024];
+
+            while (true)
+            {
+
+                ClientWebSocket webSocket = new ClientWebSocket();
+
+                try
+                {
+                    webSocket.Options.SetRequestHeader("Authorization", $"{AnonymJwtToken.Scheme} {AnonymJwtToken.Parameter}");
+
+                    await webSocket.ConnectAsync(WebSockerUrl, CancellationToken.None);
+
+                    AppControl.IsLoad = null;
+
+                    var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+
+                    //Если соединение не закрыто
+                    if (!receiveResult.CloseStatus.HasValue)
+                    {
+                        string QRCode = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
+
+                        SuccessGenerateBarCode.Invoke(QRCode);
+
+                        receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+                        string jsonEmployee = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
+                        Employee? employee = JsonSerializer.Deserialize<Employee>(jsonEmployee, options);
+
+                        if (employee != null)
+                        {
+                            SuccessAuthEmployee.Invoke(employee);
+                        }
+                        else
+                        {
+                            FailureAuthEmployee.Invoke("Не удалось выполнить вход", HttpStatusCode.OK);
+                        }
+
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);                     
+                        
+                    }
+
+
+                   
+                   
+                }
+                catch (WebSocketException)
+                {
+                    AppControl.IsLoad = InternetConnectionMessage;
+                    continue; 
+                }
+                catch (HttpRequestException)
+                {
+                    AppControl.IsLoad = InternetConnectionMessage;
+                    continue;
+                } 
+            }
+
+           
+             
+
+
 
         }
 
         #endregion
 
 
+        public async Task<Result<ObjectSelectResponse, (string? Message, HttpStatusCode)>> SelectObject(ObjectSelectRequest objectSelectRequest)
+        {
+            return await Post<ObjectSelectRequest, ObjectSelectResponse>("auth/select-object", objectSelectRequest, AuthUserJwtToken);
+        }
+
+
         #region Product
 
         //Поиск товаров
-        public async Task<List<Product>?> SearchProducts(string text) // возвращает максимум 20 товаров
-        {
-            /*
-            using HttpResponseMessage response = await httpClient.GetAsync($"Product/SearchProduct?name={text}");
-
-            if(response.StatusCode == HttpStatusCode.OK)
-            {
-                List<Product>? products = await httpClient.GetFromJsonAsync<List<Product>>($"Product/SearchProduct?name={text}");
-
-                return products;
-            }
-
-            return null;
-            */
-            List<Product>? products = await Request<List<Product>>($"Product/SearchProduct?name={text}");
-            return products;
+        public async Task<Result<List<Product>, (string? Message, HttpStatusCode)>> SearchProducts(string text) // возвращает максимум 20 товаров
+        { 
+           return await Get<List<Product>>($"Product/SearchProduct?name={text}");
+            
         }
 
-        public async Task<List<Product>?> GetProducts(int page)
-        {
-            /*
-            try
-            {
-                products = await httpClient.GetFromJsonAsync<List<Product>>($"Product/GetProducts?page={page}");
-                return products;
-            }
-            catch (HttpRequestException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    // обработка не авторизованных 
-                }
-                else
-                {
-                    // обработка серверных ошибок
-                }
-            }
-            */
+        public async Task<Result<List<Product>, (string? Message, HttpStatusCode)>> GetProducts(int page)
+        { 
 
-            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");
-
-            return products;
+            return await Get<List<Product>>($"Product/GetProducts?page={page}");
+             
         }
 
         // первая страница продуктов и общее количество продуктов
-        public async Task<FirstPage?> GetFirstPage(int page = 1)
+        public async Task<Result<FirstPage, (string? Message, HttpStatusCode)>> GetFirstPage(int page = 1)
         {
-            /*
-            List<Product> products = new List<Product> {
-                new Product() { Name = "Product 1", Id = 1 },
-                new Product() { Name = "Product 2", Id = 2 },
-                new Product() { Name = "Product 3", Id = 3 },
-                new Product() { Name = "Product 4", Id = 4 },
-                new Product() { Name = "Product 5", Id = 5 },
-                new Product() { Name = "Product 6", Id = 6 },
-                new Product() { Name = "Product 7", Id = 7 },
-                new Product() { Name = "Product 8", Id = 8 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 1", Id = 1 },
-                new Product() { Name = "Product 2", Id = 2 },
-                new Product() { Name = "Product 3", Id = 3 },
-                new Product() { Name = "Product 4", Id = 4 },
-                new Product() { Name = "Product 5", Id = 5 },
-                new Product() { Name = "Product 6", Id = 6 },
-                new Product() { Name = "Product 7", Id = 7 },
-                new Product() { Name = "Product 8", Id = 8 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 1", Id = 1 },
-                new Product() { Name = "Product 2", Id = 2 },
-                new Product() { Name = "Product 3", Id = 3 },
-                new Product() { Name = "Product 4", Id = 4 },
-                new Product() { Name = "Product 5", Id = 5 },
-                new Product() { Name = "Product 6", Id = 6 },
-                new Product() { Name = "Product 7", Id = 7 },
-                new Product() { Name = "Product 8", Id = 8 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-            };
-
-            page--; // че это значит?? зачем??
-
-            int limmit = 3; // должен быть фиксированный ???
-
-            int countPage = (int)Math.Ceiling((double)products.Count / limmit); // приходит с сервера ???
-
-            if (page > countPage || page < 0) throw new ArgumentException();
-
-            List<Product> resultProducts = [];
-
-            for (int i = page * limmit; i < (page * limmit + limmit) && i < products.Count; i++)
-            {
-                resultProducts.Add(products[i]);
-            }
-
-            return (countPage, resultProducts);
-            */
-
-            FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
-
-            return firstPage;
+             
+            return await Get<FirstPage>($"Product/GetFirstPage");
+             
         }
 
         // ????? WTF  Откуда их брать?
@@ -328,109 +390,21 @@ namespace KTSF.Db
         }
 
         //Получить подробную информацию о товаре
-        public async Task<ProductDTO?> GetProductFullInfo(int id)
+        public async Task<Result<ProductDTO, (string? Message, HttpStatusCode)>> GetProductFullInfo(int id)
         {
-            /*
-            using HttpResponseMessage response = await httpClient.GetAsync($"Product/GetAllInformation?id={id}");
-
-            if(response.StatusCode == HttpStatusCode.OK)
-            {
-                //var tt = await response.Content.ReadAsStringAsync();
-                //var product = JsonSerializer.Deserialize<ProductDTO>(tt);
-
-                ProductDTO? product = await httpClient.GetFromJsonAsync<ProductDTO>($"Product/GetAllInformation?id={id}");
-
-                return product;
-            }
-
-            return null;
-            */
-
-            ProductDTO? product = await Request<ProductDTO>($"Product/GetProductFullInfo?id={id}");
-            return product;
+             return await Get<ProductDTO>($"Product/GetProductFullInfo?id={id}");
+           
         }
 
         #endregion
-
-        // нужна таблица с чеками ???
-        // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
-        // сохранение чеков
-        // получение полной информации о чеке
+         
 
         #region Employee
 
-        public async Task<List<Employee>?> GetEmployees() //Получить список всех сотрудников
-        {
-            /*
-            await Task.Delay(0);
-
-            return new List<Employee> {
-                new Employee()
-                {
-                    ObjectId = 1,
-                    AppointmentId = 1,
-                    AccessToken = "lkvbmekjlgnwieufhwyueigf",
-                    Name = "Иван",
-                    Surname = "Калмыков",
-                    Patronymic = "Алексеевич",
-                    PassportSeries = "1234",
-                    PassportNumber = "123456",
-                    Tin = "12345678901",
-                    Snils = "123456789012",
-                    Address = "Красная прощать 4",
-                    Phone = "+79260128187",
-                    Email = "admin@mail.ru",
-                    ApplyingDate = DateTime.Now,
-                   Created_At = DateTime.Now,
-                    Updated_At = DateTime.Now,
-
-                },
-
-                  new Employee()
-                {
-                    ObjectId = 1,
-                    AppointmentId = 2,
-                    AccessToken = "weifubsudyvbwirugniewrug",
-                    Name = "Артур",
-                    Surname = "Соколов",
-                    Patronymic = "Игоревич",
-                    PassportSeries = "1234",
-                    PassportNumber = "123456",
-                    Tin = "12345678901",
-                    Snils = "123456789012",
-                    Address = "Арбатская 6",
-                    Phone = "+79260125434",
-                    Email = "admin2@mail.ru",
-                    ApplyingDate = DateTime.Now,
-                    Created_At = DateTime.Now,
-                    Updated_At = DateTime.Now,
-
-                },
-                new Employee()
-                {
-                    ObjectId = 1,
-                    AppointmentId = 3,
-                    AccessToken = "aslkgfoiaerjglisermhl",
-                    Name = "Александр",
-                    Surname = "Трунин",
-                    Patronymic = "Владимирович",
-                    PassportSeries = "1234",
-                    PassportNumber = "123456",
-                    Tin = "12345678901",
-                    Snils = "123456789012",
-                    Address = "Шевченко 4",
-                    Phone = "+79267654356",
-                    Email = "admin3@mail.ru",
-                    ApplyingDate = DateTime.Now,
-                    Created_At = DateTime.Now,
-                    Updated_At = DateTime.Now,
-
-                }
-            };
-            */
-
-            List<Employee>? employees = await Request<List<Employee>>("Employee/all");
-            return employees;
+        public async Task<Result<List<Employee>, (string? Message, HttpStatusCode)>> GetEmployees() //Получить список всех сотрудников
+        { 
+            return await Get<List<Employee>>("Employee/all");
+            
         }
 
 
@@ -480,60 +454,59 @@ namespace KTSF.Db
 
 
         // поиск по ФАМИЛИИ или ИМЕНИ
-        public async Task<List<Employee>?> GetBySurname(string name)
+        public async Task<Result<List<Employee>, (string? Message, HttpStatusCode)>> GetBySurname(string name)
         {
-            List<Employee>? employees =
-                await Request<List<Employee>>($"Employee/GetBySurname?name={name}");
 
-            return employees;
+            Result<List<Employee>, (string? Message, HttpStatusCode)> result = await Get<List<Employee>>($"Employee/GetBySurname?name={name}");
+       
+               
+            return result;
         }
 
         #endregion
 
         #region Appointment
 
-        public async Task<List<Appointment>?> GetAllAppointment()
+        public async Task<Result<List<Appointment>, (string? Message, HttpStatusCode)>> GetAllAppointment()
         {
-            List<Appointment>? appointments = await Request<List<Appointment>>("Appointment/all");
-            return appointments;
+            return await Get<List<Appointment>>("Appointment/all");
+           
         }
 
-        public async Task<Appointment> GetAppointmentById(int id)
+        public async Task<Result<Appointment, (string? Message, HttpStatusCode)>> GetAppointmentById(int id)
         {
-            Appointment? appointment = await Request<Appointment>($"Appointment/{id}");
-            return appointment;
+           return await Get<Appointment>($"Appointment/{id}");
+         
         }
 
         #endregion
 
         #region EmployeeStatus
 
-        public async Task<List<EmployeeStatus>> GetAllEmployeeStatus()
+        public async Task<Result<List<EmployeeStatus>, (string? Message, HttpStatusCode)>> GetAllEmployeeStatus()
         {
-            List<EmployeeStatus>? employeeStatuses = await Request<List<EmployeeStatus>>("EmployeeStatus/all");
-            return employeeStatuses;
+            return await Get<List<EmployeeStatus>>("EmployeeStatus/all");
+           
         }
 
-        public async Task<EmployeeStatus> GetEmployeeStatusById(int id)
+        public async Task<Result<EmployeeStatus, (string? Message, HttpStatusCode)>> GetEmployeeStatusById(int id)
         {
-            EmployeeStatus? employeeStatus = await Request<EmployeeStatus>($"EmployeeStatus/{id}");
-            return employeeStatus;
+            return await Get<EmployeeStatus>($"EmployeeStatus/{id}");
+           
         }
 
         #endregion
 
         #region ASetOfRules
 
-        public async Task<List<ASetOfRules>> GetAllASetOfRules()
+        public async Task<Result<List<ASetOfRules>, (string? Message, HttpStatusCode)>> GetAllASetOfRules()
         {
-            List<ASetOfRules> aSetOfRules = await Request<List<ASetOfRules>>("ASetOfRules/all");
-            return aSetOfRules;
+            return  await Get<List<ASetOfRules>>("ASetOfRules/all"); 
         }
 
-        public async Task<ASetOfRules> GetASetOfRulesById(int id)
+        public async Task<Result<ASetOfRules, (string? Message, HttpStatusCode)>> GetASetOfRulesById(int id)
         {
-            ASetOfRules aSetOfRule = await Request<ASetOfRules>($"ASetOfRules/{id}");
-            return aSetOfRule;
+            return await Get<ASetOfRules>($"ASetOfRules/{id}"); 
         }
 
         #endregion

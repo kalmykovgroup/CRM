@@ -1,13 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using KTSF.Application.Service;
-using KTSF.Core;
-using KTSF.Core.Product_;
+ 
+using KTSF.Core.Object.Product_; 
 using KTSF.Dto.Product_;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
-namespace CRST_ServerAPI.Controllers
+namespace KTSF.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -14,7 +14,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
-                <ResourceDictionary Source="\Components\Window\MainMenuWinComponent\ScrollBar.xaml" />
+                <ResourceDictionary Source="\Components\Windows\MainMenuWinComponent\ScrollBar.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
 
@@ -78,13 +78,14 @@
             </Style>
 
             <ControlTemplate x:Key="ContentControlLoad" TargetType="ContentControl">
+
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <Image d:Source="/Img/loading.gif" Style="{StaticResource imgLoadStyle}" />
+                    <Image d:Source="/Img/loading.gif"  Style="{StaticResource imgLoadStyle}" />
                     <TextBlock
                         d:Text="Load"
                         Foreground="{TemplateBinding Foreground}"
@@ -92,6 +93,9 @@
                         Text="{Binding IsLoad}" />
                 </Grid>
             </ControlTemplate>
+ 
+
+            
 
             <Style x:Key="IconButtonMinimizeStyle" TargetType="Button">
                 <Setter Property="Background" Value="Transparent" />

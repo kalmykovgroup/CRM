@@ -1,18 +1,13 @@
  
-  
-using Microsoft.AspNetCore.Authentication.JwtBearer; 
+   
 using Microsoft.EntityFrameworkCore;  
 using KTSF.Persistence;
 using KTSF.Application.Service; 
-using KTSF.Infrastructure;
-using Microsoft.IdentityModel.Tokens;
-using KTSF.Application.Interfaces.Auth;
-using KTSF.Persistence.Configurations;
-using Microsoft.AspNetCore.Authentication; 
-using Microsoft.AspNetCore.Authorization;
+using KTSF.Infrastructure; 
+using KTSF.Application.Interfaces.Auth;  
 using Microsoft.Extensions.DependencyInjection;
-using KTSF.Application.Extensions;
-using CRST_ServerAPI.Extensions;
+using KTSF.Application.Middleware;
+using KTSF.Api.Extensions;
 
 namespace CRST_ServerAPI
 {
@@ -55,7 +50,17 @@ namespace CRST_ServerAPI
 
             AppDbContext.ConnectionString = connectionString;
 
+            string appConnectionString = builder.Configuration.GetConnectionString(nameof(ObjectDbContext)) ?? throw new ArgumentNullException("Connection string is null");
+
+            ObjectDbContext.ConnectionString = appConnectionString;
+
+
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             builder.Services.AddDbContext<AppDbContext>(options => options.UseMySQL(connectionString));
+            builder.Services.AddDbContext<ObjectDbContext>(options => options.UseMySQL(appConnectionString));
+             
+
 
             builder.Services.AddTransient<EmployeesService>();
             builder.Services.AddTransient<UsersService>();
@@ -64,17 +69,19 @@ namespace CRST_ServerAPI
             builder.Services.AddTransient<AppointmentService>();
             builder.Services.AddTransient<EmployeeStatusService>();
             builder.Services.AddTransient<ASetOfRulesService>();
+            builder.Services.AddTransient<CompanyService>();
+            builder.Services.AddTransient<ObjectService>();
+            builder.Services.AddSingleton<AuthSingletonService>();
 
             builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
 
-            builder.Services.AddTransient<IJwtProvider, JwtProvider>();
+            builder.Services.AddTransient<IJwtProvider, JwtProvider>(); 
 
 
             builder.Services.AddApiAuthentification();
  
             var app = builder.Build();
-
-            app.UseMiddleware<AuthMiddleware>();
+             
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -83,17 +90,21 @@ namespace CRST_ServerAPI
                 app.UseSwaggerUI();
             }
 
-
             // // Настройте конвейер HTTP-запросов.
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection();         
 
+            app.UseAuthorization();
 
+            app.UseMiddleware<AccessMiddleware>();
 
+            var webSocketOptions = new WebSocketOptions
+            {
+                KeepAliveInterval = TimeSpan.FromMinutes(2)
+            };
 
-            //app.UseAuthentication();   // добавление middleware аутентификации
-
-            app.UseAuthorization(); 
             
+
+            app.UseWebSockets(webSocketOptions);
 
             // устанавливаем сопоставление маршрутов с контроллерами
             app.MapControllerRoute(

@@ -1,5 +1,7 @@
-﻿using KTSF.Core;
-using KTSF.Core.ABAC;
+﻿
+using KTSF.Components;
+using KTSF.Core.Object;
+using KTSF.Core.Object.ABAC;
 using KTSF.Dto.Employee_;
 using System;
 using System.Collections.Generic;
@@ -39,16 +41,23 @@ namespace KTSF
         private Regex phoneNumberRegex = new(@"(\+7|8)[\(\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[)\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)[\s-]*(\d)");
         private Regex emailRegex = new(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.\w{2,3}$");
 
-        
+        private dynamic Property
+        {
+            get; set;
+        }
 
-        public EditStaffWindow(EmployeeVM employeeVM,Action<EditStaffWindow> action)
+
+        public EditStaffWindow(AppControl appControl, EmployeeVM employeeVM,Action<EditStaffWindow> action)
         {
             InitializeComponent();
 
             this.EmployeeVM = employeeVM;       
             this.Action = action;
 
-            this.DataContext = EmployeeVM;            
+            this.DataContext = EmployeeVM;
+
+
+           Component.LoadLanguage(this.GetType(), appControl, (_property) => { Property = _property; });
         }
 
         private void saveButtonButton_Click(object sender, RoutedEventArgs e)

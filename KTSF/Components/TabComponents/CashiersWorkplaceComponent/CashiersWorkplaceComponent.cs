@@ -14,7 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
-using KTSF.Core.Product_;
+using KTSF.Core.Object.Product_;
 using KTSF.Contracts.CashiersWorkplace;
 
 namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent;

@@ -84,6 +84,12 @@ namespace KTSF.Languages.Packages
 
         public ITranslationWarehouseComponent ITranslationWarehouseComponent => new TranslationWarehouseComponent();
 
-      
+
+        private class TranslationEditNewStaffWindows : ITranslationEditNewStaffWindows
+        {
+            public string Name => "Тест Имя";
+        }
+
+        public ITranslationEditNewStaffWindows ITranslationEditNewStaffWindows => new TranslationEditNewStaffWindows();
     }
 }

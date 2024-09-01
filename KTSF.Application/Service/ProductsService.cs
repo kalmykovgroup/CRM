@@ -1,23 +1,16 @@
-﻿using CSharpFunctionalExtensions;
-using KTSF.Core;
-using KTSF.Core.Product_;
+﻿using CSharpFunctionalExtensions; 
+using KTSF.Core.Object.Product_;
 using KTSF.Dto.Product_;
 using KTSF.Persistence;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore; 
 
 namespace KTSF.Application.Service
 {
     public class ProductsService
     {
-        private AppDbContext dbContext;
+        private ObjectDbContext dbContext;
 
-        public ProductsService(AppDbContext dbContext)
+        public ProductsService(ObjectDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

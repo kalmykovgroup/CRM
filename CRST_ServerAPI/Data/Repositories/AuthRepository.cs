@@ -46,34 +46,34 @@
 
 //        public string? Login(string username, string password)
 //        {
-//            using IDbConnection db = new MySqlConnection(AppDbContext.ConnectionString);
+//            using IDbConnection db = new MySqlConnection(ObjectDbContext.DatabaseName);
 //            db.Open();
 
 //            User? user = db.Query<User>($"SELECT * FROM users WHERE Email=@username", new {username = username}).FirstOrDefault();
 
 //            if (user != null && password == user.Password) // сравнивыать хеш пароли
 //            {
-//                user.AccessToken = GenerateAccessToken(user.Id);
+//                user.JwtToken = GenerateUserJwtToken(user.Id);
 
 
 //                // некорректный запрос
 //                //try
 //                //{
-//                //    db.Execute("update user set AccessToken = @AccessToken where Id = @Id",
-//                //                new { Id = user.Id, AccessToken = user.AccessToken });
+//                //    db.Execute("update user set JwtToken = @JwtToken where Id = @Id",
+//                //                new { Id = user.Id, JwtToken = user.JwtToken });
 //                //}catch (Exception ex)
 //                //{
 //                //    return "это эксепшен"; // ???? подумать
 //                //}
 
 
-//                return user.AccessToken;
+//                return user.JwtToken;
 //            }            
 
 //            return "это конец";
 //        }     
 
-//        private string GenerateAccessToken(int id)
+//        private string GenerateUserJwtToken(int id)
 //        {
 //            return "Token test";
 //        }

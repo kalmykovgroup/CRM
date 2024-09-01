@@ -1,5 +1,6 @@
-﻿using KTSF.Core;
-using KTSF.Core.ABAC;
+﻿
+using KTSF.Core.Object;
+using KTSF.Core.Object.ABAC;
 using KTSF.Dto.Employee_;
 using System.Windows;
 
@@ -23,8 +24,7 @@ namespace KTSF
             EmployeeVM.Employee.Updated_At = DateTime.Now;
 
             EmployeeVM.Employee.Password = "tester"; // жесткий хардкод
-            EmployeeVM.Employee.AccessToken = ""; // жесткий хардкод
-            EmployeeVM.Employee.ObjectId = 1; // жесткий хардкод            
+            EmployeeVM.Employee.JwtToken = ""; // жесткий хардкод          
 
             DialogResult = true;
         }

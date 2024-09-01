@@ -1,5 +1,7 @@
-﻿using KTSF.Core.ABAC;
-using KTSF.Core;
+﻿
+
+using KTSF.Core.Object;
+using KTSF.Core.Object.ABAC;
 
 namespace KTSF.Dto.Employee_
 {
