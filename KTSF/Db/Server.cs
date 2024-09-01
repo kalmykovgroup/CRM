@@ -11,6 +11,11 @@ using KTSF.Dto.Company_;
 using KTSF.Dto.Employee_;
 using KTSF.Dto.Object_;
 using KTSF.Dto.Product_;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using KTSF.ViewModel;
 using System.Net;
 using System.Net.Http;
@@ -20,6 +25,15 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using KTSF.Components.TabComponents.CashiersWorkplaceComponent;
+using KTSF.Contracts.CashiersWorkplace;
+using KTSF.Core.Receipt_;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KTSF.Db
 {
@@ -100,7 +114,6 @@ namespace KTSF.Db
         public async Task<bool> Connect()
         {
             await Task.Delay(0);
-
             return true;
         }
 
@@ -339,6 +352,17 @@ namespace KTSF.Db
 
 
 
+        //Поиск товаров
+        public async Task<List<Product>?> SearchProducts(string text) // возвращает максимум 20 товаров
+        {
+            List<Product>? products = await Request<List<Product>>($"Product/SearchProduct?name={text}");
+            return products;
+        }
+
+        public async Task<List<Product>?> GetProducts(int page)
+        {
+            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");
+            return products;          
         }
 
         #endregion
@@ -372,6 +396,8 @@ namespace KTSF.Db
              
             return await Get<FirstPage>($"Product/GetFirstPage");
              
+            FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
+            return firstPage;
         }
 
         // ????? WTF  Откуда их брать?
@@ -390,6 +416,56 @@ namespace KTSF.Db
         }
 
         //Получить подробную информацию о товаре
+        public async Task<ProductDTO?> GetProductFullInfo(int id)
+        {
+            ProductDTO? product = await Request<ProductDTO>($"Product/GetProductFullInfo?id={id}");
+            return product;
+        }
+
+        #endregion
+
+        #region Receipt
+
+        public bool SaveReceipt(ReceiptVM receiptVm)
+        {
+            var receipt = ConvertReceipt(receiptVm);
+            
+            return true;
+        }
+
+        private Receipt ConvertReceipt(ReceiptVM receiptVm)
+        {
+            var receipt = new Receipt();
+            receipt.BuyProducts = ConvertBuyProducts(receiptVm.BuyProducts);
+            
+            receipt.ReceiptPaymentInfo = new PaymentInfo();
+            receipt.ReceiptPaymentInfo.TotalSum = receiptVm.ReceiptPaymentInfo.TotalSum;
+            receipt.ReceiptPaymentInfo.CashAmount = receiptVm.ReceiptPaymentInfo.CashAmount;
+            receipt.ReceiptPaymentInfo.CardAmount = receiptVm.ReceiptPaymentInfo.CardAmount;
+            receipt.ReceiptPaymentInfo.AmountPaid = receiptVm.ReceiptPaymentInfo.AmountPaid;
+            receipt.ReceiptPaymentInfo.PaymentMethodId = (int)receiptVm.ReceiptPaymentInfo.PaymentMethod;
+
+            receipt.Discount = receiptVm.Discount;
+            return receipt;
+        }
+
+        private List<BuyProduct> ConvertBuyProducts(ObservableCollection<BuyProductVM> buyProductsVm)
+        {
+            List<BuyProduct> buyProducts = new List<BuyProduct>();
+            foreach (var buyProductVm in buyProductsVm)
+            {
+                BuyProduct newBuyProduct = new BuyProduct();
+                newBuyProduct.Product = buyProductVm.Product;
+                newBuyProduct.ProductId = buyProductVm.Product.Id;
+                newBuyProduct.Price = buyProductVm.Price;
+                newBuyProduct.Count = buyProductVm.Count;
+                newBuyProduct.TotalSumProduct = buyProductVm.TotalSumProduct;
+                newBuyProduct.Discount = buyProductVm.Discount;
+                
+                buyProducts.Add(newBuyProduct);
+            }
+
+            return buyProducts;
         public async Task<Result<ProductDTO, (string? Message, HttpStatusCode)>> GetProductFullInfo(int id)
         {
              return await Get<ProductDTO>($"Product/GetProductFullInfo?id={id}");
@@ -444,6 +520,7 @@ namespace KTSF.Db
         }
 
 
+        // ????? WTF  Откуда их брать?
         //Загрузка статистических данных о пользователи
         public async Task<bool> GetUserStatistics(Employee user)
         {
@@ -456,6 +533,16 @@ namespace KTSF.Db
         // поиск по ФАМИЛИИ или ИМЕНИ
         public async Task<Result<List<Employee>, (string? Message, HttpStatusCode)>> GetBySurname(string name)
         {
+            List<Employee>? employees =
+                await Request<List<Employee>>($"Employee/GetBySurname?name={name}");
+
+            return employees;
+        }
+
+        public async Task<List<Employee>?> SearchEmployee(string searchElement, string status)
+        {
+            List<Employee>? employees = new List<Employee>();
+            return employees;
 
             Result<List<Employee>, (string? Message, HttpStatusCode)> result = await Get<List<Employee>>($"Employee/GetBySurname?name={name}");
        

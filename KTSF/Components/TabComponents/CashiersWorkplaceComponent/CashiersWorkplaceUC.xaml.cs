@@ -30,11 +30,19 @@ namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent
           
         }
 
-        private void textBoxCountProduct_KeyDown (object sender, KeyEventArgs e) => CashiersWorkplaceComponent.textBoxCountProduct_KeyDown(sender, e);
+        private void textBox_KeyDown (object sender, KeyEventArgs e) => CashiersWorkplaceComponent.textBox_KeyDown(sender, e);
 
-        private void TextBoxPrice_TextChanged (object sender, TextChangedEventArgs e) => CashiersWorkplaceComponent.textBoxPrice_TextChanged (sender, e);
+        private void TextBoxPrice_TextChanged (object sender, TextChangedEventArgs e) => CashiersWorkplaceComponent.TextBoxPrice_TextChanged (sender, e);
         
-        private void TextBoxCount_TextChanged (object sender, TextChangedEventArgs e) => CashiersWorkplaceComponent.textBoxCount_TextChanged (sender, e);
+        private void TextBoxCount_TextChanged (object sender, TextChangedEventArgs e) => CashiersWorkplaceComponent.TextBoxCount_TextChanged (sender, e);
 
-      }
+        private void UIElement_OnPreviewTextInput(object sender, TextCompositionEventArgs e) =>
+            CashiersWorkplaceComponent.UIElement_OnPreviewTextInput(sender, e);
+
+        private void UIElement_OnPreviewKeyDown(object sender, KeyEventArgs e) =>
+            CashiersWorkplaceComponent.UIElement_OnPreviewKeyDown(sender, e);
+
+        private void TextBoxCashOrCard_TextChanged(object sender, TextChangedEventArgs e) =>
+            CashiersWorkplaceComponent.TextBoxCashOrCard_TextChanged(sender, e);
+    }
 }

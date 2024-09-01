@@ -17,7 +17,6 @@ namespace KTSF.Languages.Packages
 {
     public class English : ILanguage
     {
-
         private class TranslationCashiersWorkplaceComponent : ITranslationCashiersWorkplaceComponent
         {
             public string Name => "Cashiers workplace";
@@ -65,7 +64,25 @@ namespace KTSF.Languages.Packages
 
         private class TranslationStaffComponent : ITranslationStaffComponent
         {
-            public string Name => "Staff";
+            public string Name => "Staff";            
+            public string Employed => "Employed";
+            public string Fired => "Fired";
+            public string Unemployed => "Unemployed";
+            public string ProbationPeriod => "Probation period";
+            public string Add => "Add";
+            public string Edit => "Edit";
+            public string MoreDetailed => "More detailed";
+            public string PhoneNumber => "Phone number";
+            public string Email => "Email";
+            public string Address => "Address :";
+            public string Passport => "Passport :";
+            public string INN => "INN :";
+            public string SNILS => "SNILS :";
+            public string DateOfEmployment => "Date of employment :";
+            public string DateOfEditing => "Date of editing :";
+            public string DateOfLayoff => "Date of layoff :";
+
+            string ITranslationStaffComponent.DateOfEmployment => throw new NotImplementedException();
         }
 
         public ITranslationStaffComponent ITranslationStaffComponent => new TranslationStaffComponent();
@@ -85,12 +102,49 @@ namespace KTSF.Languages.Packages
 
         public ITranslationSearchComponent ITranslationSearchComponent => new TranslationSearchComponent();
 
-
-        private class TranslationEditNewStaffWindows : ITranslationEditNewStaffWindows
+        private class TranslationEditStaffWindow : ITranslationEditStaffWindow
         {
-            public string Name => "TestName";
+            public string Name => "Name :";
+            public string Surname => "Surname :";
+            public string Patronymic => "Patronymic :";
+            public string Passport => "Passport :";
+            public string INN => "INN :";
+            public string SNILS => "SNILS :";
+            public string Position => "Position :";
+            public string PhoneNumber => "PhoneNumber :";
+            public string Email => "Email :";
+            public string Address => "Address :";
+            public string EmployeeStatus => "Employee status :";
+            public string EmployeePermissions => "Employee permissions :";
+            public string ApplyingDate => "Applying date :";
+            public string Editing => "Editing";
+            public string Attributes => "Attributes";
+            public string Save => "Save";
+            public string Cancel => "Cancel";
         }
 
-        public ITranslationEditNewStaffWindows ITranslationEditNewStaffWindows => new TranslationEditNewStaffWindows();
+        public ITranslationEditStaffWindow ITranslationEditStaffWindow => new TranslationEditStaffWindow();
+
+
+        private class TranslationAddNewStaffWindow : ITranslationAddNewStaffWindow
+        {
+            public string Name => "Name :";
+            public string Surname => "Surname :";
+            public string Patronymic => "Patronymic :";
+            public string Passport => "Passport :";
+            public string INN => "INN :";
+            public string SNILS => "SNILS :";
+            public string Position => "Position :";
+            public string PhoneNumber => "PhoneNumber :";
+            public string Email => "Email :";
+            public string Address => "Address :";
+            public string EmployeeStatus => "Employee status :";
+            public string EmployeePermissions => "Employee permissions :";
+            public string ApplyingDate => "Applying date :";            
+            public string Save => "Save";
+            public string Cancel => "Cancel";
+        }
+
+        public ITranslationAddNewStaffWindow ITranslationAddNewStaffWindow => new TranslationAddNewStaffWindow();
     }
 }

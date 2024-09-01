@@ -83,8 +83,10 @@ namespace KTSF.Components
         }
 
 
+       
+
         public static void LoadLanguage(Type type, AppControl AppControl, Action<dynamic> actionResult)
-        { 
+        {
 
             string? name = type.Name;
 
@@ -93,10 +95,10 @@ namespace KTSF.Components
             object? obj = propertyInfo?.GetValue(AppControl.LanguageControl.Language.Pack);
 
             if (obj is null) return;
-             
+
 
             dynamic dynamicObject = new ExpandoObject();
-             
+
 
             var propertyList = obj.GetType().GetProperties();
 
@@ -106,7 +108,7 @@ namespace KTSF.Components
 
                 ((IDictionary<string, object>)dynamicObject)[property.Name] = text;
             }
-            actionResult.Invoke(dynamicObject); 
+            actionResult.Invoke(dynamicObject);
 
         }
 
@@ -122,9 +124,11 @@ namespace KTSF.Components
             LoadLanguage(this.GetType(), AppControl, (_property) => { Property = _property; });
 
             AppControl.LanguageControl.LanguageChange += () => LoadLanguage(this.GetType(), AppControl, (_property) => { Property = _property; });
-           
+
 
         }
+
+
 
 
         [RelayCommand]

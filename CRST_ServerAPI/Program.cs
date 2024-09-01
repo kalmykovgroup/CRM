@@ -25,7 +25,7 @@ namespace CRST_ServerAPI
             builder.Services.AddControllers()
             .ConfigureApiBehaviorOptions(options =>
             {
-               // options.SuppressMapClientErrors = true; //Отключение ответа ProblemDetails
+               // options.SuppressMapClientErrors = true; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ProblemDetails
             });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -37,7 +37,7 @@ namespace CRST_ServerAPI
          /*   builder.Services.AddAuthentication("BasicAuthentication")
          .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null); */
  
-         /*   //Требовать прошедших проверку подлинности пользователей
+         /*   //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
               builder.Services.AddAuthorization(options =>
               {
                   options.FallbackPolicy = new AuthorizationPolicyBuilder()
@@ -90,7 +90,7 @@ namespace CRST_ServerAPI
                 app.UseSwaggerUI();
             }
 
-            // // Настройте конвейер HTTP-запросов.
+            // // РќР°СЃС‚СЂРѕР№С‚Рµ РєРѕРЅРІРµР№РµСЂ HTTP-Р·Р°РїСЂРѕСЃРѕРІ.
             app.UseHttpsRedirection();         
 
             app.UseAuthorization();
@@ -105,8 +105,12 @@ namespace CRST_ServerAPI
             
 
             app.UseWebSockets(webSocketOptions);
+            //app.UseAuthentication();   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ middleware пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-            // устанавливаем сопоставление маршрутов с контроллерами
+            app.UseAuthorization(); 
+            
+
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             app.MapControllerRoute(
              name: "default",
              pattern: "{controller=Home}/{action=Index}/{id?}"

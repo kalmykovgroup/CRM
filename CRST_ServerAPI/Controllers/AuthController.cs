@@ -23,7 +23,8 @@ namespace KTSF.Api.Controllers
 {
 
     [ApiController]
-    [Route("[controller]")] 
+    [Route("[controller]")]
+
     public class AuthController : ControllerBase
     {
          

@@ -73,6 +73,22 @@ namespace KTSF.Languages.Packages
         private class TranslationStaffComponent : ITranslationStaffComponent
         {
             public string Name => "Персонал";
+            public string Employed => "Трудоустроен";
+            public string Fired => "Уволенные";
+            public string Unemployed => "Не трудоустроен";
+            public string ProbationPeriod => "Испытательный срок";
+            public string Add => "Добавить";
+            public string Edit => "Редактировать";
+            public string MoreDetailed => "Подробнее";
+            public string PhoneNumber => "Телефон";
+            public string Email => "Почта";
+            public string Address => "Адрес :";
+            public string Passport => "Паспорт :";
+            public string INN => "ИНН :";
+            public string SNILS => "СНИЛС";
+            public string DateOfEmployment => "Дата трудоустройства :";
+            public string DateOfEditing => "Дата редактирования :";
+            public string DateOfLayoff => "Дата увольнения :";
         }
 
         public ITranslationStaffComponent ITranslationStaffComponent => new TranslationStaffComponent();
@@ -85,11 +101,51 @@ namespace KTSF.Languages.Packages
         public ITranslationWarehouseComponent ITranslationWarehouseComponent => new TranslationWarehouseComponent();
 
 
-        private class TranslationEditNewStaffWindows : ITranslationEditNewStaffWindows
+
+        private class TranslationEditStaffWindow : ITranslationEditStaffWindow
         {
-            public string Name => "Тест Имя";
+            public string Name => "Имя :";
+            public string Surname => "Фамилия :";
+            public string Patronymic => "Отчество :";
+            public string Passport => "Паспорт :";
+            public string INN => "ИНН :";
+            public string SNILS => "СНИЛС :";
+            public string Position => "Должность :";
+            public string PhoneNumber => "Телефон :";
+            public string Email => "Почта :";
+            public string Address => "Адрес :";
+            public string EmployeeStatus => "Статус сотрудника :";
+            public string EmployeePermissions => "Разрешения сотрудника :";
+            public string ApplyingDate => "Дата оформления :";
+            public string Editing => "Редактирование";
+            public string Attributes => "Атрибуты";
+            public string Save => "Сохранить";
+            public string Cancel => "Отмена";
         }
 
-        public ITranslationEditNewStaffWindows ITranslationEditNewStaffWindows => new TranslationEditNewStaffWindows();
+        public ITranslationEditStaffWindow ITranslationEditStaffWindow => new TranslationEditStaffWindow();
+
+
+        private class TranslationAddNewStaffWindow : ITranslationAddNewStaffWindow
+        {
+            public string Name => "Имя :";
+            public string Surname => "Фамилия :";
+            public string Patronymic => "Отчество :";
+            public string Passport => "Паспорт :";
+            public string INN => "ИНН :";
+            public string SNILS => "СНИЛС :";
+            public string Position => "Должность :";
+            public string PhoneNumber => "Телефон :";
+            public string Email => "Почта :";
+            public string Address => "Адрес :";
+            public string EmployeeStatus => "Статус сотрудника :";
+            public string EmployeePermissions => "Разрешения сотрудника :";
+            public string ApplyingDate => "Дата оформления :";           
+            public string Save => "Сохранить";
+            public string Cancel => "Отмена";
+        }
+
+        public ITranslationAddNewStaffWindow ITranslationAddNewStaffWindow => new TranslationAddNewStaffWindow();
+
     }
 }
