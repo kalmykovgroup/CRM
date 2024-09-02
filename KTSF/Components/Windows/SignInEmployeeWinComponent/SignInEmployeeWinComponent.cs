@@ -62,6 +62,9 @@ namespace KTSF.Components.Windows.SignInEmployeeWinComponent
                 await Task.Delay(3500);
                 AppControl.SignInUserWinComponent.Show();
             }
+
+
+
  
         }
 

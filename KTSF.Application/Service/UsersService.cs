@@ -1,8 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using CSharpFunctionalExtensions.ValueTasks; 
-using KTSF.Core;
-using KTSF.Core.Receipt_;
-using CSharpFunctionalExtensions.ValueTasks;  
+using KTSF.Core;  
 using KTSF.Core.App;
 using KTSF.Persistence;
 using Microsoft.EntityFrameworkCore; 
@@ -53,7 +51,7 @@ namespace KTSF.Application.Service
             us.Email = user.Email;
             us.PhoneNumber = user.PhoneNumber;
             us.PasswordHash = user.PasswordHash;
-            us.AccessToken = user.AccessToken;
+            us.JwtToken = user.JwtToken;
             us.Name = user.Name;
             us.Surname = user.Surname;
             us.Patronymic = user.Patronymic;

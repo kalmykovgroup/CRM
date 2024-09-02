@@ -1,10 +1,11 @@
-﻿using CSharpFunctionalExtensions;
+﻿
+using CSharpFunctionalExtensions;
 using KTSF.Application.Service;
- 
-using KTSF.Core.Object.Product_; 
+using KTSF.Core.Object.Product_;
 using KTSF.Dto.Product_;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Text.Json;
 
 namespace KTSF.Api.Controllers
@@ -27,7 +28,7 @@ namespace KTSF.Api.Controllers
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Find(int id)
-        {    
+        {     
             Result<Product> result = await productsService.Find(id);            
 
             if (result.IsSuccess)
@@ -35,6 +36,7 @@ namespace KTSF.Api.Controllers
                 return Ok(result.Value);
             }
             result.TryGetError(out string? error);
+
             return NotFound(error);
         }
 

@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using KTSF.Core.Product_;
+using KTSF.Core.Object.Product_;
 
 namespace KTSF.Contracts.CashiersWorkplace;
 

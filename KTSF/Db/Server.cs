@@ -7,7 +7,7 @@ using KTSF.Core.Object;
 using KTSF.Core.Object.ABAC;
 using KTSF.Core.Object.Product_;
 using KTSF.Dto.Auth;
-using KTSF.Dto.Company_; 
+using KTSF.Dto.Company_;
 using KTSF.Dto.Employee_;
 using KTSF.Dto.Object_;
 using KTSF.Dto.Product_;
@@ -32,8 +32,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using KTSF.Components.TabComponents.CashiersWorkplaceComponent;
 using KTSF.Contracts.CashiersWorkplace;
-using KTSF.Core.Receipt_;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using KTSF.Core.Object.Receipt_;
 
 namespace KTSF.Db
 {
@@ -327,42 +327,40 @@ namespace KTSF.Db
                             FailureAuthEmployee.Invoke("Не удалось выполнить вход", HttpStatusCode.OK);
                         }
 
-                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);                     
-                        
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
+
                     }
 
 
-                   
-                   
+
+
                 }
                 catch (WebSocketException)
                 {
                     AppControl.IsLoad = InternetConnectionMessage;
-                    continue; 
+                    continue;
                 }
                 catch (HttpRequestException)
                 {
                     AppControl.IsLoad = InternetConnectionMessage;
                     continue;
-                } 
+                }
             }
-
-           
-             
-
-
-
-        //Поиск товаров
-        public async Task<List<Product>?> SearchProducts(string text) // возвращает максимум 20 товаров
-        {
-            List<Product>? products = await Request<List<Product>>($"Product/SearchProduct?name={text}");
-            return products;
         }
 
-        public async Task<List<Product>?> GetProducts(int page)
+           
+            
+        //Поиск товаров
+        public async Task<Result<List<Product>, (string? message, HttpStatusCode)>> SearchProducts(string text) // возвращает максимум 20 товаров
         {
-            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");
-            return products;          
+            Result<List<Product>, (string? message, HttpStatusCode)> result = await Get<List<Product>>($"Product/SearchProduct?name={text}");
+
+            return result;                    
+        }
+
+        public async Task<Result<List<Product>, (string? message, HttpStatusCode)>> GetProducts(int page)
+        {
+            return await Get<List<Product>>($"Product/GetProducts?page={page}"); 
         }
 
         #endregion
@@ -376,28 +374,13 @@ namespace KTSF.Db
 
         #region Product
 
-        //Поиск товаров
-        public async Task<Result<List<Product>, (string? Message, HttpStatusCode)>> SearchProducts(string text) // возвращает максимум 20 товаров
-        { 
-           return await Get<List<Product>>($"Product/SearchProduct?name={text}");
-            
-        }
-
-        public async Task<Result<List<Product>, (string? Message, HttpStatusCode)>> GetProducts(int page)
-        { 
-
-            return await Get<List<Product>>($"Product/GetProducts?page={page}");
-             
-        }
+       
+ 
 
         // первая страница продуктов и общее количество продуктов
         public async Task<Result<FirstPage, (string? Message, HttpStatusCode)>> GetFirstPage(int page = 1)
-        {
-             
-            return await Get<FirstPage>($"Product/GetFirstPage");
-             
-            FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
-            return firstPage;
+        {            
+            return await Get<FirstPage>($"Product/GetFirstPage"); 
         }
 
         // ????? WTF  Откуда их брать?
@@ -416,10 +399,9 @@ namespace KTSF.Db
         }
 
         //Получить подробную информацию о товаре
-        public async Task<ProductDTO?> GetProductFullInfo(int id)
+        public async Task<Result<ProductDTO, (string? error, HttpStatusCode)>> GetProductFullInfo(int id)
         {
-            ProductDTO? product = await Request<ProductDTO>($"Product/GetProductFullInfo?id={id}");
-            return product;
+            return await Get<ProductDTO>($"Product/GetProductFullInfo?id={id}"); 
         }
 
         #endregion
@@ -461,16 +443,12 @@ namespace KTSF.Db
                 newBuyProduct.Count = buyProductVm.Count;
                 newBuyProduct.TotalSumProduct = buyProductVm.TotalSumProduct;
                 newBuyProduct.Discount = buyProductVm.Discount;
-                
+
                 buyProducts.Add(newBuyProduct);
             }
 
             return buyProducts;
-        public async Task<Result<ProductDTO, (string? Message, HttpStatusCode)>> GetProductFullInfo(int id)
-        {
-             return await Get<ProductDTO>($"Product/GetProductFullInfo?id={id}");
-           
-        }
+        } 
 
         #endregion
          
@@ -531,30 +509,24 @@ namespace KTSF.Db
 
 
         // поиск по ФАМИЛИИ или ИМЕНИ
-        public async Task<Result<List<Employee>, (string? Message, HttpStatusCode)>> GetBySurname(string name)
+        public async Task<Result<List<Employee>, (string? Message, HttpStatusCode HttpStatusCode)>> GetBySurname(string name)
         {
-            List<Employee>? employees =
-                await Request<List<Employee>>($"Employee/GetBySurname?name={name}");
-
-            return employees;
+            return await Get<List<Employee>>($"Employee/GetBySurname?name={name}");
+             
         }
 
-        public async Task<List<Employee>?> SearchEmployee(string searchElement, string status)
+        public async Task<Result<List<Employee>, (string? Message, HttpStatusCode HttpStatusCode)>> SearchEmployee(string searchElement, string status)
         {
-            List<Employee>? employees = new List<Employee>();
-            return employees;
-
-            Result<List<Employee>, (string? Message, HttpStatusCode)> result = await Get<List<Employee>>($"Employee/GetBySurname?name={name}");
-       
-               
-            return result;
+             
+            return await Get<string, List<Employee>>("Employee/GetBySurname", searchElement);    
+                
         }
 
         #endregion
 
         #region Appointment
 
-        public async Task<Result<List<Appointment>, (string? Message, HttpStatusCode)>> GetAllAppointment()
+        public async Task<Result<List<Appointment>, (string? Message, HttpStatusCode HttpStatusCode)>> GetAllAppointment()
         {
             return await Get<List<Appointment>>("Appointment/all");
            

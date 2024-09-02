@@ -291,6 +291,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
 
             Products.Clear();
             Result<List<Product>, (string? Message, HttpStatusCode)> result =  await AppControl.Server.GetProducts(CurrentPage.Page);
+          
 
             if (result.IsFailure)
             {

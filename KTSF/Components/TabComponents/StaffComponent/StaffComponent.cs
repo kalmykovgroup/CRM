@@ -172,9 +172,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
                 MessageBox.Show(result.Error.Message);
                 return;
             }
-
-
-            if (employees is null) return;
+             
 
             Employees.Clear();
             FiredEmployees.Clear();
