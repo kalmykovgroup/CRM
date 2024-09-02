@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using KTSF.Components.CommonComponents.EmployeeSearchComponent;
 
 
 namespace KTSF.Components.TabComponents.StaffComponent
@@ -19,8 +18,5 @@ namespace KTSF.Components.TabComponents.StaffComponent
             StaffComponent = staffComponent;
             DataContext = StaffComponent;
         }
-
-        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
-            StaffComponent.Selector_OnSelectionChanged(sender, e);
     }
 }

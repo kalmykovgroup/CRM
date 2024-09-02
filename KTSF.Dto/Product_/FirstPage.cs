@@ -2,10 +2,10 @@
 
 namespace KTSF.Dto.Product_
 {
-    public class FirstPage
+    public class FirstPage<T>
     {
-        public int pageCount {  get; set; }
+        public int PageCount {  get; set; }
 
-        public Product[] Products { get; set; } = [];
+        public T[]? Items { get; set; }
     }
 }

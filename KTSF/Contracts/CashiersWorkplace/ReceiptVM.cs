@@ -17,6 +17,17 @@ public partial class ReceiptVM : ObservableObject {
         ReceiptPaymentInfo.TotalSum = 0;
     }
 
+    public ReceiptVM(Receipt receipt)
+    {
+        foreach (BuyProduct buyProduct in receipt.BuyProducts)
+        {
+            BuyProductVM newBuyProductVm = new BuyProductVM(buyProduct);
+            BuyProducts.Add(newBuyProductVm);
+        }
+        
+        ReceiptPaymentInfo = new PaymentInfoVM(receipt.ReceiptPaymentInfo);
+    }
+
     public bool AddProduct (BuyProductVM selectProduct) {
         foreach (BuyProductVM product in BuyProducts) {
             if (product.Product.Id == selectProduct.Product.Id) {

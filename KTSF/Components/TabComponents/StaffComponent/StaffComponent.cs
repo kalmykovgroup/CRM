@@ -14,7 +14,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using CSharpFunctionalExtensions;
-using KTSF.Components.CommonComponents.EmployeeSearchComponent;
 using KTSF.Dto.Employee_;
 
 namespace KTSF.Components.TabComponents.StaffComponent
@@ -36,16 +35,12 @@ namespace KTSF.Components.TabComponents.StaffComponent
         
         public EmployeeVM EmployeeVM { get; } = new EmployeeVM();
         
-        public EmployeeSearchComponent EmployeeSearchComponent { get; set; }
-        
         [ObservableProperty]
         public bool isLoaded = false;      
       
 
         public StaffComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
         {
-            EmployeeSearchComponent = new EmployeeSearchComponent(binding, appControl, AllEmployees);
-            EmployeeSearchComponent.SearchAction += SearchedEmployeeList;
         }
 
         private void SearchedEmployeeList(ObservableCollection<Employee> serchedList)
@@ -140,13 +135,6 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
         //    return true;
         //}
-
-        public void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var tabControl = (TabControl)sender;
-            SelectedTabItem = (TabItem)tabControl.SelectedItem;
-            EmployeeSearchComponent.SearchTag = (string)SelectedTabItem.Tag;
-        }
         
         [RelayCommand]
         public async void AddNewEmployee()

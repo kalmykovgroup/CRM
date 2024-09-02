@@ -20,6 +20,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using KTSF.Components.TabComponents.CashiersWorkplaceComponent;
@@ -54,7 +55,6 @@ namespace KTSF.Db
         public async Task<bool> Connect()
         {
             await Task.Delay(0);
-
             return true;
         }
 
@@ -62,10 +62,8 @@ namespace KTSF.Db
         public async Task<bool> LoadData()
         {
             await Task.Delay(0);
-
             return true;
         }
-
 
 
         private async Task<T?> Request<T>(string url) where T : class
@@ -78,12 +76,12 @@ namespace KTSF.Db
             catch (HttpRequestException ex)
             {
                 if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
+                {                   
                     // обработка не авторизованных 
                 }
                 else
                 {
-                    // обработка серверных ошибок
+                    MessageBox.Show("The server is not responding");                    
                 }
             }
             return null;
@@ -189,130 +187,20 @@ namespace KTSF.Db
         //Поиск товаров
         public async Task<List<Product>?> SearchProducts(string text) // возвращает максимум 20 товаров
         {
-            /*
-            using HttpResponseMessage response = await httpClient.GetAsync($"Product/SearchProduct?name={text}");
-
-            if(response.StatusCode == HttpStatusCode.OK)
-            {
-                List<Product>? products = await httpClient.GetFromJsonAsync<List<Product>>($"Product/SearchProduct?name={text}");
-
-                return products;
-            }
-
-            return null;
-            */
             List<Product>? products = await Request<List<Product>>($"Product/SearchProduct?name={text}");
             return products;
         }
 
         public async Task<List<Product>?> GetProducts(int page)
         {
-            /*
-            try
-            {
-                products = await httpClient.GetFromJsonAsync<List<Product>>($"Product/GetProducts?page={page}");
-                return products;
-            }
-            catch (HttpRequestException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    // обработка не авторизованных 
-                }
-                else
-                {
-                    // обработка серверных ошибок
-                }
-            }
-            */
-
             List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");
-
-            return products;
+            return products;          
         }
 
         // первая страница продуктов и общее количество продуктов
-        public async Task<FirstPage?> GetFirstPage(int page = 1)
+        public async Task<FirstPage<Product>> GetFirstPageProduct(int page = 1)
         {
-            /*
-            List<Product> products = new List<Product> {
-                new Product() { Name = "Product 1", Id = 1 },
-                new Product() { Name = "Product 2", Id = 2 },
-                new Product() { Name = "Product 3", Id = 3 },
-                new Product() { Name = "Product 4", Id = 4 },
-                new Product() { Name = "Product 5", Id = 5 },
-                new Product() { Name = "Product 6", Id = 6 },
-                new Product() { Name = "Product 7", Id = 7 },
-                new Product() { Name = "Product 8", Id = 8 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 1", Id = 1 },
-                new Product() { Name = "Product 2", Id = 2 },
-                new Product() { Name = "Product 3", Id = 3 },
-                new Product() { Name = "Product 4", Id = 4 },
-                new Product() { Name = "Product 5", Id = 5 },
-                new Product() { Name = "Product 6", Id = 6 },
-                new Product() { Name = "Product 7", Id = 7 },
-                new Product() { Name = "Product 8", Id = 8 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 1", Id = 1 },
-                new Product() { Name = "Product 2", Id = 2 },
-                new Product() { Name = "Product 3", Id = 3 },
-                new Product() { Name = "Product 4", Id = 4 },
-                new Product() { Name = "Product 5", Id = 5 },
-                new Product() { Name = "Product 6", Id = 6 },
-                new Product() { Name = "Product 7", Id = 7 },
-                new Product() { Name = "Product 8", Id = 8 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-                new Product() { Name = "Product 9", Id = 9 },
-                new Product() { Name = "Product 10", Id = 10 },
-            };
-
-            page--; // че это значит?? зачем??
-
-            int limmit = 3; // должен быть фиксированный ???
-
-            int countPage = (int)Math.Ceiling((double)products.Count / limmit); // приходит с сервера ???
-
-            if (page > countPage || page < 0) throw new ArgumentException();
-
-            List<Product> resultProducts = [];
-
-            for (int i = page * limmit; i < (page * limmit + limmit) && i < products.Count; i++)
-            {
-                resultProducts.Add(products[i]);
-            }
-
-            return (countPage, resultProducts);
-            */
-
-            FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
-
+            FirstPage<Product> firstPage = await Request<FirstPage<Product>>($"Product/GetFirstPageProduct");
             return firstPage;
         }
 
@@ -334,22 +222,6 @@ namespace KTSF.Db
         //Получить подробную информацию о товаре
         public async Task<ProductDTO?> GetProductFullInfo(int id)
         {
-            /*
-            using HttpResponseMessage response = await httpClient.GetAsync($"Product/GetAllInformation?id={id}");
-
-            if(response.StatusCode == HttpStatusCode.OK)
-            {
-                //var tt = await response.Content.ReadAsStringAsync();
-                //var product = JsonSerializer.Deserialize<ProductDTO>(tt);
-
-                ProductDTO? product = await httpClient.GetFromJsonAsync<ProductDTO>($"Product/GetAllInformation?id={id}");
-
-                return product;
-            }
-
-            return null;
-            */
-
             ProductDTO? product = await Request<ProductDTO>($"Product/GetProductFullInfo?id={id}");
             return product;
         }
@@ -357,7 +229,10 @@ namespace KTSF.Db
         #endregion
 
         #region Receipt
-
+        // нужна таблица с чеками ???
+        // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
+        // сохранение чеков
+        // получение полной информации о чеке
         public bool SaveReceipt(ReceiptVM receiptVm)
         {
             var receipt = ConvertReceipt(receiptVm);
@@ -399,85 +274,26 @@ namespace KTSF.Db
 
             return buyProducts;
         }
+        
+        public async Task<FirstPage<Receipt>> GetFirstPageReceipt(int page = 1)
+        {
+            FirstPage<Receipt> firstPage = await Request<FirstPage<Receipt>>($"Product/GetFirstPageReceipt");
+            return firstPage;
+        }
+        
+        public async Task<List<Receipt>> GetReceipts(int page)
+        {
+            List<Receipt> receipts = await Request<List<Receipt>>($"Product/GetReceipts?page={page}");
+            return receipts;          
+        }
 
         #endregion
-        // нужна таблица с чеками ???
-        // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
-        // сохранение чеков
-        // получение полной информации о чеке
+
 
         #region Employee
 
         public async Task<List<Employee>?> GetEmployees() //Получить список всех сотрудников
         {
-            /*
-            await Task.Delay(0);
-
-            return new List<Employee> {
-                new Employee()
-                {
-                    ObjectId = 1,
-                    AppointmentId = 1,
-                    AccessToken = "lkvbmekjlgnwieufhwyueigf",
-                    Name = "Иван",
-                    Surname = "Калмыков",
-                    Patronymic = "Алексеевич",
-                    PassportSeries = "1234",
-                    PassportNumber = "123456",
-                    Tin = "12345678901",
-                    Snils = "123456789012",
-                    Address = "Красная прощать 4",
-                    Phone = "+79260128187",
-                    Email = "admin@mail.ru",
-                    ApplyingDate = DateTime.Now,
-                   Created_At = DateTime.Now,
-                    Updated_At = DateTime.Now,
-
-                },
-
-                  new Employee()
-                {
-                    ObjectId = 1,
-                    AppointmentId = 2,
-                    AccessToken = "weifubsudyvbwirugniewrug",
-                    Name = "Артур",
-                    Surname = "Соколов",
-                    Patronymic = "Игоревич",
-                    PassportSeries = "1234",
-                    PassportNumber = "123456",
-                    Tin = "12345678901",
-                    Snils = "123456789012",
-                    Address = "Арбатская 6",
-                    Phone = "+79260125434",
-                    Email = "admin2@mail.ru",
-                    ApplyingDate = DateTime.Now,
-                    Created_At = DateTime.Now,
-                    Updated_At = DateTime.Now,
-
-                },
-                new Employee()
-                {
-                    ObjectId = 1,
-                    AppointmentId = 3,
-                    AccessToken = "aslkgfoiaerjglisermhl",
-                    Name = "Александр",
-                    Surname = "Трунин",
-                    Patronymic = "Владимирович",
-                    PassportSeries = "1234",
-                    PassportNumber = "123456",
-                    Tin = "12345678901",
-                    Snils = "123456789012",
-                    Address = "Шевченко 4",
-                    Phone = "+79267654356",
-                    Email = "admin3@mail.ru",
-                    ApplyingDate = DateTime.Now,
-                    Created_At = DateTime.Now,
-                    Updated_At = DateTime.Now,
-
-                }
-            };
-            */
-
             List<Employee>? employees = await Request<List<Employee>>("Employee/all");
             return employees;
         }
@@ -519,6 +335,7 @@ namespace KTSF.Db
         }
 
 
+        // ????? WTF  Откуда их брать?
         //Загрузка статистических данных о пользователи
         public async Task<bool> GetUserStatistics(Employee user)
         {
@@ -579,15 +396,15 @@ namespace KTSF.Db
 
         #region ASetOfRules
 
-        public async Task<List<ASetOfRules>> GetAllASetOfRules()
+        public async Task<List<ASetOfRules>?> GetAllASetOfRules()
         {
-            List<ASetOfRules> aSetOfRules = await Request<List<ASetOfRules>>("ASetOfRules/all");
+            List<ASetOfRules>? aSetOfRules = await Request<List<ASetOfRules>>("ASetOfRules/all");
             return aSetOfRules;
         }
 
-        public async Task<ASetOfRules> GetASetOfRulesById(int id)
+        public async Task<ASetOfRules?> GetASetOfRulesById(int id)
         {
-            ASetOfRules aSetOfRule = await Request<ASetOfRules>($"ASetOfRules/{id}");
+            ASetOfRules? aSetOfRule = await Request<ASetOfRules>($"ASetOfRules/{id}");
             return aSetOfRule;
         }
 
