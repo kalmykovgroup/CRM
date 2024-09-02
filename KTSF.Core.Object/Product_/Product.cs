@@ -11,7 +11,7 @@ namespace KTSF.Core.Object.Product_
         public int Id { get; set; }
 
 
-        [MaxLength(255)] 
+        [MaxLength(255)]
         public string Name { get; set; } = String.Empty;
 
         public ulong BuyPrice { get; set; } //Цена закупки

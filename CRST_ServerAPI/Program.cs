@@ -1,97 +1,110 @@
- 
-   
-using Microsoft.EntityFrameworkCore;  
+
+
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.IdentityModel.Tokens;
+using KTSF.Api.Model;
+using Microsoft.AspNetCore.Authentication;
 using KTSF.Persistence;
-using KTSF.Application.Service; 
-using KTSF.Infrastructure; 
-using KTSF.Application.Interfaces.Auth;  
-using Microsoft.Extensions.DependencyInjection;
-using KTSF.Application.Middleware;
-using KTSF.Api.Extensions;
+using KTSF.Application.Service;
+using KTSF.Api.Extensions.Repositories;
+using KTSF.Infrastructure;
+using KTSF.Application.Interfaces.Auth;
+using KTSF.Api.Controllers;
 
-namespace CRST_ServerAPI
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+namespace CRST_ServerAPI;
 
-            // Add services to the container.
+public class Program {
+    public static void Main (string[] args) {
+        var builder = WebApplication.CreateBuilder (args);
 
-            builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
- 
+        // Add services to the container.
 
-            builder.Services.AddControllers()
-            .ConfigureApiBehaviorOptions(options =>
-            {
-               // options.SuppressMapClientErrors = true; //Отключение ответа ProblemDetails
-            });
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-         
-
-         /*   builder.Services.AddAuthentication("BasicAuthentication")
-         .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null); */
- 
-         /*   //Требовать прошедших проверку подлинности пользователей
-              builder.Services.AddAuthorization(options =>
-              {
-                  options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                      .RequireAuthenticatedUser()
-                      .Build();
-              });*/
-          
- 
-            string connectionString = builder.Configuration.GetConnectionString(nameof(AppDbContext)) ?? throw new ArgumentNullException("Connection string is null");
-
-            AppDbContext.ConnectionString = connectionString;
-
-            string appConnectionString = builder.Configuration.GetConnectionString(nameof(ObjectDbContext)) ?? throw new ArgumentNullException("Connection string is null");
-
-            ObjectDbContext.ConnectionString = appConnectionString;
+        builder.Configuration.AddJsonFile ("appsettings.json", optional: true, reloadOnChange: true);
 
 
-            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        builder.Services.AddControllers ()
+        .ConfigureApiBehaviorOptions (options => {
+            // options.SuppressMapClientErrors = true; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ProblemDetails
+        });
 
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseMySQL(connectionString));
-            builder.Services.AddDbContext<ObjectDbContext>(options => options.UseMySQL(appConnectionString));
-             
-
-
-            builder.Services.AddTransient<EmployeesService>();
-            builder.Services.AddTransient<UsersService>();
-            builder.Services.AddTransient<ProductsService>();
-            builder.Services.AddTransient<AuthService>();
-            builder.Services.AddTransient<AppointmentService>();
-            builder.Services.AddTransient<EmployeeStatusService>();
-            builder.Services.AddTransient<ASetOfRulesService>();
-            builder.Services.AddTransient<CompanyService>();
-            builder.Services.AddTransient<ObjectService>();
-            builder.Services.AddSingleton<AuthSingletonService>();
-
-            builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
-
-            builder.Services.AddTransient<IJwtProvider, JwtProvider>(); 
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer ();
+        builder.Services.AddSwaggerGen ();
 
 
-            builder.Services.AddApiAuthentification();
- 
-            var app = builder.Build();
-             
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        /* builder.Services.AddAuthentication("Bearer")  // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ jwt-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+             .AddJwtBearer();      // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ jwt-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+        builder.Services.AddAuthentication (JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer (options => {
+                   options.RequireHttpsMetadata = false;
+                   options.TokenValidationParameters = new TokenValidationParameters {
+                       // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                       ValidateIssuer = true,
+                       // пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                       ValidIssuer = AuthOptions.ISSUER,
 
-            // // Настройте конвейер HTTP-запросов.
-            app.UseHttpsRedirection();         
+                       // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                       ValidateAudience = true,
+                       // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                       ValidAudience = AuthOptions.AUDIENCE,
+                       // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                       ValidateLifetime = true,
+
+                       // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                       IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey (),
+                       // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                       ValidateIssuerSigningKey = true,
+                   };
+               });
+
+        /* builder.Services.AddAuthentication("BasicAuthentication")
+     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);*/
+
+        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        /*  builder.Services.AddAuthorization(options =>
+          {
+              options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                  .RequireAuthenticatedUser()
+                  .Build();
+          });
+*/
+
+        string connectionString = builder.Configuration.GetConnectionString (nameof (AppDbContext)) ?? throw new ArgumentNullException ("Connection string is null");
+
+        AppDbContext.ConnectionString = connectionString;
+        builder.Services.AddDbContext<AppDbContext> (options => options.UseMySQL (connectionString));
+
+
+        builder.Services.AddTransient<IPasswordHasher, PasswordHasher> ();
+
+        builder.Services.AddTransient<EmployeesService> ();
+        builder.Services.AddTransient<UsersService> ();
+        builder.Services.AddTransient<ProductsService> ();
+        builder.Services.AddTransient<AuthService> ();
+        builder.Services.AddTransient<AppointmentService> ();
+        builder.Services.AddTransient<EmployeeStatusService> ();
+        builder.Services.AddTransient<ASetOfRulesService> ();
+
+
+        var app = builder.Build ();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment ()) {
+            app.UseSwagger ();
+            app.UseSwaggerUI ();
+        }
+
+
+        // // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ HTTP-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+        app.UseHttpsRedirection ();
 
             app.UseAuthorization();
 
@@ -102,25 +115,25 @@ namespace CRST_ServerAPI
                 KeepAliveInterval = TimeSpan.FromMinutes(2)
             };
 
-            
+        //app.UseAuthentication();   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ middleware пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-            app.UseWebSockets(webSocketOptions);
-
-            // устанавливаем сопоставление маршрутов с контроллерами
-            app.MapControllerRoute(
-             name: "default",
-             pattern: "{controller=Home}/{action=Index}/{id?}"
-             
-             );
+        app.UseAuthorization ();
 
 
-            app.MapControllers();
-             
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        app.MapControllerRoute (
+         name: "default",
+         pattern: "{controller=Home}/{action=Index}/{id?}"
 
-            app.Run();           
+         );
 
-        }
-         
+
+        app.MapControllers ();
+
+
+        app.Run ();
 
     }
+
+
 }

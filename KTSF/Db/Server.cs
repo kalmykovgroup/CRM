@@ -11,7 +11,11 @@ using KTSF.Dto.Company_;
 using KTSF.Dto.Employee_;
 using KTSF.Dto.Object_;
 using KTSF.Dto.Product_;
-using KTSF.ViewModel;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -20,6 +24,15 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using KTSF.Components.TabComponents.CashiersWorkplaceComponent;
+using KTSF.Contracts.CashiersWorkplace;
+using KTSF.Core.Receipt_;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KTSF.Db
 {
@@ -100,95 +113,38 @@ namespace KTSF.Db
         public async Task<bool> Connect()
         {
             await Task.Delay(0);
-
             return true;
         }
 
 
         private async Task<Result<T2, (string? Message, HttpStatusCode)>> Post<T1, T2>(string url, T1 data, AuthenticationHeaderValue? authClient = null)
         {
-            return await Request<T1, T2>(HttpMethod.Post, url, data, authClient ?? AuthEmployeeJwtToken);
+            await Task.Delay(0);
+            return true;
         }
 
-        private async Task<Result<T2, (string? Message, HttpStatusCode)>> Get<T1, T2>(string url, T1 data, AuthenticationHeaderValue? authClient = null)
+
+        private async Task<T?> Request<T>(string url) where T : class
         {
-            return await Request<T1, T2>(HttpMethod.Get, url, data, authClient ?? AuthEmployeeJwtToken);  
-        }
-
-        private async Task<Result<T1, (string? Message, HttpStatusCode)>> Get<T1>(string url, AuthenticationHeaderValue? authClient = null)
-        {
-            return await Request<T1, T1>(HttpMethod.Get, url, default, authClient ?? AuthEmployeeJwtToken); //По умолчанию пытаемся входить как employee
-        }
-        
-
-        private async Task<Result<T2, (string? Message, HttpStatusCode)>> Request<T1, T2>(HttpMethod method, string url, T1? data, AuthenticationHeaderValue? authClient)
-        { 
-
-            if (authClient is null)
+            try
             {
-                Result.Failure<T2>(TokenNotFoundMessage);
+                T? products = await httpClient.GetFromJsonAsync<T>(url);
+                return products;
             }
-
-            HttpContent? content = null;
-
-            if (data != null)
+            catch (HttpRequestException ex)
             {
-                content = JsonContent.Create<T1>(data);
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {                   
+                    // обработка не авторизованных 
+                }
+                else
+                {
+                    MessageBox.Show("The server is not responding");                    
+                }
             }
-
-            do
-            {
-                try
-                {
-                    HttpRequestMessage httpRequestMessage = new HttpRequestMessage(method, url);
-
-                    httpRequestMessage.Content = content;
-
-                    httpRequestMessage.Headers.Authorization = authClient;
-                    httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    HttpResponseMessage response = await httpClient.SendAsync(httpRequestMessage);
-                     
-
-                    AppControl.IsLoad = null;
-
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-
-                        T2? result = await response.Content.ReadFromJsonAsync<T2>();
-
-                        if (result != null)
-                        {
-                            return Result.Success<T2, (string? Message, HttpStatusCode)>(result);
-                        }
-                        else
-                        {
-                            return Result.Failure<T2, (string? Message, HttpStatusCode)>((EmptyDataMessage, response.StatusCode));
-                            // обработка ошибки получения данных
-                        }
-                    }
-                    else if (response.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        Result.Failure<T2, (string? Message, HttpStatusCode)>((UnauthorizedMessage, response.StatusCode));
-
-                        return Result.Failure<T2, (string? Message, HttpStatusCode)>((UnauthorizedMessage, response.StatusCode));
-                        // обработка не авторизованных 
-                    }
-                    else
-                    {
-                        return Result.Failure<T2, (string? Message, HttpStatusCode)>((System.String.Format(ServerErrorMessage, response.StatusCode), response.StatusCode));
-                        // обработка серверных ошибок
-                    }
-
-                }
-                catch (HttpRequestException)
-                {
-                    AppControl.IsLoad = InternetConnectionMessage;
-                    continue;
-                }
-                 
-            } while (true);
+            return null;
         }
+
 
 
          
@@ -286,59 +242,17 @@ namespace KTSF.Db
                 {
                     webSocket.Options.SetRequestHeader("Authorization", $"{AnonymJwtToken.Scheme} {AnonymJwtToken.Parameter}");
 
-                    await webSocket.ConnectAsync(WebSockerUrl, CancellationToken.None);
+        //Поиск товаров
+        public async Task<List<Product>?> SearchProducts(string text) // возвращает максимум 20 товаров
+        {
+            List<Product>? products = await Request<List<Product>>($"Product/SearchProduct?name={text}");
+            return products;
+        }
 
-                    AppControl.IsLoad = null;
-
-                    var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-
-
-                    //Если соединение не закрыто
-                    if (!receiveResult.CloseStatus.HasValue)
-                    {
-                        string QRCode = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
-
-                        SuccessGenerateBarCode.Invoke(QRCode);
-
-                        receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-
-                        string jsonEmployee = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
-                        Employee? employee = JsonSerializer.Deserialize<Employee>(jsonEmployee, options);
-
-                        if (employee != null)
-                        {
-                            SuccessAuthEmployee.Invoke(employee);
-                        }
-                        else
-                        {
-                            FailureAuthEmployee.Invoke("Не удалось выполнить вход", HttpStatusCode.OK);
-                        }
-
-                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);                     
-                        
-                    }
-
-
-                   
-                   
-                }
-                catch (WebSocketException)
-                {
-                    AppControl.IsLoad = InternetConnectionMessage;
-                    continue; 
-                }
-                catch (HttpRequestException)
-                {
-                    AppControl.IsLoad = InternetConnectionMessage;
-                    continue;
-                } 
-            }
-
-           
-             
-
-
-
+        public async Task<List<Product>?> GetProducts(int page)
+        {
+            List<Product>? products = await Request<List<Product>>($"Product/GetProducts?page={page}");
+            return products;          
         }
 
         #endregion
@@ -346,32 +260,8 @@ namespace KTSF.Db
 
         public async Task<Result<ObjectSelectResponse, (string? Message, HttpStatusCode)>> SelectObject(ObjectSelectRequest objectSelectRequest)
         {
-            return await Post<ObjectSelectRequest, ObjectSelectResponse>("auth/select-object", objectSelectRequest, AuthUserJwtToken);
-        }
-
-
-        #region Product
-
-        //Поиск товаров
-        public async Task<Result<List<Product>, (string? Message, HttpStatusCode)>> SearchProducts(string text) // возвращает максимум 20 товаров
-        { 
-           return await Get<List<Product>>($"Product/SearchProduct?name={text}");
-            
-        }
-
-        public async Task<Result<List<Product>, (string? Message, HttpStatusCode)>> GetProducts(int page)
-        { 
-
-            return await Get<List<Product>>($"Product/GetProducts?page={page}");
-             
-        }
-
-        // первая страница продуктов и общее количество продуктов
-        public async Task<Result<FirstPage, (string? Message, HttpStatusCode)>> GetFirstPage(int page = 1)
-        {
-             
-            return await Get<FirstPage>($"Product/GetFirstPage");
-             
+            FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
+            return firstPage;
         }
 
         // ????? WTF  Откуда их брать?
@@ -390,21 +280,70 @@ namespace KTSF.Db
         }
 
         //Получить подробную информацию о товаре
-        public async Task<Result<ProductDTO, (string? Message, HttpStatusCode)>> GetProductFullInfo(int id)
+        public async Task<ProductDTO?> GetProductFullInfo(int id)
         {
-             return await Get<ProductDTO>($"Product/GetProductFullInfo?id={id}");
-           
+            ProductDTO? product = await Request<ProductDTO>($"Product/GetProductFullInfo?id={id}");
+            return product;
         }
 
         #endregion
-         
+
+        #region Receipt
+
+        public bool SaveReceipt(ReceiptVM receiptVm)
+        {
+            var receipt = ConvertReceipt(receiptVm);
+            
+            return true;
+        }
+
+        private Receipt ConvertReceipt(ReceiptVM receiptVm)
+        {
+            var receipt = new Receipt();
+            receipt.BuyProducts = ConvertBuyProducts(receiptVm.BuyProducts);
+            
+            receipt.ReceiptPaymentInfo = new PaymentInfo();
+            receipt.ReceiptPaymentInfo.TotalSum = receiptVm.ReceiptPaymentInfo.TotalSum;
+            receipt.ReceiptPaymentInfo.CashAmount = receiptVm.ReceiptPaymentInfo.CashAmount;
+            receipt.ReceiptPaymentInfo.CardAmount = receiptVm.ReceiptPaymentInfo.CardAmount;
+            receipt.ReceiptPaymentInfo.AmountPaid = receiptVm.ReceiptPaymentInfo.AmountPaid;
+            receipt.ReceiptPaymentInfo.PaymentMethodId = (int)receiptVm.ReceiptPaymentInfo.PaymentMethod;
+
+            receipt.Discount = receiptVm.Discount;
+            return receipt;
+        }
+
+        private List<BuyProduct> ConvertBuyProducts(ObservableCollection<BuyProductVM> buyProductsVm)
+        {
+            List<BuyProduct> buyProducts = new List<BuyProduct>();
+            foreach (var buyProductVm in buyProductsVm)
+            {
+                BuyProduct newBuyProduct = new BuyProduct();
+                newBuyProduct.Product = buyProductVm.Product;
+                newBuyProduct.ProductId = buyProductVm.Product.Id;
+                newBuyProduct.Price = buyProductVm.Price;
+                newBuyProduct.Count = buyProductVm.Count;
+                newBuyProduct.TotalSumProduct = buyProductVm.TotalSumProduct;
+                newBuyProduct.Discount = buyProductVm.Discount;
+                
+                buyProducts.Add(newBuyProduct);
+            }
+
+            return buyProducts;
+        }
+
+        #endregion
+        // нужна таблица с чеками ???
+        // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
+        // сохранение чеков
+        // получение полной информации о чеке
 
         #region Employee
 
-        public async Task<Result<List<Employee>, (string? Message, HttpStatusCode)>> GetEmployees() //Получить список всех сотрудников
-        { 
-            return await Get<List<Employee>>("Employee/all");
-            
+        public async Task<List<Employee>?> GetEmployees() //Получить список всех сотрудников
+        {
+            List<Employee>? employees = await Request<List<Employee>>("Employee/all");
+            return employees;
         }
 
 
@@ -444,6 +383,7 @@ namespace KTSF.Db
         }
 
 
+        // ????? WTF  Откуда их брать?
         //Загрузка статистических данных о пользователи
         public async Task<bool> GetUserStatistics(Employee user)
         {
@@ -456,11 +396,16 @@ namespace KTSF.Db
         // поиск по ФАМИЛИИ или ИМЕНИ
         public async Task<Result<List<Employee>, (string? Message, HttpStatusCode)>> GetBySurname(string name)
         {
+            List<Employee>? employees =
+                await Request<List<Employee>>($"Employee/GetBySurname?name={name}");
 
-            Result<List<Employee>, (string? Message, HttpStatusCode)> result = await Get<List<Employee>>($"Employee/GetBySurname?name={name}");
-       
-               
-            return result;
+            return employees;
+        }
+
+        public async Task<List<Employee>?> SearchEmployee(string searchElement, string status)
+        {
+            List<Employee>? employees = new List<Employee>();
+            return employees;
         }
 
         #endregion
@@ -499,14 +444,16 @@ namespace KTSF.Db
 
         #region ASetOfRules
 
-        public async Task<Result<List<ASetOfRules>, (string? Message, HttpStatusCode)>> GetAllASetOfRules()
+        public async Task<List<ASetOfRules>?> GetAllASetOfRules()
         {
-            return  await Get<List<ASetOfRules>>("ASetOfRules/all"); 
+            List<ASetOfRules>? aSetOfRules = await Request<List<ASetOfRules>>("ASetOfRules/all");
+            return aSetOfRules;
         }
 
-        public async Task<Result<ASetOfRules, (string? Message, HttpStatusCode)>> GetASetOfRulesById(int id)
+        public async Task<ASetOfRules?> GetASetOfRulesById(int id)
         {
-            return await Get<ASetOfRules>($"ASetOfRules/{id}"); 
+            ASetOfRules? aSetOfRule = await Request<ASetOfRules>($"ASetOfRules/{id}");
+            return aSetOfRule;
         }
 
         #endregion

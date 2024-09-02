@@ -25,11 +25,16 @@ namespace KTSF.Application.Service
         // создание 
         public async Task<Result<EmployeeStatus>> Insert(EmployeeStatus employeeStatus)
         {
-            dbContext.EmployeeStatuses.Add(employeeStatus);
+            EmployeeStatus empStatus = new EmployeeStatus();
+
+            empStatus.Id = employeeStatus.Id;
+            empStatus.Name = employeeStatus.Name;
+
+            dbContext.EmployeeStatuses.Add(empStatus);
             try
             {
                 await dbContext.SaveChangesAsync();
-                return Result.Success(employeeStatus);
+                return Result.Success(empStatus);
             }
             catch (Exception ex)
             {

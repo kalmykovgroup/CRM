@@ -19,14 +19,9 @@ namespace KTSF.Components.TabComponents.StaffComponent
         public ObservableCollection<Employee> Employees { get; } = [];
         public ObservableCollection<Employee> FiredEmployees { get; } = [];
         public ObservableCollection<Employee> QualifyingEmployees { get; } = [];
-        public ObservableCollection<Employee> NotEmployedEmployees { get; } = [];
+        public ObservableCollection<Employee> NotEmployedEmployees { get; } = [];               
 
-        //public List<Appointment> Appointments { get; } = [];
-        //public List<EmployeeStatus> EmployeeStatuses { get; } = [];
-        //public List<ASetOfRules> ASetOfRules { get; } = [];
-
-        public EmployeeVM EmployeeVM { get; } = new EmployeeVM(); 
-        
+        public EmployeeVM EmployeeVM { get; } = new EmployeeVM();         
 
         public Component SearchComponent { get; }
         public Component SearchComponentFired { get; }
@@ -104,19 +99,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
             }
         }
 
-        // ?????????????????????????
-        //[RelayCommand]
-        //public async Task<bool> DeleteUser(object sender)
-        //{
-        //    Employee employee = (Employee)sender;
-        //    employee.Updated_At = DateTime.Now;
-        //    employee.LayoffDate = DateTime.Now;
-
-        //    Employees.Remove(employee);
-
-        //    return true;
-        //}
-
+     
         [RelayCommand]
         public async void AddNewEmployee()
         {
@@ -161,6 +144,11 @@ namespace KTSF.Components.TabComponents.StaffComponent
         {
             editStaffWindow.EmployeeVM.Employee.Updated_At = DateTime.Now;
 
+            if (editStaffWindow.EmployeeVM.Employee.EmployeeStatus.Name == "Уволен")
+            {
+                editStaffWindow.EmployeeVM.Employee.LayoffDate = DateTime.Now;
+            }
+
             (bool result, string? message, Employee copyEmployee) = await AppControl.Server.UpdateEmployee(editStaffWindow.EmployeeVM.Employee);
 
             if (result)
@@ -186,6 +174,8 @@ namespace KTSF.Components.TabComponents.StaffComponent
                 return;
             }
 
+
+            if (employees is null) return;
 
             Employees.Clear();
             FiredEmployees.Clear();
