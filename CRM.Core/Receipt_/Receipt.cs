@@ -7,7 +7,7 @@ namespace KTSF.Core.Receipt_;
 public partial class Receipt : ObservableObject {
     public int Id { get; set; }
     
-    public double? Discount; // Процент скидки
+    public double Discount { get; set; } // Процент скидки
 
     [ForeignKey(nameof(ReceiptPaymentInfo))]
     public int PaymentInfoId;

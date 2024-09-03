@@ -6,6 +6,7 @@ using KTSF.Dto.Product_;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using KTSF.Core.Receipt_;
+using KTSF.Dto.Receipt_;
 
 namespace CRST_ServerAPI.Controllers
 {

@@ -3,6 +3,7 @@ using KTSF.Core;
 using KTSF.Core.ABAC;
 using KTSF.Core.PackingList_;
 using KTSF.Core.Product_;
+using KTSF.Core.Receipt_;
 using KTSF.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Object = KTSF.Core.Object; 
@@ -58,6 +59,15 @@ namespace KTSF.Persistence
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductInformation> ProductInformations { get; set; }
         public DbSet<Unit> Units { get; set; }
+
+        #endregion
+        
+        #region Receipt
+
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<PaymentInfo> PaymentInfos { get; set; }        
+        public DbSet<BuyProduct> BuyProducts { get; set; }
+        public DbSet<Receipt> Receipts { get; set; }
 
         #endregion
 
