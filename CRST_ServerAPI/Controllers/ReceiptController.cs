@@ -67,24 +67,27 @@ namespace CRST_ServerAPI.Controllers
         [HttpGet("GetFirstPageReceipt")]
         public async Task<IActionResult> GetFirstPageReceipt()
         {
-            Result<FirstPage<Receipt>> result = await receiptsService.GetFirstPageReceipt();
-            return Ok(result.Value);
+            //Result<FirstPage<Receipt>> result = await receiptsService.GetFirstPageReceipt();
+            //return Ok(result.Value);
+            return Ok();
         }
 
 
         [HttpGet("GetReceipts")]
         public async Task<IActionResult> GetReceipts(int page)
         {
-            Result<Receipt[]> result = await receiptsService.GetReceipts(page);
-            return Ok(result.Value);
+            //Result<Receipt[]> result = await receiptsService.GetReceipts(page);
+            //return Ok(result.Value);
+            return Ok();
         }
 
 
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            Result<List<Receipt>> result = await receiptsService.GetAll();
-            return Ok(result.Value);
+            //Result<List<Receipt>> result = await receiptsService.GetAll();
+            //return Ok(result.Value);
+            return Ok();
         }
 
 
@@ -92,16 +95,17 @@ namespace CRST_ServerAPI.Controllers
         [Route("insert")]
         public async Task<IActionResult> Insert([FromBody] string str)
         {
-            Result receipt = JsonSerializer.Deserialize <Receipt>(str);
-            Result<Receipt> result = await receiptsService.Insert(receipt);
-
-            if (result.IsSuccess)
-            {
-                return Ok(result.Value);
-            }
-
-            result.TryGetError(out string? error);
-            return NotFound(error);
+            // Result receipt = JsonSerializer.Deserialize <Receipt>(str);
+            // Result<Receipt> result = await receiptsService.Insert(receipt);
+            //
+            // if (result.IsSuccess)
+            // {
+            //     return Ok(result.Value);
+            // }
+            //
+            // result.TryGetError(out string? error);
+            // return NotFound(error);
+            return Ok();
         }
 
 
@@ -109,16 +113,17 @@ namespace CRST_ServerAPI.Controllers
         [Route("update")]
         public async Task<IActionResult> Update([FromBody] string str)
         {
-            Receipt receipt = JsonSerializer.Deserialize<Receipt>(str);
-            Result<Product> result = await receiptsService.Update(receipt);
-
-            if (result.IsSuccess)
-            {
-                return Ok(result.Value);
-            }
-
-            result.TryGetError(out string? error);
-            return NotFound(error);
+            // Receipt receipt = JsonSerializer.Deserialize<Receipt>(str);
+            // Result<Product> result = await receiptsService.Update(receipt);
+            //
+            // if (result.IsSuccess)
+            // {
+            //     return Ok(result.Value);
+            // }
+            //
+            // result.TryGetError(out string? error);
+            // return NotFound(error);
+            return Ok();
         }
 
 
