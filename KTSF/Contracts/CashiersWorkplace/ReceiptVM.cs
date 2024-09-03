@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel; 
+using CommunityToolkit.Mvvm.ComponentModel;
+using KTSF.Core.Object.Receipt_;
 
 namespace KTSF.Contracts.CashiersWorkplace;
 

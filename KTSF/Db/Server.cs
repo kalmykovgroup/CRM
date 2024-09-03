@@ -34,6 +34,7 @@ using KTSF.Components.TabComponents.CashiersWorkplaceComponent;
 using KTSF.Contracts.CashiersWorkplace;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using KTSF.Core.Object.Receipt_;
+using KTSF.Dto.Receipt_;
 
 namespace KTSF.Db
 {
@@ -376,7 +377,7 @@ namespace KTSF.Db
  
 
         // первая страница продуктов и общее количество продуктов
-        public async Task<Result<FirstPage<Product>, (string? Message, HttpStatusCode)>> GetFirstPage(int page = 1)
+        public async Task<Result<FirstPage<Product>, (string? Message, HttpStatusCode)>> GetFirstPageProduct(int page = 1)
         {            
             return await Get<FirstPage<Product>>($"Product/GetFirstPage"); 
         }
@@ -448,15 +449,14 @@ namespace KTSF.Db
             return buyProducts;
         } 
 
-        public async Task<Result<FirstPage<Receipt>, (string? Message, HttpStatusCode)>> GetFirstPage(int page = 1)
+        public async Task<Result<FirstPage<Receipt>, (string? Message, HttpStatusCode)>> GetFirstPageReceipt(int page = 1)
         {
             return await Get<FirstPage<Receipt>>($"Receipt/GetFirstPage");
         }
         
-        public async Task<List<Receipt>> GetReceipts(int page)
+        public async Task<Result<List<Receipt>, (string? message, HttpStatusCode)>> GetReceipts(int page)
         {
-            List<Receipt> receipts = await Request<List<Receipt>>($"Product/GetReceipts?page={page}");
-            return receipts;          
+            return await Get<List<Receipt>>($"Receipt/GetReceipts?page={page}");      
         }
         
         //Получить подробную информацию о товаре

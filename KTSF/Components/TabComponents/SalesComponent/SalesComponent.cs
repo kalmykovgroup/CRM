@@ -3,15 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CSharpFunctionalExtensions;
 using KTSF.Components.TabComponents.WarehouseComponent;
 using KTSF.Contracts.CashiersWorkplace;
-using KTSF.Core.Product_;
-using KTSF.Core.Receipt_;
+using KTSF.Core.Object.Product_;
+using KTSF.Core.Object.Receipt_;
 using KTSF.Dto.Product_;
 
 namespace KTSF.Components.TabComponents.SalesComponent;
@@ -47,16 +50,16 @@ namespace KTSF.Components.TabComponents.SalesComponent;
         {                        
             IsLoad = "Загрузка";
             
-            FirstPage<Receipt> firstPage = await AppControl.Server.GetFirstPageReceipt();
+            Result<FirstPage<Receipt>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetFirstPageReceipt();
 
-            if(firstPage.Items is null)
+            if(result.IsFailure)
             {               
-                return;
+                MessageBox.Show(result.Error.Message);
             }
 
-            CountPages = firstPage.PageCount;
+            CountPages = result.Value.PageCount;
 
-            foreach (Receipt receipt in firstPage.Items)
+            foreach (Receipt receipt in result.Value.Items)
             {
                 ReceiptVM newReceiptVM = new ReceiptVM(receipt);
                 Receipts.Add(newReceiptVM);
@@ -187,19 +190,19 @@ namespace KTSF.Components.TabComponents.SalesComponent;
                 IsCounterPages = false;
 
             Receipts.Clear();
-            List<Receipt> receipts = await AppControl.Server.GetReceipts(CurrentPage.Page);
-            //List<Receipt> receipts = new List<Receipt>();
+            Result<List<Receipt>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetReceipts(CurrentPage.Page);
 
-            if (receipts.Count == 0)
-            {
+            if (result.IsFailure) {
+                MessageBox.Show(result.Error.Message);
                 return;
-            }
+            } 
             
-            foreach (Receipt receipt in receipts)
+            foreach (Receipt receipt in result.Value)
             {
                 ReceiptVM newReceiptVm = new ReceiptVM(receipt);
                 Receipts.Add(newReceiptVm);
             }
+            
             if (flag)
             {
                 if (SecondBtn != null && CurrentPage.Page == SecondBtn.Page)
@@ -279,19 +282,19 @@ namespace KTSF.Components.TabComponents.SalesComponent;
                 IsCounterPages = false;
 
             Receipts.Clear();
-            List<Receipt> receipts = await AppControl.Server.GetReceipts(CurrentPage.Page);
-            //List<Receipt> receipts = new List<Receipt>();
+            Result<List<Receipt>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetReceipts(CurrentPage.Page);
 
-            if (receipts.Count == 0)
-            {
+            if (result.IsFailure) {
+                MessageBox.Show(result.Error.Message);
                 return;
-            }
+            } 
             
-            foreach (Receipt receipt in receipts)
+            foreach (Receipt receipt in result.Value)
             {
                 ReceiptVM newReceiptVm = new ReceiptVM(receipt);
                 Receipts.Add(newReceiptVm);
             }
+            
             if (flag)
             {
                 if (SecondBtn != null && CurrentPage.Page == SecondBtn.Page)

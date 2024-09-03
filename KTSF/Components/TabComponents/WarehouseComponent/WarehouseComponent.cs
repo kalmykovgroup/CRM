@@ -60,7 +60,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         {                        
             IsLoad = "Загрузка";
         
-            Result<FirstPage<Product>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetFirstPage();
+            Result<FirstPage<Product>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetFirstPageProduct();
 
             if (result.IsFailure)
             {
@@ -68,9 +68,9 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                 return;
             }
 
-            CountPages = result.Value.pageCount; 
+            CountPages = result.Value.PageCount; 
 
-            foreach (Product product in result.Value.Products)
+            foreach (Product product in result.Value.Items)
             {
                 Products.Add(product);
             }
@@ -289,8 +289,8 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                 IsCounterPages = false;
 
             Products.Clear();
+
             Result<List<Product>, (string? Message, HttpStatusCode)> result =  await AppControl.Server.GetProducts(CurrentPage.Page);
-          
 
             if (result.IsFailure)
             {

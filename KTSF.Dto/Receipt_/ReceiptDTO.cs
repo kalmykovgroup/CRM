@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
     
-        public double Discount { get; set; }
+        public double? Discount { get; set; }
 
         public PaymentInfoDTO ReceiptPaymentInfo { get; set; }
     

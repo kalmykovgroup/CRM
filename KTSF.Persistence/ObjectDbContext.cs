@@ -34,7 +34,7 @@ namespace KTSF.Persistence
 
         #region ABAC
 
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
 
         public DbSet<DataBaseAccessAttribute> DataBaseAccessAttributes { get; set; }
 

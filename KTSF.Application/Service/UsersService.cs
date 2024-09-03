@@ -11,9 +11,9 @@ namespace KTSF.Application.Service
     {
       
 
-        private ObjectDbContext dbContext;
+        private AppDbContext dbContext;
 
-        public UsersService(ObjectDbContext dbContext)
+        public UsersService(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

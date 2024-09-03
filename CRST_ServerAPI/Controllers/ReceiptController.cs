@@ -1,11 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using KTSF.Application.Service;
-using KTSF.Core;
-using KTSF.Core.Product_;
-using KTSF.Dto.Product_;
+using KTSF.Core.Object.Receipt_;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using KTSF.Core.Receipt_;
 using KTSF.Dto.Receipt_;
 
 namespace KTSF.Api.Controllers

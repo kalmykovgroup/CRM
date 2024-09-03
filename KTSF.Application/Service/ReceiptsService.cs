@@ -1,25 +1,18 @@
 ﻿using CSharpFunctionalExtensions;
-using KTSF.Core;
-using KTSF.Core.Product_;
+using KTSF.Core.Object.Product_;
 using KTSF.Dto.Product_;
 using KTSF.Persistence;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using KTSF.Core.Receipt_;
+using KTSF.Core.Object.Receipt_;
 using KTSF.Dto.Receipt_;
+using Microsoft.EntityFrameworkCore;
 
 namespace KTSF.Application.Service
 {
     public class ReceiptsService
     {
-        private AppDbContext dbContext;
+        private ObjectDbContext dbContext;
 
-        public ReceiptsService(AppDbContext dbContext)
+        public ReceiptsService(ObjectDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -130,45 +123,42 @@ namespace KTSF.Application.Service
 
         // !!!!! ИСПРАВИТЬ !!!!
         // создание 
-        public async Task<Result<Product>> Insert(Product product)
+        public async Task<Result<Receipt>> Insert(Receipt receipt)
         {
-            dbContext.Products.Add(product);
+            dbContext.Receipts.Add(receipt);
             try
             {
                 await dbContext.SaveChangesAsync();
-                return Result.Success(product);
+                return Result.Success(receipt);
             }
             catch (Exception ex)
             {
-                return Result.Failure<Product>(ex.ToString());
+                return Result.Failure<Receipt>(ex.ToString());
             }
         }
 
 
         // обновление
-        public async Task<Result<Product>> Update(Product product)
+        public async Task<Result<Receipt>> Update(Receipt receipt)
         {
             try
             {
-                Product? prod = dbContext.Products.Where(pr => pr.Id == product.Id).FirstOrDefault();
+                Receipt? updateReceipt = dbContext.Receipts.Where(rec => rec.Id == receipt.Id).FirstOrDefault();
 
-                if (prod == null) return Result.Failure<Product>("Not found");
+                if (updateReceipt == null) return Result.Failure<Receipt>("Not found");
 
-                prod.Id = product.Id;
-                prod.Name = product.Name;
-                prod.BuyPrice = product.BuyPrice;
-                prod.SalePrice = product.SalePrice;
-                prod.OldPrice = product.OldPrice;
-                prod.UpdatedAt = product.UpdatedAt;
-                prod.UnitId = product.UnitId;
+                updateReceipt.Id = receipt.Id;
+                updateReceipt.Discount = receipt.Discount;
+                updateReceipt.CreatedDate = receipt.CreatedDate;
+                updateReceipt.PaymentInfoId = receipt.PaymentInfoId;
 
                 await dbContext.SaveChangesAsync();
 
-                return Result.Success(prod);
+                return Result.Success(updateReceipt);
             }
             catch (Exception ex)
             {
-                return Result.Failure<Product>(ex.Message);
+                return Result.Failure<Receipt>(ex.Message);
             }
         }
 

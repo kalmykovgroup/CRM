@@ -16,8 +16,7 @@ namespace KTSF.Core.Object.Product_
 
         [MaxLength(255)]
         public string? NameToPrint { get; set; } //Имя для печати этикеток
-
-        [MaxLength(255)]
+        
         public string? Description { get; set; }
 
         //Габбариты  
