@@ -80,8 +80,7 @@ namespace KTSF.Api.Controllers
         
 
 #if DEBUG
-
-
+        [ApiExplorerSettings(IgnoreApi = true)]
     [Route("debug-get-employee")]
     public async Task<IActionResult> GetDebugEmployee(ObjectDbContext objectDbContext)
     {
@@ -100,7 +99,7 @@ namespace KTSF.Api.Controllers
 
 
 
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("/Employee-SignIn")]
         [Authorize(Roles = Role.Anonym)]
         public async Task Get()

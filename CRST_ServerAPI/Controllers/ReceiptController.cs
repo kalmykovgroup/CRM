@@ -1,8 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using KTSF.Application.Service;
 using KTSF.Core.Object.Receipt_;
+using KTSF.Dto.Product_;
 using Microsoft.AspNetCore.Mvc;
 using KTSF.Dto.Receipt_;
+using System.Text.Json;
 
 namespace KTSF.Api.Controllers
 {
@@ -48,41 +50,29 @@ namespace KTSF.Api.Controllers
             result.TryGetError(out string? error);
             return NotFound(error);
         }
-
-
-        // [HttpGet("SearchProduct")]
-        // public async Task<IActionResult> SearchProduct(string name)
-        // {
-        //     Result<Product[]> result = await productsService.SearchProduct(name);
-        //     return Ok(result.Value);
-        // }
-
-
+        
         // первая страница продуктов и общее количество продуктов
-        [HttpGet("GetFirstPageReceipt")]
+        [HttpGet("GetFirstPage")]
         public async Task<IActionResult> GetFirstPageReceipt()
         {
-            //Result<FirstPage<Receipt>> result = await receiptsService.GetFirstPageReceipt();
-            //return Ok(result.Value);
-            return Ok();
+            Result<FirstPage<Receipt>> result = await receiptsService.GetFirstPageReceipt();
+            return Ok(result.Value);
         }
 
 
         [HttpGet("GetReceipts")]
         public async Task<IActionResult> GetReceipts(int page)
         {
-            //Result<Receipt[]> result = await receiptsService.GetReceipts(page);
-            //return Ok(result.Value);
-            return Ok();
+            Result<Receipt[]> result = await receiptsService.GetReceipts(page);
+            return Ok(result.Value);
         }
 
 
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            //Result<List<Receipt>> result = await receiptsService.GetAll();
-            //return Ok(result.Value);
-            return Ok();
+            Result<List<Receipt>> result = await receiptsService.GetAll();
+            return Ok(result.Value);
         }
 
 
@@ -90,17 +80,16 @@ namespace KTSF.Api.Controllers
         [Route("insert")]
         public async Task<IActionResult> Insert([FromBody] string str)
         {
-            // Result receipt = JsonSerializer.Deserialize <Receipt>(str);
-            // Result<Receipt> result = await receiptsService.Insert(receipt);
-            //
-            // if (result.IsSuccess)
-            // {
-            //     return Ok(result.Value);
-            // }
-            //
-            // result.TryGetError(out string? error);
-            // return NotFound(error);
-            return Ok();
+            Receipt receipt = JsonSerializer.Deserialize <Receipt>(str);
+            Result<Receipt> result = await receiptsService.Insert(receipt);
+            
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            
+            result.TryGetError(out string? error);
+            return NotFound(error);
         }
 
 
@@ -108,17 +97,16 @@ namespace KTSF.Api.Controllers
         [Route("update")]
         public async Task<IActionResult> Update([FromBody] string str)
         {
-            // Receipt receipt = JsonSerializer.Deserialize<Receipt>(str);
-            // Result<Product> result = await receiptsService.Update(receipt);
-            //
-            // if (result.IsSuccess)
-            // {
-            //     return Ok(result.Value);
-            // }
-            //
-            // result.TryGetError(out string? error);
-            // return NotFound(error);
-            return Ok();
+            Receipt receipt = JsonSerializer.Deserialize<Receipt>(str);
+            Result<Receipt> result = await receiptsService.Update(receipt);
+            
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            
+            result.TryGetError(out string? error);
+            return NotFound(error);
         }
     }
  

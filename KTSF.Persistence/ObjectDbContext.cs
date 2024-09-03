@@ -152,7 +152,10 @@ namespace KTSF.Persistence
             modelBuilder.Entity<Article>().HasData(GetArticlesDefault());
             modelBuilder.Entity<ProductToCategoryJoinTable>().HasData(GetProductToCategoryJoinTableDefault());
 
-
+            modelBuilder.Entity<PaymentMethod>().HasData(GetPaymentMethodsDefault());
+            modelBuilder.Entity<PaymentInfo>().HasData(GetPaymentInfosDefault());
+            modelBuilder.Entity<Receipt>().HasData(GetReceiptsDefault());
+            modelBuilder.Entity<BuyProduct>().HasData(GetBuyProductsDefault());
 
         }
 
@@ -1529,5 +1532,7 @@ namespace KTSF.Persistence
                     ReceiptId = 4
                 }];
         }
+        
+        
     }
 }

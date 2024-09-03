@@ -71,6 +71,8 @@ namespace CRST_ServerAPI
             builder.Services.AddTransient<ASetOfRulesService>();
             builder.Services.AddTransient<CompanyService>();
             builder.Services.AddTransient<ObjectService>();
+            builder.Services.AddTransient<ReceiptsService>();
+            
             builder.Services.AddSingleton<AuthSingletonService>();
 
             builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();

@@ -1,10 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
-using KTSF.Core.Object.Product_;
 using KTSF.Dto.Product_;
 using KTSF.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 using KTSF.Core.Object.Receipt_;
 using KTSF.Dto.Receipt_;
-using Microsoft.EntityFrameworkCore;
 
 namespace KTSF.Application.Service
 {
@@ -16,7 +16,6 @@ namespace KTSF.Application.Service
         {
             this.dbContext = dbContext;
         }
-        
 
         // поиск чека по Id
         public async Task<Result<Receipt>> Find(int id)
@@ -51,51 +50,27 @@ namespace KTSF.Application.Service
             return receipt != null ? Result.Success(receipt) : Result.Failure<ReceiptDTO>("Not found");
         }
 
-
-        // поиск чека по названию
-        public async Task<Result<Product[]>> SearchProduct(string name)
-        {
-            Product[] products = await dbContext.Products.ToArrayAsync();
-            List<Product> results = [];
-
-            int count = 0;
-
-            foreach(Product product in products)
-            {                
-                if (product.Name.ToLower().Contains(name.ToLower()))
-                {
-                    results.Add(product);
-                    count++;
-                }
-
-                if (count == 20) break;
-            }
-
-            return results != null ? Result.Success(results.ToArray()) : Result.Failure<Product[]>("Not found");
-        }
-
-
         // получить первую страницу с чеками
-        public async Task<Result<FirstPage<Product>>> GetFirstPageProduct()
+        public async Task<Result<FirstPage<Receipt>>> GetFirstPageReceipt()
         {
-            FirstPage<Product> result = new FirstPage<Product>();
+            FirstPage<Receipt> result = new FirstPage<Receipt>();
 
-            int count = await dbContext.Products.CountAsync();
+            int count = await dbContext.Receipts.CountAsync();
 
             result.PageCount = (double)count / 20 > (double)1 ? count / 20 + 1 : 1;
 
-            result.Items = await dbContext.Products
+            result.Items = await dbContext.Receipts
                 .Take(20)
                 .ToArrayAsync();
 
-            return result != null ? Result.Success(result) : Result.Failure<FirstPage<Product>>("Not found");
+            return result != null ? Result.Success(result) : Result.Failure<FirstPage<Receipt>>("Not found");
         }
 
 
 
 
         // получить определенную страницу с чеками
-        public async Task<Result<Product[]>> GetProducts(int page)
+        public async Task<Result<Receipt[]>> GetReceipts(int page)
         {
             int position = 0;
 
@@ -104,19 +79,19 @@ namespace KTSF.Application.Service
                 position = (page - 1) * 20;
             }                   
 
-            var products = await dbContext.Products               
+            var receipts = await dbContext.Receipts               
                 .Skip(position)
                 .Take(20)
                 .ToArrayAsync();            
 
-            return products != null ? Result.Success(products) : Result.Failure<Product[]>("Not found");
+            return receipts != null ? Result.Success(receipts) : Result.Failure<Receipt[]>("Not found");
         }
                      
 
         // получение всех чеков
-        public async Task<Result<List<Product>>> GetAll()
+        public async Task<Result<List<Receipt>>> GetAll()
         {
-            return Result.Success(await dbContext.Products.ToListAsync());
+            return Result.Success(await dbContext.Receipts.ToListAsync());
         }
 
         
@@ -161,7 +136,6 @@ namespace KTSF.Application.Service
                 return Result.Failure<Receipt>(ex.Message);
             }
         }
-
 
     }
 }
