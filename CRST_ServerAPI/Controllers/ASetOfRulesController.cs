@@ -1,7 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using KTSF.Application.Service;
-using KTSF.Core;
-using KTSF.Core.ABAC;
+using KTSF.Core.Object.ABAC;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 

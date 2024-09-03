@@ -1,84 +1,39 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent;
-using KTSF.ViewModel;
-using KTSF.Core;
-using KTSF.Core.ABAC;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KTSF.ViewModel;  
+using System.Collections.ObjectModel; 
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using CSharpFunctionalExtensions;
 using KTSF.Dto.Employee_;
+using KTSF.Core.Object;
+using KTSF.Core.Object.ABAC;
+using CSharpFunctionalExtensions;
+using System.Net;
+
 
 namespace KTSF.Components.TabComponents.StaffComponent
 {    
     public partial class StaffComponent : TabComponent
     {
-        public ObservableCollection<Employee> AllEmployees { get; } = [];
         public ObservableCollection<Employee> Employees { get; } = [];
         public ObservableCollection<Employee> FiredEmployees { get; } = [];
         public ObservableCollection<Employee> QualifyingEmployees { get; } = [];
-        public ObservableCollection<Employee> NotEmployedEmployees { get; } = [];
-        public ObservableCollection<Employee> SerchedEmployees { get; set; } = [];
+        public ObservableCollection<Employee> NotEmployedEmployees { get; } = [];               
 
-        //public List<Appointment> Appointments { get; } = [];
-        //public List<EmployeeStatus> EmployeeStatuses { get; } = [];
-        //public List<ASetOfRules> ASetOfRules { get; } = [];
-        
-        private TabItem SelectedTabItem { get; set; }
-        
-        public EmployeeVM EmployeeVM { get; } = new EmployeeVM();
-        
+        public EmployeeVM EmployeeVM { get; } = new EmployeeVM();         
+
+        public Component SearchComponent { get; }
+        public Component SearchComponentFired { get; }
+
         [ObservableProperty]
         public bool isLoaded = false;      
       
 
         public StaffComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
         {
-        }
-
-        private void SearchedEmployeeList(ObservableCollection<Employee> serchedList)
-        {
-            if (serchedList.Count == 0)
-            {
-                switch (SelectedTabItem.Tag)
-                {
-                    case "Трудоустроен":
-                    {
-                        var itemsControl = ((Grid)SelectedTabItem.Content).FindName("EmployeesItemsControl") as ItemsControl;
-                        itemsControl.ItemsSource = Employees;
-                        break;
-                    }
-                    case "Уволен":
-                    {
-                        ((ItemsControl)SelectedTabItem.Content).ItemsSource = FiredEmployees;
-                        break;
-                    }
-                    case "На испытательном сроке":
-                    {
-                        ((ItemsControl)SelectedTabItem.Content).ItemsSource = QualifyingEmployees;
-                        break;
-                    }
-                    case "Не трудоустроен":
-                    {
-                        ((ItemsControl)SelectedTabItem.Content).ItemsSource = NotEmployedEmployees;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                SerchedEmployees = serchedList;
-                var itemsControl = ((Grid)SelectedTabItem.Content).FindName("EmployeesItemsControl") as ItemsControl;
-                itemsControl.ItemsSource = SerchedEmployees;
-            }
-            
+            SearchComponent = new SearchComponent(binding, appControl);
+            SearchComponentFired = new SearchComponent(binding, appControl);
         }
 
         public override UserControl Initial() => new StaffUC(this);
@@ -93,55 +48,64 @@ namespace KTSF.Components.TabComponents.StaffComponent
             IsLoaded = true;
         }
 
+        
+
         public async Task Load()
         {
             CreateEmployeeLists();
 
-            List<Appointment>? appointments = await AppControl.Server.GetAllAppointment();
+            Result< List<Appointment>, (string? Message, HttpStatusCode)> resultAppointment = await AppControl.Server.GetAllAppointment();
 
-            if (appointments == null)
+
+            if (resultAppointment.IsFailure)
+            {
+                MessageBox.Show(resultAppointment.Error.Message);
                 return;
+            }
 
-            foreach(Appointment appointment in appointments)
+            foreach(Appointment appointment in resultAppointment.Value)
             {
                 EmployeeVM.Appointments.Add(appointment);
                 //Appointments.Add(appointment);
             }
 
-            List<EmployeeStatus> employeeStatuses = await AppControl.Server.GetAllEmployeeStatus();
-            foreach (EmployeeStatus employeeStatus in employeeStatuses)
+            Result<List<EmployeeStatus>, (string? Message, HttpStatusCode)> resultEmployeeStatus = await AppControl.Server.GetAllEmployeeStatus();
+
+            if (resultEmployeeStatus.IsFailure)
+            {
+                MessageBox.Show(resultEmployeeStatus.Error.Message);
+                return;
+            }
+
+            foreach (EmployeeStatus employeeStatus in resultEmployeeStatus.Value)
             {
                 EmployeeVM.EmployeeStatuses.Add(employeeStatus);
                 //EmployeeStatuses.Add(employeeStatus);
             }
 
-            List<ASetOfRules> aSetOfRules = await AppControl.Server.GetAllASetOfRules();
-            foreach (ASetOfRules aSetOfRule in aSetOfRules)
+
+            Result<List<ASetOfRules>, (string? Message, HttpStatusCode)> resultASetOfRules = await AppControl.Server.GetAllASetOfRules();
+
+            if (resultASetOfRules.IsFailure)
+            {
+                MessageBox.Show(resultASetOfRules.Error.Message);
+                return;
+            }
+
+            foreach (ASetOfRules aSetOfRule in resultASetOfRules.Value)
             {
                 EmployeeVM.ASetOfRules.Add(aSetOfRule);
                 //ASetOfRules.Add(aSetOfRule);
             }
         }
+     
 
-        // ?????????????????????????
-        //[RelayCommand]
-        //public async Task<bool> DeleteUser(object sender)
-        //{
-        //    Employee employee = (Employee)sender;
-        //    employee.Updated_At = DateTime.Now;
-        //    employee.LayoffDate = DateTime.Now;
-
-        //    Employees.Remove(employee);
-
-        //    return true;
-        //}
-        
         [RelayCommand]
         public async void AddNewEmployee()
         {
             EmployeeVM.Employee = new Employee();
 
-            AddNewStaffWindow userWindow = new AddNewStaffWindow(EmployeeVM);
+            AddNewStaffWindow userWindow = new AddNewStaffWindow(EmployeeVM, AppControl);
 
             if (userWindow.ShowDialog() == true)
             {
@@ -169,8 +133,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
                         .Where(aset => aset.Name == EmployeeVM.Employee.ASetOfRules.Name)
                         .First();
 
-            EditStaffWindow editStaffWindow = new EditStaffWindow(EmployeeVM,             
-                EditStaffWindowSaveClick); // передавать копию??
+            EditStaffWindow editStaffWindow = new EditStaffWindow(EmployeeVM,EditStaffWindowSaveClick, AppControl); // передавать копию??
 
             editStaffWindow.ShowDialog();
         
@@ -179,6 +142,11 @@ namespace KTSF.Components.TabComponents.StaffComponent
         private async void EditStaffWindowSaveClick(EditStaffWindow editStaffWindow)
         {
             editStaffWindow.EmployeeVM.Employee.Updated_At = DateTime.Now;
+
+            if (editStaffWindow.EmployeeVM.Employee.EmployeeStatus.Name == "Уволен")
+            {
+                editStaffWindow.EmployeeVM.Employee.LayoffDate = DateTime.Now;
+            }
 
             (bool result, string? message, Employee copyEmployee) = await AppControl.Server.UpdateEmployee(editStaffWindow.EmployeeVM.Employee);
 
@@ -197,19 +165,23 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
         private async void CreateEmployeeLists()
         {
-            List<Employee>? employees = await AppControl.Server.GetEmployees();
-            
-            AllEmployees.Clear();
+            Result<List<Employee>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetEmployees();
+
+            if (result.IsFailure)
+            {
+                MessageBox.Show(result.Error.Message);
+                return;
+            }
+             
+
             Employees.Clear();
             FiredEmployees.Clear();
             QualifyingEmployees.Clear();
             NotEmployedEmployees.Clear();
 
-            if (employees == null)
-                return;
-            
-            foreach (Employee employee in employees)
+            foreach (Employee employee in result.Value)
             {
+
                 if (employee.EmployeeStatus.Name == "Трудоустроен") // работает
                 {
                     Employees.Add(employee);
@@ -226,8 +198,6 @@ namespace KTSF.Components.TabComponents.StaffComponent
                 {
                     NotEmployedEmployees.Add(employee);
                 }
-                
-                AllEmployees.Add(employee);
             }
         }
 

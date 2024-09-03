@@ -1,4 +1,4 @@
-﻿using KTSF.Components.Window.MainMenuComponent;
+﻿using KTSF.Components.Windows.MainMenuComponent;
 using KTSF.Core.Language;
 using System.Text;
 using System.Windows;

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualBasic;
 using KTSF.Core;
+using KTSF.Core.App;
 
 
 namespace KTSF.Api.Model
@@ -34,7 +35,7 @@ namespace KTSF.Api.Model
                  return Task.CompletedTask;
              }*/
 
-            if (resource.AccessToken == _userManager.GetUserId(context.User))
+            if (resource.JwtToken == _userManager.GetUserId(context.User))
             {
                 context.Succeed(requirement);
             }

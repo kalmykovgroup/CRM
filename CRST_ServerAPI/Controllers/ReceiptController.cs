@@ -8,11 +8,10 @@ using System.Text.Json;
 using KTSF.Core.Receipt_;
 using KTSF.Dto.Receipt_;
 
-namespace CRST_ServerAPI.Controllers
+namespace KTSF.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-
     public class ReceiptController : ControllerBase
     {
         private readonly ILogger<ReceiptController> _logger;
@@ -125,15 +124,6 @@ namespace CRST_ServerAPI.Controllers
             // return NotFound(error);
             return Ok();
         }
-
-
-      
-
-
-      
-
-        
-
     }
  
 }

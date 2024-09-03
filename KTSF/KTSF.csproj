@@ -9,14 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\CommonComponents\EmployeeSearchComponent\Converters\**" />
     <Compile Remove="Components\CommonComponent\**" />
     <Compile Remove="Components\MainComponent\**" />
+	  
+    <EmbeddedResource Remove="Components\CommonComponents\EmployeeSearchComponent\Converters\**" />
     <EmbeddedResource Remove="Components\CommonComponent\**" />
     <EmbeddedResource Remove="Components\MainComponent\**" />
+	  
+    <None Remove="Components\CommonComponents\EmployeeSearchComponent\Converters\**" />
     <None Remove="Components\CommonComponent\**" />
-    <None Remove="Components\MainComponent\**" />
-    <Page Remove="Components\CommonComponent\**" />
-    <Page Remove="Components\MainComponent\**" />
+    <None Remove="Components\MainComponent\**" /> 
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +39,10 @@
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\next.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\Search.png" />
     <None Remove="Components\TabComponents\WarehouseComponent\ImageSource\search_269128.png" />
-    <None Remove="Components\Window\LoadWinComponent\Img\hacking-hack.gif" />
+    <None Remove="Components\Windows\CompanyWinComponent\Img\del.png" />
+    <None Remove="Components\Windows\CompanyWinComponent\Img\settings.png" />
+    <None Remove="Components\Windows\SignInEmployeeWinComponent\Img\copy.png" />
+    <None Remove="Components\Windows\SignInEmployeeWinComponent\Img\error.png" />
     <None Remove="Img\app_store_logo.png" />
     <None Remove="Img\google_play_logo.png" />
     <None Remove="Img\loading.gif" />
@@ -74,8 +80,17 @@
     <Content Include="Components\TabComponents\WarehouseComponent\ImageSource\Search.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Components\Window\LoadWinComponent\Img\hacking-hack.gif">
+    <Content Include="Components\Windows\CompanyWinComponent\Img\del.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Components\Windows\CompanyWinComponent\Img\settings.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Components\Windows\SignInEmployeeWinComponent\Img\copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Components\Windows\SignInEmployeeWinComponent\Img\error.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Img\app_store_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -101,16 +116,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BarcodeLib" Version="3.1.3" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="BarcodeLib" Version="3.1.4" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
-    <PackageReference Include="SharpVectors" Version="1.8.4.1" />
+    <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CRM.Core\KTSF.Core.csproj" /> 
+  <ItemGroup> 
+    <ProjectReference Include="..\KTSF.Core.App\KTSF.Core.App.csproj" />
+    <ProjectReference Include="..\KTSF.Core.Object\KTSF.Core.Object.csproj" /> 
     <ProjectReference Include="..\KTSF.Dto\KTSF.Dto.csproj" />
   </ItemGroup>
 
@@ -129,6 +145,12 @@
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\delete.png" />
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\minus.png" />
     <Resource Include="Components\TabComponents\CashiersWorkplaceComponent\ImageSource\plus.png" />
+    <Resource Include="Components\TabComponents\StaffComponent\Img\NotEmployed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Components\TabComponents\StaffComponent\Img\Qualifying.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\MainWindow\close.svg" />
     <Resource Include="Img\MainWindow\maximize.svg" />
     <Resource Include="Img\MainWindow\minimize.svg" />
@@ -150,4 +172,36 @@
     </Resource>
   </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Components\CommonComponents\SearchComponent\Converters\" />
+    </ItemGroup>
+    
+    <None Remove="Components\MainComponent\**" /> 
+    <None Remove="Components\Windows\CompanyWinComponent\Img\del.png" />
+    <None Remove="Components\Windows\CompanyWinComponent\Img\settings.png" />
+    <None Remove="Components\Windows\SignInEmployeeWinComponent\Img\copy.png" />
+    <None Remove="Components\Windows\SignInEmployeeWinComponent\Img\error.png" />
+    <Content Include="Components\Windows\CompanyWinComponent\Img\del.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Components\Windows\CompanyWinComponent\Img\settings.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Components\Windows\SignInEmployeeWinComponent\Img\copy.png">
+    <Content Include="Components\Windows\SignInEmployeeWinComponent\Img\error.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <PackageReference Include="BarcodeLib" Version="3.1.4" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="SharpVectors" Version="1.8.4.2" />
+  <ItemGroup> 
+    <ProjectReference Include="..\KTSF.Core.App\KTSF.Core.App.csproj" />
+    <ProjectReference Include="..\KTSF.Core.Object\KTSF.Core.Object.csproj" /> 
+    <Resource Include="Components\TabComponents\StaffComponent\Img\NotEmployed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Components\TabComponents\StaffComponent\Img\Qualifying.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
 </Project>

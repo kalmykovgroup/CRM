@@ -1,14 +1,18 @@
 ﻿using CSharpFunctionalExtensions;
 using KTSF.Application.Service;
-using KTSF.Core;
+using KTSF.Core.App;
+using KTSF.Core.Object;
+using KTSF.Dto.Company_;
+using KTSF.Dto.Employee_;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
-namespace CRST_ServerAPI.Controllers
+namespace KTSF.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-
+    [Authorize(Roles = $"{Role.User}, {Role.Employee}")]
     public class EmployeeController : ControllerBase
     {
 
@@ -18,6 +22,7 @@ namespace CRST_ServerAPI.Controllers
         {
             this.employeesService = EmployeesService;
         }
+
 
 
         [HttpGet("{id}")]

@@ -9,7 +9,7 @@ using KTSF.Components.TabComponents.SalesComponent;
 using KTSF.Components.TabComponents.SettingsComponent;
 using KTSF.Components.TabComponents.StaffComponent;
 using KTSF.Components.TabComponents.WarehouseComponent;
-using KTSF.Components.Window.MainMenuComponent;
+using KTSF.Components.Windows.MainMenuComponent;
 using KTSF.Languages;
 using KTSF.Languages.Model;
 using KTSF.ViewModel;

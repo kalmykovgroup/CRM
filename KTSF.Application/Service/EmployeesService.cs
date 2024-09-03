@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
-using KTSF.Core;
-using KTSF.Core.Product_;
+using KTSF.Core.App;
+using KTSF.Core.Object;
+using KTSF.Dto.Employee_;
 using KTSF.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -16,9 +17,9 @@ namespace KTSF.Application.Service
 {
     public class EmployeesService
     {
-        public AppDbContext dbContext;        
+        public ObjectDbContext dbContext;        
 
-        public EmployeesService(AppDbContext appDbContext)
+        public EmployeesService(ObjectDbContext appDbContext)
         {
             this.dbContext = appDbContext;
         }
@@ -28,10 +29,7 @@ namespace KTSF.Application.Service
         public async Task<Result<Employee>> Find(int id)
         {
             Employee? employee = await dbContext.Employees
-                .Where(emp => emp.Id == id)
-                .Include(obj => obj.Object)
-                .ThenInclude(comp => comp.Company)
-                .ThenInclude(us => us.User)
+                .Where(emp => emp.Id == id)   
                 .Include(stat => stat.EmployeeStatus)
                 .Include(apoint => apoint.Appointment)
                 .Include(aset => aset.ASetOfRules)
@@ -47,10 +45,7 @@ namespace KTSF.Application.Service
         public async Task<Result<Employee>> GetByEmail(string email)
         {
             Employee? employee = await dbContext.Employees
-                .Where(emp => emp.Email == email)
-                .Include(obj => obj.Object)
-                .ThenInclude(comp => comp.Company)
-                .ThenInclude(us => us.User)
+                .Where(emp => emp.Email == email) 
                 .Include(stat => stat.EmployeeStatus)
                 .Include(apoint => apoint.Appointment)
                 .Include(aset => aset.ASetOfRules)
@@ -96,10 +91,7 @@ namespace KTSF.Application.Service
         // получить всех EMPLOYEE
         public async Task<Result<Employee[]>> GetAll()
         {
-            return Result.Success(await dbContext.Employees
-                .Include(obj => obj.Object)
-                .ThenInclude(comp => comp.Company)
-                .ThenInclude(us => us.User)
+            return Result.Success(await dbContext.Employees  
                 .Include(stat => stat.EmployeeStatus)
                 .Include(apoint => apoint.Appointment)
                 .Include(aset => aset.ASetOfRules).ToArrayAsync());
@@ -109,10 +101,8 @@ namespace KTSF.Application.Service
         public async Task<Result<Employee>> Create(Employee employee)
         {
             Employee empl = new Employee();
-
-            empl.Id = employee.Id;
-            empl.ObjectId = employee.ObjectId;
-            empl.AccessToken = employee.AccessToken;
+            empl.Id = employee.Id; 
+            empl.JwtToken = employee.JwtToken;
             empl.AppointmentId = employee.AppointmentId;
             empl.Name = employee.Name;
             empl.Surname = employee.Surname;
@@ -156,9 +146,8 @@ namespace KTSF.Application.Service
 
                 if (empl == null) return Result.Failure<Employee>("Not found");              
 
-                empl.Id = employee.Id;
-                empl.ObjectId = employee.ObjectId;              
-                empl.AccessToken = employee.AccessToken;
+                empl.Id = employee.Id;           
+                empl.JwtToken = employee.JwtToken;
                 empl.AppointmentId = employee.AppointmentId;   
                 empl.Name = employee.Name;
                 empl.Surname = employee.Surname;
@@ -188,7 +177,7 @@ namespace KTSF.Application.Service
                 return Result.Failure<Employee>(ex.Message);
             }
         }
-
+ 
 
     }
 }

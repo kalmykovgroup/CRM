@@ -1,14 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent;
-using KTSF.ViewModel; 
+using KTSF.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using KTSF.Contracts.CashiersWorkplace;
-using KTSF.Core.Product_;
-using KTSF.Core.Receipt_;
-using PaymentMethod = KTSF.Core.Receipt_.PaymentMethod;
+using System.Windows.Input; 
+using KTSF.Core.Object.Product_; 
+using KTSF.Contracts.CashiersWorkplace; 
+using PaymentMethod = KTSF.Core.Object.Receipt_.PaymentMethod;
+using KTSF.Core.Object.Receipt_;
 
 namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent;
 

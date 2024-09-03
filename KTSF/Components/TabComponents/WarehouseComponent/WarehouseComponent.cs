@@ -1,19 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KTSF.Core.Product_;
+using CSharpFunctionalExtensions;
+using KTSF.Core.Object.Product_;
 using KTSF.Dto.Product_;
-using KTSF.ViewModel; 
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
+using KTSF.ViewModel;  
 using System.Collections.ObjectModel;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
+using System.Windows.Controls; 
 
 namespace KTSF.Components.TabComponents.WarehouseComponent
 {
@@ -65,17 +59,18 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         public override async void ComponentLoaded()
         {                        
             IsLoad = "Загрузка";
-            
-            FirstPage<Product>? firstPage = await AppControl.Server.GetFirstPageProduct();
+        
+            Result<FirstPage<Product>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetFirstPage();
 
-            if(firstPage.Items == null)
-            {               
+            if (result.IsFailure)
+            {
+                MessageBox.Show(result.Error.Message);
                 return;
             }
 
-            CountPages = firstPage.PageCount;
+            CountPages = result.Value.pageCount; 
 
-            foreach (Product product in firstPage.Items)
+            foreach (Product product in result.Value.Products)
             {
                 Products.Add(product);
             }
@@ -132,9 +127,14 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             bool flag = BeginBtn != null && SecondBtn != null && BeginBtn.Page <= navBtn.Page && SecondBtn.Page + 1 != navBtn.Page;
 
             Products.Clear();
-            List<Product> products = await AppControl.Server.GetProducts(CurrentPage.Page);
+            Result<List<Product>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetProducts(CurrentPage.Page);
 
-            foreach (Product product in products)
+            if (result.IsFailure) {
+                MessageBox.Show(result.Error.Message);
+                return;
+            } 
+
+            foreach (Product product in result.Value)
             {
                 Products.Add(product);
             }
@@ -198,9 +198,15 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                 IsCounterPages = false;
 
             Products.Clear();
-            List<Product> products = await AppControl.Server.GetProducts(CurrentPage.Page);
+            Result < List < Product >, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetProducts(CurrentPage.Page);
 
-            foreach (Product product in products)
+            if (result.IsFailure)
+            {
+                MessageBox.Show(result.Error.Message);
+                return;
+            }
+
+            foreach (Product product in result.Value)
             {
                 Products.Add(product);
             }
@@ -283,9 +289,16 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                 IsCounterPages = false;
 
             Products.Clear();
-            List<Product> products = await AppControl.Server.GetProducts(CurrentPage.Page);
+            Result<List<Product>, (string? Message, HttpStatusCode)> result =  await AppControl.Server.GetProducts(CurrentPage.Page);
+          
 
-            foreach (Product product in products)
+            if (result.IsFailure)
+            {
+                MessageBox.Show(result.Error.Message);
+                return;
+            }
+
+            foreach (Product product in result.Value)
             {
                 Products.Add(product);
             }

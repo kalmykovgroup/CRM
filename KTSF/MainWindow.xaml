@@ -181,41 +181,44 @@
         </Style>
     </Window.Resources>
 
-    <Border x:Name="BorderWindow">
-        <Border.Style>
-            <Style TargetType="Border">
-                <Setter Property="Padding" Value="0" />
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}" Value="Maximized">
-                        <Setter Property="Padding" Value="7" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Border.Style>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+    <Grid>
+
+        <Border x:Name="BorderWindow">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Padding" Value="0" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}" Value="Maximized">
+                            <Setter Property="Padding" Value="7" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
 
 
-            <Border
+                <Border
                 Grid.Column="0"
                 Height="36"
                 Background="#637FA0"
                 BorderThickness="0"
                 CornerRadius="10 10 0 0"
                 MouseDown="Border_MouseDown">
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock
+                        <TextBlock
                         Grid.Row="0"
                         Margin="15,0"
                         HorizontalAlignment="Left"
@@ -225,7 +228,15 @@
                         Foreground="#fff"
                         Text="{Binding Title, ElementName=mainWindow}" />
 
-                    <ComboBox
+                        <TextBlock
+                        Grid.Column="1"
+                        Margin="10,0"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        Foreground="#21303D"
+                        Text="Имя пользователя" />
+
+                        <ComboBox
                         x:Name="Languege"
                         Grid.Column="2"
                         Width="100"
@@ -240,87 +251,108 @@
                         SelectedValue="{Binding LanguageControl.Language}"
                         SelectionChanged="Language_SelectionChanged" />
 
-                    <TextBlock
-                        Grid.Column="1"
-                        Margin="10,0"
-                        VerticalAlignment="Center"
-                        FontSize="18"
-                        Foreground="#21303D"
-                        Text="Имя пользователя" />
-
-                    <StackPanel
-                        Grid.Column="3"
-                        Margin="0"
-                        Orientation="Horizontal">
-                        <StackPanel.Resources>
-                            <Style x:Key="TopNavButton" TargetType="Button">
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="BorderThickness" Value="0" />
-                                <Setter Property="Height" Value="36" />
-                                <Setter Property="Width" Value="45" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border Background="{TemplateBinding Background}">
-                                                <ContentPresenter />
-                                            </Border>
-
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#4F6985" />
-
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Resources>
-
-                        <Button Click="btnMinimize_Click" Style="{StaticResource TopNavButton}">
-                            <svgc:SvgViewbox
-                                Width="16"
-                                Height="16"
-                                Source="/Img/MainWindow/minimize.svg" />
-                        </Button>
-
-                        <Button Click="btnMaximize_Click" Style="{StaticResource TopNavButton}">
-                            <svgc:SvgViewbox
-                                Width="14"
-                                Height="14"
-                                Source="/Img/MainWindow/maximize.svg" />
-                        </Button>
-
-                        <Button Click="btnClose_Click">
-                            <svgc:SvgViewbox
-                                Width="14"
-                                Height="14"
-                                Source="/Img/MainWindow/close.svg" />
+                        <Button Grid.Column="3">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border BorderThickness="1" BorderBrush="Black" CornerRadius="5" Width="60" Height="24">
+                                        <TextBlock Text="Выход" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
                             <Button.Style>
-                                <Style BasedOn="{StaticResource TopNavButton}" TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}" CornerRadius="0 10 0 0">
-                                                    <ContentPresenter />
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
                                 </Style>
                             </Button.Style>
                         </Button>
 
-                    </StackPanel>
-                </Grid>
-            </Border>
 
-            <ContentControl
+
+                        <StackPanel
+                        Grid.Column="4"
+                        Margin="0"
+                        Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style x:Key="TopNavButton" TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Height" Value="36" />
+                                    <Setter Property="Width" Value="45" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}">
+                                                    <ContentPresenter />
+                                                </Border>
+
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#4F6985" />
+
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <Button Click="btnMinimize_Click" Style="{StaticResource TopNavButton}">
+                                <svgc:SvgViewbox
+                                Width="16"
+                                Height="16"
+                                Source="/Img/MainWindow/minimize.svg" />
+                            </Button>
+
+                            <Button Click="btnMaximize_Click" Style="{StaticResource TopNavButton}">
+                                <svgc:SvgViewbox
+                                Width="14"
+                                Height="14"
+                                Source="/Img/MainWindow/maximize.svg" />
+                            </Button>
+
+                            <Button Click="btnClose_Click">
+                                <svgc:SvgViewbox
+                                Width="14"
+                                Height="14"
+                                Source="/Img/MainWindow/close.svg" />
+                                <Button.Style>
+                                    <Style BasedOn="{StaticResource TopNavButton}" TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}" CornerRadius="0 10 0 0">
+                                                        <ContentPresenter />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <ContentControl
                 Grid.Row="1"
                 Background="#fff"
                 Content="{Binding CurrentFrame.UserControl}" />
+            </Grid>
+        </Border>
+
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ContentControl 
+                Foreground="Black"
+                Template="{StaticResource ContentControlLoad}" />
         </Grid>
-    </Border>
+        
+      
 
-
+    </Grid>
 </Window>

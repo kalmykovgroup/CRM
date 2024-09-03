@@ -1,31 +1,25 @@
 ﻿using CSharpFunctionalExtensions;
-using CSharpFunctionalExtensions.ValueTasks;
-using KTSF.Application.Interfaces.Auth;
-using KTSF.Core;
+using CSharpFunctionalExtensions.ValueTasks; 
+using KTSF.Core;  
+using KTSF.Core.App;
 using KTSF.Persistence;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore; 
 
 namespace KTSF.Application.Service
 {
     public class UsersService
     {
       
-        public IPasswordHasher passwordHasher;
 
-        private AppDbContext dbContext;
+        private ObjectDbContext dbContext;
 
-        public UsersService(AppDbContext dbContext)
+        public UsersService(ObjectDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
         public async Task<Result<User>> Find(int id)
-        {
+        {    
             User? user = await dbContext.Users.FindAsync(id);
 
             return user != null ? Result.Success(user) : Result.Failure<User>("Not found");
@@ -35,6 +29,7 @@ namespace KTSF.Application.Service
         // поиск по EMAIL
         public async Task<Result<User>> GetByEmail(string email)
         {
+            
             User? user = await dbContext.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
 
             return user != null ? Result.Success(user) : Result.Failure<User>("Not found");
@@ -56,7 +51,7 @@ namespace KTSF.Application.Service
             us.Email = user.Email;
             us.PhoneNumber = user.PhoneNumber;
             us.PasswordHash = user.PasswordHash;
-            us.AccessToken = user.AccessToken;
+            us.JwtToken = user.JwtToken;
             us.Name = user.Name;
             us.Surname = user.Surname;
             us.Patronymic = user.Patronymic;
@@ -87,7 +82,7 @@ namespace KTSF.Application.Service
                 us.Email = user.Email;
                 us.PhoneNumber = user.PhoneNumber;
                 us.PasswordHash = user.PasswordHash;
-                us.AccessToken = user.AccessToken;
+                us.JwtToken = user.JwtToken;
                 us.Name = user.Name;
                 us.Surname = user.Surname;
                 us.Patronymic = user.Patronymic;

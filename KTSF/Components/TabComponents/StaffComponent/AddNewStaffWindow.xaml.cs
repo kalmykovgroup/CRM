@@ -1,20 +1,43 @@
-﻿using KTSF.Core;
-using KTSF.Core.ABAC;
+﻿
+using KTSF.Core.Object;
+using KTSF.Core.Object.ABAC;
 using KTSF.Dto.Employee_;
+using System.ComponentModel;
 using System.Windows;
+using Component = KTSF.Components.Component;
 
 namespace KTSF
 {
-    public partial class AddNewStaffWindow : Window
-    {        
-        private EmployeeVM EmployeeVM { get; set; }
+    public partial class AddNewStaffWindow : Window, INotifyPropertyChanged
+    {
 
-        public AddNewStaffWindow(EmployeeVM employeeVM)
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private dynamic? property;
+
+        public dynamic? Property
         {
-            InitializeComponent();
-            
+            get => property;
+            set
+            {
+                property = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Property)));                
+            }
+        }
+
+
+
+        public EmployeeVM EmployeeVM { get; set; }
+
+        public AddNewStaffWindow(EmployeeVM employeeVM, AppControl appControl)
+        {
+            InitializeComponent();            
             this.EmployeeVM = employeeVM;
-            DataContext = EmployeeVM;
+
+            Component.LoadLanguage(this.GetType(), appControl, (_property) => { Property = _property; });
+
+            this.DataContext = this;
+           
         }
 
         private void saveButtonButton_Click(object sender, RoutedEventArgs e)
@@ -23,8 +46,7 @@ namespace KTSF
             EmployeeVM.Employee.Updated_At = DateTime.Now;
 
             EmployeeVM.Employee.Password = "tester"; // жесткий хардкод
-            EmployeeVM.Employee.AccessToken = ""; // жесткий хардкод
-            EmployeeVM.Employee.ObjectId = 1; // жесткий хардкод            
+            EmployeeVM.Employee.JwtToken = ""; // жесткий хардкод          
 
             DialogResult = true;
         }

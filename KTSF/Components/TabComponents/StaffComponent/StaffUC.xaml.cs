@@ -6,17 +6,16 @@ using System.Windows.Media;
 
 namespace KTSF.Components.TabComponents.StaffComponent
 {
-    /// <summary>
-    /// Логика взаимодействия для StaffUC.xaml
-    /// </summary>
     public partial class StaffUC : UserControl
-    {        
-        public StaffComponent StaffComponent { get; }
-        public StaffUC(StaffComponent staffComponent)
+    {
+
+        public StaffUC(StaffComponent StaffComponent)
         {
             InitializeComponent();
-            StaffComponent = staffComponent;
             DataContext = StaffComponent;
         }
+
+        //private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
+        //    StaffComponent.Selector_OnSelectionChanged(sender, e);
     }
 }

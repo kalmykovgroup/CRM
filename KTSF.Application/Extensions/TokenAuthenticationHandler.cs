@@ -1,4 +1,5 @@
-﻿using KTSF.Core;
+﻿ 
+using KTSF.Core.App;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
@@ -30,7 +31,7 @@ namespace KTSF.Application.Extensions
                 return Task.CompletedTask;
             }*/
 
-            if (resource.AccessToken == _userManager.GetUserId(context.User))
+            if (resource.JwtToken == _userManager.GetUserId(context.User))
             {
                 //string? token = await _userManager.GetAuthenticationTokenAsync(context.User);
                 context.Succeed(requirement);

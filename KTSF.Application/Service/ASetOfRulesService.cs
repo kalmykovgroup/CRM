@@ -1,6 +1,5 @@
-﻿using CSharpFunctionalExtensions;
-using KTSF.Core;
-using KTSF.Core.ABAC;
+﻿using CSharpFunctionalExtensions; 
+using KTSF.Core.Object.ABAC;
 using KTSF.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,9 +13,9 @@ namespace KTSF.Application.Service
 {
     public class ASetOfRulesService
     {
-        private AppDbContext dbContext;
+        private ObjectDbContext dbContext;
 
-        public ASetOfRulesService(AppDbContext dbContext)
+        public ASetOfRulesService(ObjectDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

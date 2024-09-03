@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
-using KTSF.Core;
+ 
+using KTSF.Core.Object;
 using KTSF.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,9 +13,9 @@ namespace KTSF.Application.Service
 {
     public class EmployeeStatusService
     {
-        private AppDbContext dbContext;
+        private ObjectDbContext dbContext;
 
-        public EmployeeStatusService(AppDbContext dbContext)
+        public EmployeeStatusService(ObjectDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
