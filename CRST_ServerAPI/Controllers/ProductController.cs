@@ -64,7 +64,7 @@ namespace KTSF.Api.Controllers
 
 
         // первая страница продуктов и общее количество продуктов
-        [HttpGet("GetFirstPageProduct")]
+        [HttpGet("GetFirstPage")]
         public async Task<IActionResult> GetFirstPageProduct()
         {
             Result<FirstPage<Product>> result = await productsService.GetFirstPageProduct();

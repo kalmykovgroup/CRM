@@ -22,6 +22,7 @@ namespace KTSF.Persistence
 
         public AppDbContext()
         { 
+            Database.EnsureCreated();
         }
 
 
