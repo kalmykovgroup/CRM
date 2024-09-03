@@ -73,6 +73,18 @@ namespace KTSF.Languages.Packages
         private class TranslationWarehouseComponent : ITranslationWarehouseComponent
         {
             public string Name => "Warehouse";
+
+            public string Nomenclature => "Nomenclature";
+
+            public string Title => "Title";
+
+            public string RetailPrice => "Retail price";
+
+            public string Remains => "Remains";
+
+            public string Unit => "Unit";
+
+            public string Article => "Article";
         }
 
         public ITranslationWarehouseComponent ITranslationWarehouseComponent => new TranslationWarehouseComponent();

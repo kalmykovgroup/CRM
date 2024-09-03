@@ -132,12 +132,9 @@
             <!--Первая строка с названием страницы-->
 
             <Grid DockPanel.Dock="Top" >
-                <TextBlock Grid.Column="2" Text="Номенклатура" FontSize="16"/>
+                <TextBlock Grid.Column="2" Text="{Binding Property.Nomenclature}" FontSize="16"/>
             </Grid>
 
-            <Grid DockPanel.Dock="Right" Width="200">
-                <TextBlock Grid.Column="2" Text="Card" FontSize="16"/>
-            </Grid>
 
             <!--Пагинация-->
             <Grid DockPanel.Dock="Bottom" MaxHeight="50">
@@ -349,7 +346,7 @@
                d:ItemsSource="{d:SampleData ItemCount=15}" 
               >
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Наименование" Width="*">
+                    <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ContentControl>
@@ -366,13 +363,18 @@
                                 </ContentControl>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Остаток" MaxWidth="80" MinWidth="80">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Id}" d:Text="15"  Padding="5" HorizontalAlignment="Right"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBlock FontSize="10" VerticalAlignment="Center"
+                                                       Text="{Binding DataContext.Property.Title, ElementName=UserControl }"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header=""  MaxWidth="20" MinWidth="20">
                         <DataGridTemplateColumn.CellTemplate>
@@ -385,12 +387,24 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Едн.изм" MaxWidth="43" MinWidth="43">
+                    <DataGridTemplateColumn MaxWidth="43" MinWidth="43">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}" d:Text="шт." Padding="5" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBlock FontSize="10" VerticalAlignment="Center"
+                                                Text="{Binding DataContext.Property.Unit, ElementName=UserControl }"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
                     </DataGridTemplateColumn>
                   
                     <DataGridTemplateColumn Header="" MaxWidth="20" MinWidth="20">
@@ -404,19 +418,43 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Розничная цена" MaxWidth="77" MinWidth="77">
+                    <DataGridTemplateColumn MaxWidth="77" MinWidth="77">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding BuyPrice}" d:Text="1000" Padding="5" HorizontalAlignment="Right"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBlock FontSize="10" VerticalAlignment="Center"
+                                                Text="{Binding DataContext.Property.RetailPrice, ElementName=UserControl }"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Артикул" MaxWidth="70" MinWidth="70">
+                    <DataGridTemplateColumn MaxWidth="70" MinWidth="70">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Id}" d:Text="Y100" Padding="5" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBlock FontSize="10" VerticalAlignment="Center"
+                                                Text="{Binding DataContext.Property.Article, ElementName=UserControl }"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>

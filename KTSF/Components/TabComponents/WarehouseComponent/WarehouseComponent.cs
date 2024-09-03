@@ -63,11 +63,10 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         }
 
         public override async void ComponentLoaded()
-        {                        
+        {                
             IsLoad = "Загрузка";
             
             FirstPage? firstPage = await AppControl.Server.GetFirstPage();
-
             if(firstPage is null)
             {               
                 return;
