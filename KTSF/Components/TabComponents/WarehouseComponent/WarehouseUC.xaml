@@ -390,7 +390,7 @@
                     <DataGridTemplateColumn MaxWidth="43" MinWidth="43">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" d:Text="шт." Padding="5" />
+                                <TextBlock Text="шт." d:Text="шт." Padding="5" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.HeaderStyle>
