@@ -17,6 +17,15 @@ public partial class PaymentInfoVM : ObservableObject {
         CashAmount = cashAmount;
         CardAmount = cardAmount; 
     }
+
+    public PaymentInfoVM(PaymentInfo paymentInfo)
+    {
+        CashAmount = paymentInfo.CashAmount;
+        CardAmount = paymentInfo.CardAmount;
+        TotalSum = paymentInfo.TotalSum;
+        AmountPaid = paymentInfo.AmountPaid;
+        PaymentMethod = (PaymentMethodVM)paymentInfo.PaymentMethod.Id;
+    }
 }
 
 public enum PaymentMethodVM {

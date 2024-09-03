@@ -12,30 +12,73 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
+using CSharpFunctionalExtensions;
 using KTSF.Dto.Employee_;
 
 namespace KTSF.Components.TabComponents.StaffComponent
 {    
     public partial class StaffComponent : TabComponent
     {
+        public ObservableCollection<Employee> AllEmployees { get; } = [];
         public ObservableCollection<Employee> Employees { get; } = [];
         public ObservableCollection<Employee> FiredEmployees { get; } = [];
         public ObservableCollection<Employee> QualifyingEmployees { get; } = [];
-        public ObservableCollection<Employee> NotEmployedEmployees { get; } = [];               
+        public ObservableCollection<Employee> NotEmployedEmployees { get; } = [];
+        public ObservableCollection<Employee> SerchedEmployees { get; set; } = [];
 
-        public EmployeeVM EmployeeVM { get; } = new EmployeeVM();         
-
-        public Component SearchComponent { get; }
-        public Component SearchComponentFired { get; }
-
+        //public List<Appointment> Appointments { get; } = [];
+        //public List<EmployeeStatus> EmployeeStatuses { get; } = [];
+        //public List<ASetOfRules> ASetOfRules { get; } = [];
+        
+        private TabItem SelectedTabItem { get; set; }
+        
+        public EmployeeVM EmployeeVM { get; } = new EmployeeVM();
+        
         [ObservableProperty]
         public bool isLoaded = false;      
       
 
         public StaffComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
         {
-            SearchComponent = new SearchComponent(binding, appControl);
-            SearchComponentFired = new SearchComponent(binding, appControl);
+        }
+
+        private void SearchedEmployeeList(ObservableCollection<Employee> serchedList)
+        {
+            if (serchedList.Count == 0)
+            {
+                switch (SelectedTabItem.Tag)
+                {
+                    case "Трудоустроен":
+                    {
+                        var itemsControl = ((Grid)SelectedTabItem.Content).FindName("EmployeesItemsControl") as ItemsControl;
+                        itemsControl.ItemsSource = Employees;
+                        break;
+                    }
+                    case "Уволен":
+                    {
+                        ((ItemsControl)SelectedTabItem.Content).ItemsSource = FiredEmployees;
+                        break;
+                    }
+                    case "На испытательном сроке":
+                    {
+                        ((ItemsControl)SelectedTabItem.Content).ItemsSource = QualifyingEmployees;
+                        break;
+                    }
+                    case "Не трудоустроен":
+                    {
+                        ((ItemsControl)SelectedTabItem.Content).ItemsSource = NotEmployedEmployees;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                SerchedEmployees = serchedList;
+                var itemsControl = ((Grid)SelectedTabItem.Content).FindName("EmployeesItemsControl") as ItemsControl;
+                itemsControl.ItemsSource = SerchedEmployees;
+            }
+            
         }
 
         public override UserControl Initial() => new StaffUC(this);
@@ -50,13 +93,15 @@ namespace KTSF.Components.TabComponents.StaffComponent
             IsLoaded = true;
         }
 
-        
-
         public async Task Load()
         {
             CreateEmployeeLists();
 
             List<Appointment>? appointments = await AppControl.Server.GetAllAppointment();
+
+            if (appointments == null)
+                return;
+
             foreach(Appointment appointment in appointments)
             {
                 EmployeeVM.Appointments.Add(appointment);
@@ -78,7 +123,19 @@ namespace KTSF.Components.TabComponents.StaffComponent
             }
         }
 
-     
+        // ?????????????????????????
+        //[RelayCommand]
+        //public async Task<bool> DeleteUser(object sender)
+        //{
+        //    Employee employee = (Employee)sender;
+        //    employee.Updated_At = DateTime.Now;
+        //    employee.LayoffDate = DateTime.Now;
+
+        //    Employees.Remove(employee);
+
+        //    return true;
+        //}
+        
         [RelayCommand]
         public async void AddNewEmployee()
         {
@@ -123,11 +180,6 @@ namespace KTSF.Components.TabComponents.StaffComponent
         {
             editStaffWindow.EmployeeVM.Employee.Updated_At = DateTime.Now;
 
-            if (editStaffWindow.EmployeeVM.Employee.EmployeeStatus.Name == "Уволен")
-            {
-                editStaffWindow.EmployeeVM.Employee.LayoffDate = DateTime.Now;
-            }
-
             (bool result, string? message, Employee copyEmployee) = await AppControl.Server.UpdateEmployee(editStaffWindow.EmployeeVM.Employee);
 
             if (result)
@@ -146,17 +198,18 @@ namespace KTSF.Components.TabComponents.StaffComponent
         private async void CreateEmployeeLists()
         {
             List<Employee>? employees = await AppControl.Server.GetEmployees();
-
-            if (employees is null) return;
-
+            
+            AllEmployees.Clear();
             Employees.Clear();
             FiredEmployees.Clear();
             QualifyingEmployees.Clear();
             NotEmployedEmployees.Clear();
 
+            if (employees == null)
+                return;
+            
             foreach (Employee employee in employees)
             {
-
                 if (employee.EmployeeStatus.Name == "Трудоустроен") // работает
                 {
                     Employees.Add(employee);
@@ -173,6 +226,8 @@ namespace KTSF.Components.TabComponents.StaffComponent
                 {
                     NotEmployedEmployees.Add(employee);
                 }
+                
+                AllEmployees.Add(employee);
             }
         }
 

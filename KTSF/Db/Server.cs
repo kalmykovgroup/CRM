@@ -198,9 +198,9 @@ namespace KTSF.Db
         }
 
         // первая страница продуктов и общее количество продуктов
-        public async Task<FirstPage?> GetFirstPage(int page = 1)
+        public async Task<FirstPage<Product>> GetFirstPageProduct(int page = 1)
         {
-            FirstPage? firstPage = await Request<FirstPage>($"Product/GetFirstPage");
+            FirstPage<Product> firstPage = await Request<FirstPage<Product>>($"Product/GetFirstPageProduct");
             return firstPage;
         }
 
@@ -229,7 +229,10 @@ namespace KTSF.Db
         #endregion
 
         #region Receipt
-
+        // нужна таблица с чеками ???
+        // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
+        // сохранение чеков
+        // получение полной информации о чеке
         public bool SaveReceipt(ReceiptVM receiptVm)
         {
             var receipt = ConvertReceipt(receiptVm);
@@ -271,12 +274,21 @@ namespace KTSF.Db
 
             return buyProducts;
         }
+        
+        public async Task<FirstPage<Receipt>> GetFirstPageReceipt(int page = 1)
+        {
+            FirstPage<Receipt> firstPage = await Request<FirstPage<Receipt>>($"Product/GetFirstPageReceipt");
+            return firstPage;
+        }
+        
+        public async Task<List<Receipt>> GetReceipts(int page)
+        {
+            List<Receipt> receipts = await Request<List<Receipt>>($"Product/GetReceipts?page={page}");
+            return receipts;          
+        }
 
         #endregion
-        // нужна таблица с чеками ???
-        // если да -  нужно 2 метода (получение первой страницы чеков  и их количество) , (получение конкретной страницы с чеками)
-        // сохранение чеков
-        // получение полной информации о чеке
+
 
         #region Employee
 

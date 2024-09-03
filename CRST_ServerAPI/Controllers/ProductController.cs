@@ -62,10 +62,10 @@ namespace CRST_ServerAPI.Controllers
 
 
         // первая страница продуктов и общее количество продуктов
-        [HttpGet("GetFirstPage")]
-        public async Task<IActionResult> GetFirstPage()
+        [HttpGet("GetFirstPageProduct")]
+        public async Task<IActionResult> GetFirstPageProduct()
         {
-            Result<FirstPage> result = await productsService.GetFirstPage();
+            Result<FirstPage<Product>> result = await productsService.GetFirstPageProduct();
             return Ok(result.Value);
         }
 

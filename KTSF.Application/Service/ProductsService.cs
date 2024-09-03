@@ -113,19 +113,19 @@ namespace KTSF.Application.Service
 
 
         // получить первую страницу с продуктами
-        public async Task<Result<FirstPage>> GetFirstPage()
+        public async Task<Result<FirstPage<Product>>> GetFirstPageProduct()
         {
-            FirstPage result = new FirstPage();
+            FirstPage<Product> result = new FirstPage<Product>();
 
             int count = await dbContext.Products.CountAsync();
 
-            result.pageCount = (double)count / 20 > (double)1 ? count / 20 + 1 : 1;
+            result.PageCount = (double)count / 20 > (double)1 ? count / 20 + 1 : 1;
 
-            result.Products = await dbContext.Products
+            result.Items = await dbContext.Products
                 .Take(20)
                 .ToArrayAsync();
 
-            return result != null ? Result.Success(result) : Result.Failure<FirstPage>("Not found");
+            return result != null ? Result.Success(result) : Result.Failure<FirstPage<Product>>("Not found");
         }
 
 

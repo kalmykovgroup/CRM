@@ -66,16 +66,16 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         {                        
             IsLoad = "Загрузка";
             
-            FirstPage? firstPage = await AppControl.Server.GetFirstPage();
+            FirstPage<Product>? firstPage = await AppControl.Server.GetFirstPageProduct();
 
-            if(firstPage is null)
+            if(firstPage.Items == null)
             {               
                 return;
             }
 
-            CountPages = firstPage.pageCount;
+            CountPages = firstPage.PageCount;
 
-            foreach (Product product in firstPage.Products)
+            foreach (Product product in firstPage.Items)
             {
                 Products.Add(product);
             }
