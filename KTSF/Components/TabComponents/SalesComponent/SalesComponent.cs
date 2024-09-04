@@ -21,7 +21,7 @@ namespace KTSF.Components.TabComponents.SalesComponent;
 
     public partial class SalesComponent : TabComponent
     {
-        public ObservableCollection<ReceiptVM> Receipts { get; }
+        public ObservableCollection<ReceiptVM> Receipts { get; } = new ObservableCollection<ReceiptVM>();
         public ObservableCollection<PaginateBtn> PaginationButtons { get; } = [];
 
         [ObservableProperty] private int countPages;
