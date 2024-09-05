@@ -8,7 +8,7 @@ namespace KTSF.Application.Service
 {
     public class ProductsService
     {
-        private ObjectDbContext dbContext;
+        private AppDbContext dbContext;
 
         public ProductsService(ObjectDbContext dbContext)
         {
@@ -127,16 +127,16 @@ namespace KTSF.Application.Service
         // получить определенную страницу с продуктами
         public async Task<Result<Product[]>> GetProducts(int page)
         {
-            int position = 0;
+            int position = (page - 1) * countProduct;
 
-            if (page != 1)
+          /*  if (page != 1)
             {
                 position = (page - 1) * 20;
-            }                   
+            }   */                
 
             var products = await dbContext.Products               
                 .Skip(position)
-                .Take(20)
+                .Take(countProduct)
                 .ToArrayAsync();            
 
             return products != null ? Result.Success(products) : Result.Failure<Product[]>("Not found");

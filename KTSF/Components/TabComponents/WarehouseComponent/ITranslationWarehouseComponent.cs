@@ -11,5 +11,17 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
     {
        public string Name { get; }
 
+       public string Nomenclature { get; }
+
+       public string Title { get; }
+
+       public string RetailPrice { get; }
+
+       public string Remains { get; }
+
+       public string Unit { get; }
+
+       public string Article { get; }
+
     }
 }

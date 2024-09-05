@@ -57,14 +57,12 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         }
 
         public override async void ComponentLoaded()
-        {                        
+        {                
             IsLoad = "Загрузка";
-        
-            Result<FirstPage<Product>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetFirstPageProduct();
-
-            if (result.IsFailure)
-            {
-                MessageBox.Show(result.Error.Message);
+            
+            FirstPage? firstPage = await AppControl.Server.GetFirstPage();
+            if(firstPage is null)
+            {               
                 return;
             }
 
@@ -78,12 +76,12 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             BeginBtn = new PaginateBtn(1);
             SecondBtn = countPages > 1 ? new PaginateBtn(2) : null;
             PenultimateBtn = countPages > 2 ? new PaginateBtn(countPages - 1 > 3 ? countPages - 1 : 3) : null;
-            BeforeLast = countPages > 1 ? new PaginateBtn(CountPages - 1) : null;
-            EndBtn = countPages > 3 ? new PaginateBtn(countPages) : null;
-
-
-            if (countPages > 4)
-            {
+            BeforeLast = countPages > 3 ? new PaginateBtn(CountPages - 1) : null;
+            EndBtn = countPages > 2 ? new PaginateBtn(countPages) : null;
+            
+ 
+            if(countPages > 4)
+            { 
                 for (int i = 3, j = 0; i < countPages - 1 && j < CountCenterButtons; i++, j++)
                 {
                     PaginationButtons.Add(new PaginateBtn(i));
@@ -109,8 +107,6 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         [RelayCommand]
         public async void PaginateClick(object? parametr)
         {
-            // for test ... delete it later !!!!!
-            //ProductDTO pr = await AppControl.Server.GetProductFullInfo(1);
 
             if (parametr == null) throw new ArgumentNullException(nameof(parametr));
             PaginateBtn navBtn = (PaginateBtn)parametr;
@@ -140,20 +136,22 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
             }
             if (CountPages > 4 + CountCenterButtons && flag)
             {
-                if (CurrentPage.Page == CountPages - 2 || CurrentPage.Page == 3)
+                if ( CurrentPage.Page == 3)
                     return;
                 else if ((CurrentPage.Page > PaginationButtons[0].Page) && (CurrentPage.Page < PaginationButtons[PaginationButtons.Count - 1].Page))
                 {
                     return;
                 }
                 PaginationButtons.Clear();
-                int j= 0;
-                if (isMore)
-                 j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2 - 1;
-                else
-                    j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
-                if (j > CountPages  - CountCenterButtons)
+                int j = 0;
+                if (CurrentPage.Page == CountPages - 2)
                     j = CountPages - CountCenterButtons - 1;
+                else
+                    j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - (int)Math.Round((double)(CountCenterButtons / 2));
+                if (j >= CountPages - CountCenterButtons)
+                    j = CountPages - CountCenterButtons - 1;
+                else if (isMore && j <= CountPages - CountCenterButtons - 2  && j >= 3 && CountCenterButtons == 4)
+                    j++;
               
                 for (int i = 0; i < CountCenterButtons; i++, j++)
                 {
@@ -233,13 +231,14 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                 if (countPages > 4 + CountCenterButtons)
                 {
                     counter = CountCenterButtons;
-                    j = CurrentPage.Page < CountCenterButtons + 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
-                    if (j >= CountPages - CountCenterButtons)
-                        j = CountPages - CountCenterButtons;
                     if (CurrentPage.Page == CountPages - 2)
-                    {
                         j = CountPages - CountCenterButtons - 1;
-                    }
+                    else
+                        j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - (int)Math.Round((double)(CountCenterButtons / 2));
+                    if (j >= CountPages - CountCenterButtons)
+                        j = CountPages - CountCenterButtons - 1;
+                    else if (j <= CountPages - CountCenterButtons - 2 && j > 3 && CountCenterButtons == 4)
+                        j++;
                 }
                 else
                 {
@@ -262,8 +261,6 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                         PaginationButtons.Add(new PaginateBtn(j));
                     }
 
-                
-             
                 if (countPages > CountCenterButtons + 4)
                     Is();
                 else
@@ -289,14 +286,7 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                 IsCounterPages = false;
 
             Products.Clear();
-
-            Result<List<Product>, (string? Message, HttpStatusCode)> result =  await AppControl.Server.GetProducts(CurrentPage.Page);
-
-            if (result.IsFailure)
-            {
-                MessageBox.Show(result.Error.Message);
-                return;
-            }
+             List<Product> products = await AppControl.Server.GetProducts(CurrentPage.Page);
 
             foreach (Product product in result.Value)
             {
@@ -325,13 +315,12 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                 if (countPages > 4 + CountCenterButtons)
                 {
                     counter = CountCenterButtons;
-                    j = CurrentPage.Page < CountCenterButtons + 2 ? 3 : CurrentPage.Page - CountCenterButtons / 2;
-                    if (j >= CountPages - CountCenterButtons)
-                        j = CountPages - CountCenterButtons;
                     if (CurrentPage.Page == CountPages - 2)
-                    {
                         j = CountPages - CountCenterButtons - 1;
-                    }
+                    else
+                        j = CurrentPage.Page - CountCenterButtons / 2 <= 2 ? 3 : CurrentPage.Page - (int)Math.Round((double)(CountCenterButtons / 2));
+                    if (j >= CountPages - CountCenterButtons && j >= 3)
+                        j = CountPages - CountCenterButtons - 1;
                 }
                 else
                 {
@@ -340,8 +329,8 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
 
                 PaginationButtons.Clear();
 
-             
-                for (int i = 0; i < CountCenterButtons; i++, j++)
+
+                for (int i = 0; i < counter; i++, j++)
                 {
                     if (j > CountPages)
                         break;
@@ -352,7 +341,6 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                     }
 
                     PaginationButtons.Add(new PaginateBtn(j));
-
                 }
 
                 if (countPages > CountCenterButtons + 4)
