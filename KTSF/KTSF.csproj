@@ -9,15 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Components\CommonComponents\EmployeeSearchComponent\Converters\**" />
     <Compile Remove="Components\CommonComponent\**" />
     <Compile Remove="Components\MainComponent\**" />
-	  
-    <EmbeddedResource Remove="Components\CommonComponents\EmployeeSearchComponent\Converters\**" />
     <EmbeddedResource Remove="Components\CommonComponent\**" />
     <EmbeddedResource Remove="Components\MainComponent\**" />
-	  
-    <None Remove="Components\CommonComponents\EmployeeSearchComponent\Converters\**" />
     <None Remove="Components\CommonComponent\**" />
     <None Remove="Components\MainComponent\**" /> 
   </ItemGroup>

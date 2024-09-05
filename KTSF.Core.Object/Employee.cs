@@ -14,13 +14,7 @@ namespace KTSF.Core.Object
     {          
         public int Id { get; set; }
           
-        [ForeignKey(nameof(Appointment))]
-        public int AppointmentId { get; set; } //Должность      
-        public Appointment Appointment { get; set; } = null!; //Должность
 
-        [ForeignKey(nameof(ASetOfRules))]
-        public int ASetOfRulesId { get; set; } //Набор правил доступа       
-        public ASetOfRules ASetOfRules { get; set; } = null!; //Набор правил доступа
 
         [MaxLength(512)]
         public string JwtToken { get; set; } = String.Empty;
@@ -74,6 +68,14 @@ namespace KTSF.Core.Object
         [ForeignKey(nameof(EmployeeStatus))]
         public int EmployeeStatusId { get; set; }        
         public EmployeeStatus EmployeeStatus { get; set; } = null!;
+
+        [ForeignKey(nameof(Appointment))]
+        public int AppointmentId { get; set; } //Должность      
+        public Appointment Appointment { get; set; } = null!; //Должность
+
+        [ForeignKey(nameof(ASetOfRules))]
+        public int ASetOfRulesId { get; set; } //Набор правил доступа       
+        public ASetOfRules ASetOfRules { get; set; } = null!; //Набор правил доступа
 
 
         public Employee Copy()

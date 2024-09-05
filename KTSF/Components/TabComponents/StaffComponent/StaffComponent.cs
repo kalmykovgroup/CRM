@@ -10,21 +10,26 @@ using KTSF.Core.Object;
 using KTSF.Core.Object.ABAC;
 using CSharpFunctionalExtensions;
 using System.Net;
+using KTSF.Components.CommonComponents.EmployeeSearchComponent;
 
 
 namespace KTSF.Components.TabComponents.StaffComponent
 {    
     public partial class StaffComponent : TabComponent
     {
+      
+
         public ObservableCollection<Employee> Employees { get; } = [];
         public ObservableCollection<Employee> FiredEmployees { get; } = [];
         public ObservableCollection<Employee> QualifyingEmployees { get; } = [];
-        public ObservableCollection<Employee> NotEmployedEmployees { get; } = [];               
+        public ObservableCollection<Employee> NotEmployedEmployees { get; } = [];
+
+        public ObservableCollection<Employee> SearchResult { get; } = [];
 
         public EmployeeVM EmployeeVM { get; } = new EmployeeVM();         
 
-        public Component SearchComponent { get; }
-        public Component SearchComponentFired { get; }
+        public EmployeeSearchComponent EmployeeSearchComponent { get; }
+       
 
         [ObservableProperty]
         public bool isLoaded = false;      
@@ -32,8 +37,8 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
         public StaffComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
         {
-            SearchComponent = new SearchComponent(binding, appControl);
-            SearchComponentFired = new SearchComponent(binding, appControl);
+            EmployeeSearchComponent = new EmployeeSearchComponent(binding, appControl, SearchResult);
+           
         }
 
         public override UserControl Initial() => new StaffUC(this);
@@ -173,11 +178,13 @@ namespace KTSF.Components.TabComponents.StaffComponent
                 return;
             }
              
-
+          
             Employees.Clear();
             FiredEmployees.Clear();
             QualifyingEmployees.Clear();
             NotEmployedEmployees.Clear();
+
+          
 
             foreach (Employee employee in result.Value)
             {

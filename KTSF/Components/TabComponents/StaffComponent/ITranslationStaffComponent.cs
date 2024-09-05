@@ -12,6 +12,7 @@ namespace KTSF.Components.TabComponents.StaffComponent
         public string Employed {  get; }
         public string Fired { get; }
         public string Unemployed { get; }
+        public string Search { get; }
         public string ProbationPeriod { get; }
         public string Add { get; }
         public string Edit { get; }

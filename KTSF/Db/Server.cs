@@ -159,6 +159,7 @@ namespace KTSF.Db
                     httpRequestMessage.Content = content;
 
                     httpRequestMessage.Headers.Authorization = authClient;
+
                     httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                     HttpResponseMessage response = await httpClient.SendAsync(httpRequestMessage);
@@ -511,16 +512,7 @@ namespace KTSF.Db
 
             return person;
         }
-
-
-        // ????? WTF  Откуда их брать?
-        //Загрузка статистических данных о пользователи
-        public async Task<bool> GetUserStatistics(Employee user)
-        {
-            await Task.Delay(1000);
-
-            return true;
-        }
+       
 
 
         // поиск по ФАМИЛИИ или ИМЕНИ
