@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace KTSF.Languages.Packages
 {
-    public class Russian : ILanguage
+    public class Russian : ITranslation
     {
  
 

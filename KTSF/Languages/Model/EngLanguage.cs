@@ -13,9 +13,9 @@ namespace KTSF.Languages.Model
         public override string Name => "English";
         public override string Code => "eng";
 
-        private ILanguage? pack;
+        private ITranslation? pack;
 
-        public override ILanguage Pack
+        public override ITranslation Pack
         {
             get
             {

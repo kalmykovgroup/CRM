@@ -12,7 +12,7 @@ namespace KTSF.Core.Language
         public abstract string Code { get; }
         public abstract string Name { get; }
 
-        public abstract ILanguage Pack { get; }
+        public abstract ITranslation Pack { get; }
 
         public override string ToString() => Name;
     }

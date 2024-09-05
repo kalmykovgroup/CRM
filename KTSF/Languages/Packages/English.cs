@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace KTSF.Languages.Packages
 {
-    public class English : ILanguage
+    public class English : ITranslation
     {
         private class TranslationCashiersWorkplaceComponent : ITranslationCashiersWorkplaceComponent
         {
