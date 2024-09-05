@@ -60,9 +60,17 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         {                
             IsLoad = "Загрузка";
             
-            FirstPage? firstPage = await AppControl.Server.GetFirstPage();
-            if(firstPage is null)
-            {               
+            Result<FirstPage<Product>, (string? Message, HttpStatusCode HttpStatusCode)> result = await AppControl.Server.GetFirstPageProduct();
+
+            if(result.IsFailure)
+            {
+                MessageBox.Show(result.Error.Message);
+                return;
+            }
+            
+            if(result.Value.Items is null || result.Value.Items.Length == 0)
+            {
+                MessageBox.Show("Данных нет");
                 return;
             }
 
@@ -286,7 +294,14 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
                 IsCounterPages = false;
 
             Products.Clear();
-             List<Product> products = await AppControl.Server.GetProducts(CurrentPage.Page);
+
+            Result<List<Product>, (string? Message, HttpStatusCode HttpStatusCode)> result = await AppControl.Server.GetProducts(CurrentPage.Page);
+
+            if (result.IsFailure)
+            {
+                MessageBox.Show(result.Error.Message);
+                return;
+            }
 
             foreach (Product product in result.Value)
             {

@@ -79,8 +79,7 @@ namespace KTSF
             {
 
                 Server.SetUserJwtToken(value?.JwtToken);
-
-                employee = value;
+                SetProperty(ref employee, value); 
 
             }
         }

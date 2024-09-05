@@ -8,7 +8,8 @@ namespace KTSF.Application.Service
 {
     public class ProductsService
     {
-        private AppDbContext dbContext;
+        private ObjectDbContext dbContext;
+        private const int countProduct = 10;
 
         public ProductsService(ObjectDbContext dbContext)
         {
@@ -98,7 +99,7 @@ namespace KTSF.Application.Service
                     count++;
                 }
 
-                if (count == 20) break;
+                if (count == countProduct) break;
             }
 
             return results != null ? Result.Success(results.ToArray()) : Result.Failure<Product[]>("Not found");
@@ -112,10 +113,10 @@ namespace KTSF.Application.Service
 
             int count = await dbContext.Products.CountAsync();
 
-            result.PageCount = (double)count / 20 > (double)1 ? count / 20 + 1 : 1;
+            result.PageCount = (double)count / countProduct > (double)1 ? count / countProduct + 1 : 1;
 
             result.Items = await dbContext.Products
-                .Take(20)
+                .Take(countProduct)
                 .ToArrayAsync();
 
             return result != null ? Result.Success(result) : Result.Failure<FirstPage<Product>>("Not found");

@@ -9,8 +9,8 @@
     xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
     Name="mainWindow"
     Title="KTSF"
-    Width="1000"
-    Height="600"
+    Width="1200"
+    Height="800"
     MinWidth="600"
     MinHeight="400"
     d:DataContext="{d:DesignInstance Type=local:AppControl}"
@@ -234,7 +234,18 @@
                         VerticalAlignment="Center"
                         FontSize="18"
                         Foreground="#21303D"
-                        Text="Имя пользователя" />
+                        Text="{Binding Employee.Name}">
+
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Employee}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                       </TextBlock>
 
                         <ComboBox
                         x:Name="Languege"
@@ -261,10 +272,10 @@
                             </Button.Template>
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
+                                    <Style.Triggers> 
+                                         <DataTrigger Binding="{Binding Employee}" Value="{x:Null}">
+                                             <Setter Property="Visibility" Value="Collapsed"/>
+                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
