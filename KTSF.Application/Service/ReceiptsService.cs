@@ -60,6 +60,8 @@ namespace KTSF.Application.Service
             result.PageCount = (double)count / 20 > (double)1 ? count / 20 + 1 : 1;
 
             result.Items = await dbContext.Receipts
+                .Include(receipt => receipt.ReceiptPaymentInfo)
+                .ThenInclude(rpi => rpi.PaymentMethod)
                 .Take(20)
                 .ToArrayAsync();
 

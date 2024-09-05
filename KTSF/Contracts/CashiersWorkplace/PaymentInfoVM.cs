@@ -20,6 +20,7 @@ public partial class PaymentInfoVM : ObservableObject {
 
     public PaymentInfoVM(PaymentInfo paymentInfo)
     {
+        if (paymentInfo is null) return;
         CashAmount = paymentInfo.CashAmount;
         CardAmount = paymentInfo.CardAmount;
         TotalSum = paymentInfo.TotalSum;

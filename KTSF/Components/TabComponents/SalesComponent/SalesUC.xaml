@@ -1,4 +1,5 @@
 ﻿<UserControl
+    d:DataContext="{d:DesignInstance Type=local:SalesComponent}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d"
@@ -31,11 +32,18 @@
             <DataGrid
                 AutoGenerateColumns="False"
                 BorderThickness="0"
-                IsReadOnly="True">
+                IsReadOnly="True"
+                ItemsSource="{Binding Receipts}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Дата" Width="100" />
+                    <DataGridTextColumn
+                        Binding="{Binding CreatedDate}"
+                        Header="Дата"
+                        Width="100" />
                     <DataGridTextColumn Header="Номер" Width="100" />
-                    <DataGridTextColumn Header="Сумма" Width="150" />
+                    <DataGridTextColumn
+                        Binding="{Binding ReceiptPaymentInfo.TotalSum}"
+                        Header="Сумма"
+                        Width="150" />
                     <DataGridTextColumn Header="Возрат" Width="100" />
                     <DataGridTextColumn Header="Статут" Width="*" />
                     <DataGridTextColumn Header="№ фиксального чека" Width="150" />

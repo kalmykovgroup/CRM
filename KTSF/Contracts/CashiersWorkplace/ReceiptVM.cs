@@ -8,7 +8,9 @@ public partial class ReceiptVM : ObservableObject {
     public ObservableCollection<BuyProductVM> BuyProducts { get; set; }
     
     [ObservableProperty]
-    private double discount = 0;
+    private double? discount = 0;
+    
+    [ObservableProperty] public DateTime createdDate;
 
     [ObservableProperty] private PaymentInfoVM receiptPaymentInfo = new PaymentInfoVM (cashAmount: 0, cardAmount: 0);
 
@@ -24,6 +26,9 @@ public partial class ReceiptVM : ObservableObject {
             BuyProductVM newBuyProductVm = new BuyProductVM(buyProduct);
             BuyProducts.Add(newBuyProductVm);
         }
+
+        Discount = receipt.Discount;
+        CreatedDate = receipt.CreatedDate;
         
         ReceiptPaymentInfo = new PaymentInfoVM(receipt.ReceiptPaymentInfo);
     }
