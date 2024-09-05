@@ -6,7 +6,10 @@ namespace KTSF.Contracts.CashiersWorkplace;
 
 public partial class ReceiptVM : ObservableObject {
     public ObservableCollection<BuyProductVM> BuyProducts { get; set; }
-    
+
+    [ObservableProperty]
+    private int id = 0;
+
     [ObservableProperty]
     private double? discount = 0;
     
@@ -27,6 +30,7 @@ public partial class ReceiptVM : ObservableObject {
             BuyProducts.Add(newBuyProductVm);
         }
 
+        Id = receipt.Id;
         Discount = receipt.Discount;
         CreatedDate = receipt.CreatedDate;
         
