@@ -1497,11 +1497,7 @@
                             Margin="5,5"
                             Content="{Binding EmployeeSearchComponent.Build}" />
 
-                        <!--<Button
-                            Grid.Column="1"
-                            Command="{Binding DataContext.AddNewEmployeeCommand, ElementName=UserControl}"
-                            Content="{Binding Property.Add}"
-                            Style="{StaticResource addButtonStyle}" />-->
+
                     </Grid>
 
                     <ItemsControl Grid.Row="1" ItemsSource="{Binding SearchResult}">
@@ -1534,7 +1530,7 @@
                                             Width="70"
                                             Height="70"
                                             Margin="5"
-                                            Source="Img\NotEmployed.png"
+                                            Source="Img\Foto.png"
                                             Stretch="Fill" />
 
                                         <Grid Grid.Row="0" Grid.Column="1">
