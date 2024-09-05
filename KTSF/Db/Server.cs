@@ -480,6 +480,9 @@ namespace KTSF.Db
 
         public async Task<(bool result, string? message, Employee copyEmployee)> UpdateEmployee(Employee employee)
         {
+            //Result < Employee, (string? Message, HttpStatusCode)> result = await Post<Employee, Employee>("Employee/update", employee, AuthEmployeeJwtToken);
+
+
             string tmp = JsonSerializer.Serialize(employee, options);
 
             HttpContent content = new StringContent(tmp);
@@ -492,7 +495,7 @@ namespace KTSF.Db
 
             Employee? person = await response.Content.ReadFromJsonAsync<Employee>();
 
-            return (result: true, message: null, employee);
+            return (result: true, message: null, person);
         }
 
 
