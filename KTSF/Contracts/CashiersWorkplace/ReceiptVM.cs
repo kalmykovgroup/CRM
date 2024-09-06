@@ -5,6 +5,8 @@ using KTSF.Core.Object.Receipt_;
 namespace KTSF.Contracts.CashiersWorkplace;
 
 public partial class ReceiptVM : ObservableObject {
+    
+    public int Id { get; }
     public ObservableCollection<BuyProductVM> BuyProducts { get; set; }
     
     [ObservableProperty]
@@ -36,7 +38,6 @@ public partial class ReceiptVM : ObservableObject {
     public bool AddProduct (BuyProductVM selectProduct) {
         foreach (BuyProductVM product in BuyProducts) {
             if (product.Product.Id == selectProduct.Product.Id) {
-                //MessageBox.Show ("Такой товар уже есть в списке");
                 return false;
             }
         }
@@ -47,7 +48,6 @@ public partial class ReceiptVM : ObservableObject {
     public bool DeleteProduct (BuyProductVM selectProduct) {
         foreach(BuyProductVM product in BuyProducts) {
             if (product.Product.Id == selectProduct.Product.Id) {
-                //MessageBox.Show ("Такого товара нет в списке");
                 return false;
             }
         }

@@ -4,52 +4,488 @@
     d:DesignWidth="800"
     mc:Ignorable="d"
     x:Class="KTSF.Components.TabComponents.SalesComponent.SalesUC"
+    x:Name="UserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:convert="clr-namespace:KTSF.Components.TabComponents.SalesComponent.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:KTSF.Components.TabComponents.SalesComponent"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <convert:CheckSelectReceipt x:Key="CheckSelectReceipt" />
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock
             FontSize="18"
             Margin="10"
-            Text="Чеки" />
+            Text="{Binding Property.Title}" />
 
         <Border
             BorderBrush="#21303D"
             BorderThickness="1"
-            CornerRadius="5"
-            Grid.Row="2"
-            Margin="5"
-            Padding="2">
+            ClipToBounds="True"
+            CornerRadius="5 5 0 0"
+            Grid.Row="1"
+            Margin="0,5,5,5">
 
             <DataGrid
                 AutoGenerateColumns="False"
                 BorderThickness="0"
+                HeadersVisibility="Column"
                 IsReadOnly="True"
-                ItemsSource="{Binding Receipts}">
+                ItemsSource="{Binding Receipts}"
+                SelectionChanged="Selector_OnSelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Binding="{Binding CreatedDate}"
-                        Header="Дата"
-                        Width="100" />
-                    <DataGridTextColumn Header="Номер" Width="100" />
-                    <DataGridTextColumn
-                        Binding="{Binding ReceiptPaymentInfo.TotalSum}"
-                        Header="Сумма"
-                        Width="150" />
-                    <DataGridTextColumn Header="Возрат" Width="100" />
-                    <DataGridTextColumn Header="Статут" Width="*" />
-                    <DataGridTextColumn Header="№ фиксального чека" Width="150" />
+                    <DataGridTemplateColumn Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontSize="14"
+                                    HorizontalAlignment="Right"
+                                    Padding="5"
+                                    Text="{Binding CreatedDate, StringFormat={}{0:dd.MM.yyyy HH:mm}}"
+                                    TextAlignment="Left"
+                                    d:Text="2024.09.06" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Border
+                                                Background="#759FCB"
+                                                BorderBrush="#21303D"
+                                                BorderThickness="1,1,1,1"
+                                                CornerRadius="5 0 0 0"
+                                                Margin="-1,-1,-1,0">
+                                                <TextBlock
+                                                    FontSize="18"
+                                                    Padding="3"
+                                                    Text="{Binding DataContext.Property.Date, ElementName=UserControl}"
+                                                    VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontSize="14"
+                                    HorizontalAlignment="Right"
+                                    Padding="5"
+                                    Text="НФРТ-01123"
+                                    TextAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Border
+                                                Background="#759FCB"
+                                                BorderBrush="#21303D"
+                                                BorderThickness="1,0,1,1"
+                                                Margin="0,0,0,0">
+                                                <TextBlock
+                                                    FontSize="18"
+                                                    Padding="3"
+                                                    Text="{Binding DataContext.Property.Number, ElementName=UserControl}"
+                                                    VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontSize="14"
+                                    HorizontalAlignment="Right"
+                                    Padding="5"
+                                    Text="{Binding ReceiptPaymentInfo.TotalSum, StringFormat=F2}"
+                                    TextAlignment="Right"
+                                    d:Text="2024.09.06" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Border
+                                                Background="#759FCB"
+                                                BorderBrush="#21303D"
+                                                BorderThickness="1,1,1,1"
+                                                Margin="-1,-1,0,0">
+                                                <TextBlock
+                                                    FontSize="18"
+                                                    Padding="3"
+                                                    Text="{Binding DataContext.Property.Sum, ElementName=UserControl}"
+                                                    VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontSize="14"
+                                    HorizontalAlignment="Right"
+                                    Padding="5"
+                                    Text=""
+                                    d:Text="2024.09.06" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Border
+                                                Background="#759FCB"
+                                                BorderBrush="#21303D"
+                                                BorderThickness="1,1,1,1"
+                                                Margin="-1,-1,0,0">
+                                                <TextBlock
+                                                    FontSize="18"
+                                                    Padding="3"
+                                                    Text="{Binding DataContext.Property.Return, ElementName=UserControl}"
+                                                    VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontSize="14"
+                                    HorizontalAlignment="Right"
+                                    Padding="5"
+                                    Text="Чек пробит"
+                                    TextAlignment="Left"
+                                    d:Text="2024.09.06" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Border
+                                                Background="#759FCB"
+                                                BorderBrush="#21303D"
+                                                BorderThickness="1,1,1,1"
+                                                Margin="-1,-1,0,0">
+                                                <TextBlock
+                                                    FontSize="18"
+                                                    Padding="3"
+                                                    Text="{Binding DataContext.Property.Status, ElementName=UserControl}"
+                                                    VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="200">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontSize="14"
+                                    HorizontalAlignment="Right"
+                                    Padding="5"
+                                    Text="00020781"
+                                    TextAlignment="Right"
+                                    d:Text="2024.09.06" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Border
+                                                Background="#759FCB"
+                                                BorderBrush="#21303D"
+                                                BorderThickness="1,1,1,1"
+                                                CornerRadius="0 5 0 0"
+                                                Margin="-1,-1,-1,0">
+                                                <TextBlock
+                                                    FontSize="18"
+                                                    Padding="3"
+                                                    Text="{Binding DataContext.Property.FixedCheckNumber, ElementName=UserControl}"
+                                                    VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
 
+        <Grid Grid.Row="2" MaxHeight="40">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CountPages}" Value="1">
+                            <Setter Property="Visibility" Value="Hidden" />
+                            <Setter Property="Height" Value="0" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <StackPanel
+                HorizontalAlignment="Center"
+                Orientation="Horizontal"
+                x:Name="Pagination">
+                <Button
+                    Command="{Binding BackPageCommand}"
+                    CommandParameter="{Binding ElementName=prevButton}"
+                    DataContext="{Binding}"
+                    Name="prevButton"
+                    Template="{StaticResource nextAndBack}">
+                    <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/back.png" />
+                    <Button.Style>
+                        <Style TargetType="Button">
+
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Setter Property="IsEnabled" Value="True" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding CurrentPage.Page}" Value="1">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+
+                <Button
+                    Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"
+                    CommandParameter="{Binding}"
+                    DataContext="{Binding BeginBtn}"
+                    Template="{StaticResource PaginateBtn}"
+                    x:Name="begin">
+                    <Button.Style>
+                        <Style TargetType="Button">
+
+                            <Setter Property="Visibility" Value="Visible" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+
+                            </Style.Triggers>
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+
+                <ContentControl>
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <Button
+                                        Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"
+                                        CommandParameter="{Binding}"
+                                        DataContext="{Binding SecondBtn}"
+                                        Template="{StaticResource PaginateBtn}"
+                                        x:Name="second" />
+                                </Setter.Value>
+
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DataContext.CountPages, ElementName=UserControl}" Value="1">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding LeftEllipsis}" Value="True">
+
+
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <Border Padding="10,10">
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    Text="..."
+                                                    VerticalAlignment="Center" />
+                                            </Border>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+
+
+
+
+
+                <ItemsControl
+                    ItemsSource="{Binding PaginationButtons}"
+                    d:ItemsSource="{d:SampleData ItemCount=4}"
+                    x:Name="array">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button
+                                Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"
+                                CommandParameter="{Binding}"
+                                Template="{StaticResource PaginateBtn}"
+                                x:Name="arrayBtn" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
+
+                <ContentControl>
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <Button
+                                        Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"
+                                        CommandParameter="{Binding}"
+                                        DataContext="{Binding BeforeLast}"
+                                        Template="{StaticResource PaginateBtn}" />
+                                </Setter.Value>
+
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RightEllipsis}" Value="True">
+
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <Border Padding="10,10">
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    Text="..."
+                                                    VerticalAlignment="Center" />
+                                            </Border>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding BeforeLast}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+
+
+
+
+                <Button
+                    Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"
+                    CommandParameter="{Binding}"
+                    DataContext="{Binding EndBtn}"
+                    Template="{StaticResource PaginateBtn}"
+                    x:Name="endBtn">
+                    <Button.Style>
+                        <Style TargetType="Button">
+
+                            <Setter Property="Visibility" Value="Visible" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+
+                <Button
+                    Command="{Binding NextPageCommand}"
+                    CommandParameter="{Binding ElementName=nextButton}"
+                    DataContext="{Binding}"
+                    Name="nextButton"
+                    Template="{StaticResource nextAndBack}">
+                    <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/next.png" />
+                    <Button.Style>
+                        <Style TargetType="Button">
+
+                            <Setter Property="Visibility" Value="Visible" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding IsCounterPages}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="Visibility" Value="Hidden" />
+
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Setter Property="Visibility" Value="{Binding DataContext.SelectedReceipt, ElementName=UserControl, Converter={StaticResource CheckSelectReceipt}}" />
+            </Style>
+        </Grid.Style>
     </Grid>
 </UserControl>

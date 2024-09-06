@@ -20,10 +20,16 @@ namespace KTSF.Components.TabComponents.SalesComponent
     /// </summary>
     public partial class SalesUC : UserControl
     {
-        public SalesUC(SalesComponent SalesComponent)
+        
+        public SalesComponent SalesComponent { get; }
+        public SalesUC(SalesComponent salesComponent)
         {
             InitializeComponent();
+            SalesComponent = salesComponent;
             DataContext = SalesComponent;
         }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
+            SalesComponent.Selector_OnSelectionChanged(sender, e);
     }
 }

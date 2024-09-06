@@ -16,12 +16,14 @@ using KTSF.Contracts.CashiersWorkplace;
 using KTSF.Core.Object.Product_;
 using KTSF.Core.Object.Receipt_;
 using KTSF.Dto.Product_;
+using KTSF.Dto.Receipt_;
 
 namespace KTSF.Components.TabComponents.SalesComponent;
 
     public partial class SalesComponent : TabComponent
     {
         public ObservableCollection<ReceiptVM> Receipts { get; } = new ObservableCollection<ReceiptVM>();
+        [ObservableProperty] private ReceiptVM selectedReceipt;
         public ObservableCollection<PaginateBtn> PaginationButtons { get; } = [];
 
         [ObservableProperty] private int countPages;
@@ -44,7 +46,11 @@ namespace KTSF.Components.TabComponents.SalesComponent;
         [ObservableProperty] private bool isCounterPages = false;
 
         public int[] arrNumbersPage =  [];
-        public SalesComponent(UserControlVM binding, AppControl appControl, string iconPath) : base (binding, appControl, iconPath) { }
+
+        public SalesComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl,
+            iconPath)
+        {
+            SelectedReceipt = null; }
         
         public override async void ComponentLoaded()
         {                        
@@ -347,6 +353,12 @@ namespace KTSF.Components.TabComponents.SalesComponent;
                 else
                     RightEllipsis = false;
             }
+        }
+
+        public async void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //if ((ReceiptVM)sender is ReceiptVM receipt) return;
+            //var result = await AppControl.Server.GetReceiptFullInfo(receipt.Id);
         }
 
         public override UserControl Initial() => new SalesUC(this);

@@ -59,6 +59,13 @@ namespace KTSF.Languages.Packages
         private class TranslationSalesComponent : ITranslationSalesComponent
         {
             public string Name => "Продажи";
+            public string Title => "Чеки";
+            public string Date => "Дата";
+            public string Number => "Номер";
+            public string Sum => "Сумма";
+            public string Return => "Возрат";
+            public string Status => "Статут";
+            public string FixedCheckNumber => "№ фиксального чека";
         }
 
         public ITranslationSalesComponent ITranslationSalesComponent => new TranslationSalesComponent();
