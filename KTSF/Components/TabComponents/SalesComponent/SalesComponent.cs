@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CSharpFunctionalExtensions;
+using KTSF.Components.CommonComponents.PaginateComponent;
 using KTSF.Components.TabComponents.WarehouseComponent;
 using KTSF.Contracts.CashiersWorkplace;
 using KTSF.Core.Object.Product_;
@@ -22,6 +23,10 @@ namespace KTSF.Components.TabComponents.SalesComponent;
 
     public partial class SalesComponent : TabComponent
     {
+        public override UserControl Initial() => new SalesUC(this);
+        
+        public PaginateComponent PaginateComponent { get; }
+        
         public ObservableCollection<ReceiptVM> Receipts { get; } = new ObservableCollection<ReceiptVM>();
         [ObservableProperty] private ReceiptVM selectedReceipt;
         public ObservableCollection<PaginateBtn> PaginationButtons { get; } = [];
@@ -47,10 +52,11 @@ namespace KTSF.Components.TabComponents.SalesComponent;
 
         public int[] arrNumbersPage =  [];
 
-        public SalesComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl,
-            iconPath)
+        public SalesComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
         {
-            SelectedReceipt = null; }
+            PaginateComponent = new PaginateComponent(binding, appControl);
+            SelectedReceipt = null; 
+        }
         
         public override async void ComponentLoaded()
         {                        
@@ -361,5 +367,5 @@ namespace KTSF.Components.TabComponents.SalesComponent;
             //var result = await AppControl.Server.GetReceiptFullInfo(receipt.Id);
         }
 
-        public override UserControl Initial() => new SalesUC(this);
+        
     }

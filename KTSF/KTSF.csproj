@@ -124,6 +124,9 @@
   <ItemGroup>
     <PackageReference Include="BarcodeLib" Version="3.1.4" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.0" />
+    <PackageReference Include="IconPacks.Material" Version="1.0.8940.2-build" />
+    <PackageReference Include="MahApps.Metro.IconPacks.Core" Version="5.0.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
     <PackageReference Include="SharpVectors" Version="1.8.4.2" />

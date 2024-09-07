@@ -128,7 +128,10 @@ namespace KTSF.Components
 
         }
 
-
+        protected Component()
+        {
+            throw new NotImplementedException();
+        }
 
 
         [RelayCommand]
