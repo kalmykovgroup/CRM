@@ -112,6 +112,8 @@ namespace KTSF.Application.Service
 
             int count = await dbContext.Products.CountAsync();
 
+            result.CountAllItems = count;
+
             result.PageCount = (double)count / 20 > (double)1 ? count / 20 + 1 : 1;
 
             result.Items = await dbContext.Products

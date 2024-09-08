@@ -56,6 +56,8 @@ namespace KTSF.Application.Service
             FirstPage<Receipt> result = new FirstPage<Receipt>();
 
             int count = await dbContext.Receipts.CountAsync();
+            
+            result.CountAllItems = count;
 
             result.PageCount = (double)count / 20 > (double)1 ? count / 20 + 1 : 1;
 

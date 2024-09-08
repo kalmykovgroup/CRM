@@ -20,5 +20,6 @@ public abstract class TabComponent : Component
         IconPath = iconPath;
     }
      
+    
     public virtual ImageSource? Icon => new BitmapImage(new Uri("/Img/warning.png"));
 }

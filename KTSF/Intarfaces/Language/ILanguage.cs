@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KTSF.Components.CommonComponents.PaginateComponent;
 
 namespace KTSF.Languages
 {
@@ -20,6 +21,7 @@ namespace KTSF.Languages
     public interface ILanguage
     {   
         public ITranslationSearchComponent ITranslationSearchComponent { get; }
+        public ITranslationPaginateComponent ITranslationPaginateComponent { get; }
         public ITranslationCashiersWorkplaceComponent ITranslationCashiersWorkplaceComponent { get; }
         public ITranslationCompanyComponent ITranslationCompanyComponent { get; }
         public ITranslationMoneyComponent ITranslationMoneyComponent { get; }

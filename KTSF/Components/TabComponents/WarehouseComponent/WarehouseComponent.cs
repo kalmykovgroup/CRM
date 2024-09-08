@@ -7,7 +7,8 @@ using KTSF.ViewModel;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Windows;
-using System.Windows.Controls; 
+using System.Windows.Controls;
+using KTSF.Components.CommonComponents.PaginateComponent;
 
 namespace KTSF.Components.TabComponents.WarehouseComponent
 {
@@ -24,10 +25,11 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
         public override string ToString() => $"{Page}";
     }
 
-    public partial class WarehouseComponent : TabComponent //Склад
+    public partial class WarehouseComponent : TabComponent, IPaganatable //Склад
     {
-
         public ObservableCollection<Product> Products { get; } = [];
+        
+        public PaginateComponent PaginateComponent { get; }
         public ObservableCollection<PaginateBtn> PaginationButtons { get; } = [];
 
         [ObservableProperty] private int countPages;
@@ -53,57 +55,78 @@ namespace KTSF.Components.TabComponents.WarehouseComponent
 
         public WarehouseComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
         {
-
+            PaginateComponent = new PaginateComponent(binding, appControl, this);
+            PaginateComponent.GetCurrentPage += TakeCurrentPageProducts;
         }
 
         public override async void ComponentLoaded()
         {                        
             IsLoad = "Загрузка";
-        
-            Result<FirstPage<Product>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetFirstPageProduct();
+            
+            List<Product> newProducts = (await PaginateComponent.TakeFirstPage()).Cast<Product>().ToList();
+            
+            Products.Clear();
 
-            if (result.IsFailure)
-            {
-                MessageBox.Show(result.Error.Message);
-                return;
-            }
-
-            CountPages = result.Value.PageCount; 
-
-            foreach (Product product in result.Value.Items)
+            foreach (Product product in newProducts)
             {
                 Products.Add(product);
             }
-
-            BeginBtn = new PaginateBtn(1);
-            SecondBtn = countPages > 1 ? new PaginateBtn(2) : null;
-            PenultimateBtn = countPages > 2 ? new PaginateBtn(countPages - 1 > 3 ? countPages - 1 : 3) : null;
-            BeforeLast = countPages > 1 ? new PaginateBtn(CountPages - 1) : null;
-            EndBtn = countPages > 3 ? new PaginateBtn(countPages) : null;
-
-
-            if (countPages > 4)
-            {
-                for (int i = 3, j = 0; i < countPages - 1 && j < CountCenterButtons; i++, j++)
-                {
-                    PaginationButtons.Add(new PaginateBtn(i));
-                }
-            }
-
-            CurrentPage = BeginBtn;
-
-            if (countPages > CountCenterButtons + 4)
-                Is();
-            else
-                RightEllipsis = false;
-
-            if (countPages == 1)
-            {
-                IsCounterPages = true;
-
-            }
+        
+            // Result<FirstPage<Product>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetFirstPageProduct();
+            //
+            // if (result.IsFailure)
+            // {
+            //     MessageBox.Show(result.Error.Message);
+            //     return;
+            // }
+            //
+            // CountPages = result.Value.PageCount; 
+            //
+            // foreach (Product product in result.Value.Items)
+            // {
+            //     Products.Add(product);
+            // }
+            //
+            // BeginBtn = new PaginateBtn(1);
+            // SecondBtn = countPages > 1 ? new PaginateBtn(2) : null;
+            // PenultimateBtn = countPages > 2 ? new PaginateBtn(countPages - 1 > 3 ? countPages - 1 : 3) : null;
+            // BeforeLast = countPages > 1 ? new PaginateBtn(CountPages - 1) : null;
+            // EndBtn = countPages > 3 ? new PaginateBtn(countPages) : null;
+            //
+            //
+            // if (countPages > 4)
+            // {
+            //     for (int i = 3, j = 0; i < countPages - 1 && j < CountCenterButtons; i++, j++)
+            //     {
+            //         PaginationButtons.Add(new PaginateBtn(i));
+            //     }
+            // }
+            //
+            // CurrentPage = BeginBtn;
+            //
+            // if (countPages > CountCenterButtons + 4)
+            //     Is();
+            // else
+            //     RightEllipsis = false;
+            //
+            // if (countPages == 1)
+            // {
+            //     IsCounterPages = true;
+            //
+            // }
 
             IsLoad = null;
+        }
+        
+        public void TakeCurrentPageProducts(List<object> currentProducts)
+        {
+            List<Product> newProducts = currentProducts.Cast<Product>().ToList();
+            
+            Products.Clear();
+            foreach (Product product in newProducts)
+            {
+                Products.Add(product);
+            }
         }
 
         [RelayCommand]

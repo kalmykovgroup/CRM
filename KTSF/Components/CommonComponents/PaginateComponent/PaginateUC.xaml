@@ -18,12 +18,16 @@
         </Grid.RowDefinitions>
 
         <Popup
+            AllowsTransparency="True"
             Grid.Row="0"
             HorizontalAlignment="Right"
-            IsOpen="True"
+            IsOpen="{Binding IsPopupOpen}"
+            Margin="0,10"
             Placement="Top"
-            PlacementTarget="{Binding ElementName=UserControl}"
-            StaysOpen="False">
+            PlacementTarget="{Binding ElementName=ToggleButtonOpenList}"
+            PopupAnimation="Slide"
+            StaysOpen="False"
+            VerticalOffset="-8">
 
             <Border
                 Background="#759FCB"
@@ -32,75 +36,77 @@
                 ClipToBounds="True"
                 CornerRadius="5"
                 HorizontalAlignment="Right"
-                Margin="34,10"
                 MaxHeight="200"
                 VerticalAlignment="Bottom"
                 Width="114">
-                <ItemsControl
-                    Background="Transparent"
-                    HorizontalAlignment="Right"
-                    ItemsSource="{Binding ListPage}"
-                    MaxHeight="200"
-                    VerticalAlignment="Bottom"
-                    Width="114"
-                    d:ItemsSource="{d:SampleData ItemCount=5}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button
-                                Height="18"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="BorderThickness" Value="0" />
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="#21303D"
-                                                        BorderThickness="0"
-                                                        CornerRadius="0">
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto" />
-                                                                <ColumnDefinition Width="Auto" />
-                                                            </Grid.ColumnDefinitions>
+                <ScrollViewer>
+                    <ItemsControl
+                        Background="Transparent"
+                        HorizontalAlignment="Right"
+                        ItemsSource="{Binding ListPage}"
+                        VerticalAlignment="Bottom"
+                        Width="114"
+                        d:ItemsSource="{d:SampleData ItemCount=5}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Command="{Binding DataContext.SelectedCurrentPageReceiptCommand, ElementName=UserControl}"
+                                    CommandParameter="{Binding}"
+                                    Height="18"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="Transparent" />
+                                            <Setter Property="BorderThickness" Value="0" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderBrush="#21303D"
+                                                            BorderThickness="0"
+                                                            CornerRadius="0">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
 
-                                                            <TextBlock
-                                                                Foreground="{TemplateBinding Foreground}"
-                                                                Grid.Column="0"
-                                                                HorizontalAlignment="left"
-                                                                Margin="5,0,0,0"
-                                                                Text="Страница"
-                                                                VerticalAlignment="Center"
-                                                                d:Text="Страница" />
+                                                                <TextBlock
+                                                                    Foreground="{TemplateBinding Foreground}"
+                                                                    Grid.Column="0"
+                                                                    HorizontalAlignment="left"
+                                                                    Margin="10,0,0,0"
+                                                                    Text="{Binding DataContext.Property.Page, ElementName=UserControl}"
+                                                                    VerticalAlignment="Center"
+                                                                    d:Text="Страница" />
 
-                                                            <TextBlock
-                                                                Foreground="{TemplateBinding Foreground}"
-                                                                Grid.Column="1"
-                                                                HorizontalAlignment="left"
-                                                                Margin="5,0,0,0"
-                                                                Text="1"
-                                                                VerticalAlignment="Center"
-                                                                d:Text="12345" />
-                                                        </Grid>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#B9CADB" />
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                                                                <TextBlock
+                                                                    Foreground="{TemplateBinding Foreground}"
+                                                                    Grid.Column="1"
+                                                                    HorizontalAlignment="left"
+                                                                    Margin="5,0,0,0"
+                                                                    Text="{Binding}"
+                                                                    VerticalAlignment="Center"
+                                                                    d:Text="12345" />
+                                                            </Grid>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#B9CADB" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
             </Border>
 
         </Popup>
@@ -128,7 +134,7 @@
                     Foreground="#21303D"
                     Grid.Column="0"
                     Margin="5,0"
-                    Text="20"
+                    Text="{Binding CurrentCountItems}"
                     VerticalAlignment="Center" />
                 <TextBlock
                     FontSize="16"
@@ -141,7 +147,7 @@
                     Foreground="#3E5466"
                     Grid.Column="2"
                     Margin="5,0"
-                    Text="24"
+                    Text="{Binding AllCountItems}"
                     VerticalAlignment="Center" />
             </Grid>
 
@@ -153,6 +159,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button
+                    Command="{Binding SelectedPreviousPageReceiptCommand}"
                     Grid.Column="0"
                     Height="24"
                     HorizontalContentAlignment="Center"
@@ -191,10 +198,13 @@
                 </Button>
 
                 <ToggleButton
+                    Command="{Binding TogglePopupCommand}"
+                    CommandParameter="{Binding ElementName=ToggleButtonOpenList, Path=IsChecked}"
                     Grid.Column="1"
                     Height="24"
                     Padding="5,0"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center"
+                    x:Name="ToggleButtonOpenList">
                     <ToggleButton.Style>
                         <Style TargetType="ToggleButton">
                             <Setter Property="Background" Value="Transparent" />
@@ -220,10 +230,11 @@
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="1"
                                             CornerRadius="5"
-                                            Margin="10,0"
+                                            Margin="10,0,5,0"
                                             Padding="5,0">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
@@ -232,10 +243,16 @@
                                                     Foreground="{TemplateBinding Foreground}"
                                                     Grid.Column="0"
                                                     Margin="0,0,5,0"
-                                                    Text="Страница 1"
+                                                    Text="{Binding DataContext.Property.Page, ElementName=UserControl}"
+                                                    VerticalAlignment="Center" />
+                                                <TextBlock
+                                                    Foreground="{TemplateBinding Foreground}"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,5,0"
+                                                    Text="{Binding CurrentPage}"
                                                     VerticalAlignment="Center" />
 
-                                                <ContentPresenter Content="{TemplateBinding Tag}" Grid.Column="1" />
+                                                <ContentPresenter Content="{TemplateBinding Tag}" Grid.Column="2" />
                                             </Grid>
                                         </Border>
                                     </ControlTemplate>
@@ -270,6 +287,7 @@
                 </ToggleButton>
 
                 <Button
+                    Command="{Binding SelectedNextPageReceiptCommand}"
                     Grid.Column="2"
                     Height="24"
                     HorizontalContentAlignment="Center"

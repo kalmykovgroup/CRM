@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KTSF.Components.CommonComponents.PaginateComponent;
 
 namespace KTSF.Languages.Packages
 {
@@ -108,6 +109,14 @@ namespace KTSF.Languages.Packages
         }
 
         public ITranslationSearchComponent ITranslationSearchComponent => new TranslationSearchComponent();
+        
+        private class TranslationPaginateComponent : ITranslationPaginateComponent
+        {
+            public string Page => "Page"; 
+            public string CountOf => "of"; 
+        }
+
+        public ITranslationPaginateComponent ITranslationPaginateComponent => new TranslationPaginateComponent();
 
         private class TranslationEditStaffWindow : ITranslationEditStaffWindow
         {

@@ -30,11 +30,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using KTSF.Components;
 using KTSF.Components.TabComponents.CashiersWorkplaceComponent;
+using KTSF.Components.TabComponents.SalesComponent;
+using KTSF.Components.TabComponents.WarehouseComponent;
 using KTSF.Contracts.CashiersWorkplace;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using KTSF.Core.Object.Receipt_;
 using KTSF.Dto.Receipt_;
+using Type = System.Type;
 
 namespace KTSF.Db
 {
@@ -585,7 +589,41 @@ namespace KTSF.Db
 
         #endregion
 
-
-
+        public async Task<Result<FirstPage<object>, (string? Message, HttpStatusCode)>> GetFirstPage(IPaganatable paganatable, int page = 1)
+        {
+            if (paganatable is SalesComponent)
+            {
+                var result = await Get<FirstPage<Receipt>>($"Receipt/GetFirstPage");
+                return result.Map(value => value.ToObjectList());
+            } 
+            else if (paganatable is WarehouseComponent)
+            {
+                var result = await Get<FirstPage<Product>>($"Product/GetFirstPage");
+                return result.Map(value => value.ToObjectList());
+            }
+            else
+            {
+                return Result.Failure<FirstPage<object>, (string? Message, HttpStatusCode)>(("Неподдерживаемый тип", HttpStatusCode.BadRequest));
+            }
+        }
+        
+        public async Task<Result<List<object>, (string? message, HttpStatusCode)>> GetElements(IPaganatable paganatable, int page)
+        {
+            if (paganatable is SalesComponent)
+            {
+                Result<List<Receipt>,(string? Message, HttpStatusCode)> result = await Get<List<Receipt>>($"Receipt/GetReceipts?page={page}");
+                return result.Map(value => value.Cast<object>().ToList());
+            }
+            else if (paganatable is WarehouseComponent)
+            {
+                Result<List<Product>,(string? Message, HttpStatusCode)> result = await Get<List<Product>>($"Product/GetProducts?page={page}");
+                return result.Map(value => value.Cast<object>().ToList());
+            }
+            else
+            {
+                return Result.Failure<List<object>, (string? Message, HttpStatusCode)>(("Неподдерживаемый тип", HttpStatusCode.BadRequest));
+            }
+        }
+        
     }
 }
