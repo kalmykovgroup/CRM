@@ -6,12 +6,12 @@ namespace KTSF.Dto.Product_
     {
         public int CountAllItems { get; set; }
         public int PageCount {  get; set; }
-
+        public int CountItemsForPage { get; set; }
         public T[] Items { get; set; } = [];
 
         public FirstPage<object> ToObjectList()
         {
-            return new FirstPage<object>{ CountAllItems = CountAllItems, PageCount = PageCount, Items = Items.Cast<object>().ToArray() };
+            return new FirstPage<object>{ CountAllItems = CountAllItems, PageCount = PageCount, CountItemsForPage = CountItemsForPage, Items = Items.Cast<object>().ToArray() };
         }
     }
 }

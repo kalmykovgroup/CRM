@@ -18,10 +18,12 @@ public partial class PaginateComponent : Component
 {
     private IPaganatable TypeClass { get; }
     public ObservableCollection<int> ListPage { get; set; }
+    
     [ObservableProperty] private int currentPage;
     [ObservableProperty] private bool isPopupOpen;
     [ObservableProperty] private int allCountItems;
     [ObservableProperty] private int currentCountItems;
+    private int countItemsForPage = 20;
     public event Action<List<object>> GetCurrentPage;
     public PaginateComponent(UserControlVM binding, AppControl appControl, IPaganatable typeClass) : base(binding, appControl)
     {
@@ -56,13 +58,15 @@ public partial class PaginateComponent : Component
         CurrentPage = 1;
         AllCountItems = result.Value.CountAllItems;
 
-        if (AllCountItems <= 20)
+        countItemsForPage = result.Value.CountItemsForPage;
+
+        if (AllCountItems <= countItemsForPage)
         {
             CurrentCountItems = AllCountItems;
         }
         else
         {
-            CurrentCountItems = 20;
+            CurrentCountItems = countItemsForPage;
         }
         
         return returnElements;
@@ -75,37 +79,44 @@ public partial class PaginateComponent : Component
     }
 
     [RelayCommand]
-    private void SelectedCurrentPageReceipt(object parameter)
+    private async Task SelectedCurrentPageReceipt(object parameter)
     {
         CurrentPage = (int)parameter;
         
-        TakeCurrentPageElements();
+        int i = await TakeCurrentPageElements();
 
-        // if (CurrentPage == ListPage.Count)
-        // {
-        //     CurrentCountItems *= (ListPage.Count - 1) + countElements;
-        // }
-        // else
-        // {
-        //     CurrentCountItems *= ListPage.Count - 1;
-        // }
+        if (CurrentPage == ListPage.Count)
+        {
+            CurrentCountItems = (countItemsForPage * (ListPage.Count - 1)) + i;
+        }
+        else
+        {
+            CurrentCountItems = countItemsForPage * CurrentPage;
+        }
     }
 
     [RelayCommand]
-    private void SelectedNextPageReceipt()
+    private async Task SelectedNextPageReceipt()
     {
         if (ListPage.Count < CurrentPage + 1)
         {
             return;
         }
         CurrentPage++;
-        TakeCurrentPageElements();
+        int i = await TakeCurrentPageElements();
 
-        //CurrentCountItems += countElements;
+        if (CurrentPage == ListPage.Count)
+        {
+            CurrentCountItems = (countItemsForPage * (ListPage.Count - 1)) + i;
+        }
+        else
+        {
+            CurrentCountItems = countItemsForPage * CurrentPage;
+        }
     }
 
     [RelayCommand]
-    private void SelectedPreviousPageReceipt()
+    private async Task SelectedPreviousPageReceipt()
     {
         if (1 > CurrentPage - 1)
         {
@@ -113,18 +124,26 @@ public partial class PaginateComponent : Component
         }
         
         CurrentPage--;
-        TakeCurrentPageElements();
-        //CurrentCountItems -= countElements;
+        int i = await TakeCurrentPageElements();
+
+        if (CurrentPage == ListPage.Count)
+        {
+            CurrentCountItems = (countItemsForPage * (ListPage.Count - 1)) + i;
+        }
+        else
+        {
+            CurrentCountItems = countItemsForPage * CurrentPage;
+        }
     }
     
-    private async void TakeCurrentPageElements()
+    private async Task<int> TakeCurrentPageElements()
     {
         Result<List<object>, (string? Message, HttpStatusCode)> result = await AppControl.Server.GetElements(TypeClass, CurrentPage);
         
         if (result.IsFailure)
         {
             MessageBox.Show(result.Error.Message);
-            //return 0;
+            return 0;
         }
     
         List<object> returnElements = new List<object>();
@@ -135,12 +154,7 @@ public partial class PaginateComponent : Component
         }
         
         GetCurrentPage?.Invoke(returnElements);
-        //return returnElements.Count;
-    }
-
-    private void ToggleButtonOpenList_OnClick(object sender, RoutedEventArgs e)
-    {
-            
+        return returnElements.Count;
     }
     
     public override UserControl Initial() => new PaginateUC(this);

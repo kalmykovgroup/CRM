@@ -11,6 +11,7 @@ namespace KTSF.Application.Service
     public class ReceiptsService
     {
         private ObjectDbContext dbContext;
+        private int countItems = 20;
 
         public ReceiptsService(ObjectDbContext dbContext)
         {
@@ -54,17 +55,19 @@ namespace KTSF.Application.Service
         public async Task<Result<FirstPage<Receipt>>> GetFirstPageReceipt()
         {
             FirstPage<Receipt> result = new FirstPage<Receipt>();
-
+            
             int count = await dbContext.Receipts.CountAsync();
             
             result.CountAllItems = count;
 
-            result.PageCount = (double)count / 20 > (double)1 ? count / 20 + 1 : 1;
+            result.CountItemsForPage = countItems;
+
+            result.PageCount = (double)count / countItems > 1 ? count / countItems + 1 : 1;
 
             result.Items = await dbContext.Receipts
                 .Include(receipt => receipt.ReceiptPaymentInfo)
                 .ThenInclude(rpi => rpi.PaymentMethod)
-                .Take(20)
+                .Take(countItems)
                 .ToArrayAsync();
 
             return result != null ? Result.Success(result) : Result.Failure<FirstPage<Receipt>>("Not found");
@@ -80,12 +83,12 @@ namespace KTSF.Application.Service
 
             if (page != 1)
             {
-                position = (page - 1) * 20;
+                position = (page - 1) * countItems;
             }                   
 
             var receipts = await dbContext.Receipts               
                 .Skip(position)
-                .Take(20)
+                .Take(countItems)
                 .ToArrayAsync();            
 
             return receipts != null ? Result.Success(receipts) : Result.Failure<Receipt[]>("Not found");

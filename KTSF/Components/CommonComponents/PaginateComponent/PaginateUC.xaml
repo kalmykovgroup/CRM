@@ -140,7 +140,7 @@
                     FontSize="16"
                     Foreground="#3E5466"
                     Grid.Column="1"
-                    Text="of"
+                    Text="{Binding Property.CountOf}"
                     VerticalAlignment="Center" />
                 <TextBlock
                     FontSize="16"

@@ -593,12 +593,12 @@ namespace KTSF.Db
         {
             if (paganatable is SalesComponent)
             {
-                var result = await Get<FirstPage<Receipt>>($"Receipt/GetFirstPage");
+                Result<FirstPage<Receipt>,(string? Message, HttpStatusCode)> result = await GetFirstPageReceipt();
                 return result.Map(value => value.ToObjectList());
             } 
             else if (paganatable is WarehouseComponent)
             {
-                var result = await Get<FirstPage<Product>>($"Product/GetFirstPage");
+                var result = await GetFirstPageProduct();
                 return result.Map(value => value.ToObjectList());
             }
             else
@@ -611,12 +611,12 @@ namespace KTSF.Db
         {
             if (paganatable is SalesComponent)
             {
-                Result<List<Receipt>,(string? Message, HttpStatusCode)> result = await Get<List<Receipt>>($"Receipt/GetReceipts?page={page}");
+                var result = await GetReceipts(page);
                 return result.Map(value => value.Cast<object>().ToList());
             }
             else if (paganatable is WarehouseComponent)
             {
-                Result<List<Product>,(string? Message, HttpStatusCode)> result = await Get<List<Product>>($"Product/GetProducts?page={page}");
+                var result = await GetProducts(page);
                 return result.Map(value => value.Cast<object>().ToList());
             }
             else

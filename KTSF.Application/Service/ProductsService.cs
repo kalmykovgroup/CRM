@@ -10,6 +10,8 @@ namespace KTSF.Application.Service
     {
         private ObjectDbContext dbContext;
 
+        private int countItems = 5;
+
         public ProductsService(ObjectDbContext dbContext)
         {
             this.dbContext = dbContext;
@@ -110,14 +112,16 @@ namespace KTSF.Application.Service
         {
             FirstPage<Product> result = new FirstPage<Product>();
 
+            result.CountItemsForPage = countItems;
+
             int count = await dbContext.Products.CountAsync();
 
             result.CountAllItems = count;
 
-            result.PageCount = (double)count / 20 > (double)1 ? count / 20 + 1 : 1;
+            result.PageCount = (double)count / countItems > (double)1 ? count / countItems + 1 : 1;
 
             result.Items = await dbContext.Products
-                .Take(20)
+                .Take(countItems)
                 .ToArrayAsync();
 
             return result != null ? Result.Success(result) : Result.Failure<FirstPage<Product>>("Not found");
@@ -133,12 +137,12 @@ namespace KTSF.Application.Service
 
             if (page != 1)
             {
-                position = (page - 1) * 20;
+                position = (page - 1) * countItems;
             }                   
 
             var products = await dbContext.Products               
                 .Skip(position)
-                .Take(20)
+                .Take(countItems)
                 .ToArrayAsync();            
 
             return products != null ? Result.Success(products) : Result.Failure<Product[]>("Not found");

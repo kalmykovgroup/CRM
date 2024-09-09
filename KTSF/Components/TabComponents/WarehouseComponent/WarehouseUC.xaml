@@ -115,218 +115,216 @@
                 Text="Card" />
         </Grid>
 
-        <ContentPresenter Content="{Binding PaginateComponent.Build}" DockPanel.Dock="Bottom" />
-
         <!--  Пагинация  -->
-        <!-- <Grid DockPanel.Dock="Bottom" Height="50"> -->
-        <!--  <StackPanel  -->
-        <!--  HorizontalAlignment="Center"  -->
-        <!--  Orientation="Horizontal"  -->
-        <!--  x:Name="Pagination">  -->
-        <!--  <Button  -->
-        <!--  Command="{Binding BackPageCommand}"  -->
-        <!--  CommandParameter="{Binding ElementName=prevButton}"  -->
-        <!--  DataContext="{Binding}"  -->
-        <!--  Name="prevButton">  -->
-        <!--             <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/back.png" /> -->
-        <!--             <Button.Style> -->
-        <!--                 <Style TargetType="Button"> -->
-        <!--    -->
-        <!--                     <Setter Property="Visibility" Value="Visible" /> -->
-        <!--                     <Setter Property="IsEnabled" Value="True" /> -->
-        <!--    -->
-        <!--                     <Style.Triggers> -->
-        <!--                         <DataTrigger Binding="{Binding}" Value="{x:Null}"> -->
-        <!--                             <Setter Property="Visibility" Value="Collapsed" /> -->
-        <!--    -->
-        <!--                         </DataTrigger> -->
-        <!--    -->
-        <!--                         <DataTrigger Binding="{Binding CurrentPage.Page}" Value="1"> -->
-        <!--                             <Setter Property="IsEnabled" Value="False" /> -->
-        <!--                         </DataTrigger> -->
-        <!--                     </Style.Triggers> -->
-        <!--    -->
-        <!--                 </Style> -->
-        <!--             </Button.Style> -->
-        <!--         </Button> -->
-        <!--    -->
-        <!--    -->
-        <!--  <Button  -->
-        <!--  Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"  -->
-        <!--  CommandParameter="{Binding}"  -->
-        <!--  DataContext="{Binding BeginBtn}"  -->
-        <!--  Template="{StaticResource PaginateBtn}"  -->
-        <!--  x:Name="begin">  -->
-        <!--             <Button.Style> -->
-        <!--                 <Style TargetType="Button"> -->
-        <!--    -->
-        <!--                     <Setter Property="Visibility" Value="Visible" /> -->
-        <!--    -->
-        <!--                     <Style.Triggers> -->
-        <!--                         <DataTrigger Binding="{Binding}" Value="{x:Null}"> -->
-        <!--                             <Setter Property="Visibility" Value="Collapsed" /> -->
-        <!--                         </DataTrigger> -->
-        <!--    -->
-        <!--                     </Style.Triggers> -->
-        <!--    -->
-        <!--                 </Style> -->
-        <!--             </Button.Style> -->
-        <!--         </Button> -->
-        <!--    -->
-        <!--    -->
-        <!--         <ContentControl> -->
-        <!--             <ContentControl.Style> -->
-        <!--                 <Style TargetType="ContentControl"> -->
-        <!--    -->
-        <!--                     <Setter Property="Content"> -->
-        <!--                         <Setter.Value> -->
-        <!--  <Button  -->
-        <!--  Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"  -->
-        <!--  CommandParameter="{Binding}"  -->
-        <!--  DataContext="{Binding SecondBtn}"  -->
-        <!--  Template="{StaticResource PaginateBtn}"  -->
-        <!--  x:Name="second" />  -->
-        <!--                         </Setter.Value> -->
-        <!--    -->
-        <!--                     </Setter> -->
-        <!--                     <Style.Triggers> -->
-        <!--                         <DataTrigger Binding="{Binding DataContext.CountPages, ElementName=UserControl}" Value="1"> -->
-        <!--                             <Setter Property="Visibility" Value="Collapsed" /> -->
-        <!--                         </DataTrigger> -->
-        <!--                         <DataTrigger Binding="{Binding LeftEllipsis}" Value="True"> -->
-        <!--    -->
-        <!--    -->
-        <!--                             <Setter Property="Content"> -->
-        <!--                                 <Setter.Value> -->
-        <!--                                     <Border Padding="20,10"> -->
-        <!--  <TextBlock  -->
-        <!--  HorizontalAlignment="Center"  -->
-        <!--  Text="..."  -->
-        <!--  VerticalAlignment="Center" />  -->
-        <!--                                     </Border> -->
-        <!--                                 </Setter.Value> -->
-        <!--                             </Setter> -->
-        <!--                         </DataTrigger> -->
-        <!--                     </Style.Triggers> -->
-        <!--                 </Style> -->
-        <!--             </ContentControl.Style> -->
-        <!--         </ContentControl> -->
-        <!--    -->
-        <!--    -->
-        <!--    -->
-        <!--    -->
-        <!--    -->
-        <!--  <ItemsControl  -->
-        <!--  ItemsSource="{Binding PaginationButtons}"  -->
-        <!--  d:ItemsSource="{d:SampleData ItemCount=4}"  -->
-        <!--  x:Name="array">  -->
-        <!--             <ItemsControl.ItemTemplate> -->
-        <!--                 <DataTemplate> -->
-        <!--  <Button  -->
-        <!--  Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"  -->
-        <!--  CommandParameter="{Binding}"  -->
-        <!--  Template="{StaticResource PaginateBtn}"  -->
-        <!--  x:Name="arrayBtn" />  -->
-        <!--                 </DataTemplate> -->
-        <!--             </ItemsControl.ItemTemplate> -->
-        <!--    -->
-        <!--             <ItemsControl.ItemsPanel> -->
-        <!--                 <ItemsPanelTemplate> -->
-        <!--                     <StackPanel Orientation="Horizontal" /> -->
-        <!--                 </ItemsPanelTemplate> -->
-        <!--             </ItemsControl.ItemsPanel> -->
-        <!--         </ItemsControl> -->
-        <!--    -->
-        <!--    -->
-        <!--         <ContentControl> -->
-        <!--             <ContentControl.Style> -->
-        <!--                 <Style TargetType="ContentControl"> -->
-        <!--                     <Setter Property="Content"> -->
-        <!--                         <Setter.Value> -->
-        <!--  <Button  -->
-        <!--  Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"  -->
-        <!--  CommandParameter="{Binding}"  -->
-        <!--  DataContext="{Binding BeforeLast}"  -->
-        <!--  Template="{StaticResource PaginateBtn}" />  -->
-        <!--                         </Setter.Value> -->
-        <!--    -->
-        <!--                     </Setter> -->
-        <!--                     <Style.Triggers> -->
-        <!--                         <DataTrigger Binding="{Binding RightEllipsis}" Value="True"> -->
-        <!--    -->
-        <!--                             <Setter Property="Content"> -->
-        <!--                                 <Setter.Value> -->
-        <!--                                     <Border Padding="20,10"> -->
-        <!--  <TextBlock  -->
-        <!--  HorizontalAlignment="Center"  -->
-        <!--  Text="..."  -->
-        <!--  VerticalAlignment="Center" />  -->
-        <!--                                     </Border> -->
-        <!--                                 </Setter.Value> -->
-        <!--                             </Setter> -->
-        <!--                         </DataTrigger> -->
-        <!--                         <DataTrigger Binding="{Binding}" Value="{x:Null}"> -->
-        <!--                             <Setter Property="Visibility" Value="Collapsed" /> -->
-        <!--    -->
-        <!--                         </DataTrigger> -->
-        <!--                     </Style.Triggers> -->
-        <!--                 </Style> -->
-        <!--             </ContentControl.Style> -->
-        <!--         </ContentControl> -->
-        <!--    -->
-        <!--    -->
-        <!--    -->
-        <!--    -->
-        <!--  <Button  -->
-        <!--  Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"  -->
-        <!--  CommandParameter="{Binding}"  -->
-        <!--  DataContext="{Binding EndBtn}"  -->
-        <!--  Template="{StaticResource PaginateBtn}"  -->
-        <!--  x:Name="endBtn">  -->
-        <!--             <Button.Style> -->
-        <!--                 <Style TargetType="Button"> -->
-        <!--    -->
-        <!--                     <Setter Property="Visibility" Value="Visible" /> -->
-        <!--    -->
-        <!--                     <Style.Triggers> -->
-        <!--                         <DataTrigger Binding="{Binding}" Value="{x:Null}"> -->
-        <!--                             <Setter Property="Visibility" Value="Collapsed" /> -->
-        <!--    -->
-        <!--                         </DataTrigger> -->
-        <!--                     </Style.Triggers> -->
-        <!--    -->
-        <!--                 </Style> -->
-        <!--             </Button.Style> -->
-        <!--         </Button> -->
-        <!--    -->
-        <!--    -->
-        <!--  <Button  -->
-        <!--  Command="{Binding NextPageCommand}"  -->
-        <!--  CommandParameter="{Binding ElementName=nextButton}"  -->
-        <!--  DataContext="{Binding}"  -->
-        <!--  Name="nextButton">  -->
-        <!--             <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/next.png" /> -->
-        <!--             <Button.Style> -->
-        <!--                 <Style TargetType="Button"> -->
-        <!--    -->
-        <!--                     <Setter Property="Visibility" Value="Visible" /> -->
-        <!--    -->
-        <!--                     <Style.Triggers> -->
-        <!--                         <DataTrigger Binding="{Binding}" Value="{x:Null}"> -->
-        <!--                             <Setter Property="Visibility" Value="Collapsed" /> -->
-        <!--    -->
-        <!--                         </DataTrigger> -->
-        <!--    -->
-        <!--                         <DataTrigger Binding="{Binding IsCounterPages}" Value="True"> -->
-        <!--                             <Setter Property="IsEnabled" Value="False" /> -->
-        <!--                         </DataTrigger> -->
-        <!--                     </Style.Triggers> -->
-        <!--    -->
-        <!--                 </Style> -->
-        <!--             </Button.Style> -->
-        <!--         </Button> -->
-        <!--     </StackPanel> -->
-        <!-- </Grid> -->
+        <Grid DockPanel.Dock="Bottom" Height="50">
+            <StackPanel
+                HorizontalAlignment="Center"
+                Orientation="Horizontal"
+                x:Name="Pagination">
+                <Button
+                    Command="{Binding BackPageCommand}"
+                    CommandParameter="{Binding ElementName=prevButton}"
+                    DataContext="{Binding}"
+                    Name="prevButton">
+                    <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/back.png" />
+                    <Button.Style>
+                        <Style TargetType="Button">
+
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Setter Property="IsEnabled" Value="True" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding CurrentPage.Page}" Value="1">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+
+                <Button
+                    Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"
+                    CommandParameter="{Binding}"
+                    DataContext="{Binding BeginBtn}"
+                    Template="{StaticResource PaginateBtn}"
+                    x:Name="begin">
+                    <Button.Style>
+                        <Style TargetType="Button">
+
+                            <Setter Property="Visibility" Value="Visible" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+
+                            </Style.Triggers>
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+
+                <ContentControl>
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <Button
+                                        Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"
+                                        CommandParameter="{Binding}"
+                                        DataContext="{Binding SecondBtn}"
+                                        Template="{StaticResource PaginateBtn}"
+                                        x:Name="second" />
+                                </Setter.Value>
+
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DataContext.CountPages, ElementName=UserControl}" Value="1">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding LeftEllipsis}" Value="True">
+
+
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <Border Padding="20,10">
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    Text="..."
+                                                    VerticalAlignment="Center" />
+                                            </Border>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+
+
+
+
+
+                <ItemsControl
+                    ItemsSource="{Binding PaginationButtons}"
+                    d:ItemsSource="{d:SampleData ItemCount=4}"
+                    x:Name="array">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button
+                                Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"
+                                CommandParameter="{Binding}"
+                                Template="{StaticResource PaginateBtn}"
+                                x:Name="arrayBtn" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
+
+                <ContentControl>
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <Button
+                                        Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"
+                                        CommandParameter="{Binding}"
+                                        DataContext="{Binding BeforeLast}"
+                                        Template="{StaticResource PaginateBtn}" />
+                                </Setter.Value>
+
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RightEllipsis}" Value="True">
+
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <Border Padding="20,10">
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    Text="..."
+                                                    VerticalAlignment="Center" />
+                                            </Border>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+
+
+
+
+                <Button
+                    Command="{Binding DataContext.PaginateClickCommand, ElementName=UserControl}"
+                    CommandParameter="{Binding}"
+                    DataContext="{Binding EndBtn}"
+                    Template="{StaticResource PaginateBtn}"
+                    x:Name="endBtn">
+                    <Button.Style>
+                        <Style TargetType="Button">
+
+                            <Setter Property="Visibility" Value="Visible" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+
+                <Button
+                    Command="{Binding NextPageCommand}"
+                    CommandParameter="{Binding ElementName=nextButton}"
+                    DataContext="{Binding}"
+                    Name="nextButton">
+                    <Image Source="/Components/TabComponents/WarehouseComponent/ImageSource/next.png" />
+                    <Button.Style>
+                        <Style TargetType="Button">
+
+                            <Setter Property="Visibility" Value="Visible" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding IsCounterPages}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
 
 
 
