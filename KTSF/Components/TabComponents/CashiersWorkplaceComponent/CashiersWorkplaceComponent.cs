@@ -1,21 +1,14 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KTSF.Components.CommonComponents.SearchComponent;
-using KTSF.ViewModel; 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KTSF.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Input;
-using KTSF.Core.Product_;
-using KTSF.Contracts.CashiersWorkplace;
+using System.Windows.Input; 
+using KTSF.Core.Object.Product_; 
+using KTSF.Contracts.CashiersWorkplace; 
+using PaymentMethod = KTSF.Core.Object.Receipt_.PaymentMethod;
+using KTSF.Core.Object.Receipt_;
 
 namespace KTSF.Components.TabComponents.CashiersWorkplaceComponent;
 
@@ -30,9 +23,9 @@ public partial class CashiersWorkplaceComponent : TabComponent
     [ObservableProperty] private bool isPayment = false;
     [ObservableProperty] private string countProductText = "Оплатить (позиций: 1)";
 
-    [ObservableProperty] public Receipt checkList = new Receipt ();
+    [ObservableProperty] public ReceiptVM checkList = new ReceiptVM ();
 
-    [ObservableProperty] public BuyProduct? selectedProduct;
+    [ObservableProperty] public BuyProductVM? selectedProduct;
 
     public CashiersWorkplaceComponent(UserControlVM binding, AppControl appControl, string iconPath) : base(binding, appControl, iconPath)
     {
@@ -42,16 +35,18 @@ public partial class CashiersWorkplaceComponent : TabComponent
 
     // Добавление найденого товара в текущий чек
     public void SelectedProductFromSearchList(Product product) {
-        BuyProduct newProduct = new BuyProduct (product, product.BuySales, 1);
+        BuyProductVM newProduct = new BuyProductVM (product, product.SalePrice, 1);
         if (CheckList.AddProduct(newProduct)) {
             SelectedProduct = newProduct;
             IsBuy = true;
             CountProductText = $"Оплатить (позиций: {CheckList.BuyProducts.Count})";
+            
+            
         }
     }
 
     // Событие на потерю фокуса на нажатие клавиши "ENTER"
-    public void textBoxCountProduct_KeyDown (object sender, KeyEventArgs e) {
+    public void textBox_KeyDown (object sender, KeyEventArgs e) {
         CashiersWorkplaceUC cashiersWorkplaceUC = (CashiersWorkplaceUC)Build!;
 
         if (e.Key == Key.Enter) {
@@ -64,15 +59,59 @@ public partial class CashiersWorkplaceComponent : TabComponent
     }
 
     // Событие на изменение цены выбраного товара
-    public void textBoxPrice_TextChanged (object sender, TextChangedEventArgs e) {
+    public void TextBoxPrice_TextChanged (object sender, TextChangedEventArgs e)
+    {
+        if (SelectedProduct is null) return;
         SelectedProduct.Price = double.Parse(((TextBox) sender).Text);
         UpdateTotalSumCheck ();
     }
 
     // Событие на изменение количество выбраного товара
-    public void textBoxCount_TextChanged (object sender, TextChangedEventArgs e) {
+    public void TextBoxCount_TextChanged (object sender, TextChangedEventArgs e) {
+        if (SelectedProduct is null) return;
         SelectedProduct.Count = int.Parse (((TextBox) sender).Text);
         UpdateTotalSumCheck ();
+    }
+    
+    public void TextBoxCashOrCard_TextChanged (object sender, TextChangedEventArgs e)
+    {
+        TextBox textBox = (TextBox)sender;
+        switch (textBox.Tag)
+        {
+            case "Cash":
+            {
+                CheckList.ReceiptPaymentInfo.CashAmount = double.Parse(textBox.Text);
+                break;
+            }
+            case "Card":
+            {
+                CheckList.ReceiptPaymentInfo.CardAmount = double.Parse(textBox.Text);
+                break;
+            }
+        }
+    }
+    
+    public void UIElement_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        e.Handled = !IsTextAllowed(e.Text);
+    }
+    
+    public void UIElement_OnPreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Back || e.Key == Key.Delete || e.Key == Key.Tab ||
+            e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Escape)
+        {
+            e.Handled = false;
+        }
+        else
+        {
+            e.Handled = !IsTextAllowed(e.Key.ToString());
+        }
+    }
+    
+    private bool IsTextAllowed(string text)
+    {
+        return text.All(char.IsDigit);
     }
 
     // Метод для обновления общей суммы товаров
@@ -87,7 +126,7 @@ public partial class CashiersWorkplaceComponent : TabComponent
     [RelayCommand]
     public void SelectedProductFromCheckList(object parameter) {
         if (((BuyProduct)parameter).Product.Id != SelectedProduct.Product.Id) {
-            SelectedProduct = (BuyProduct) parameter;
+            SelectedProduct = (BuyProductVM) parameter;
         } 
     }
 
@@ -119,93 +158,39 @@ public partial class CashiersWorkplaceComponent : TabComponent
 
     [RelayCommand]
     public void ProcessPayment (object? parameter = null) {
-        IsPayment = true;
+        IsPayment = !IsPayment;
+        CheckList.ReceiptPaymentInfo.CashAmount = 0;
+        CheckList.ReceiptPaymentInfo.CardAmount = 0;
     }
 
-    
     [RelayCommand]
-    public void PayCardClick(object? parameter = null) => CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethod.Card;
-    
-    
-    [RelayCommand]
-    public void PayCashClick(object? parameter = null)  => CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethod.Cash;
-   
-
-
-     
-}
-
-public partial class Receipt : ObservableObject {
-    public ObservableCollection<BuyProduct> BuyProducts { get; set; }
-
-    [ObservableProperty]
-    private double totalSum;
-
-    [ObservableProperty]
-    private double amountPaid;
-
-    [ObservableProperty]
-    private double discount = 0;
-
-    [ObservableProperty] private PaymentInfo receiptPaymentInfo = new PaymentInfo (cashAmount: 0, cardAmount: 0);
-
-    public Receipt () {
-        BuyProducts = new ObservableCollection<BuyProduct> ();
-        totalSum = 0;
+    public void PayCardClick (object? parameter = null) {
+        CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethodVM.Card;
+        CheckList.ReceiptPaymentInfo.CashAmount = 0;
     }
 
-    public bool AddProduct (BuyProduct selectProduct) {
-        foreach (BuyProduct product in BuyProducts) {
-            if (product.Product.Id == selectProduct.Product.Id) {
-                MessageBox.Show ("Такой товар уже есть в списке");
-                return false;
+
+    [RelayCommand]
+    public void PayCashClick (object? parameter = null) { 
+        CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethodVM.Cash;
+        CheckList.ReceiptPaymentInfo.CardAmount = 0;
+    }
+
+    [RelayCommand]
+    public void PaymentRequestCommand(object? parameter = null)
+    {
+        switch (CheckList.ReceiptPaymentInfo.PaymentMethod)
+        {
+            case PaymentMethodVM.Card:
+            {
+                AppControl.Server.SaveReceipt(CheckList);
+                break;
+            }
+            case PaymentMethodVM.Cash:
+            {
+                AppControl.Server.SaveReceipt(CheckList);
+                break;
             }
         }
-        BuyProducts.Add (selectProduct);
-        return true;
-        }
-
-    public bool DeleteProduct (BuyProduct selectProduct) {
-        foreach(BuyProduct product in BuyProducts) {
-            if (product.Product.Id == selectProduct.Product.Id) {
-                MessageBox.Show ("Такого товара нет в списке");
-                return false;
-            }
-        }
-        BuyProducts.Remove (selectProduct);
-        return true;
-    }
-
-    public void UpdateTotalSum () {
-        TotalSum = BuyProducts.Sum (p => p.TotalSumProduct);
-    }
-}
-
-public partial class BuyProduct : ObservableObject {
-    public Product Product { get; set; }
-
-    [ObservableProperty]
-    private double price;
-
-    [ObservableProperty]
-    private int count;
-
-    [ObservableProperty]
-    private double totalSumProduct;
-    
-    [ObservableProperty]
-    private double discount = 0;
-
-
-
-    public BuyProduct (Product product, double price, int count) {
-        Product = product;
-        Price = price;
-        Count = count;
-        TotalSumProduct = Price * Count;
-    }
-
-    public void UpdateTotalSumProduct () {
-        TotalSumProduct = Price * Count;
     }
 }

@@ -1,79 +1,99 @@
 ﻿using CSharpFunctionalExtensions;
-using CSharpFunctionalExtensions.ValueTasks;
-using KTSF.Application.Interfaces.Auth;
-using KTSF.Core;
+using CSharpFunctionalExtensions.ValueTasks; 
+using KTSF.Core;  
+using KTSF.Core.App;
 using KTSF.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore; 
 
 namespace KTSF.Application.Service
 {
     public class UsersService
     {
-        public IPasswordHasher passwordHasher;
+      
 
         private AppDbContext dbContext;
 
-        public UsersService(AppDbContext dbContext, IPasswordHasher passwordHasher)
+        public UsersService(AppDbContext dbContext)
         {
-            this.passwordHasher = passwordHasher;
             this.dbContext = dbContext;
         }
 
-        public void Register(string username, string password)
-        {
-            var hashedPassword = passwordHasher.Generate(password);
-            Result<User> result = new Result<User>();
-          
-        }
-
- 
-        public Result<User> Find(int id)
-        {
-            User? user = dbContext.Users.Find(id);
+        public async Task<Result<User>> Find(int id)
+        {    
+            User? user = await dbContext.Users.FindAsync(id);
 
             return user != null ? Result.Success(user) : Result.Failure<User>("Not found");
         }
 
-        public Result<User[]> GetAll()
+
+        // поиск по EMAIL
+        public async Task<Result<User>> GetByEmail(string email)
         {
-            return Result.Success(dbContext.Users.ToArray());
+            
+            User? user = await dbContext.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
+
+            return user != null ? Result.Success(user) : Result.Failure<User>("Not found");
+        }
+
+        
+        // получить всех USER
+        public async Task<Result<User[]>> GetAll()
+        {     
+            return Result.Success(await dbContext.Users.ToArrayAsync());
         }
 
 
-
-        public Result<User> Create(User user)
+        public async Task<Result<User>> Create(User user)
         {
-            dbContext.Users.Add(user);
+            User us = new User();
+
+            us.Id = user.Id;
+            us.Email = user.Email;
+            us.PhoneNumber = user.PhoneNumber;
+            us.PasswordHash = user.PasswordHash;
+            us.JwtToken = user.JwtToken;
+            us.Name = user.Name;
+            us.Surname = user.Surname;
+            us.Patronymic = user.Patronymic;
+
+            dbContext.Users.Add(us);
             try
             {
-                dbContext.SaveChanges();
-                return Result.Success(user);
+                await dbContext.SaveChangesAsync();
+                return Result.Success(us);
 
             }
             catch (Exception ex)
             {
                 return Result.Failure<User>(ex.ToString());
             }
-
         }
 
-        public Result<User> Update(User user)
+
+        public async Task<Result<User>> Update(User user)
         {
             try
             {
-                dbContext.Attach(user);
-                dbContext.SaveChanges();
+                User? us = await dbContext.Users.Where(u => u.Id == user.Id).FirstOrDefaultAsync();
+
+                if (us == null) return Result.Failure<User>("Not found");
+
+                us.Id = user.Id;
+                us.Email = user.Email;
+                us.PhoneNumber = user.PhoneNumber;
+                us.PasswordHash = user.PasswordHash;
+                us.JwtToken = user.JwtToken;
+                us.Name = user.Name;
+                us.Surname = user.Surname;
+                us.Patronymic = user.Patronymic;
+
+                await dbContext.SaveChangesAsync();
 
                 return Result.Success(user);
             }
             catch (Exception ex) {
                 return Result.Failure<User>(ex.Message);
-            }
-       
+            }       
         }
 
     }

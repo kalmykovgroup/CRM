@@ -1,4 +1,4 @@
-﻿namespace CRST_ServerAPI.Model
+﻿namespace KTSF.Api.Model
 {
     public class ABAC : Attribute
     {

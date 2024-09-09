@@ -1,21 +1,17 @@
-﻿using CSharpFunctionalExtensions;
-using Dapper;
-using KTSF.Api.Extensions.Repositories;
+﻿
+using CSharpFunctionalExtensions;
 using KTSF.Application.Service;
-using KTSF.Core;
-using KTSF.Core.Product_;
-using KTSF.Persistence;
-using Microsoft.AspNetCore.Http;
+using KTSF.Core.Object.Product_;
+using KTSF.Dto.Product_;
 using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
-using System.Data;
-using System.Data.Common;
+using System.Net;
+using System.Text.Json;
 
-namespace CRST_ServerAPI.Controllers
+namespace KTSF.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
@@ -28,62 +24,111 @@ namespace CRST_ServerAPI.Controllers
             this.productsService = productsService;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Find(int id)
-        {
 
-            Result<Product> result = productsService.Find(id);
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Find(int id)
+        {     
+            Result<Product> result = await productsService.Find(id);            
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            result.TryGetError(out string? error);
+
+            return NotFound(error);
+        }
+
+
+        [HttpGet("GetProductFullInfo")]
+        public async Task<IActionResult> GetProductFullInfo(int id)
+        {
+            Result<ProductDTO> result = await productsService.GetProductFullInfo(id);
+
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
             result.TryGetError(out string? error);
-
             return NotFound(error);
-
         }
 
-        [HttpGet("all")]
-        public IActionResult GetAll()
+
+        [HttpGet("SearchProduct")]
+        public async Task<IActionResult> SearchProduct(string name)
         {
-            return Ok(productsService.GetAll());
+            Result<Product[]> result = await productsService.SearchProduct(name);
+            return Ok(result.Value);
+        }
+
+
+        // первая страница продуктов и общее количество продуктов
+        [HttpGet("GetFirstPage")]
+        public async Task<IActionResult> GetFirstPageProduct()
+        {
+            Result<FirstPage<Product>> result = await productsService.GetFirstPageProduct();
+            return Ok(result.Value);
+        }
+
+
+        [HttpGet("GetProducts")]
+        public async Task<IActionResult> GetProducts(int page)
+        {
+            Result<Product[]> result = await productsService.GetProducts(page);
+            return Ok(result.Value);
+        }
+
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            Result<List<Product>> result = await productsService.GetAll();
+            return Ok(result.Value);
         }
 
 
         [HttpPost]
         [Route("insert")]
-        public IActionResult Insert(Product product)
+        public async Task<IActionResult> Insert([FromBody] string str)
         {
-            Result<Product> result = productsService.Create(product);
+            Product product = JsonSerializer.Deserialize <Product>(str);
+            Result<Product> result = await productsService.Insert(product);
 
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
-
             result.TryGetError(out string? error);
-
             return NotFound(error);
         }
+
 
         [HttpPost]
         [Route("update")]
-        public IActionResult Update(Product product)
+        public async Task<IActionResult> Update([FromBody] string str)
         {
-            Result<Product> result = productsService.Update(product);
+            Product product = JsonSerializer.Deserialize<Product>(str);
+            Result<Product> result = await productsService.Update(product);
 
             if (result.IsSuccess)
             {
                 return Ok(result.Value);
             }
 
-
             result.TryGetError(out string? error);
-
             return NotFound(error);
         }
+
+
+      
+
+
+      
+
+        
+
     }
  
 }

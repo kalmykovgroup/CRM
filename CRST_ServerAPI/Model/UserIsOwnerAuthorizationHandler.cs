@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
- 
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualBasic;
 using KTSF.Core;
+using KTSF.Core.App;
 
 
-namespace CRST_ServerAPI.Model
+namespace KTSF.Api.Model
 {
     public class UserIsOwnerAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, User>
     {
@@ -26,15 +27,15 @@ namespace CRST_ServerAPI.Model
 
             // Если вы не спрашиваете разрешения на использование CRUD, вернитесь.
 
-           /* if (requirement.Name != Constants.CreateOperationName &&
-                requirement.Name != Constants.ReadOperationName &&
-                requirement.Name != Constants.UpdateOperationName &&
-                requirement.Name != Constants.DeleteOperationName)
-            {
-                return Task.CompletedTask;
-            }*/
+            /* if (requirement.Name != Constants.CreateOperationName &&
+                 requirement.Name != Constants.ReadOperationName &&
+                 requirement.Name != Constants.UpdateOperationName &&
+                 requirement.Name != Constants.DeleteOperationName)
+             {
+                 return Task.CompletedTask;
+             }*/
 
-            if (resource.AccessToken == _userManager.GetUserId(context.User))
+            if (resource.JwtToken == _userManager.GetUserId(context.User))
             {
                 context.Succeed(requirement);
             }

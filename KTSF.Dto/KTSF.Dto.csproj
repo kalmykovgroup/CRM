@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KTSF.Core.App\KTSF.Core.App.csproj" />
+    <ProjectReference Include="..\KTSF.Core.Object\KTSF.Core.Object.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,39 @@
+﻿
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace KTSF.Core.Object.Product_
+{
+    [Table("product_informations")]
+    public class ProductInformation
+    {
+        public int Id { get; set; }
+
+        [ForeignKey(nameof(Product))]
+        public int ProductId { get; set; }
+        public Product Product { get; set; } = null!;
+
+
+        [MaxLength(255)]
+        public string? NameToPrint { get; set; } //Имя для печати этикеток
+        
+        public string? Description { get; set; }
+
+        //Габбариты  
+        public int? Width { get; set; }
+
+        public int? Height { get; set; }
+
+        public int? Length { get; set; }
+
+        public double? Weight { get; set; } //Вес
+
+
+        //Цены
+        public List<Price> PriceHistory { get; } = []; //История изменения цен
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
+    }
+}

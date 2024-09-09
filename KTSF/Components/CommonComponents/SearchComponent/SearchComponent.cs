@@ -1,8 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using KTSF.Components.SignInPageComponent.Components.AuthFormComponent;
+using CommunityToolkit.Mvvm.Input; 
 using KTSF.ViewModel;
-using KTSF.Core.Product_;
+using KTSF.Core.Object.Product_;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using CSharpFunctionalExtensions;
+using System.Net;
 
 namespace KTSF.Components.CommonComponents.SearchComponent
 {
@@ -27,7 +28,7 @@ namespace KTSF.Components.CommonComponents.SearchComponent
 
         public ObservableCollection<Product> ListSearchedProduct { get; } = new ObservableCollection<Product>();
 
-        [ObservableProperty] public string search = "Test product";
+        [ObservableProperty] public string search = "";
 
         public Product SelectedProduct = new Product();
 
@@ -35,23 +36,32 @@ namespace KTSF.Components.CommonComponents.SearchComponent
 
         [RelayCommand]
         public async Task SearchClick()
-        {
-            
+        { 
         }
 
         public async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string text = ((TextBox)sender).Text;
+
             if (text.Count() > 2)
             {
                 ListSearchedProduct.Clear ();
-                List<Product> newListProduct = await AppControl.Server.SearchProducts (Search);
-                if (newListProduct.Count > 0) {
-                    IsVisibilityList = true;
+               Result<List<Product>, (string? Error, HttpStatusCode)> result = await AppControl.Server.SearchProducts(text);
+
+                if (result.IsSuccess)
+                { 
+                    IsVisibilityList = result.Value.Count > 0 ? true : false;
+
+                    foreach (Product product in result.Value)
+                    {
+                        ListSearchedProduct.Add(product);
+                    }
                 }
-                foreach (Product product in newListProduct) {
-                    ListSearchedProduct.Add (product);
+                else
+                {
+                    MessageBox.Show(result.Error.Error);
                 }
+               
             }
         }
 

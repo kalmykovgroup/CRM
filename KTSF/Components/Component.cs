@@ -23,11 +23,11 @@ namespace KTSF.Components
 {
     public abstract partial class Component : ObservableObject, IComponent
     {
-         
+
         public static ObservableCollection<Component> History = new();
 
-        
-     
+
+
         public AppControl AppControl { get; }
 
         //public нужен для mainWinComponent (Мы не можем брать Build так как произойдет инициализаци
@@ -56,11 +56,14 @@ namespace KTSF.Components
         [ObservableProperty] private string? name;
 
         private void Ini() {
+            if (!BeforLoaded()) return;
             UserControl = Initial();
             UserControl.Loaded += UserControl_Loaded;
-     
+
             ComponentLoaded();
         }
+
+        public virtual bool BeforLoaded() => true;
 
         public virtual void ComponentLoaded() { }
          
@@ -80,9 +83,12 @@ namespace KTSF.Components
         }
 
 
-        private void LoadLanguage()
+       
+
+        public static void LoadLanguage(Type type, AppControl AppControl, Action<dynamic> actionResult)
         {
-            string? name = this.GetType().Name;
+
+            string? name = type.Name;
 
             PropertyInfo? propertyInfo = AppControl.LanguageControl.Language.Pack.GetType().GetProperty($"ITranslation{name}");
 
@@ -90,7 +96,9 @@ namespace KTSF.Components
 
             if (obj is null) return;
 
+
             dynamic dynamicObject = new ExpandoObject();
+
 
             var propertyList = obj.GetType().GetProperties();
 
@@ -100,10 +108,11 @@ namespace KTSF.Components
 
                 ((IDictionary<string, object>)dynamicObject)[property.Name] = text;
             }
-
-            Property = dynamicObject; 
+            actionResult.Invoke(dynamicObject);
 
         }
+
+
 
         public Component(UserControlVM binding, AppControl appControl)
         {
@@ -112,14 +121,21 @@ namespace KTSF.Components
             this.binding = binding;
             AppControl = appControl;
 
-            LoadLanguage();
-            AppControl.LanguageControl.LanguageChange += LoadLanguage;
+            LoadLanguage(this.GetType(), AppControl, (_property) => { Property = _property; });
 
+            AppControl.LanguageControl.LanguageChange += () => LoadLanguage(this.GetType(), AppControl, (_property) => { Property = _property; });
+
+
+        }
+
+        protected Component()
+        {
+            throw new NotImplementedException();
         }
 
 
         [RelayCommand]
-        public virtual void Show(object? parametr = null)
+        public virtual void Show(object? parameter = null)
         {
             binding.UserControl = Build;
 
@@ -130,9 +146,7 @@ namespace KTSF.Components
             }else if (SeparateTabMode == SeparateTabMode.One)
             {
 
-            }
-
-           
+            }     
         }
         
  
