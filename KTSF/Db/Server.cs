@@ -163,6 +163,7 @@ namespace KTSF.Db
                     httpRequestMessage.Content = content;
 
                     httpRequestMessage.Headers.Authorization = authClient;
+
                     httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                     HttpResponseMessage response = await httpClient.SendAsync(httpRequestMessage);
@@ -483,6 +484,9 @@ namespace KTSF.Db
 
         public async Task<(bool result, string? message, Employee copyEmployee)> UpdateEmployee(Employee employee)
         {
+            //Result < Employee, (string? Message, HttpStatusCode)> result = await Post<Employee, Employee>("Employee/update", employee, AuthEmployeeJwtToken);
+
+
             string tmp = JsonSerializer.Serialize(employee, options);
 
             HttpContent content = new StringContent(tmp);
@@ -495,7 +499,7 @@ namespace KTSF.Db
 
             Employee? person = await response.Content.ReadFromJsonAsync<Employee>();
 
-            return (result: true, message: null, employee);
+            return (result: true, message: null, person);
         }
 
 
@@ -515,16 +519,7 @@ namespace KTSF.Db
 
             return person;
         }
-
-
-        // ????? WTF  Откуда их брать?
-        //Загрузка статистических данных о пользователи
-        public async Task<bool> GetUserStatistics(Employee user)
-        {
-            await Task.Delay(1000);
-
-            return true;
-        }
+       
 
 
         // поиск по ФАМИЛИИ или ИМЕНИ

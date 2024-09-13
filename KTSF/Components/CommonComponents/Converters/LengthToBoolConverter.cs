@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 
-namespace KTSF.Components.CommonComponents.Converters;
+namespace KTSF.Components.CommonComponents;
 
 public class LengthToBoolConverter : IValueConverter
 {

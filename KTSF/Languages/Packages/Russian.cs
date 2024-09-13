@@ -92,6 +92,7 @@ namespace KTSF.Languages.Packages
             public string Employed => "Трудоустроен";
             public string Fired => "Уволенные";
             public string Unemployed => "Не трудоустроен";
+            public string Search => "Поиск";
             public string ProbationPeriod => "Испытательный срок";
             public string Add => "Добавить";
             public string Edit => "Редактировать";

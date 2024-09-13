@@ -11,8 +11,7 @@ using System.Text.Json;
 namespace KTSF.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    [Authorize(Roles = $"{Role.User}, {Role.Employee}")]
+    [Route("[controller]")]    
     public class EmployeeController : ControllerBase
     {
 

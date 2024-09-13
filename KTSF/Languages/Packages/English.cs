@@ -76,6 +76,7 @@ namespace KTSF.Languages.Packages
             public string Employed => "Employed";
             public string Fired => "Fired";
             public string Unemployed => "Unemployed";
+            public string Search => "Search";
             public string ProbationPeriod => "Probation period";
             public string Add => "Add";
             public string Edit => "Edit";
@@ -89,6 +90,7 @@ namespace KTSF.Languages.Packages
             public string DateOfEmployment => "Date of employment :";
             public string DateOfEditing => "Date of editing :";
             public string DateOfLayoff => "Date of layoff :";
+            
 
             string ITranslationStaffComponent.DateOfEmployment => throw new NotImplementedException();
         }
