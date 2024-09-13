@@ -174,6 +174,8 @@ public partial class CashiersWorkplaceComponent : TabComponent
     public void PayCashClick (object? parameter = null) { 
         CheckList.ReceiptPaymentInfo.PaymentMethod = PaymentMethodVM.Cash;
         CheckList.ReceiptPaymentInfo.CardAmount = 0;
+        
+        AppControl.MessageInfoComponent.MessageShow("Тестовая ошибка", "Написал тестовую ошибку для проверки работоспособности нового компонента. И проверки правильной стилизации компронента.");
     }
 
     [RelayCommand]

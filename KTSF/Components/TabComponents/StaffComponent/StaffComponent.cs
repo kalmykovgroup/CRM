@@ -8,8 +8,8 @@ using System.Windows.Controls;
 using KTSF.Dto.Employee_;
 using KTSF.Core.Object;
 using KTSF.Core.Object.ABAC;
-using CSharpFunctionalExtensions;
 using System.Net;
+using CSharpFunctionalExtensions;
 
 
 namespace KTSF.Components.TabComponents.StaffComponent
@@ -59,7 +59,8 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
             if (resultAppointment.IsFailure)
             {
-                MessageBox.Show(resultAppointment.Error.Message);
+                //MessageBox.Show(resultAppointment.Error.Message);
+                AppControl.MessageInfoComponent.MessageShow("Ошибка", resultAppointment.Error.Message);
                 return;
             }
 
@@ -73,7 +74,8 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
             if (resultEmployeeStatus.IsFailure)
             {
-                MessageBox.Show(resultEmployeeStatus.Error.Message);
+                //MessageBox.Show(resultEmployeeStatus.Error.Message);
+                AppControl.MessageInfoComponent.MessageShow("Ошибка", resultAppointment.Error.Message);
                 return;
             }
 
@@ -88,7 +90,8 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
             if (resultASetOfRules.IsFailure)
             {
-                MessageBox.Show(resultASetOfRules.Error.Message);
+                //MessageBox.Show(resultASetOfRules.Error.Message);
+                AppControl.MessageInfoComponent.MessageShow("Ошибка", resultAppointment.Error.Message);
                 return;
             }
 
@@ -158,7 +161,8 @@ namespace KTSF.Components.TabComponents.StaffComponent
             }
             else
             {
-                MessageBox.Show(message);
+                //MessageBox.Show(message);
+                AppControl.MessageInfoComponent.MessageShow("Ошибка", message);
             }
         }     
 
@@ -169,7 +173,8 @@ namespace KTSF.Components.TabComponents.StaffComponent
 
             if (result.IsFailure)
             {
-                MessageBox.Show(result.Error.Message);
+                //MessageBox.Show(result.Error.Message);
+                AppControl.MessageInfoComponent.MessageShow("Ошибка", result.Error.Message);
                 return;
             }
              

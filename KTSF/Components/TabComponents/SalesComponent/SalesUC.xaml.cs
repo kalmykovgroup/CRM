@@ -28,8 +28,5 @@ namespace KTSF.Components.TabComponents.SalesComponent
             SalesComponent = salesComponent;
             DataContext = SalesComponent;
         }
-
-        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
-            SalesComponent.Selector_OnSelectionChanged(sender, e);
     }
 }

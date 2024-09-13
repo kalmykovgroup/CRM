@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CSharpFunctionalExtensions;
 using KTSF.Core.Object.Product_;
 using KTSF.Dto.Product_;
 using KTSF.ViewModel;  
@@ -8,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using CSharpFunctionalExtensions;
 
 namespace KTSF.Components.TabComponents.WarehouseComponent
 {

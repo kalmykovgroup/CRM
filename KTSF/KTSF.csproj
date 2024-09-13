@@ -124,6 +124,7 @@
   <ItemGroup>
     <PackageReference Include="BarcodeLib" Version="3.1.4" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.0" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.42.5" />
     <PackageReference Include="IconPacks.Material" Version="1.0.8940.2-build" />
     <PackageReference Include="MahApps.Metro.IconPacks.Core" Version="5.0.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign" Version="5.0.0" />
@@ -167,10 +168,6 @@
     <Resource Include="Img\TabComponents\Settings.svg" />
     <Resource Include="Img\TabComponents\Staff.svg" />
     <Resource Include="Img\TabComponents\Warehouse.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Components\CommonComponents\SearchComponent\Converters\" />
   </ItemGroup>
 <!--  <ItemGroup>-->
 <!--    <None Remove="Components\MainComponent\**" /> -->

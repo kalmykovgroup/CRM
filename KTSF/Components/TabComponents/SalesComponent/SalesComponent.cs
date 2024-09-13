@@ -1,23 +1,10 @@
 ﻿using KTSF.ViewModel;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CSharpFunctionalExtensions;
 using KTSF.Components.CommonComponents.PaginateComponent;
-using KTSF.Components.TabComponents.WarehouseComponent;
 using KTSF.Contracts.CashiersWorkplace;
-using KTSF.Core.Object.Product_;
 using KTSF.Core.Object.Receipt_;
-using KTSF.Dto.Product_;
-using KTSF.Dto.Receipt_;
 
 namespace KTSF.Components.TabComponents.SalesComponent;
 
@@ -41,6 +28,7 @@ namespace KTSF.Components.TabComponents.SalesComponent;
             
             List<Receipt> newReceipts = (await PaginateComponent.TakeFirstPage()).Cast<Receipt>().ToList();
 
+            Receipts.Clear();
             foreach (Receipt receipt in newReceipts)
             {
                 Receipts.Add(new ReceiptVM(receipt));
@@ -53,16 +41,11 @@ namespace KTSF.Components.TabComponents.SalesComponent;
         {
             List<Receipt> newReceipts = currentReceipts.Cast<Receipt>().ToList();
             
+            Receipts.Clear();
             foreach (Receipt receipt in newReceipts)
             {
                 Receipts.Add(new ReceiptVM(receipt));
             }
-        }
-
-        public async void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if ((ReceiptVM)sender is ReceiptVM receipt) return;
-            //var result = await AppControl.Server.GetReceiptFullInfo(receipt.Id);
         }
         
         public override SalesUC Initial() => new SalesUC(this);

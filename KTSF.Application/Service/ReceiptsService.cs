@@ -11,7 +11,7 @@ namespace KTSF.Application.Service
     public class ReceiptsService
     {
         private ObjectDbContext dbContext;
-        private int countItems = 20;
+        private int countItems = 1;
 
         public ReceiptsService(ObjectDbContext dbContext)
         {

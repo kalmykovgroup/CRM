@@ -40,8 +40,7 @@
                 BorderThickness="0"
                 HeadersVisibility="Column"
                 IsReadOnly="True"
-                ItemsSource="{Binding Receipts}"
-                SelectionChanged="Selector_OnSelectionChanged">
+                ItemsSource="{Binding Receipts}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="120">
                         <DataGridTemplateColumn.CellTemplate>

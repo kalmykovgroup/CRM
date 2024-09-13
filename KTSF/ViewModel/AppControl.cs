@@ -4,7 +4,9 @@ using KTSF.Db;
 using KTSF.ViewModel; 
 using KTSF.Components;  
 using System.Configuration;
-using System.Windows; 
+using System.Windows;
+using CommunityToolkit.Mvvm.Input;
+using KTSF.Components.CommonComponents.MessageInfoComponent;
 using KTSF.Core.Language; 
 using KTSF.Components.Windows.SignInUserWinComponent;
 using KTSF.Components.Windows.MainMenuComponent;
@@ -19,10 +21,11 @@ namespace KTSF
 
     public partial class AppControl : ObservableObject
     {
-
+        
         public static string CompanyName { get; } = String.Empty;
         public static string ProgramName { get; } = String.Empty;
  
+        public MessageInfoComponent MessageInfoComponent { get; }
         static AppControl()
         {
           
@@ -105,7 +108,15 @@ namespace KTSF
             MainMenuComponent = new MainMenuWinComponent(CurrentFrame, this);
             CompanyComponent = new CompanyComponent(CurrentFrame, this);
 
+            MessageInfoComponent = new MessageInfoComponent(CurrentFrame, this);
+            
             SignInUserWinComponent.Show();
+        }
+
+        [RelayCommand]
+        private void IsOpen()
+        {
+            MessageInfoComponent.IsOpenPopup = !MessageInfoComponent.IsOpenPopup;
         }
 
     
